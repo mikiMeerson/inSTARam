@@ -1,0 +1,161 @@
+.Page {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.Page > h1 {
+    margin: 0 4% 0 0;
+    font-weight: 300;
+    font-size: 350%;
+}
+
+.stars {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 90%;
+    width: 95%;
+}
+
+/* Tables Section */
+
+.starsTable, .noPriority {
+    margin: 3% 3% 0 3%;
+    flex-grow: 1;
+    padding: 0 1% 0 1%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.noPriority {
+    height: 100%;
+    padding-top: 0;
+    margin: 0;
+    background-color: whitesmoke;
+}
+
+.starsTable {
+    height: 80%;
+}
+
+.noPriority > h3 {
+    width: 100%;
+    text-align: center;
+    margin: 3%;
+}
+
+.starRow {
+    margin-bottom: 30px;
+    border: 1px solid silver;
+    cursor: pointer;
+    overflow-x: hidden;
+}
+
+.starRow:hover {
+    background-color: whitesmoke;
+}
+
+#priority {
+    border: 2px solid rgb(224, 58, 16);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
+
+/* Expanded Section */
+
+.starExpand {
+    height: 250px;
+    width: 90%;
+    overflow: hidden;
+    padding: 2%;
+}
+
+.dataRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.starActions {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.starActions > * {
+    margin-top: 8px;
+}
+
+.starLink {
+    font-weight: 500;
+    color: rgb(77, 77, 216);
+    width: fit-content;
+}
+
+.starLink:hover {
+    text-decoration: underline;
+}
+
+.actionButtons {
+    width: 12%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.actionButtons > * {
+    padding: 7%;
+}
+
+.actionButtons > *:hover {
+    border: 1px solid silver;
+    border-radius: 50%;
+}
+
+
+/* Collapse no priority */
+
+.collapseOpen {
+    flex-grow: 1;
+    border: 1px solid silver;
+}
+
+ .collapseInnerWrapperOpen {
+     flex-grow: 1;
+ }
+
+ @media only screen and (max-width: 1300px) {
+    .noPriority, .collapseOpen, .collapseButton {
+        display: none !important;
+    }
+}
+
+/* Redesign scrollbar */
+
+::-webkit-scrollbar {
+    width: 20px;
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}
