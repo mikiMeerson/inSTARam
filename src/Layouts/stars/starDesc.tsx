@@ -8,39 +8,44 @@ import {
   MenuItem,
   Input,
 } from "@mui/material";
+import { starType } from "../../assets/star";
 import { useState } from "react";
 
 const resources = ["STF", "AIF", "מודל UWI", "מודל ASB", "חימוש אמיתי"];
 
-const StarDesc = () => {
-  const [resourceList, setResourceList] = useState([]);
+interface starProps {
+  star: starType;
+};
+
+const StarDesc = ({star}: starProps) => {
+  const [resourceList, setResourceList] = useState(star.resources);
 
   return (
     <div className="starDesc">
       <div className="header">
         <h1>
-          <span id="priority"> 1 </span>#33 - הצמדת יעף לא עובדת
+          <span id="priority">{star.priority} </span>#{star.starNumber} - {star.name}
         </h1>
-        <span>בלוק ו רעם</span>
+        <span>{star.version}</span>
       </div>
       <div className="starData">
         <div className="dataCol">
           <div className="dataRow">
             <Typography variant="caption" sx={{ padding: "7px 7px 7px 0" }}>
-              הועלה ע"י גדות - מא"ב מתוך גיחת ניסוי בלוק ו רעם 10/01/2021
+              הועלה ע"י {star.publisher} מתוך {star.event} {star.date}
             </Typography>
           </div>
           <div className="dataRow">
             <TextField
               sx={{ margin: "7px", flexGrow: 1 }}
               label="גורם מטפל"
-              defaultValue="מאב"
+              defaultValue={star.assignee}
               variant="outlined"
             />
             <TextField
               sx={{ margin: "7px", flexGrow: 1 }}
               label="סטטוס"
-              defaultValue="פתוח"
+              defaultValue={star.status}
               variant="outlined"
             />
           </div>
@@ -77,7 +82,7 @@ const StarDesc = () => {
           <TextField
             sx={{ display: "grid", height: "123px", marginTop: "42px" }}
             label="תיאור"
-            defaultValue="הצמדת יעף עובדת בצורה לא דטרמיניסטית ממסכים שונים. כשההצמדה עובדת היעף מנצנץ ב-BM בניגוד לאפיון"
+            defaultValue={star.desc}
             variant="outlined"
             multiline
           />

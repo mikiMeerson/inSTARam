@@ -1,21 +1,26 @@
 import { TextField } from "@mui/material";
 import { DeleteOutline, Save } from "@mui/icons-material";
 import "./stars.css";
+import { starType } from "../../assets/star";
 
-const starExpand = () => {
+interface starProps {
+  star: starType;
+}
+
+const starExpand = ({ star }: starProps) => {
   return (
     <div className="starExpand">
       <div className="dataRow">
         <TextField
           sx={{ margin: "7px" }}
           label="מקור"
-          defaultValue="גדות - מאב"
+          defaultValue={star.publisher}
           variant="standard"
         />
         <TextField
           sx={{ margin: "7px" }}
           label="אירוע"
-          defaultValue="גיחת ניסוי בלוק ו רעם"
+          defaultValue={star.event}
           variant="standard"
         />
       </div>
@@ -24,19 +29,13 @@ const starExpand = () => {
         sx={{ margin: "7px" }}
         multiline
         label="תיאור"
-        defaultValue="הצמדת יעף עובדת בצורה לא דטרמיניסטית ממסכים שונים. כשההצמדה עובדת היעף מנצנץ ב-BM בניגוד לאפיון."
+        defaultValue={star.desc}
       />
       <div className="dataRow">
         <TextField
           sx={{ margin: "7px" }}
           label="מחשב"
-          defaultValue="VHSIC"
-          variant="standard"
-        />
-        <TextField
-          sx={{ margin: "7px" }}
-          label="משאב נדרש"
-          defaultValue="AIF"
+          defaultValue={star.computer}
           variant="standard"
         />
       </div>
