@@ -1,7 +1,7 @@
 import StarActivity from "./starActivity";
 import StarDesc from "./starDesc";
 import StarNotes from "./starNotes";
-import './feed.css';
+import './styles/feed.css';
 import { starExample } from "../../assets/star";
 
 const StarFeed = () => {
