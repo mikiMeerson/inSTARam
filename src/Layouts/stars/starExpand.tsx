@@ -1,6 +1,6 @@
-import { TextField } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import { DeleteOutline, Save } from "@mui/icons-material";
-import "./stars.css";
+import "./styles/stars.css";
 import { starType } from "../../assets/star";
 
 interface starProps {
@@ -40,7 +40,7 @@ const starExpand = ({ star }: starProps) => {
         />
       </div>
       <div className="starActions">
-        <div className="starLink">עבור לעמוד הסטאר</div>
+        <Button variant="contained">עבור לעמוד הסטאר</Button>
         <div className="actionButtons">
           <Save color="info" />
           <DeleteOutline color="error" />

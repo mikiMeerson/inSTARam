@@ -28,15 +28,14 @@ const StarRow = ({ star }: starProps) => {
             console.log("dropped");
           }}
         >
-          <TableCell align="right">
+          <TableCell align="center" width='40px'>
             <div id="priority">{star.priority}</div>
           </TableCell>
-          <TableCell align="right">{star.starNumber}</TableCell>
-          <TableCell align="right">{star.name}</TableCell>
-          <TableCell align="right">{star.status}</TableCell>
-          <TableCell align="right">{star.assignee}</TableCell>
-          <TableCell align="right">{star.date}</TableCell>
-          <TableCell align="right">{star.version}</TableCell>
+          <TableCell width='140px'>{star.name}</TableCell>
+          <TableCell width='50px'>{star.status}</TableCell>
+          <TableCell width='50px'>{star.assignee}</TableCell>
+          <TableCell width='60px'>{star.date}</TableCell>
+          <TableCell width='60px'>{star.version}</TableCell>
         </TableRow>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: "hidden" }}>

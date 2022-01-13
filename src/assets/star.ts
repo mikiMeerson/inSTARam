@@ -13,10 +13,43 @@ export type starType = {
   computer: string;
 };
 
+export const TableHeaderTabs = [
+  {
+    displayName: "עדיפות",
+    width: "10px",
+    isDropDown: false
+  },
+  {
+    displayName: "שם",
+    width: "90px",
+    isDropDown: true
+  },
+  {
+    displayName: "סטטוס",
+    width: "20px",
+    isDropDown: true
+  },
+  {
+    displayName: "אחראי",
+    width: "50px",
+    isDropDown: true
+  },
+  {
+    displayName: "תאריך",
+    width: "50px",
+    isDropDown: true
+  },
+  {
+    displayName: "בלוק",
+    width: "50px",
+    isDropDown: true
+  },
+];
+
 export const starExample: starType = {
   priority: 1,
   starNumber: 33,
-  name: "הצמדת יעף לא עובדת",
+  name: "מוצגות סולמיות במקום זמן",
   status: "פתוח",
   assignee: "מאב",
   date: "10/01/2021",
@@ -24,7 +57,7 @@ export const starExample: starType = {
   publisher: "גדות - מאב",
   event: "גיחת ניסוי בלוק ו רעם",
   resources: ["AIF", "חימוש אמיתי"],
-  desc: "הצמדת יעף עובדת בצורה לא דטרמיניסטית ממסכים שונים. כשההצמדה עובדת היעף מנצנץ ב-BM בניגוד לאפיון",
+  desc: "במסך מסוים אמור להיות מוצג זמן ובמקום הזמן מוצגות סולמיות וזה מאוד מכעיס ולא בסדר",
   computer: "VHSIC",
 };
 

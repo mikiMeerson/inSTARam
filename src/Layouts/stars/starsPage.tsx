@@ -1,8 +1,11 @@
 import { useState } from "react";
 import StarsTable from "./starsTable";
-import { Button, Collapse } from "@mui/material";
+import {
+  Button,
+  Collapse,
+} from "@mui/material";
 import { ChevronRight, MenuOpenSharp } from "@material-ui/icons";
-import "./stars.css";
+import "./styles/stars.css";
 
 const StarsPage = () => {
   const [toggleNoPriority, setToggleNoPriority] = useState(true);
@@ -35,7 +38,7 @@ const StarsPage = () => {
         </Collapse>
       </div>
       <Button
-      classes={{root: 'collapseButton'}}
+        classes={{ root: "collapseButton" }}
         variant="contained"
         sx={{
           height: "50px",
