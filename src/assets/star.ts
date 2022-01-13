@@ -89,3 +89,34 @@ export const notesExample: commentType[] = [
     comment: "לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה",
   },
 ];
+
+export type activityLogType = {
+  publisher: string;
+  action: string;
+  value?: string
+};
+
+export const activityLogExample: activityLogType[] = [
+  {
+    publisher: "גדות - מאב",
+    action: "יצר את הסטאר"
+  },
+  {
+    publisher: "ינון - מאב",
+    action: "שינה את הסטטוס",
+    value: "בתהליך"
+  },
+  {
+    publisher: "לודה - לצד",
+    action: "הוסיפה הערה חדשה",
+  },
+  {
+    publisher: "אריאל - מאב",
+    action: "הוסיף הערה חדשה",
+  }, 
+  {
+    publisher: "אריאל - מאב",
+    action: "שינה את הסטטוס",
+    value: "סגור"
+  },
+];
