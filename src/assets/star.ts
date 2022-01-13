@@ -16,12 +16,12 @@ export type starType = {
 export const TableHeaderTabs = [
   {
     displayName: "עדיפות",
-    width: "10px",
+    width: "20px",
     isDropDown: false
   },
   {
     displayName: "שם",
-    width: "90px",
+    width: "100px",
     isDropDown: true
   },
   {
@@ -31,12 +31,12 @@ export const TableHeaderTabs = [
   },
   {
     displayName: "אחראי",
-    width: "50px",
+    width: "60px",
     isDropDown: true
   },
   {
     displayName: "תאריך",
-    width: "50px",
+    width: "70px",
     isDropDown: true
   },
   {

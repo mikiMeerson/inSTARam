@@ -28,13 +28,13 @@ const StarRow = ({ star }: starProps) => {
             console.log("dropped");
           }}
         >
-          <TableCell align="center" width='40px'>
+          <TableCell align="center" width='50px'>
             <div id="priority">{star.priority}</div>
           </TableCell>
-          <TableCell width='140px'>{star.name}</TableCell>
-          <TableCell width='50px'>{star.status}</TableCell>
-          <TableCell width='50px'>{star.assignee}</TableCell>
-          <TableCell width='60px'>{star.date}</TableCell>
+          <TableCell width='105px'>{star.name}</TableCell>
+          <TableCell width='70px'>{star.status}</TableCell>
+          <TableCell width='70px'>{star.assignee}</TableCell>
+          <TableCell width='45px'>{star.date}</TableCell>
           <TableCell width='60px'>{star.version}</TableCell>
         </TableRow>
       </Table>
