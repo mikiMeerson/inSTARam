@@ -8,8 +8,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import StarExpand from "./starExpand";
+import { starType } from "../../assets/star";
 
-const StarRow = () => {
+interface starProps {
+  star: starType;
+}
+const StarRow = ({ star }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   return (
@@ -24,17 +28,18 @@ const StarRow = () => {
             console.log("dropped");
           }}
         >
-          <TableCell align="right"><div id="priority">1</div></TableCell>
-          <TableCell align="right">33</TableCell>
-          <TableCell align="right">הצמדת יעף לא עובדת</TableCell>
-          <TableCell align="right">פתוח</TableCell>
-          <TableCell align="right">מא"ב</TableCell>
-          <TableCell align="right">10/11/2021</TableCell>
-          <TableCell align="right">F</TableCell>
+          <TableCell align="center" width='50px'>
+            <div id="priority">{star.priority}</div>
+          </TableCell>
+          <TableCell width='105px'>{star.name}</TableCell>
+          <TableCell width='70px'>{star.status}</TableCell>
+          <TableCell width='70px'>{star.assignee}</TableCell>
+          <TableCell width='45px'>{star.date}</TableCell>
+          <TableCell width='60px'>{star.version}</TableCell>
         </TableRow>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: "hidden" }}>
-        <StarExpand />
+        <StarExpand star={star} />
       </Collapse>
     </TableContainer>
   );
