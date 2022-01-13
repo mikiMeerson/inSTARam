@@ -1,13 +1,14 @@
 import { useState } from "react";
 import StarsTable from "./starsTable";
-import {
-  Button,
-  Collapse,
-} from "@mui/material";
+import { Button, Collapse } from "@mui/material";
 import { ChevronRight, MenuOpenSharp } from "@material-ui/icons";
 import "./styles/stars.css";
+import { starType } from "../../assets/star";
 
-const StarsPage = () => {
+interface starProps {
+  setStar: (star: starType) => void;
+}
+const StarsPage = ({ setStar }: starProps) => {
   const [toggleNoPriority, setToggleNoPriority] = useState(true);
 
   let icon;
@@ -19,11 +20,11 @@ const StarsPage = () => {
     <div className="Page">
       <h1>סטארים</h1>
       <div className="stars">
-        <StarsTable />
+        <StarsTable setStar={setStar}/>
         <Collapse
           orientation={"horizontal"}
           in={toggleNoPriority}
-          sx={{ overflow: "hidden", width: "fit-content", height: "90%" }}
+          sx={{ overflow: "hidden", width: "fit-content", height: "100%" }}
           classes={{
             root: toggleNoPriority ? "collapseOpen" : "collapseClosed",
             wrapperInner: toggleNoPriority
@@ -33,7 +34,7 @@ const StarsPage = () => {
         >
           <div className="noPriority" style={{ width: "100%" }}>
             <h3>ממתינים לתיעדוף</h3>
-            <StarsTable />
+            <StarsTable setStar={setStar}/>
           </div>
         </Collapse>
       </div>

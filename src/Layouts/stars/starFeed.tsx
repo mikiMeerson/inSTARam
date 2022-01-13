@@ -1,13 +1,16 @@
+import { starType } from "../../assets/star";
 import StarActivity from "./starActivity";
 import StarDesc from "./starDesc";
 import StarNotes from "./starNotes";
 import './styles/feed.css';
-import { starExample } from "../../assets/star";
 
-const StarFeed = () => {
+interface starProps {
+  star: starType;
+}
+const StarFeed = ({star}: starProps) => {
   return (
     <div className="starFeed">
-      <StarDesc star={starExample} />
+      <StarDesc star={star} />
       <div className="starDetails">
         <StarNotes />
         <StarActivity />

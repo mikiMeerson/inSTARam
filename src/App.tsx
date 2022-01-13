@@ -1,12 +1,24 @@
-import './App.css';
-import StarFeed from './Layouts/stars/starFeed';
-import StarsPage from './Layouts/stars/starsPage';
+import "./App.css";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import StarFeed from "./Layouts/stars/starFeed";
+import StarsPage from "./Layouts/stars/starsPage";
+import Navbar from "./Layouts/navbar/navbar";
+import { useState } from "react";
+import { starExample } from "./assets/star";
 
 function App() {
+  const [starToDisplay, setStarToDisplay] = useState(starExample);
   return (
-    <div className="App" dir="rtl">
-      <StarFeed />
-    </div>
+    <HashRouter>
+      <div className="App" dir="rtl">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<StarsPage setStar={setStarToDisplay}/>} />
+          <Route path="/stars" element={<StarsPage setStar={setStarToDisplay} />} />
+          <Route path="/starfeed" element={<StarFeed star={starToDisplay} />} />
+        </Routes>
+      </div>
+    </HashRouter>
   );
 }
 

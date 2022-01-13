@@ -12,8 +12,9 @@ import { starType } from "../../assets/star";
 
 interface starProps {
   star: starType;
+  setStar: (star: starType) => void;
 }
-const StarRow = ({ star }: starProps) => {
+const StarRow = ({ star, setStar }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   return (
@@ -28,18 +29,18 @@ const StarRow = ({ star }: starProps) => {
             console.log("dropped");
           }}
         >
-          <TableCell align="center" width='50px'>
+          <TableCell align="center" width="50px">
             <div id="priority">{star.priority}</div>
           </TableCell>
-          <TableCell width='105px'>{star.name}</TableCell>
-          <TableCell width='70px'>{star.status}</TableCell>
-          <TableCell width='70px'>{star.assignee}</TableCell>
-          <TableCell width='45px'>{star.date}</TableCell>
-          <TableCell width='60px'>{star.version}</TableCell>
+          <TableCell width="105px">{star.name}</TableCell>
+          <TableCell width="70px">{star.status}</TableCell>
+          <TableCell width="70px">{star.assignee}</TableCell>
+          <TableCell width="45px">{star.date}</TableCell>
+          <TableCell width="60px">{star.version}</TableCell>
         </TableRow>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: "hidden" }}>
-        <StarExpand star={star} />
+        <StarExpand star={star} setStar={setStar} />
       </Collapse>
     </TableContainer>
   );

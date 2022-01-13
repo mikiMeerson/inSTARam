@@ -1,5 +1,5 @@
 import { commentType, notesExample } from "../../assets/star";
-import { TextField, Typography, Button } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import Note from "./note";
 
 const StarNotes = () => {
