@@ -3,7 +3,7 @@ import StarsTable from "./starsTable";
 import { Button } from "@mui/material";
 import { ChevronRight, MenuOpenSharp } from "@material-ui/icons";
 import "../styles/stars.css";
-import { starType } from "../../../assets/star";
+import { starList, starType } from "../../../assets/star";
 import AddStar from "./addStar";
 import NoPriority from './noPriority';
 
@@ -23,8 +23,8 @@ const StarsPage = ({ setStar }: starProps) => {
     <div className="Page">
       <h1>סטארים</h1>
       <div className="stars">
-        <StarsTable setStar={setStar} />
-        <NoPriority noPriority={noPriority} toggleAddStar={toggleAddStar} setStar={setStar} />
+        <StarsTable stars={starList.filter((star) => star.priority > 0)} setStar={setStar} />
+        <NoPriority stars={starList.filter((star) => star.priority === 0)} noPriority={noPriority} toggleAddStar={toggleAddStar} setStar={setStar} />
       </div>
       <Button
         classes={{ root: "collapseButton" }}

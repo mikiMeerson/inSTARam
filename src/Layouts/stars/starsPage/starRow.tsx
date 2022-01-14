@@ -30,7 +30,19 @@ const StarRow = ({ star, setStar }: starProps) => {
           }}
         >
           <TableCell align="center" width="50px">
-            <div id="priority">{star.priority}</div>
+            <div
+              id="priority"
+              style={{
+                color:
+                  star.priority === 1
+                    ? "red"
+                    : star.priority === 2
+                    ? "orange"
+                    : "green",
+              }}
+            >
+              {star.priority > 0 ? star.priority : ""}
+            </div>
           </TableCell>
           <TableCell width="105px">{star.name}</TableCell>
           <TableCell width="70px">{star.status}</TableCell>
