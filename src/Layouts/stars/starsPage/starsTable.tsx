@@ -7,8 +7,9 @@ import { starType } from "../../../assets/star";
 interface starProps {
   stars: starType[];
   setStar: (star: starType) => void;
+  removeStar: (star: starType) => void;
 }
-const StarsTable = ({ stars, setStar }: starProps) => {
+const StarsTable = ({ stars, setStar, removeStar }: starProps) => {
   return (
     <div
       style={{
@@ -43,7 +44,7 @@ const StarsTable = ({ stars, setStar }: starProps) => {
       </Table>
       <div className="starsTable">
         {stars.map((star: starType) => {
-          return <StarRow star={star} setStar={setStar} />;
+          return <StarRow star={star} setStar={setStar} removeStar={removeStar} />;
         })}
       </div>
     </div>

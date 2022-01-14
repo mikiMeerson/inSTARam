@@ -7,9 +7,10 @@ import { SaveOutlined, DeleteOutline } from "@material-ui/icons";
 interface starProps {
   star: starType;
   setStar: (star: starType) => void;
+  removeStar: (star: starType) => void;
 }
 
-const starExpand = ({ star, setStar }: starProps) => {
+const starExpand = ({ star, setStar, removeStar }: starProps) => {
   return (
     <div className="starExpand">
       <div className="dataRow">
@@ -48,7 +49,7 @@ const starExpand = ({ star, setStar }: starProps) => {
           </Button>
         </NavLink>
         <div className="actionButtons">
-          <Fab size="small" id="delete">
+          <Fab size="small" id="delete" onClick={() => removeStar(star)}>
             <DeleteOutline />
           </Fab>
           <Fab size="small" id="save" color="primary">

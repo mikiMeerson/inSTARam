@@ -13,8 +13,9 @@ import { starType } from "../../../assets/star";
 interface starProps {
   star: starType;
   setStar: (star: starType) => void;
+  removeStar: (star: starType) => void;
 }
-const StarRow = ({ star, setStar }: starProps) => {
+const StarRow = ({ star, setStar, removeStar }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   return (
@@ -34,9 +35,9 @@ const StarRow = ({ star, setStar }: starProps) => {
               id="priority"
               style={{
                 color:
-                  star.priority === 1
+                  star.severity === 1
                     ? "red"
-                    : star.priority === 2
+                    : star.severity === 2
                     ? "orange"
                     : "green",
               }}
@@ -52,7 +53,7 @@ const StarRow = ({ star, setStar }: starProps) => {
         </TableRow>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: "hidden" }}>
-        <StarExpand star={star} setStar={setStar} />
+        <StarExpand star={star} setStar={setStar} removeStar={removeStar} />
       </Collapse>
     </TableContainer>
   );

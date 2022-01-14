@@ -28,9 +28,9 @@ const StarDesc = ({ star }: starProps) => {
             id="priority"
             style={{
               color:
-                star.priority === 1
+                star.severity === 1
                   ? "red"
-                  : star.priority === 2
+                  : star.severity === 2
                   ? "orange"
                   : "green",
             }}
