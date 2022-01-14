@@ -69,7 +69,7 @@
     margin: 0 1% 1% 1%;
     padding: 1%; 
     height: 88%;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .commentActions {
@@ -85,8 +85,20 @@
 }
 
 .replyButton:hover {
-    border: 1px solid silver;
-    border-radius: 50%;
+    color: purple !important;
+}
+
+.addComment {
+    display: flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+    padding: 10px;
+    margin-top: 5px;
+    width: 95%;
+}
+
+#avatar {
+    margin-top: 12px;
 }
 
 /* Redesign scrollbar */

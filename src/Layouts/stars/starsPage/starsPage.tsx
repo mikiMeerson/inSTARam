@@ -30,14 +30,14 @@ const StarsPage = ({ setStar }: starProps) => {
         classes={{ root: "collapseButton" }}
         variant="contained"
         sx={{
-          height: "50px",
+          height: "60px",
           width: "40px",
           borderRadius: "50%",
           margin: "3%",
           position: "absolute",
           background: "black",
           bottom: 0,
-          left: 0,
+          left: '5px',
         }}
         onClick={() => toggleNoPriority(!noPriority)}
       >

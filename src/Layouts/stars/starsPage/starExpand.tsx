@@ -1,8 +1,8 @@
-import { TextField, Button } from "@mui/material";
-import { DeleteOutline, Save } from "@mui/icons-material";
-import "../styles/stars.css";
+import { TextField, Button, Fab } from "@mui/material";
+import "../styles/expand.css";
 import { starType } from "../../../assets/star";
 import { NavLink } from "react-router-dom";
+import { SaveOutlined, DeleteOutline } from "@material-ui/icons";
 
 interface starProps {
   star: starType;
@@ -43,11 +43,17 @@ const starExpand = ({ star, setStar }: starProps) => {
       </div>
       <div className="starActions">
         <NavLink to="/starfeed" onClick={() => setStar(star)}>
-          <Button variant="contained" sx={{background: "goldenrod"}}>עבור לעמוד הסטאר</Button>
+          <Button variant="contained" sx={{ background: "goldenrod" }}>
+            עבור לעמוד הסטאר
+          </Button>
         </NavLink>
         <div className="actionButtons">
-          <Save color="info" />
-          <DeleteOutline color="error" />
+          <Fab size="small" id="delete">
+            <DeleteOutline />
+          </Fab>
+          <Fab size="small" id="save" color="primary">
+            <SaveOutlined />
+          </Fab>
         </div>
       </div>
     </div>
