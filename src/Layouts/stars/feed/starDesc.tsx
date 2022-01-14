@@ -8,7 +8,7 @@ import {
   MenuItem,
   Input,
 } from "@mui/material";
-import { starType } from "../../assets/star";
+import { starType } from "../../../assets/star";
 import { useState } from "react";
 
 const resources = ["STF", "AIF", "מודל UWI", "מודל ASB", "חימוש אמיתי"];

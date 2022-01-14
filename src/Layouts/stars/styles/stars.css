@@ -3,9 +3,10 @@
 }
 
 .Page > h1 {
-    margin: 0 4% 0 0;
-    font-weight: 300;
+    margin: 0% 4% 0 0;
+    font-weight: 500;
     font-size: 350%;
+    color: rgb(105, 7, 105);
 }
 
 .stars {
@@ -29,6 +30,18 @@
     padding-top: 0;
     margin: 0;
     background-color: whitesmoke;
+}
+
+.noPrioirityHeader {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.noPrioirityHeader > div > button {
+    width: 40px !important;
+    height: 40px !important;
+    background-color: purple !important;
 }
 
 .starsTable {
@@ -132,6 +145,14 @@
     border-radius: 50%;
 }
 
+.addStar > div > div > div > p > .dataRow > div {
+    margin: 10px 15px 10px 15px;
+}
+
+
+#mui-107, #mui-111, .addStar > div > div > div > p > .dataRow > div > div > input {
+    text-align: right !important;
+}
 
 /* Collapse no priority */
 

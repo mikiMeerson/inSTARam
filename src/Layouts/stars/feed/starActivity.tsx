@@ -3,7 +3,7 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-import { activityLogExample, activityLogType } from "../../assets/star";
+import { activityLogExample, activityLogType } from "../../../assets/star";
 
 const StarActivity = () => {
   return (

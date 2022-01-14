@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import StarExpand from "./starExpand";
-import { starType } from "../../assets/star";
+import { starType } from "../../../assets/star";
 
 interface starProps {
   star: starType;

@@ -1,7 +1,7 @@
 import "./App.css";
 import { HashRouter, Routes, Route } from "react-router-dom";
-import StarFeed from "./Layouts/stars/starFeed";
-import StarsPage from "./Layouts/stars/starsPage";
+import StarFeed from "./Layouts/stars/feed/starFeed";
+import StarsPage from "./Layouts/stars/starsPage/starsPage";
 import Navbar from "./Layouts/navbar/navbar";
 import { useState } from "react";
 import { starExample } from "./assets/star";

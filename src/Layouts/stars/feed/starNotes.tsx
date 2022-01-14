@@ -1,4 +1,4 @@
-import { commentType, notesExample } from "../../assets/star";
+import { commentType, notesExample } from "../../../assets/star";
 import { TextField, Typography } from "@mui/material";
 import Note from "./note";
 

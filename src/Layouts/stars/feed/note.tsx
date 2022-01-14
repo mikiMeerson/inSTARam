@@ -1,6 +1,6 @@
 import { ReplyOutlined } from "@material-ui/icons";
 import { Grid, Avatar, Typography, Divider } from "@mui/material";
-import { commentType } from "../../assets/star";
+import { commentType } from "../../../assets/star";
 
 interface noteProps {
   note: commentType;

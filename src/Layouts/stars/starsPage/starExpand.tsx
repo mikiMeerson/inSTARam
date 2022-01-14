@@ -1,7 +1,7 @@
 import { TextField, Button } from "@mui/material";
 import { DeleteOutline, Save } from "@mui/icons-material";
-import "./styles/stars.css";
-import { starType } from "../../assets/star";
+import "../styles/stars.css";
+import { starType } from "../../../assets/star";
 import { NavLink } from "react-router-dom";
 
 interface starProps {
