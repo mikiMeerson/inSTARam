@@ -1,8 +1,8 @@
-import { starExample, TableHeaderTabs } from "../../assets/star";
+import { starExample, TableHeaderTabs } from "../../../assets/star";
 import StarRow from "./starRow";
 import { Table, TableRow, TableCell, Button } from "@mui/material";
 import { ArrowDropDown } from "@material-ui/icons";
-import { starType } from "../../assets/star";
+import { starType } from "../../../assets/star";
 
 interface starProps {
   setStar: (star: starType) => void;

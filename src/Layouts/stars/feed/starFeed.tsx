@@ -1,8 +1,8 @@
-import { starType } from "../../assets/star";
+import { starType } from "../../../assets/star";
 import StarActivity from "./starActivity";
 import StarDesc from "./starDesc";
 import StarNotes from "./starNotes";
-import './styles/feed.css';
+import '../styles/feed.css';
 
 interface starProps {
   star: starType;
