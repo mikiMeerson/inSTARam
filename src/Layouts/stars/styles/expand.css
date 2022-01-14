@@ -1,0 +1,41 @@
+.starExpand {
+    height: 250px;
+    width: 90%;
+    overflow: hidden;
+    padding: 4%;
+}
+
+.dataRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.starActions {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.actionButtons > * {
+    margin: 5px
+}
+
+#delete {
+    background-color: rgb(252, 73, 29);
+    color: white;
+}
+
+#delete:hover {
+    background-color: rgb(221, 63, 24);
+}
+
+.starLink {
+    font-weight: 500;
+    color: rgb(77, 77, 216);
+    width: fit-content;
+}
+
+.starLink:hover {
+    text-decoration: underline;
+}
