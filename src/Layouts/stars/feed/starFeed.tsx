@@ -12,8 +12,8 @@ const StarFeed = ({star}: starProps) => {
     <div className="starFeed">
       <StarDesc star={star} />
       <div className="starDetails">
-        <StarNotes />
-        <StarActivity />
+        <StarNotes notes={star.notes} />
+        <StarActivity activity={star.activity} />
       </div>
     </div>
   );

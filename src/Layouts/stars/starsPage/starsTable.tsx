@@ -1,13 +1,15 @@
-import { starExample, TableHeaderTabs } from "../../../assets/star";
+import { TableHeaderTabs } from "../../../assets/star";
 import StarRow from "./starRow";
 import { Table, TableRow, TableCell, Button } from "@mui/material";
 import { ArrowDropDown } from "@material-ui/icons";
 import { starType } from "../../../assets/star";
 
 interface starProps {
+  stars: starType[];
   setStar: (star: starType) => void;
+  removeStar: (star: starType) => void;
 }
-const StarsTable = ({ setStar }: starProps) => {
+const StarsTable = ({ stars, setStar, removeStar }: starProps) => {
   return (
     <div
       style={{
@@ -41,19 +43,9 @@ const StarsTable = ({ setStar }: starProps) => {
         </TableRow>
       </Table>
       <div className="starsTable">
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
-        <StarRow star={starExample} setStar={setStar} />
+        {stars.map((star: starType) => {
+          return <StarRow star={star} setStar={setStar} removeStar={removeStar} />;
+        })}
       </div>
     </div>
   );

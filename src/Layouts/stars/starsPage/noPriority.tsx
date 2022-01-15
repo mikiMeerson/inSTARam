@@ -4,12 +4,14 @@ import StarsTable from "./starsTable";
 import { starType } from "../../../assets/star";
 
 interface tableProps {
+  stars: starType[];
   noPriority: boolean;
   toggleAddStar: (param: boolean) => void;
   setStar: (param: starType) => void;
+  removeStar: (star: starType) => void;
 }
 
-const NoPriority = ({ noPriority, toggleAddStar, setStar }: tableProps) => {
+const NoPriority = ({ stars, noPriority, toggleAddStar, setStar, removeStar }: tableProps) => {
   return (
     <Collapse
       orientation={"horizontal"}
@@ -32,7 +34,7 @@ const NoPriority = ({ noPriority, toggleAddStar, setStar }: tableProps) => {
           />
           <h3>ממתינים לתיעדוף</h3>
         </div>
-        <StarsTable setStar={setStar} />
+        <StarsTable setStar={setStar} stars={stars} removeStar={removeStar} />
       </div>
     </Collapse>
   );

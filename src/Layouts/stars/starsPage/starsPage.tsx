@@ -5,26 +5,38 @@ import { ChevronRight, MenuOpenSharp } from "@material-ui/icons";
 import "../styles/stars.css";
 import { starType } from "../../../assets/star";
 import AddStar from "./addStar";
-import NoPriority from './noPriority';
+import NoPriority from "./noPriority";
 
 interface starProps {
+  stars: starType[];
+  addStar: (param: starType) => void;
+  removeStar: (param: starType) => void;
   setStar: (star: starType) => void;
 }
-const StarsPage = ({ setStar }: starProps) => {
+const StarsPage = ({ stars, addStar, removeStar, setStar }: starProps) => {
   const [noPriority, toggleNoPriority] = useState(true);
-  const [addStar, toggleAddStar] = useState(false);
-  
+  const [openAddStar, toggleOpenAddStar] = useState(false);
+
   let icon;
-  if (noPriority)
-    icon = <MenuOpenSharp fontSize="small" htmlColor="white" />;
+  if (noPriority) icon = <MenuOpenSharp fontSize="small" htmlColor="white" />;
   else icon = <ChevronRight fontSize="small" htmlColor="white" />;
 
   return (
     <div className="Page">
       <h1>סטארים</h1>
       <div className="stars">
-        <StarsTable setStar={setStar} />
-        <NoPriority noPriority={noPriority} toggleAddStar={toggleAddStar} setStar={setStar} />
+        <StarsTable
+          stars={stars.filter((star) => star.priority > 0)}
+          setStar={setStar}
+          removeStar={removeStar}
+        />
+        <NoPriority
+          stars={stars.filter((star) => star.priority === 0)}
+          noPriority={noPriority}
+          toggleAddStar={toggleOpenAddStar}
+          setStar={setStar}
+          removeStar={removeStar}
+        />
       </div>
       <Button
         classes={{ root: "collapseButton" }}
@@ -37,13 +49,17 @@ const StarsPage = ({ setStar }: starProps) => {
           position: "absolute",
           background: "black",
           bottom: 0,
-          left: '5px',
+          left: "5px",
         }}
         onClick={() => toggleNoPriority(!noPriority)}
       >
         {icon}
       </Button>
-      <AddStar isOpen={addStar} toggleModal={toggleAddStar}/>
+      <AddStar
+        isOpen={openAddStar}
+        toggleModal={toggleOpenAddStar}
+        addStar={addStar}
+      />
     </div>
   );
 };

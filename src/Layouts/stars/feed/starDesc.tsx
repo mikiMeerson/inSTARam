@@ -15,16 +15,29 @@ const resources = ["STF", "AIF", "מודל UWI", "מודל ASB", "חימוש א�
 
 interface starProps {
   star: starType;
-};
+}
 
-const StarDesc = ({star}: starProps) => {
+const StarDesc = ({ star }: starProps) => {
   const [resourceList, setResourceList] = useState(star.resources);
 
   return (
     <div className="starDesc">
       <div className="header">
         <h1>
-          <span id="priority">{star.priority} </span>#{star.starNumber} - {star.name}
+          <span
+            id="priority"
+            style={{
+              color:
+                star.severity === 1
+                  ? "red"
+                  : star.severity === 2
+                  ? "orange"
+                  : "green",
+            }}
+          >
+            {star.priority > 0 ? star.priority : ""}{" "}
+          </span>
+          {star.name}
         </h1>
         <span>{star.version}</span>
       </div>
@@ -61,10 +74,7 @@ const StarDesc = ({star}: starProps) => {
                 renderValue={(selected: any) => (
                   <div>
                     {selected.map((value: string) => (
-                      <Chip
-                        key={value}
-                        label={value}
-                      />
+                      <Chip key={value} label={value} />
                     ))}
                   </div>
                 )}
