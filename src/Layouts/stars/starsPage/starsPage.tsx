@@ -3,32 +3,19 @@ import StarsTable from "./starsTable";
 import { Button } from "@mui/material";
 import { ChevronRight, MenuOpenSharp } from "@material-ui/icons";
 import "../styles/stars.css";
-import { starList, starType } from "../../../assets/star";
+import { starType } from "../../../assets/star";
 import AddStar from "./addStar";
 import NoPriority from "./noPriority";
 
 interface starProps {
+  stars: starType[];
+  addStar: (param: starType) => void;
+  removeStar: (param: starType) => void;
   setStar: (star: starType) => void;
 }
-const StarsPage = ({ setStar }: starProps) => {
-  const [stars, setStars] = useState(starList);
+const StarsPage = ({ stars, addStar, removeStar, setStar }: starProps) => {
   const [noPriority, toggleNoPriority] = useState(true);
   const [openAddStar, toggleOpenAddStar] = useState(false);
-
-  const removeStar = (star: starType) => {
-    setStars(
-      stars
-        .filter((s: starType) => s !== star)
-        .map((s: starType) => {
-          if (s.priority > star.priority && star.priority > 0) s.priority -= 1;
-          return s;
-        })
-    );
-  };
-
-  const addStar = (star: starType) => {
-    setStars([...stars, star]);
-  };
 
   let icon;
   if (noPriority) icon = <MenuOpenSharp fontSize="small" htmlColor="white" />;

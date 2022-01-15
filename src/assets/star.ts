@@ -34,7 +34,7 @@ export const TableHeaderTabs = [
 export type commentType = {
   publisher: string;
   comment: string;
-  replies?: commentType[];
+  replies: commentType[];
 };
 
 export type activityLogType = {
@@ -83,17 +83,20 @@ export const starList: starType[] = [
           {
             publisher: "אריאל - מאב",
             comment: "זה ממש נכון אנחנו באמת צריכים ימי מעבדה",
+            replies: [],
           },
           {
             publisher: "יונתן - אמלח",
             comment:
               "אני אישית חושב שמאב צריכים לקבל את כל זמן המעבדה בעולם העיקר שלא יפסיקו לעבוד לרגע",
+            replies: [],
           },
         ],
       },
       {
         publisher: "אריאל - מאב",
         comment: "לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה",
+        replies: [],
       },
     ],
     activity: [],
