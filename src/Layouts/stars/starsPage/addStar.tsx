@@ -50,6 +50,8 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
       resources: [],
       desc: desc,
       computer: computer,
+      notes: [],
+      activity: [],
     };
     addStar(newStar);
     toggleModal(false);

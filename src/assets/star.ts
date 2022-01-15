@@ -31,6 +31,18 @@ export const TableHeaderTabs = [
   },
 ];
 
+export type commentType = {
+  publisher: string;
+  comment: string;
+  replies?: commentType[];
+};
+
+export type activityLogType = {
+  publisher: string;
+  action: string;
+  value?: string;
+};
+
 export type starType = {
   priority: number;
   severity?: number;
@@ -44,6 +56,8 @@ export type starType = {
   resources: string[];
   desc: string;
   computer: string;
+  notes: commentType[];
+  activity: activityLogType[];
 };
 
 export const starList: starType[] = [
@@ -60,6 +74,29 @@ export const starList: starType[] = [
     resources: ["AIF", "חימוש אמיתי"],
     desc: "במסך מסוים אמור להיות מוצג זמן ובמקום הזמן מוצגות סולמיות וזה מאוד מכעיס ולא בסדר",
     computer: "VHSIC",
+    notes: [
+      {
+        publisher: "לודה - לצד",
+        comment:
+          "תיאור של דיון הסטארים לאחר גיחת בלוק ו שבו הגענו לכל מיני מסקנות על זה שמאב צריכים מעבדה",
+        replies: [
+          {
+            publisher: "אריאל - מאב",
+            comment: "זה ממש נכון אנחנו באמת צריכים ימי מעבדה",
+          },
+          {
+            publisher: "יונתן - אמלח",
+            comment:
+              "אני אישית חושב שמאב צריכים לקבל את כל זמן המעבדה בעולם העיקר שלא יפסיקו לעבוד לרגע",
+          },
+        ],
+      },
+      {
+        publisher: "אריאל - מאב",
+        comment: "לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה",
+      },
+    ],
+    activity: [],
   },
   {
     priority: 2,
@@ -74,6 +111,31 @@ export const starList: starType[] = [
     resources: ["AIF"],
     desc: "במסכים שונים מוצגים סטטוסים שונים",
     computer: "AIU",
+    notes: [],
+    activity: [
+      {
+        publisher: "גדות - מאב",
+        action: "יצר את הסטאר",
+      },
+      {
+        publisher: "ינון - מאב",
+        action: "שינה את הסטטוס",
+        value: "בתהליך",
+      },
+      {
+        publisher: "לודה - לצד",
+        action: "הוסיפה הערה חדשה",
+      },
+      {
+        publisher: "אריאל - מאב",
+        action: "הוסיף הערה חדשה",
+      },
+      {
+        publisher: "אריאל - מאב",
+        action: "שינה את הסטטוס",
+        value: "סגור",
+      },
+    ],
   },
   {
     priority: 3,
@@ -88,6 +150,8 @@ export const starList: starType[] = [
     resources: ["AIF", "צמות חדשות"],
     desc: "בעקבות צמות תקולות מופיע תקלה במחשב שלא מאפשרת פעולות שונות",
     computer: "PACS",
+    notes: [],
+    activity: [],
   },
   {
     priority: 4,
@@ -102,6 +166,8 @@ export const starList: starType[] = [
     resources: [],
     desc: "דליפת זיכרון גורמת לריצוד מסכים",
     computer: "VHSIC",
+    notes: [],
+    activity: [],
   },
   {
     priority: 0,
@@ -116,6 +182,8 @@ export const starList: starType[] = [
     resources: ["AIF", "חימוש אמיתי"],
     desc: "עומסי תקשורת וזיכרון",
     computer: "VHSIC",
+    notes: [],
+    activity: [],
   },
   {
     priority: 0,
@@ -130,65 +198,7 @@ export const starList: starType[] = [
     resources: [],
     desc: "",
     computer: "",
-  },
-];
-
-export type commentType = {
-  publisher: string;
-  comment: string;
-  replies?: commentType[];
-};
-
-export const notesExample: commentType[] = [
-  {
-    publisher: "לודה - לצד",
-    comment:
-      "תיאור של דיון הסטארים לאחר גיחת בלוק ו שבו הגענו לכל מיני מסקנות על זה שמאב צריכים מעבדה",
-    replies: [
-      {
-        publisher: "אריאל - מאב",
-        comment: "זה ממש נכון אנחנו באמת צריכים ימי מעבדה",
-      },
-      {
-        publisher: "יונתן - אמלח",
-        comment:
-          "אני אישית חושב שמאב צריכים לקבל את כל זמן המעבדה בעולם העיקר שלא יפסיקו לעבוד לרגע",
-      },
-    ],
-  },
-  {
-    publisher: "אריאל - מאב",
-    comment: "לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה",
-  },
-];
-
-export type activityLogType = {
-  publisher: string;
-  action: string;
-  value?: string;
-};
-
-export const activityLogExample: activityLogType[] = [
-  {
-    publisher: "גדות - מאב",
-    action: "יצר את הסטאר",
-  },
-  {
-    publisher: "ינון - מאב",
-    action: "שינה את הסטטוס",
-    value: "בתהליך",
-  },
-  {
-    publisher: "לודה - לצד",
-    action: "הוסיפה הערה חדשה",
-  },
-  {
-    publisher: "אריאל - מאב",
-    action: "הוסיף הערה חדשה",
-  },
-  {
-    publisher: "אריאל - מאב",
-    action: "שינה את הסטטוס",
-    value: "סגור",
+    notes: [],
+    activity: [],
   },
 ];
