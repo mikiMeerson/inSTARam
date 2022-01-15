@@ -18,6 +18,10 @@ interface starProps {
 const StarRow = ({ star, setStar, removeStar }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
+  const deleteStar = (star: starType) => {
+    setOpenDesc(false);
+    removeStar(star);
+  };
   return (
     <TableContainer component={Paper} className="starRow">
       <Table onClick={() => setOpenDesc(!openDesc)}>
@@ -53,7 +57,7 @@ const StarRow = ({ star, setStar, removeStar }: starProps) => {
         </TableRow>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: "hidden" }}>
-        <StarExpand star={star} setStar={setStar} removeStar={removeStar} />
+        <StarExpand star={star} setStar={setStar} removeStar={deleteStar} />
       </Collapse>
     </TableContainer>
   );

@@ -13,17 +13,21 @@ interface starProps {
 const StarsPage = ({ setStar }: starProps) => {
   const [stars, setStars] = useState(starList);
   const [noPriority, toggleNoPriority] = useState(true);
-  const [addStar, toggleAddStar] = useState(false);
+  const [openAddStar, toggleOpenAddStar] = useState(false);
 
   const removeStar = (star: starType) => {
     setStars(
       stars
         .filter((s: starType) => s !== star)
         .map((s: starType) => {
-          if ((s.priority > star.priority) && (star.priority > 0)) s.priority -= 1;
+          if (s.priority > star.priority && star.priority > 0) s.priority -= 1;
           return s;
         })
     );
+  };
+
+  const addStar = (star: starType) => {
+    setStars([...stars, star]);
   };
 
   let icon;
@@ -42,7 +46,7 @@ const StarsPage = ({ setStar }: starProps) => {
         <NoPriority
           stars={stars.filter((star) => star.priority === 0)}
           noPriority={noPriority}
-          toggleAddStar={toggleAddStar}
+          toggleAddStar={toggleOpenAddStar}
           setStar={setStar}
           removeStar={removeStar}
         />
@@ -64,7 +68,11 @@ const StarsPage = ({ setStar }: starProps) => {
       >
         {icon}
       </Button>
-      <AddStar isOpen={addStar} toggleModal={toggleAddStar} />
+      <AddStar
+        isOpen={openAddStar}
+        toggleModal={toggleOpenAddStar}
+        addStar={addStar}
+      />
     </div>
   );
 };
