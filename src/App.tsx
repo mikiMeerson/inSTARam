@@ -31,15 +31,27 @@ function App() {
       return s === star ? star : s;
     });
 
-    let index = 1;
-    newStars
-      .sort((a: starType, b: starType) => a.priority - b.priority)
-      .forEach((s) => {
-        if (s.priority > 0) {
-          s.priority = index;
-          index += 1;
-        }
-      });
+    if (priority === 1) {
+      let index = 2;
+      newStars
+        .sort((a: starType, b: starType) => a.priority - b.priority)
+        .forEach((s) => {
+          if (s.priority > 0 && s !== star) {
+            s.priority = index;
+            index += 1;
+          }
+        });
+    } else {
+      let index = 1;
+      newStars
+        .sort((a: starType, b: starType) => a.priority - b.priority)
+        .forEach((s) => {
+          if (s.priority > 0) {
+            s.priority = index;
+            index += 1;
+          }
+        });
+    }
     setStars(newStars);
   };
   return (

@@ -1,4 +1,4 @@
-import { starList, TableHeaderTabs } from "../../../assets/star";
+import { TableHeaderTabs } from "../../../assets/star";
 import StarRow from "./starRow";
 import { Table, TableRow, TableCell, Button } from "@mui/material";
 import { ArrowDropDown } from "@material-ui/icons";

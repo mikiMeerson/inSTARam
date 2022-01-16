@@ -33,17 +33,25 @@ const StarRow = ({
     removeStar(star);
   };
 
-  const handleDrop = () => {
+  const handleStartDrag = () => {
+    setDragged(star);
+  };
+  const handleDragOver = (e: any) => {
+    e.currentTarget.style.borderTop = "2px solid blue";
+  };
+
+  const handleDrop = (e: any) => {
+    e.currentTarget.style.borderTop = "none";
     if (dragged) {
       if (star.priority === 0) {
-        // if moved inside the unprioritized table
+        // if moved into the unprioritized table
         changePriority(dragged, 0);
       } else if (star.priority === 1) {
         // if moved to top of prioritized table
         changePriority(dragged, 1);
       } else {
         // if moved inside the prioritized table
-        changePriority(dragged, star.priority - 1);
+        changePriority(dragged, star.priority);
       }
     }
     setDragged(undefined);
@@ -54,10 +62,12 @@ const StarRow = ({
       <Table onClick={() => setOpenDesc(!openDesc)}>
         <TableRow
           draggable
-          onDragStart={() => setDragged(star)}
+          onDragStart={handleStartDrag}
           onDragOver={(e: any) => {
             e.preventDefault();
+            e.currentTarget.style.borderTop = "2px solid blue";
           }}
+          onDragLeave={(e: any) => (e.currentTarget.style.borderTop = "none")}
           onDrop={handleDrop}
         >
           <TableCell align="center" width="50px">
@@ -69,6 +79,8 @@ const StarRow = ({
                     ? "red"
                     : star.severity === 2
                     ? "orange"
+                    : star.severity === 3
+                    ? "yellow"
                     : "green",
               }}
             >
