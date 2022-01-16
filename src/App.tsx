@@ -26,19 +26,20 @@ function App() {
   };
 
   const changePriority = (star: starType, priority: number) => {
-    star.priority = priority;
     let newStars = stars.map((s: starType) => {
+      star.priority = priority;
       return s === star ? star : s;
     });
-    if (priority > 1) {
-      newStars.forEach((s) => {
-        if (s.priority >= star.priority) s.priority += 1;
+
+    let index = 1;
+    newStars
+      .sort((a: starType, b: starType) => a.priority - b.priority)
+      .forEach((s) => {
+        if (s.priority > 0) {
+          s.priority = index;
+          index += 1;
+        }
       });
-    } else if (priority === 1) {
-      newStars.forEach(s => {
-        if (s !== star && s.priority !== 0) s.priority += 1;
-      })
-    }
     setStars(newStars);
   };
   return (

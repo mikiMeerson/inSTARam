@@ -24,6 +24,11 @@ const NoPriority = ({
   dragged,
   setDragged,
 }: tableProps) => {
+  const handleDrop = () => {
+    if (dragged) {
+      changePriority(dragged, 0);
+    }
+  };
   return (
     <Collapse
       orientation={"horizontal"}
@@ -36,7 +41,14 @@ const NoPriority = ({
           : "collapseInnerWrapperClosed",
       }}
     >
-      <div className="noPriority" style={{ width: "100%" }}>
+      <div
+        className="noPriority"
+        style={{ width: "100%" }}
+        onDragOver={(e: any) => {
+          e.preventDefault();
+        }}
+        onDrop={handleDrop}
+      >
         <div className="noPrioirityHeader">
           <SpeedDial
             sx={{ position: "fixed", left: "110px" }}
