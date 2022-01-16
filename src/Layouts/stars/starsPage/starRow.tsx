@@ -63,10 +63,7 @@ const StarRow = ({
         <TableRow
           draggable
           onDragStart={handleStartDrag}
-          onDragOver={(e: any) => {
-            e.preventDefault();
-            e.currentTarget.style.borderTop = "2px solid blue";
-          }}
+          onDragOver={handleDragOver}
           onDragLeave={(e: any) => (e.currentTarget.style.borderTop = "none")}
           onDrop={handleDrop}
         >
@@ -84,7 +81,7 @@ const StarRow = ({
                     : "green",
               }}
             >
-              {star.priority > 0 ? star.priority : ""}
+              {star.priority > 0 ? star.priority : "?"}
             </div>
           </TableCell>
           <TableCell width="105px">{star.name}</TableCell>

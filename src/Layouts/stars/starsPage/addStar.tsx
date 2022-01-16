@@ -14,7 +14,7 @@ import {
   Input,
   MenuItem,
 } from "@mui/material";
-import { starType } from "../../../assets/star";
+import { starType, defaultStar } from "../../../assets/star";
 import "../styles/stars.css";
 
 interface starProps {
@@ -45,34 +45,15 @@ const severities = [
 ];
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
-  const [severity, setSeverity] = useState(0);
-  const [name, setName] = useState("");
-  const [event, setEvent] = useState("");
-  const [date, setDate] = useState("");
-  const [version, setVersion] = useState("");
-  const [desc, setDesc] = useState("");
-  const [assignee, setAssignee] = useState("");
-  const [status, setStatus] = useState("");
-  const [computer, setComputer] = useState("");
+  const [newStar, setNewStar] = useState<starType>(defaultStar);
+
+  const setAttr = (attr: keyof starType, value: string | number) => {
+    let s = newStar;
+    s[attr] = value as never;
+    setNewStar(s);
+  };
 
   const buildStar = () => {
-    let newStar: starType = {
-      id: 7,
-      priority: 0,
-      severity: severity,
-      name: name,
-      status: status,
-      assignee: assignee,
-      date: date,
-      version: version,
-      publisher: "מיקי - מאב",
-      event: event,
-      resources: [],
-      desc: desc,
-      computer: computer,
-      notes: [],
-      activity: [],
-    };
     addStar(newStar);
     toggleModal(false);
   };
@@ -93,7 +74,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               autoFocus
               label="שם הסטאר"
               variant="standard"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setAttr("name", e.target.value)}
               sx={{ width: "70%", flexGrow: 1, margin: "5px" }}
             />
             <FormControl sx={{ width: "30%" }}>
@@ -101,7 +82,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setSeverity(e.target.value)}
+                onChange={(e: any) => setAttr("severity", e.target.value)}
               >
                 {severities.map((sever: any) => (
                   <MenuItem key={sever.display} value={sever.value}>
@@ -115,17 +96,17 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             <TextField
               label="אירוע"
               variant="standard"
-              onChange={(e) => setEvent(e.target.value)}
+              onChange={(e) => setAttr("event", e.target.value)}
             />
             <TextField
               label="תאריך"
               variant="standard"
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) => setAttr("date", e.target.value)}
             />
             <TextField
               label="בלוק"
               variant="standard"
-              onChange={(e) => setVersion(e.target.value)}
+              onChange={(e) => setAttr("version", e.target.value)}
             />
           </div>
           <div className="dataRow">
@@ -133,7 +114,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               fullWidth
               multiline
               label="תיאור"
-              onChange={(e) => setDesc(e.target.value)}
+              onChange={(e) => setAttr("desc", e.target.value)}
             />
           </div>
           <div className="dataRow">
@@ -142,7 +123,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setAssignee(e.target.value)}
+                onChange={(e: any) => setAttr("assignee", e.target.value)}
               >
                 {assignees.map((assignee: string) => (
                   <MenuItem key={assignee} value={assignee}>
@@ -156,7 +137,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setStatus(e.target.value)}
+                onChange={(e: any) => setAttr("status", e.target.value)}
               >
                 {statuses.map((status: string) => (
                   <MenuItem key={status} value={status}>
@@ -168,7 +149,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             <TextField
               label="מחשב"
               variant="standard"
-              onChange={(e) => setComputer(e.target.value)}
+              onChange={(e) => setAttr("computer", e.target.value)}
             />
           </div>
         </DialogContentText>

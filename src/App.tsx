@@ -54,6 +54,7 @@ function App() {
     }
     setStars(newStars);
   };
+  
   return (
     <HashRouter>
       <div className="App" dir="rtl">

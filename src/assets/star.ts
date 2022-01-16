@@ -212,3 +212,21 @@ export const starList: starType[] = [
     activity: [],
   },
 ];
+
+export const defaultStar: starType = {
+  id: 0,
+  priority: 0,
+  severity: 0,
+  name: "",
+  status: "",
+  assignee: "",
+  date: "",
+  version: "",
+  publisher: "",
+  event: "",
+  resources: [],
+  desc: "",
+  computer: "",
+  notes: [],
+  activity: [],
+};

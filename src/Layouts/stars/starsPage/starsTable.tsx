@@ -3,6 +3,7 @@ import StarRow from "./starRow";
 import { Table, TableRow, TableCell, Button } from "@mui/material";
 import { ArrowDropDown } from "@material-ui/icons";
 import { starType } from "../../../assets/star";
+import { TableBody } from "@material-ui/core";
 
 interface starProps {
   stars: starType[];
@@ -20,7 +21,6 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
-
   return (
     <div
       style={{
@@ -31,27 +31,29 @@ const StarsTable = ({
       }}
     >
       <Table className="tableHeader">
-        <TableRow>
-          {TableHeaderTabs.map((tab: any) => {
-            return (
-              <TableCell width={tab.width}>
-                <Button
-                  sx={{
-                    color: "Gray",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  }}
-                >
-                  {tab.displayName}
-                  <ArrowDropDown
-                    className="dropDownIcon"
-                    style={{ display: tab.isDropDown ? "" : "none" }}
-                  />
-                </Button>
-              </TableCell>
-            );
-          })}
-        </TableRow>
+        <TableBody>
+          <TableRow>
+            {TableHeaderTabs.map((tab: any) => {
+              return (
+                <TableCell key={tab} width={tab.width}>
+                  <Button
+                    sx={{
+                      color: "Gray",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    {tab.displayName}
+                    <ArrowDropDown
+                      className="dropDownIcon"
+                      style={{ display: tab.isDropDown ? "" : "none" }}
+                    />
+                  </Button>
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        </TableBody>
       </Table>
       <div className="starsTable">
         {stars
