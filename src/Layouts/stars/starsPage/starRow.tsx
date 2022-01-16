@@ -37,6 +37,7 @@ const StarRow = ({
     setDragged(star);
   };
   const handleDragOver = (e: any) => {
+    e.preventDefault();
     e.currentTarget.style.borderTop = "2px solid blue";
   };
 

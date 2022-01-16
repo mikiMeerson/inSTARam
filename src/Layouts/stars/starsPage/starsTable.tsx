@@ -21,6 +21,21 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
+  const handleDragOver = (e: any) => {
+    e.preventDefault();
+    e.currentTarget.style.borderTop = "2px solid blue";
+  };
+
+  const handleDrop = (e: any) => {
+    e.currentTarget.style.border = "none"
+    if (dragged) {
+      let maxPri = stars
+        .sort((a: starType, b: starType) => a.priority - b.priority)
+        .reverse()[0].priority;
+      changePriority(dragged, maxPri + 1);
+    }
+    setDragged(undefined);
+  };
   return (
     <div
       style={{
@@ -73,6 +88,12 @@ const StarsTable = ({
               />
             );
           })}
+        <div
+          style={{ width: "100%", height: "50px" }}
+          onDragOver={handleDragOver}
+          onDragLeave={(e: any) => e.currentTarget.style.border = "none"}
+          onDrop={handleDrop}
+        ></div>
       </div>
     </div>
   );
