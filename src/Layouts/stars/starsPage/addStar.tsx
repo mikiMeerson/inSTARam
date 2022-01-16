@@ -25,8 +25,27 @@ interface starProps {
 
 const statuses = ["פתוח", "בעבודה", "סגור"];
 const assignees = ["מאב", "אינטגרציה", "מנט", "לצד", "אמלח"];
+const severities = [
+  {
+    display: "חמור מאוד",
+    value: 1,
+  },
+  {
+    display: "חמור במידה בינונית",
+    value: 2,
+  },
+  {
+    display: "די חמור",
+    value: 3,
+  },
+  {
+    display: "לא חמור",
+    value: 4,
+  },
+];
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
+  const [severity, setSeverity] = useState(0);
   const [name, setName] = useState("");
   const [event, setEvent] = useState("");
   const [date, setDate] = useState("");
@@ -40,7 +59,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     let newStar: starType = {
       id: 7,
       priority: 0,
-      severity: 0,
+      severity: severity,
       name: name,
       status: status,
       assignee: assignee,
@@ -69,14 +88,29 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
       <Divider />
       <DialogContent>
         <DialogContentText>
-          <TextField
-            autoFocus
-            fullWidth
-            label="שם הסטאר"
-            variant="standard"
-            onChange={(e) => setName(e.target.value)}
-            sx={{ flexGrow: 1, margin: "5px" }}
-          />
+          <div className="dataRow">
+            <TextField
+              autoFocus
+              label="שם הסטאר"
+              variant="standard"
+              onChange={(e) => setName(e.target.value)}
+              sx={{ width: "70%", flexGrow: 1, margin: "5px" }}
+            />
+            <FormControl sx={{ width: "30%" }}>
+              <InputLabel>חומרה</InputLabel>
+              <Select
+                variant="outlined"
+                input={<Input />}
+                onChange={(e: any) => setSeverity(e.target.value)}
+              >
+                {severities.map((sever: any) => (
+                  <MenuItem key={sever.display} value={sever.value}>
+                    {sever.display}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
           <div className="dataRow">
             <TextField
               label="אירוע"

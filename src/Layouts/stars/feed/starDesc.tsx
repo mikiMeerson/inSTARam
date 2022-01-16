@@ -32,6 +32,8 @@ const StarDesc = ({ star }: starProps) => {
                   ? "red"
                   : star.severity === 2
                   ? "orange"
+                  : star.severity === 3
+                  ? "yellow"
                   : "green",
             }}
           >

@@ -180,7 +180,7 @@ export const starList: starType[] = [
   {
     id: 5,
     priority: 0,
-    severity: 0,
+    severity: 4,
     name: "בעיות עומסים",
     status: "סגור",
     assignee: "מאב",
@@ -197,7 +197,7 @@ export const starList: starType[] = [
   {
     id: 6,
     priority: 0,
-    severity: 0,
+    severity: 2,
     name: "אין מטרה ראשית",
     status: "בעבודה",
     assignee: "מאב",
