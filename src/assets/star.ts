@@ -46,7 +46,7 @@ export type activityLogType = {
 export type starType = {
   id: number;
   priority: number;
-  severity?: number;
+  severity: number;
   name: string;
   status: string;
   assignee: string;

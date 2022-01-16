@@ -24,11 +24,23 @@ function App() {
   const addStar = (star: starType) => {
     setStars([...stars, star]);
   };
-  
+
   const changePriority = (star: starType, priority: number) => {
     star.priority = priority;
-    setStars(stars.map((s: starType) => {return s === star ? star : s}))
-  }
+    let newStars = stars.map((s: starType) => {
+      return s === star ? star : s;
+    });
+    if (priority > 1) {
+      newStars.forEach((s) => {
+        if (s.priority >= star.priority) s.priority += 1;
+      });
+    } else if (priority === 1) {
+      newStars.forEach(s => {
+        if (s !== star && s.priority !== 0) s.priority += 1;
+      })
+    }
+    setStars(newStars);
+  };
   return (
     <HashRouter>
       <div className="App" dir="rtl">

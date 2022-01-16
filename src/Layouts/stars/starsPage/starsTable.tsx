@@ -1,4 +1,4 @@
-import { TableHeaderTabs } from "../../../assets/star";
+import { starList, TableHeaderTabs } from "../../../assets/star";
 import StarRow from "./starRow";
 import { Table, TableRow, TableCell, Button } from "@mui/material";
 import { ArrowDropDown } from "@material-ui/icons";
@@ -20,16 +20,6 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
-  const handleDrop = () => {
-    if (dragged) {
-      if (dragged.priority === 0) {
-        changePriority(dragged, 1);
-      } else {
-        changePriority(dragged, 0);
-      }
-    }
-    setDragged(undefined);
-  };
 
   return (
     <div
@@ -39,10 +29,6 @@ const StarsTable = ({
         flexDirection: "column",
         justifyContent: "center",
       }}
-      onDragOver={(e: any) => {
-        e.preventDefault();
-      }}
-      onDrop={handleDrop}
     >
       <Table className="tableHeader">
         <TableRow>
@@ -79,6 +65,8 @@ const StarsTable = ({
                 star={star}
                 setFeed={setFeed}
                 removeStar={removeStar}
+                changePriority={changePriority}
+                dragged={dragged}
                 setDragged={setDragged}
               />
             );

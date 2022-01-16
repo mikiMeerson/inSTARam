@@ -14,9 +14,18 @@ interface starProps {
   star: starType;
   setFeed: (star: starType) => void;
   removeStar: (star: starType) => void;
-  setDragged: (star: starType) => void;
+  changePriority: (star: starType, priority: number) => void;
+  dragged: starType | undefined;
+  setDragged: (star: starType | undefined) => void;
 }
-const StarRow = ({ star, setFeed, removeStar, setDragged }: starProps) => {
+const StarRow = ({
+  star,
+  setFeed,
+  removeStar,
+  changePriority,
+  dragged,
+  setDragged,
+}: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   const deleteStar = (star: starType) => {
@@ -24,10 +33,33 @@ const StarRow = ({ star, setFeed, removeStar, setDragged }: starProps) => {
     removeStar(star);
   };
 
+  const handleDrop = () => {
+    if (dragged) {
+      if (star.priority === 0) {
+        // if moved inside the unprioritized table
+        changePriority(dragged, 0);
+      } else if (star.priority === 1) {
+        // if moved to top of prioritized table
+        changePriority(dragged, 1);
+      } else {
+        // if moved inside the prioritized table
+        changePriority(dragged, star.priority - 1);
+      }
+    }
+    setDragged(undefined);
+  };
+
   return (
     <TableContainer component={Paper} className="starRow">
       <Table onClick={() => setOpenDesc(!openDesc)}>
-        <TableRow draggable onDragStart={() => setDragged(star)}>
+        <TableRow
+          draggable
+          onDragStart={() => setDragged(star)}
+          onDragOver={(e: any) => {
+            e.preventDefault();
+          }}
+          onDrop={handleDrop}
+        >
           <TableCell align="center" width="50px">
             <div
               id="priority"
