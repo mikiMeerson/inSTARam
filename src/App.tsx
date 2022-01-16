@@ -7,7 +7,7 @@ import { useState } from "react";
 import { starList, starType } from "./assets/star";
 
 function App() {
-  const [starToDisplay, setStarToDisplay] = useState(starList[0]);
+  const [feedToDisplay, setFeedToDisplay] = useState(starList[0]);
   const [stars, setStars] = useState(starList);
 
   const removeStar = (star: starType) => {
@@ -25,6 +25,10 @@ function App() {
     setStars([...stars, star]);
   };
   
+  const changePriority = (star: starType, priority: number) => {
+    star.priority = priority;
+    setStars(stars.map((s: starType) => {return s === star ? star : s}))
+  }
   return (
     <HashRouter>
       <div className="App" dir="rtl">
@@ -37,7 +41,8 @@ function App() {
                 stars={stars}
                 addStar={addStar}
                 removeStar={removeStar}
-                setStar={setStarToDisplay}
+                setFeed={setFeedToDisplay}
+                changePriority={changePriority}
               />
             }
           />
@@ -48,11 +53,12 @@ function App() {
                 stars={stars}
                 addStar={addStar}
                 removeStar={removeStar}
-                setStar={setStarToDisplay}
+                setFeed={setFeedToDisplay}
+                changePriority={changePriority}
               />
             }
           />
-          <Route path="/starfeed" element={<StarFeed star={starToDisplay} />} />
+          <Route path="/starfeed" element={<StarFeed star={feedToDisplay} />} />
         </Routes>
       </div>
     </HashRouter>

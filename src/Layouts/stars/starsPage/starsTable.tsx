@@ -6,10 +6,31 @@ import { starType } from "../../../assets/star";
 
 interface starProps {
   stars: starType[];
-  setStar: (star: starType) => void;
+  setFeed: (star: starType) => void;
   removeStar: (star: starType) => void;
+  changePriority: (star: starType, priority: number) => void;
+  dragged: starType | undefined;
+  setDragged: (star: starType | undefined) => void;
 }
-const StarsTable = ({ stars, setStar, removeStar }: starProps) => {
+const StarsTable = ({
+  stars,
+  setFeed,
+  removeStar,
+  changePriority,
+  dragged,
+  setDragged,
+}: starProps) => {
+  const handleDrop = () => {
+    if (dragged) {
+      if (dragged.priority === 0) {
+        changePriority(dragged, 1);
+      } else {
+        changePriority(dragged, 0);
+      }
+    }
+    setDragged(undefined);
+  };
+
   return (
     <div
       style={{
@@ -18,6 +39,10 @@ const StarsTable = ({ stars, setStar, removeStar }: starProps) => {
         flexDirection: "column",
         justifyContent: "center",
       }}
+      onDragOver={(e: any) => {
+        e.preventDefault();
+      }}
+      onDrop={handleDrop}
     >
       <Table className="tableHeader">
         <TableRow>
@@ -43,9 +68,21 @@ const StarsTable = ({ stars, setStar, removeStar }: starProps) => {
         </TableRow>
       </Table>
       <div className="starsTable">
-        {stars.map((star: starType) => {
-          return <StarRow star={star} setStar={setStar} removeStar={removeStar} />;
-        })}
+        {stars
+          .sort((a: starType, b: starType) => {
+            return a.priority - b.priority;
+          })
+          .map((star: starType) => {
+            return (
+              <StarRow
+                key={star.id}
+                star={star}
+                setFeed={setFeed}
+                removeStar={removeStar}
+                setDragged={setDragged}
+              />
+            );
+          })}
       </div>
     </div>
   );

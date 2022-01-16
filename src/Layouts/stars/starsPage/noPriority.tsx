@@ -7,11 +7,23 @@ interface tableProps {
   stars: starType[];
   noPriority: boolean;
   toggleAddStar: (param: boolean) => void;
-  setStar: (param: starType) => void;
+  setFeed: (param: starType) => void;
   removeStar: (star: starType) => void;
+  changePriority: (star: starType, priority: number) => void;
+  dragged: starType | undefined;
+  setDragged: (param: starType | undefined) => void;
 }
 
-const NoPriority = ({ stars, noPriority, toggleAddStar, setStar, removeStar }: tableProps) => {
+const NoPriority = ({
+  stars,
+  noPriority,
+  toggleAddStar,
+  setFeed,
+  removeStar,
+  changePriority,
+  dragged,
+  setDragged,
+}: tableProps) => {
   return (
     <Collapse
       orientation={"horizontal"}
@@ -34,7 +46,14 @@ const NoPriority = ({ stars, noPriority, toggleAddStar, setStar, removeStar }: t
           />
           <h3>ממתינים לתיעדוף</h3>
         </div>
-        <StarsTable setStar={setStar} stars={stars} removeStar={removeStar} />
+        <StarsTable
+          setFeed={setFeed}
+          stars={stars}
+          removeStar={removeStar}
+          changePriority={changePriority}
+          dragged={dragged}
+          setDragged={setDragged}
+        />
       </div>
     </Collapse>
   );

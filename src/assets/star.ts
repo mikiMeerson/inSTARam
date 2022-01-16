@@ -44,6 +44,7 @@ export type activityLogType = {
 };
 
 export type starType = {
+  id: number;
   priority: number;
   severity?: number;
   name: string;
@@ -62,6 +63,7 @@ export type starType = {
 
 export const starList: starType[] = [
   {
+    id: 1,
     priority: 1,
     severity: 1,
     name: "מוצגות סולמיות במקום זמן",
@@ -102,6 +104,7 @@ export const starList: starType[] = [
     activity: [],
   },
   {
+    id: 2,
     priority: 2,
     severity: 1,
     name: "סטטוסים מוצגים בניגוד לאפיון",
@@ -141,6 +144,7 @@ export const starList: starType[] = [
     ],
   },
   {
+    id: 3,
     priority: 3,
     severity: 2,
     name: "תקלת מחשב חימוש",
@@ -157,6 +161,7 @@ export const starList: starType[] = [
     activity: [],
   },
   {
+    id: 4,
     priority: 4,
     severity: 3,
     name: "תצוגה מנצנצת",
@@ -173,6 +178,7 @@ export const starList: starType[] = [
     activity: [],
   },
   {
+    id: 5,
     priority: 0,
     severity: 0,
     name: "בעיות עומסים",
@@ -189,6 +195,7 @@ export const starList: starType[] = [
     activity: [],
   },
   {
+    id: 6,
     priority: 0,
     severity: 0,
     name: "אין מטרה ראשית",

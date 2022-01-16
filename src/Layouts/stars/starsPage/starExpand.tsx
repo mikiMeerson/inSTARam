@@ -6,11 +6,11 @@ import { SaveOutlined, DeleteOutline } from "@material-ui/icons";
 
 interface starProps {
   star: starType;
-  setStar: (star: starType) => void;
+  setFeed: (star: starType) => void;
   removeStar: (star: starType) => void;
 }
 
-const starExpand = ({ star, setStar, removeStar }: starProps) => {
+const starExpand = ({ star, setFeed, removeStar }: starProps) => {
   return (
     <div className="starExpand">
       <div className="dataRow">
@@ -43,7 +43,7 @@ const starExpand = ({ star, setStar, removeStar }: starProps) => {
         />
       </div>
       <div className="starActions">
-        <NavLink to="/starfeed" onClick={() => setStar(star)}>
+        <NavLink to="/starfeed" onClick={() => setFeed(star)}>
           <Button variant="contained" sx={{ background: "goldenrod" }}>
             עבור לעמוד הסטאר
           </Button>
