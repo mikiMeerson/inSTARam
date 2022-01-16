@@ -33,7 +33,12 @@ const StarRow = ({
     removeStar(star);
   };
 
-  const handleDrop = () => {
+  const handleDragOver = (e: any) => {
+    e.currentTarget.style.borderTop = "2px solid blue";
+  };
+
+  const handleDrop = (e: any) => {
+    e.currentTarget.style.borderTop = "none";
     if (dragged) {
       if (star.priority === 0) {
         // if moved inside the unprioritized table
@@ -57,7 +62,9 @@ const StarRow = ({
           onDragStart={() => setDragged(star)}
           onDragOver={(e: any) => {
             e.preventDefault();
+            e.currentTarget.style.borderTop = "2px solid blue";
           }}
+          onDragLeave={(e: any) => e.currentTarget.style.borderTop = "none"}
           onDrop={handleDrop}
         >
           <TableCell align="center" width="50px">

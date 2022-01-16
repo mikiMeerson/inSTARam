@@ -1,4 +1,3 @@
-import { Close } from "@material-ui/icons";
 import { TextField, Avatar, Button } from "@mui/material";
 
 const AddComment = () => {
