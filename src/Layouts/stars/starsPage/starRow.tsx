@@ -12,27 +12,53 @@ import { starType } from "../../../assets/star";
 
 interface starProps {
   star: starType;
-  setStar: (star: starType) => void;
+  setFeed: (star: starType) => void;
   removeStar: (star: starType) => void;
+  changePriority: (star: starType, priority: number) => void;
+  dragged: starType | undefined;
+  setDragged: (star: starType | undefined) => void;
 }
-const StarRow = ({ star, setStar, removeStar }: starProps) => {
+const StarRow = ({
+  star,
+  setFeed,
+  removeStar,
+  changePriority,
+  dragged,
+  setDragged,
+}: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   const deleteStar = (star: starType) => {
     setOpenDesc(false);
     removeStar(star);
   };
+
+  const handleDrop = () => {
+    if (dragged) {
+      if (star.priority === 0) {
+        // if moved inside the unprioritized table
+        changePriority(dragged, 0);
+      } else if (star.priority === 1) {
+        // if moved to top of prioritized table
+        changePriority(dragged, 1);
+      } else {
+        // if moved inside the prioritized table
+        changePriority(dragged, star.priority - 1);
+      }
+    }
+    setDragged(undefined);
+  };
+
   return (
     <TableContainer component={Paper} className="starRow">
       <Table onClick={() => setOpenDesc(!openDesc)}>
         <TableRow
           draggable
+          onDragStart={() => setDragged(star)}
           onDragOver={(e: any) => {
             e.preventDefault();
           }}
-          onDrop={(e: any) => {
-            console.log("dropped");
-          }}
+          onDrop={handleDrop}
         >
           <TableCell align="center" width="50px">
             <div
@@ -57,7 +83,7 @@ const StarRow = ({ star, setStar, removeStar }: starProps) => {
         </TableRow>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: "hidden" }}>
-        <StarExpand star={star} setStar={setStar} removeStar={deleteStar} />
+        <StarExpand star={star} setFeed={setFeed} removeStar={deleteStar} />
       </Collapse>
     </TableContainer>
   );

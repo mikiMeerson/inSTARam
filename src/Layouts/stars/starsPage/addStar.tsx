@@ -38,6 +38,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
 
   const buildStar = () => {
     let newStar: starType = {
+      id: 7,
       priority: 0,
       severity: 0,
       name: name,

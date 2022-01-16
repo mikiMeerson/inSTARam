@@ -1,4 +1,4 @@
-import { TableHeaderTabs } from "../../../assets/star";
+import { starList, TableHeaderTabs } from "../../../assets/star";
 import StarRow from "./starRow";
 import { Table, TableRow, TableCell, Button } from "@mui/material";
 import { ArrowDropDown } from "@material-ui/icons";
@@ -6,10 +6,21 @@ import { starType } from "../../../assets/star";
 
 interface starProps {
   stars: starType[];
-  setStar: (star: starType) => void;
+  setFeed: (star: starType) => void;
   removeStar: (star: starType) => void;
+  changePriority: (star: starType, priority: number) => void;
+  dragged: starType | undefined;
+  setDragged: (star: starType | undefined) => void;
 }
-const StarsTable = ({ stars, setStar, removeStar }: starProps) => {
+const StarsTable = ({
+  stars,
+  setFeed,
+  removeStar,
+  changePriority,
+  dragged,
+  setDragged,
+}: starProps) => {
+
   return (
     <div
       style={{
@@ -43,9 +54,23 @@ const StarsTable = ({ stars, setStar, removeStar }: starProps) => {
         </TableRow>
       </Table>
       <div className="starsTable">
-        {stars.map((star: starType) => {
-          return <StarRow star={star} setStar={setStar} removeStar={removeStar} />;
-        })}
+        {stars
+          .sort((a: starType, b: starType) => {
+            return a.priority - b.priority;
+          })
+          .map((star: starType) => {
+            return (
+              <StarRow
+                key={star.id}
+                star={star}
+                setFeed={setFeed}
+                removeStar={removeStar}
+                changePriority={changePriority}
+                dragged={dragged}
+                setDragged={setDragged}
+              />
+            );
+          })}
       </div>
     </div>
   );

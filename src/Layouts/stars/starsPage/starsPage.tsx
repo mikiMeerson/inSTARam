@@ -11,11 +11,19 @@ interface starProps {
   stars: starType[];
   addStar: (param: starType) => void;
   removeStar: (param: starType) => void;
-  setStar: (star: starType) => void;
+  setFeed: (star: starType) => void;
+  changePriority: (star: starType, priority: number) => void;
 }
-const StarsPage = ({ stars, addStar, removeStar, setStar }: starProps) => {
+const StarsPage = ({
+  stars,
+  addStar,
+  removeStar,
+  setFeed,
+  changePriority,
+}: starProps) => {
   const [noPriority, toggleNoPriority] = useState(true);
   const [openAddStar, toggleOpenAddStar] = useState(false);
+  const [dragged, setDragged] = useState<starType | undefined>(undefined);
 
   let icon;
   if (noPriority) icon = <MenuOpenSharp fontSize="small" htmlColor="white" />;
@@ -27,15 +35,21 @@ const StarsPage = ({ stars, addStar, removeStar, setStar }: starProps) => {
       <div className="stars">
         <StarsTable
           stars={stars.filter((star) => star.priority > 0)}
-          setStar={setStar}
+          setFeed={setFeed}
           removeStar={removeStar}
+          changePriority={changePriority}
+          dragged={dragged}
+          setDragged={setDragged}
         />
         <NoPriority
           stars={stars.filter((star) => star.priority === 0)}
           noPriority={noPriority}
           toggleAddStar={toggleOpenAddStar}
-          setStar={setStar}
+          setFeed={setFeed}
           removeStar={removeStar}
+          changePriority={changePriority}
+          dragged={dragged}
+          setDragged={setDragged}
         />
       </div>
       <Button
