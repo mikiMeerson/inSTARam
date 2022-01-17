@@ -9,6 +9,7 @@ import {
 import { TableHeaderTabs, headerTabType } from "../../../assets/star";
 import { ArrowDropDown, Search } from "@material-ui/icons";
 import { useState } from "react";
+import { display } from "@mui/system";
 
 interface filterProps {
   filters: any;
@@ -57,6 +58,10 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
                     color: "Gray",
                     fontWeight: "bold",
                     textAlign: "center",
+                    background:
+                      tab.displayName === lastTab && displayOptions
+                        ? "whitesmoke"
+                        : "",
                   }}
                   onClick={() => openOptions(tab)}
                 >
@@ -75,9 +80,30 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
           })}
         </TableRow>
         <div
+          className="optionSection"
+          style={{
+            display: displayOptions ? "flex" : "none",
+          }}
+        >
+          {options
+            ?.filter((o) => !filters.includes(o))
+            .map((o) => {
+              return (
+                <Chip
+                  size="medium"
+                  sx={{ marginRight: "15px" }}
+                  label={o}
+                  key={o}
+                  onClick={() => setFilters([...filters, o])}
+                />
+              );
+            })}
+        </div>
+        <div
           className="filterSection"
           style={{
             display: filters ? "flex" : "none",
+            marginTop: displayOptions ? "45px" : 0,
           }}
         >
           {filters.map((f: string) => {
@@ -94,27 +120,6 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
               />
             );
           })}
-        </div>
-        <div
-          className="optionSection"
-          style={{
-            display: displayOptions ? "flex" : "none",
-            marginTop: filters.length > 0 ? "45px" : 0,
-          }}
-        >
-          {options
-            ?.filter((o) => !filters.includes(o))
-            .map((o) => {
-              return (
-                <Chip
-                  size="medium"
-                  sx={{ marginRight: "15px" }}
-                  label={o}
-                  key={o}
-                  onClick={() => setFilters([...filters, o])}
-                />
-              );
-            })}
         </div>
       </TableBody>
     </Table>

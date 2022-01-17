@@ -22,7 +22,18 @@ const StarsTable = ({
   const [filters, setFilters] = useState<string[]>([]);
 
   const getFilteredStars = () => {
-    return stars;
+    if (filters.length === 0) return stars;
+
+    let filteredStars: starType[] = [];
+    let flag = true;
+      stars.forEach((s) => {
+        filters.forEach((f) => {
+        flag = flag && (s.assignee === f || s.status === f);
+      });
+      if (flag) filteredStars.push(s);
+      flag = true;
+    });
+    return filteredStars;
   };
 
   const handleDragOver = (e: any) => {
