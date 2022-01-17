@@ -1,9 +1,7 @@
-import { TableHeaderTabs } from "../../../assets/star";
+import { useState } from "react";
 import StarRow from "./starRow";
-import { Table, TableRow, TableCell, Button } from "@mui/material";
-import { ArrowDropDown } from "@material-ui/icons";
 import { starType } from "../../../assets/star";
-import { TableBody } from "@material-ui/core";
+import FiltersHeader from "./filtersHeader";
 
 interface starProps {
   stars: starType[];
@@ -21,13 +19,32 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
+  const [filters, setFilters] = useState<string[]>([]);
+  const [searchValue, setSearchValue] = useState("");
+
+  const getFilteredStars = () => {
+    if (filters.length === 0 && searchValue === "") return stars;
+
+    let filteredStars: starType[] = [];
+    stars.forEach((s) => {
+      let flag: boolean = s.name.includes(searchValue) || searchValue === "";
+      if (flag) {
+        filters.forEach((f) => {
+          flag = flag && (s.assignee === f || s.status === f);
+        });
+      }
+      if (flag) filteredStars.push(s);
+    });
+    return filteredStars;
+  };
+
   const handleDragOver = (e: any) => {
     e.preventDefault();
     e.currentTarget.style.borderTop = "2px solid blue";
   };
 
   const handleDrop = (e: any) => {
-    e.currentTarget.style.border = "none"
+    e.currentTarget.style.border = "none";
     if (dragged) {
       let maxPri = stars
         .sort((a: starType, b: starType) => a.priority - b.priority)
@@ -45,33 +62,13 @@ const StarsTable = ({
         justifyContent: "center",
       }}
     >
-      <Table className="tableHeader">
-        <TableBody>
-          <TableRow>
-            {TableHeaderTabs.map((tab: any) => {
-              return (
-                <TableCell key={tab} width={tab.width}>
-                  <Button
-                    sx={{
-                      color: "Gray",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    {tab.displayName}
-                    <ArrowDropDown
-                      className="dropDownIcon"
-                      style={{ display: tab.isDropDown ? "" : "none" }}
-                    />
-                  </Button>
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        </TableBody>
-      </Table>
+      <FiltersHeader
+        filters={filters}
+        setFilters={setFilters}
+        setSearchValue={setSearchValue}
+      />
       <div className="starsTable">
-        {stars
+        {getFilteredStars()
           .sort((a: starType, b: starType) => {
             return a.priority - b.priority;
           })
@@ -91,7 +88,7 @@ const StarsTable = ({
         <div
           style={{ width: "100%", height: "50px" }}
           onDragOver={handleDragOver}
-          onDragLeave={(e: any) => e.currentTarget.style.border = "none"}
+          onDragLeave={(e: any) => (e.currentTarget.style.border = "none")}
           onDrop={handleDrop}
         ></div>
       </div>

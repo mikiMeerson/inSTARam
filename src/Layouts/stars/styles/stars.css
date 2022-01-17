@@ -52,6 +52,7 @@
 .tableHeader {
     align-self: center !important;
     width: 90% !important;
+    margin-left: 15px;
 }
 
 .tableHeader > tr > td {
@@ -102,6 +103,14 @@
 
 #mui-107, #mui-111, .addStar > div > div > div > p > .dataRow > div > div > input {
     text-align: right !important;
+}
+
+.searchSection, .optionSection, .filterSection {
+    position: fixed;
+    height: 50px;
+}
+.optionSection, .filterSection {
+    padding: 15px;
 }
 
 /* Collapse */

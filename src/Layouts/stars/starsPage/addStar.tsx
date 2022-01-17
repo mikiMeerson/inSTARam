@@ -14,7 +14,13 @@ import {
   Input,
   MenuItem,
 } from "@mui/material";
-import { starType, defaultStar } from "../../../assets/star";
+import {
+  starType,
+  defaultStar,
+  statuses,
+  assignees,
+  severities,
+} from "../../../assets/star";
 import "../styles/stars.css";
 
 interface starProps {
@@ -22,27 +28,6 @@ interface starProps {
   toggleModal: (param: boolean) => void;
   addStar: (star: starType) => void;
 }
-
-const statuses = ["פתוח", "בעבודה", "סגור"];
-const assignees = ["מאב", "אינטגרציה", "מנט", "לצד", "אמלח"];
-const severities = [
-  {
-    display: "חמור מאוד",
-    value: 1,
-  },
-  {
-    display: "חמור במידה בינונית",
-    value: 2,
-  },
-  {
-    display: "די חמור",
-    value: 3,
-  },
-  {
-    display: "לא חמור",
-    value: 4,
-  },
-];
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
   const [newStar, setNewStar] = useState<starType>(defaultStar);
@@ -84,9 +69,9 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
                 input={<Input />}
                 onChange={(e: any) => setAttr("severity", e.target.value)}
               >
-                {severities.map((sever: any) => (
-                  <MenuItem key={sever.display} value={sever.value}>
-                    {sever.display}
+                {severities.map((sever: any, index: number) => (
+                  <MenuItem key={index} value={index + 1}>
+                    {sever}
                   </MenuItem>
                 ))}
               </Select>

@@ -1,33 +1,47 @@
-export const TableHeaderTabs = [
+export const statuses = ["פתוח", "בעבודה", "סגור"];
+export const assignees = ["מאב", "אינטגרציה", "מנט", "לצד", "אמלח"];
+export const severities = ["חמור מאוד", "חמור", "בינוני", "קל"];
+export const versions = ["ו רעם", "ה רעם", "ד רעם", "ז בז", "ו בז", "ה בז"]
+
+export type headerTabType = {
+  displayName: string;
+  width: string;
+  action: string;
+  options?: string[];
+}
+export const TableHeaderTabs: headerTabType[] = [
   {
     displayName: "עדיפות",
     width: "20px",
-    isDropDown: false,
+    action: ""
   },
   {
     displayName: "שם",
     width: "100px",
-    isDropDown: true,
+    action: "search"
   },
   {
     displayName: "סטטוס",
     width: "20px",
-    isDropDown: true,
+    action: "dropdown",
+    options: statuses
   },
   {
     displayName: "אחראי",
     width: "60px",
-    isDropDown: true,
+    action: "dropdown",
+    options: assignees
   },
   {
     displayName: "תאריך",
     width: "70px",
-    isDropDown: true,
+    action: "",
   },
   {
     displayName: "בלוק",
     width: "50px",
-    isDropDown: true,
+    action: "dropdown",
+    options: versions
   },
 ];
 
