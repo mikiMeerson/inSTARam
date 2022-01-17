@@ -20,6 +20,7 @@ import {
   statuses,
   assignees,
   severities,
+  versions,
 } from "../../../assets/star";
 import "../styles/stars.css";
 
@@ -88,11 +89,20 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               variant="standard"
               onChange={(e) => setAttr("date", e.target.value)}
             />
-            <TextField
-              label="בלוק"
-              variant="standard"
-              onChange={(e) => setAttr("version", e.target.value)}
-            />
+            <FormControl sx={{ width: "30%" }}>
+              <InputLabel>בלוק</InputLabel>
+              <Select
+                variant="outlined"
+                input={<Input />}
+                onChange={(e: any) => setAttr("version", e.target.value)}
+              >
+                {versions.map((version: string) => (
+                  <MenuItem key={version} value={version}>
+                    {version}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
           <div className="dataRow">
             <TextField

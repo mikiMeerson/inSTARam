@@ -17,7 +17,11 @@ interface filterProps {
   setSearchValue: (param: string) => void;
 }
 
-const FiltersHeader = ({ filters, setFilters, setSearchValue }: filterProps) => {
+const FiltersHeader = ({
+  filters,
+  setFilters,
+  setSearchValue,
+}: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
   const [search, setSearch] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
@@ -28,16 +32,13 @@ const FiltersHeader = ({ filters, setFilters, setSearchValue }: filterProps) => 
       if (tab.action === "dropdown") setDisplayOptions(!displayOptions);
       else if (tab.action === "search") setSearch(!search);
     } else {
-    setLastTab(tab.displayName);
-    if (tab.action === "dropdown") {
-        setSearch(false);
-      setDisplayOptions(true);
-      if (tab.options) setOptions(tab.options);
-    } else if (tab.action === "search") {
-        setDisplayOptions(false);
-      setSearch(true);
+      if (tab.action === "dropdown" || tab.action === "search") {
+        setLastTab(tab.displayName);
+        setSearch(tab.action === "search");
+        setDisplayOptions(tab.action === "dropdown");
+        if (tab.options) setOptions(tab.options);
+      }
     }
-}
   };
 
   return (
@@ -45,7 +46,8 @@ const FiltersHeader = ({ filters, setFilters, setSearchValue }: filterProps) => 
       className="tableHeader"
       sx={{
         marginBottom:
-          (displayOptions && filters.length > 0) || (search && filters.length > 0)
+          (displayOptions && filters.length > 0) ||
+          (search && filters.length > 0)
             ? "85px"
             : displayOptions || filters.length > 0 || search
             ? "55px"
@@ -93,7 +95,13 @@ const FiltersHeader = ({ filters, setFilters, setSearchValue }: filterProps) => 
             display: search ? "flex" : "none",
           }}
         >
-          <TextField fullWidth autoFocus variant="standard" label="חפש לפי טקסט חופשי" onChange={e => setSearchValue(e.target.value)} />
+          <TextField
+            fullWidth
+            autoFocus
+            variant="standard"
+            label="חפש לפי טקסט חופשי"
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
         </div>
         <div
           className="optionSection"
