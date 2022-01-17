@@ -36,9 +36,9 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
       className="tableHeader"
       sx={{
         marginBottom:
-          displayOptions && filters
+          displayOptions && filters.length > 0
             ? "85px"
-            : displayOptions || filters
+            : displayOptions || filters.length > 0
             ? "35px"
             : 0,
       }}
@@ -99,7 +99,7 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
           className="optionSection"
           style={{
             display: displayOptions ? "flex" : "none",
-            marginTop: filters ? "45px" : 0,
+            marginTop: filters.length > 0 ? "45px" : 0,
           }}
         >
           {options
