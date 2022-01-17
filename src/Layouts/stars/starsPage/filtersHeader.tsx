@@ -5,31 +5,39 @@ import {
   TableBody,
   Button,
   Chip,
+  TextField,
 } from "@mui/material";
 import { TableHeaderTabs, headerTabType } from "../../../assets/star";
 import { ArrowDropDown, Search } from "@material-ui/icons";
 import { useState } from "react";
-import { display } from "@mui/system";
 
 interface filterProps {
-  filters: any;
-  setFilters: (param: any) => any;
+  filters: string[];
+  setFilters: (param: string[]) => void;
+  setSearchValue: (param: string) => void;
 }
 
-const FiltersHeader = ({ filters, setFilters }: filterProps) => {
+const FiltersHeader = ({ filters, setFilters, setSearchValue }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
+  const [search, setSearch] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
   const [lastTab, setLastTab] = useState("");
 
   const openOptions = (tab: headerTabType) => {
-    if (lastTab === tab.displayName) setDisplayOptions(!displayOptions);
-    else {
-      setLastTab(tab.displayName);
-      if (tab.action === "dropdown") {
-        setDisplayOptions(true);
-        if (tab.options) setOptions(tab.options);
-      }
+    if (lastTab === tab.displayName) {
+      if (tab.action === "dropdown") setDisplayOptions(!displayOptions);
+      else if (tab.action === "search") setSearch(!search);
+    } else {
+    setLastTab(tab.displayName);
+    if (tab.action === "dropdown") {
+        setSearch(false);
+      setDisplayOptions(true);
+      if (tab.options) setOptions(tab.options);
+    } else if (tab.action === "search") {
+        setDisplayOptions(false);
+      setSearch(true);
     }
+}
   };
 
   return (
@@ -37,10 +45,10 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
       className="tableHeader"
       sx={{
         marginBottom:
-          displayOptions && filters.length > 0
+          (displayOptions && filters.length > 0) || (search && filters.length > 0)
             ? "85px"
-            : displayOptions || filters.length > 0
-            ? "35px"
+            : displayOptions || filters.length > 0 || search
+            ? "55px"
             : 0,
       }}
     >
@@ -59,7 +67,7 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
                     fontWeight: "bold",
                     textAlign: "center",
                     background:
-                      tab.displayName === lastTab && displayOptions
+                      tab.displayName === lastTab && (displayOptions || search)
                         ? "whitesmoke"
                         : "",
                   }}
@@ -80,14 +88,22 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
           })}
         </TableRow>
         <div
+          className="searchSection"
+          style={{
+            display: search ? "flex" : "none",
+          }}
+        >
+          <TextField fullWidth autoFocus variant="standard" label="חפש לפי טקסט חופשי" onChange={e => setSearchValue(e.target.value)} />
+        </div>
+        <div
           className="optionSection"
           style={{
             display: displayOptions ? "flex" : "none",
           }}
         >
           {options
-            ?.filter((o) => !filters.includes(o))
-            .map((o) => {
+            ?.filter((o: string) => !filters.includes(o))
+            .map((o: string) => {
               return (
                 <Chip
                   size="medium"
@@ -103,7 +119,7 @@ const FiltersHeader = ({ filters, setFilters }: filterProps) => {
           className="filterSection"
           style={{
             display: filters ? "flex" : "none",
-            marginTop: displayOptions ? "45px" : 0,
+            marginTop: displayOptions || search ? "50px" : 0,
           }}
         >
           {filters.map((f: string) => {

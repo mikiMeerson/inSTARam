@@ -20,18 +20,20 @@ const StarsTable = ({
   setDragged,
 }: starProps) => {
   const [filters, setFilters] = useState<string[]>([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const getFilteredStars = () => {
-    if (filters.length === 0) return stars;
+    if (filters.length === 0 && searchValue === "") return stars;
 
     let filteredStars: starType[] = [];
-    let flag = true;
-      stars.forEach((s) => {
+    stars.forEach((s) => {
+      let flag: boolean = s.name.includes(searchValue) || searchValue === "";
+      if (flag) {
         filters.forEach((f) => {
-        flag = flag && (s.assignee === f || s.status === f);
-      });
+          flag = flag && (s.assignee === f || s.status === f);
+        });
+      }
       if (flag) filteredStars.push(s);
-      flag = true;
     });
     return filteredStars;
   };
@@ -60,7 +62,11 @@ const StarsTable = ({
         justifyContent: "center",
       }}
     >
-      <FiltersHeader filters={filters} setFilters={setFilters} />
+      <FiltersHeader
+        filters={filters}
+        setFilters={setFilters}
+        setSearchValue={setSearchValue}
+      />
       <div className="starsTable">
         {getFilteredStars()
           .sort((a: starType, b: starType) => {

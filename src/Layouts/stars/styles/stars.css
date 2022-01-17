@@ -105,10 +105,12 @@
     text-align: right !important;
 }
 
-.optionSection, .filterSection {
-    padding: 15px;
+.searchSection, .optionSection, .filterSection {
     position: fixed;
     height: 50px;
+}
+.optionSection, .filterSection {
+    padding: 15px;
 }
 
 /* Collapse */

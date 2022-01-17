@@ -1,6 +1,7 @@
 export const statuses = ["פתוח", "בעבודה", "סגור"];
 export const assignees = ["מאב", "אינטגרציה", "מנט", "לצד", "אמלח"];
 export const severities = ["חמור מאוד", "חמור", "בינוני", "קל"];
+export const versions = ["ו רעם", "ה רעם", "ד רעם", "ז בז", "ו בז", "ה בז"]
 
 export type headerTabType = {
   displayName: string;
@@ -39,7 +40,8 @@ export const TableHeaderTabs: headerTabType[] = [
   {
     displayName: "בלוק",
     width: "50px",
-    action: "search"
+    action: "dropdown",
+    options: versions
   },
 ];
 
