@@ -7,13 +7,22 @@ import {
   Chip,
   TextField,
 } from "@mui/material";
-import { statuses, assignees, versions } from "../../../assets/star";
+import {
+  statuses,
+  assignees,
+  versions,
+  resources,
+  computers,
+} from "../../../assets/star";
 import {
   CheckCircleOutline,
   Search,
   PersonOutline,
   DateRange,
   Flight,
+  MoreVert,
+  FlashOn,
+  Computer,
 } from "@material-ui/icons";
 import { useState } from "react";
 
@@ -40,9 +49,68 @@ const FiltersHeader = ({
   const [search, setSearch] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
   const [lastTab, setLastTab] = useState("");
+  const [displayMore, setDisplayMore] = useState(false);
 
   let filterEmpty =
     statusFilter === "" && assigneeFilter === "" && versionFilter === "";
+
+  const primaryFilterFields = [
+    {
+      name: "name",
+      width: "120px",
+      activation: "search",
+      displayName: "שם",
+      icon: <Search className="dropDownIcon" />,
+    },
+    {
+      name: "status",
+      width: "40px",
+      activation: "options",
+      options: statuses,
+      displayName: "סטטוס",
+      icon: <CheckCircleOutline className="dropDownIcon" />,
+    },
+    {
+      name: "assignee",
+      width: "100px",
+      activation: "options",
+      options: assignees,
+      displayName: "אחראי",
+      icon: <PersonOutline className="dropDownIcon" />,
+    },
+    {
+      name: "date",
+      width: "80px",
+      activation: "none",
+      displayName: "תאריך",
+      icon: <DateRange className="dropDownIcon" />,
+    },
+    {
+      name: "version",
+      width: "60px",
+      activation: "options",
+      options: versions,
+      displayName: "בלוק",
+      icon: <Flight className="dropdownIcon" />,
+    },
+  ];
+
+  const secondaryFilterFields = [
+    {
+      name: "resources",
+      activation: "options",
+      options: resources,
+      displayName: "משאבים",
+      icon: <FlashOn className="dropDownIcon" />,
+    },
+    {
+      name: "computer",
+      activation: "options",
+      options: computers,
+      displayName: "מחשב",
+      icon: <Computer className="dropDownIcon" />,
+    },
+  ];
 
   return (
     <Table
@@ -59,126 +127,86 @@ const FiltersHeader = ({
       <TableBody>
         <TableRow>
           <TableCell width={"20px"} sx={{ textAlign: "center" }}>
-            <Button sx={{ textAlign: "center" }} disabled>
-              עדיפות
+            <Button sx={{ textAlign: "center" }}>
+              <MoreVert
+                fontSize="small"
+                onClick={() => {
+                  setDisplayMore(!displayMore);
+                  setDisplayOptions(false);
+                  setSearch(false);
+                }}
+              />
             </Button>
           </TableCell>
-
-          <TableCell width={"100px"} sx={{ textAlign: "center" }}>
-            <Button
-              sx={{
-                color: "Gray",
-                fontWeight: "bold",
-                textAlign: "center",
-                background:
-                  lastTab === "name" && (displayOptions || search)
-                    ? "whitesmoke"
-                    : "",
-              }}
-              onClick={() => {
-                setSearch(lastTab === "name" ? !search : true);
-                setDisplayOptions(false);
-                setLastTab("name");
-              }}
-            >
-              שם
-              <Search className="dropDownIcon" />
-            </Button>
-          </TableCell>
-
-          <TableCell width={"20px"} sx={{ textAlign: "center" }}>
-            <Button
-              sx={{
-                color: "Gray",
-                fontWeight: "bold",
-                textAlign: "center",
-                background:
-                  lastTab === "status" && (displayOptions || search)
-                    ? "whitesmoke"
-                    : "",
-              }}
-              onClick={() => {
-                setDisplayOptions(
-                  lastTab === "status" ? !displayOptions : true
-                );
-                setOptions(statuses);
-                setSearch(false);
-                setLastTab("status");
-              }}
-            >
-              סטטוס
-              <CheckCircleOutline className="dropDownIcon" />
-            </Button>
-          </TableCell>
-
-          <TableCell width={"60px"} sx={{ textAlign: "center" }}>
-            <Button
-              sx={{
-                color: "Gray",
-                fontWeight: "bold",
-                textAlign: "center",
-                background:
-                  lastTab === "assignee" && (displayOptions || search)
-                    ? "whitesmoke"
-                    : "",
-              }}
-              onClick={() => {
-                setDisplayOptions(
-                  lastTab === "assignee" ? !displayOptions : true
-                );
-                setOptions(assignees);
-                setSearch(false);
-                setLastTab("assignee");
-              }}
-            >
-              אחראי
-              <PersonOutline className="dropDownIcon" />
-            </Button>
-          </TableCell>
-
-          <TableCell width={"70px"} sx={{ textAlign: "center" }}>
-            <Button
-              sx={{
-                color: "Gray",
-                fontWeight: "bold",
-                textAlign: "center",
-                background:
-                  lastTab === "date" && (displayOptions || search)
-                    ? "whitesmoke"
-                    : "",
-              }}
-              onClick={() => {}}
-            >
-              תאריך
-              <DateRange className="dropDownIcon" />
-            </Button>
-          </TableCell>
-
-          <TableCell width={"50px"} sx={{ textAlign: "center" }}>
-            <Button
-              sx={{
-                color: "Gray",
-                fontWeight: "bold",
-                textAlign: "center",
-                background:
-                  lastTab === "version" && (displayOptions || search)
-                    ? "whitesmoke"
-                    : "",
-              }}
-              onClick={() => {
-                setDisplayOptions(
-                  lastTab === "version" ? !displayOptions : true
-                );
-                setOptions(versions);
-                setSearch(false);
-                setLastTab("version");
-              }}
-            >
-              סטטוס
-              <Flight className="dropDownIcon" />
-            </Button>
-          </TableCell>
+          {primaryFilterFields.map((field: any) => {
+            return (
+              <TableCell width={field.width} sx={{ textAlign: "center" }}>
+                <Button
+                  sx={{
+                    color: "Gray",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    background:
+                      lastTab === field.name && (displayOptions || search)
+                        ? "whitesmoke"
+                        : "",
+                  }}
+                  onClick={() => {
+                    if (field.activation === "search") {
+                      setSearch(lastTab === "name" ? !search : true);
+                      setDisplayOptions(false);
+                    } else if (field.activation === "options") {
+                      setDisplayOptions(
+                        lastTab === field.name ? !displayOptions : true
+                      );
+                      setOptions(field.options);
+                      setSearch(false);
+                      setLastTab(field.name);
+                    }
+                    setLastTab(field.name);
+                  }}
+                >
+                  {field.displayName}
+                  {field.icon}
+                </Button>
+              </TableCell>
+            );
+          })}
         </TableRow>
+
+        <TableRow sx={{ display: displayMore ? "" : "none" }}>
+          <TableCell width={"60px"} />
+          {secondaryFilterFields.map((field: any) => {
+            return (
+              <TableCell sx={{ textAlign: "center" }}>
+                <Button
+                  sx={{
+                    color: "Gray",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    paddingLeft: 0,
+                    background:
+                      lastTab === field.name && (displayOptions || search)
+                        ? "whitesmoke"
+                        : "",
+                  }}
+                  onClick={() => {
+                    setDisplayOptions(
+                      lastTab === field.name ? !displayOptions : true
+                    );
+                    setOptions(field.options);
+                    setSearch(false);
+                    setLastTab(field.name);
+                  }}
+                >
+                  {field.displayName}
+                  {field.icon}
+                </Button>
+              </TableCell>
+            );
+          })}
+        </TableRow>
+
         <div
           className="searchSection"
           style={{
@@ -200,26 +228,28 @@ const FiltersHeader = ({
             display: displayOptions ? "flex" : "none",
           }}
         >
-          {options.filter((o :string) => {
-            if (lastTab === "status") return o !== statusFilter;
-            else if(lastTab === "assignee") return o !== assigneeFilter;
-            else if(lastTab === "version") return o !== versionFilter;
-            else return true;
-          }).map((o: string) => {
-            return (
-              <Chip
-                size="medium"
-                sx={{ marginRight: "15px" }}
-                label={o}
-                key={o}
-                onClick={() => {
-                  if (lastTab === "status") setStatusFilter(o);
-                  else if (lastTab === "assignee") setAssigneeFilter(o);
-                  else if (lastTab === "version") setVersionFilter(o);
-                }}
-              />
-            );
-          })}
+          {options
+            .filter((o: string) => {
+              if (lastTab === "status") return o !== statusFilter;
+              else if (lastTab === "assignee") return o !== assigneeFilter;
+              else if (lastTab === "version") return o !== versionFilter;
+              else return true;
+            })
+            .map((o: string) => {
+              return (
+                <Chip
+                  size="medium"
+                  sx={{ marginRight: "15px" }}
+                  label={o}
+                  key={o}
+                  onClick={() => {
+                    if (lastTab === "status") setStatusFilter(o);
+                    else if (lastTab === "assignee") setAssigneeFilter(o);
+                    else if (lastTab === "version") setVersionFilter(o);
+                  }}
+                />
+              );
+            })}
         </div>
 
         <div
