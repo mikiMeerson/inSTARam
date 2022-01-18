@@ -19,6 +19,7 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
+
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [assigneeFilter, setAssigneeFilter] = useState<string>("");
   const [versionFilter, setVersionFilter] = useState<string>("");
@@ -26,6 +27,28 @@ const StarsTable = ({
   const [computerFilter, setComputerFilter] = useState<string>("");
   const [searchValue, setSearchValue] = useState("");
 
+  const setFilter = (filter: string, value: string) => {
+    switch (filter) {
+      case "status":
+        setStatusFilter(value);
+        break;
+      case "assignee":
+        setAssigneeFilter(value);
+        break;
+      case "version":
+        setVersionFilter(value);
+        break;
+      case "resource":
+        setResourceFilter(value);
+        break;
+      case "computer":
+        setComputerFilter(value);
+        break;
+      default:
+        break;
+    }
+  };
+  
   const getFilteredStars = () => {
     if (
       statusFilter === "" &&
@@ -80,12 +103,8 @@ const StarsTable = ({
         versionFilter={versionFilter}
         resourceFilter={resourceFilter}
         computerFilter={computerFilter}
-        setStatusFilter={setStatusFilter}
-        setAssigneeFilter={setAssigneeFilter}
-        setVersionFilter={setVersionFilter}
+        setFilter={setFilter}
         setSearchValue={setSearchValue}
-        setResourceFilter={setResourceFilter}
-        setComputerFilter={setComputerFilter}
       />
       <div className="starsTable">
         {getFilteredStars()

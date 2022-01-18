@@ -33,11 +33,7 @@ interface filterProps {
   versionFilter: string;
   resourceFilter: string;
   computerFilter: string;
-  setStatusFilter: (param: string) => void;
-  setAssigneeFilter: (param: string) => void;
-  setVersionFilter: (param: string) => void;
-  setResourceFilter: (param: string) => void;
-  setComputerFilter: (param: string) => void;
+  setFilter: (field: string, value: string) => void;
 }
 
 const FiltersHeader = ({
@@ -47,11 +43,7 @@ const FiltersHeader = ({
   versionFilter,
   resourceFilter,
   computerFilter,
-  setStatusFilter,
-  setAssigneeFilter,
-  setVersionFilter,
-  setResourceFilter, 
-  setComputerFilter
+  setFilter,
 }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
   const [search, setSearch] = useState(false);
@@ -60,7 +52,46 @@ const FiltersHeader = ({
   const [displayMore, setDisplayMore] = useState(false);
 
   let filterEmpty =
-    statusFilter === "" && assigneeFilter === "" && versionFilter === "";
+    statusFilter === "" &&
+    assigneeFilter === "" &&
+    versionFilter === "" &&
+    resourceFilter === "" &&
+    computerFilter === "";
+
+  const getOptions = (options: string[]) => {
+    let newOptions = options.filter((o) => {
+      if (lastTab === "status") return o !== statusFilter;
+      else if (lastTab === "assignee") return o !== assigneeFilter;
+      else if (lastTab === "version") return o !== versionFilter;
+      else if (lastTab === "resource") return o !== resourceFilter;
+      else if (lastTab === "computer") return o !== computerFilter;
+      else return true;
+    });
+    return newOptions;
+  };
+
+  const selectedFilters = [
+    {
+      filter: statusFilter,
+      tabName: "status",
+    },
+    {
+      filter: assigneeFilter,
+      tabName: "assignee",
+    },
+    {
+      filter: versionFilter,
+      tabName: "version",
+    },
+    {
+      filter: resourceFilter,
+      tabName: "resource",
+    },
+    {
+      filter: computerFilter,
+      tabName: "computer",
+    },
+  ];
 
   const primaryFilterFields = [
     {
@@ -105,7 +136,7 @@ const FiltersHeader = ({
 
   const secondaryFilterFields = [
     {
-      name: "resources",
+      name: "resource",
       activation: "options",
       options: resources,
       displayName: "משאבים",
@@ -184,6 +215,7 @@ const FiltersHeader = ({
 
         <TableRow sx={{ display: displayMore ? "" : "none" }}>
           <TableCell width={"60px"} />
+
           {secondaryFilterFields.map((field: any) => {
             return (
               <TableCell sx={{ textAlign: "center" }}>
@@ -236,32 +268,19 @@ const FiltersHeader = ({
             display: displayOptions ? "flex" : "none",
           }}
         >
-          {options
-            .filter((o: string) => {
-              if (lastTab === "status") return o !== statusFilter;
-              else if (lastTab === "assignee") return o !== assigneeFilter;
-              else if (lastTab === "version") return o !== versionFilter;
-              else if (lastTab === "resources") return o !== resourceFilter;
-              else if(lastTab === "computer") return o !== computerFilter;
-              else return true;
-            })
-            .map((o: string) => {
-              return (
-                <Chip
-                  size="medium"
-                  sx={{ marginRight: "15px" }}
-                  label={o}
-                  key={o}
-                  onClick={() => {
-                    if (lastTab === "status") setStatusFilter(o);
-                    else if (lastTab === "assignee") setAssigneeFilter(o);
-                    else if (lastTab === "version") setVersionFilter(o);
-                    else if(lastTab === "resources") setResourceFilter(o);
-                    else if(lastTab === "computer") setComputerFilter(o);
-                  }}
-                />
-              );
-            })}
+          {getOptions(options).map((o: string) => {
+            return (
+              <Chip
+                size="medium"
+                sx={{ marginRight: "15px" }}
+                label={o}
+                key={o}
+                onClick={() => {
+                  setFilter(lastTab, o);
+                }}
+              />
+            );
+          })}
         </div>
 
         <div
@@ -271,56 +290,20 @@ const FiltersHeader = ({
             marginTop: displayOptions || search ? "50px" : 0,
           }}
         >
-          <Chip
-            size="medium"
-            color="secondary"
-            label={statusFilter}
-            sx={{
-              marginRight: "15px",
-              display: statusFilter === "" ? "none" : "",
-            }}
-            onClick={() => setStatusFilter("")}
-          />
-          <Chip
-            size="medium"
-            color="secondary"
-            label={assigneeFilter}
-            sx={{
-              marginRight: "15px",
-              display: assigneeFilter === "" ? "none" : "",
-            }}
-            onClick={() => setAssigneeFilter("")}
-          />
-          <Chip
-            size="medium"
-            color="secondary"
-            label={versionFilter}
-            sx={{
-              marginRight: "15px",
-              display: versionFilter === "" ? "none" : "",
-            }}
-            onClick={() => setVersionFilter("")}
-          />
-          <Chip
-            size="medium"
-            color="secondary"
-            label={resourceFilter}
-            sx={{
-              marginRight: "15px",
-              display: resourceFilter === "" ? "none" : "",
-            }}
-            onClick={() => setResourceFilter("")}
-          />
-          <Chip
-            size="medium"
-            color="secondary"
-            label={computerFilter}
-            sx={{
-              marginRight: "15px",
-              display: computerFilter === "" ? "none" : "",
-            }}
-            onClick={() => setComputerFilter("")}
-          />
+          {selectedFilters.map((selected) => {
+            return (
+              <Chip
+                size="medium"
+                color="secondary"
+                label={selected.filter}
+                sx={{
+                  marginRight: "15px",
+                  display: selected.filter === "" ? "none" : "",
+                }}
+                onClick={() => setFilter(selected.tabName, "")}
+              />
+            );
+          })}
         </div>
       </TableBody>
     </Table>
