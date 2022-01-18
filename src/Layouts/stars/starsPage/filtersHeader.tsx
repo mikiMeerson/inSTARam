@@ -7,88 +7,214 @@ import {
   Chip,
   TextField,
 } from "@mui/material";
-import { TableHeaderTabs, headerTabType } from "../../../assets/star";
-import { ArrowDropDown, Search } from "@material-ui/icons";
+import {
+  statuses,
+  assignees,
+  versions,
+  resources,
+  computers,
+} from "../../../assets/star";
+import {
+  CheckCircleOutline,
+  Search,
+  PersonOutline,
+  DateRange,
+  Flight,
+  MoreVert,
+  FlashOn,
+  Computer,
+} from "@material-ui/icons";
 import { useState } from "react";
 
 interface filterProps {
-  filters: string[];
-  setFilters: (param: string[]) => void;
   setSearchValue: (param: string) => void;
+  statusFilter: string;
+  assigneeFilter: string;
+  versionFilter: string;
+  resourceFilter: string;
+  computerFilter: string;
+  setStatusFilter: (param: string) => void;
+  setAssigneeFilter: (param: string) => void;
+  setVersionFilter: (param: string) => void;
+  setResourceFilter: (param: string) => void;
+  setComputerFilter: (param: string) => void;
 }
 
 const FiltersHeader = ({
-  filters,
-  setFilters,
   setSearchValue,
+  statusFilter,
+  assigneeFilter,
+  versionFilter,
+  resourceFilter,
+  computerFilter,
+  setStatusFilter,
+  setAssigneeFilter,
+  setVersionFilter,
+  setResourceFilter, 
+  setComputerFilter
 }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
   const [search, setSearch] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
   const [lastTab, setLastTab] = useState("");
+  const [displayMore, setDisplayMore] = useState(false);
 
-  const openOptions = (tab: headerTabType) => {
-    if (lastTab === tab.displayName) {
-      if (tab.action === "dropdown") setDisplayOptions(!displayOptions);
-      else if (tab.action === "search") setSearch(!search);
-    } else {
-      if (tab.action === "dropdown" || tab.action === "search") {
-        setLastTab(tab.displayName);
-        setSearch(tab.action === "search");
-        setDisplayOptions(tab.action === "dropdown");
-        if (tab.options) setOptions(tab.options);
-      }
-    }
-  };
+  let filterEmpty =
+    statusFilter === "" && assigneeFilter === "" && versionFilter === "";
+
+  const primaryFilterFields = [
+    {
+      name: "name",
+      width: "120px",
+      activation: "search",
+      displayName: "שם",
+      icon: <Search className="dropDownIcon" />,
+    },
+    {
+      name: "status",
+      width: "40px",
+      activation: "options",
+      options: statuses,
+      displayName: "סטטוס",
+      icon: <CheckCircleOutline className="dropDownIcon" />,
+    },
+    {
+      name: "assignee",
+      width: "100px",
+      activation: "options",
+      options: assignees,
+      displayName: "אחראי",
+      icon: <PersonOutline className="dropDownIcon" />,
+    },
+    {
+      name: "date",
+      width: "80px",
+      activation: "none",
+      displayName: "תאריך",
+      icon: <DateRange className="dropDownIcon" />,
+    },
+    {
+      name: "version",
+      width: "60px",
+      activation: "options",
+      options: versions,
+      displayName: "בלוק",
+      icon: <Flight className="dropdownIcon" />,
+    },
+  ];
+
+  const secondaryFilterFields = [
+    {
+      name: "resources",
+      activation: "options",
+      options: resources,
+      displayName: "משאבים",
+      icon: <FlashOn className="dropDownIcon" />,
+    },
+    {
+      name: "computer",
+      activation: "options",
+      options: computers,
+      displayName: "מחשב",
+      icon: <Computer className="dropDownIcon" />,
+    },
+  ];
 
   return (
     <Table
       className="tableHeader"
       sx={{
         marginBottom:
-          (displayOptions && filters.length > 0) ||
-          (search && filters.length > 0)
+          (displayOptions && !filterEmpty) || (search && !filterEmpty)
             ? "85px"
-            : displayOptions || filters.length > 0 || search
+            : displayOptions || !filterEmpty || search
             ? "55px"
             : 0,
       }}
     >
       <TableBody>
         <TableRow>
-          {TableHeaderTabs.map((tab: headerTabType) => {
+          <TableCell width={"20px"} sx={{ textAlign: "center" }}>
+            <Button sx={{ textAlign: "center" }}>
+              <MoreVert
+                fontSize="small"
+                onClick={() => {
+                  setDisplayMore(!displayMore);
+                  setDisplayOptions(false);
+                  setSearch(false);
+                }}
+              />
+            </Button>
+          </TableCell>
+          {primaryFilterFields.map((field: any) => {
             return (
-              <TableCell
-                key={tab.displayName}
-                width={tab.width}
-                sx={{ textAlign: "center" }}
-              >
+              <TableCell width={field.width} sx={{ textAlign: "center" }}>
                 <Button
                   sx={{
                     color: "Gray",
                     fontWeight: "bold",
                     textAlign: "center",
                     background:
-                      tab.displayName === lastTab && (displayOptions || search)
+                      lastTab === field.name && (displayOptions || search)
                         ? "whitesmoke"
                         : "",
                   }}
-                  onClick={() => openOptions(tab)}
+                  onClick={() => {
+                    if (field.activation === "search") {
+                      setSearch(lastTab === "name" ? !search : true);
+                      setDisplayOptions(false);
+                    } else if (field.activation === "options") {
+                      setDisplayOptions(
+                        lastTab === field.name ? !displayOptions : true
+                      );
+                      setOptions(field.options);
+                      setSearch(false);
+                      setLastTab(field.name);
+                    }
+                    setLastTab(field.name);
+                  }}
                 >
-                  {tab.displayName}
-                  <ArrowDropDown
-                    className="dropDownIcon"
-                    style={{ display: tab.action === "dropdown" ? "" : "none" }}
-                  />
-                  <Search
-                    className="dropDownIcon"
-                    style={{ display: tab.action === "search" ? "" : "none" }}
-                  />
+                  {field.displayName}
+                  {field.icon}
                 </Button>
               </TableCell>
             );
           })}
         </TableRow>
+
+        <TableRow sx={{ display: displayMore ? "" : "none" }}>
+          <TableCell width={"60px"} />
+          {secondaryFilterFields.map((field: any) => {
+            return (
+              <TableCell sx={{ textAlign: "center" }}>
+                <Button
+                  sx={{
+                    color: "Gray",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    paddingLeft: 0,
+                    background:
+                      lastTab === field.name && (displayOptions || search)
+                        ? "whitesmoke"
+                        : "",
+                  }}
+                  onClick={() => {
+                    setDisplayOptions(
+                      lastTab === field.name ? !displayOptions : true
+                    );
+                    setOptions(field.options);
+                    setSearch(false);
+                    setLastTab(field.name);
+                  }}
+                >
+                  {field.displayName}
+                  {field.icon}
+                </Button>
+              </TableCell>
+            );
+          })}
+        </TableRow>
+
         <div
           className="searchSection"
           style={{
@@ -103,6 +229,7 @@ const FiltersHeader = ({
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
+
         <div
           className="optionSection"
           style={{
@@ -110,7 +237,14 @@ const FiltersHeader = ({
           }}
         >
           {options
-            ?.filter((o: string) => !filters.includes(o))
+            .filter((o: string) => {
+              if (lastTab === "status") return o !== statusFilter;
+              else if (lastTab === "assignee") return o !== assigneeFilter;
+              else if (lastTab === "version") return o !== versionFilter;
+              else if (lastTab === "resources") return o !== resourceFilter;
+              else if(lastTab === "computer") return o !== computerFilter;
+              else return true;
+            })
             .map((o: string) => {
               return (
                 <Chip
@@ -118,32 +252,75 @@ const FiltersHeader = ({
                   sx={{ marginRight: "15px" }}
                   label={o}
                   key={o}
-                  onClick={() => setFilters([...filters, o])}
+                  onClick={() => {
+                    if (lastTab === "status") setStatusFilter(o);
+                    else if (lastTab === "assignee") setAssigneeFilter(o);
+                    else if (lastTab === "version") setVersionFilter(o);
+                    else if(lastTab === "resources") setResourceFilter(o);
+                    else if(lastTab === "computer") setComputerFilter(o);
+                  }}
                 />
               );
             })}
         </div>
+
         <div
           className="filterSection"
           style={{
-            display: filters ? "flex" : "none",
+            display: !filterEmpty ? "flex" : "none",
             marginTop: displayOptions || search ? "50px" : 0,
           }}
         >
-          {filters.map((f: string) => {
-            return (
-              <Chip
-                size="medium"
-                color="secondary"
-                sx={{ marginRight: "15px" }}
-                label={f}
-                key={f}
-                onClick={() =>
-                  setFilters(filters.filter((fi: string) => fi !== f))
-                }
-              />
-            );
-          })}
+          <Chip
+            size="medium"
+            color="secondary"
+            label={statusFilter}
+            sx={{
+              marginRight: "15px",
+              display: statusFilter === "" ? "none" : "",
+            }}
+            onClick={() => setStatusFilter("")}
+          />
+          <Chip
+            size="medium"
+            color="secondary"
+            label={assigneeFilter}
+            sx={{
+              marginRight: "15px",
+              display: assigneeFilter === "" ? "none" : "",
+            }}
+            onClick={() => setAssigneeFilter("")}
+          />
+          <Chip
+            size="medium"
+            color="secondary"
+            label={versionFilter}
+            sx={{
+              marginRight: "15px",
+              display: versionFilter === "" ? "none" : "",
+            }}
+            onClick={() => setVersionFilter("")}
+          />
+          <Chip
+            size="medium"
+            color="secondary"
+            label={resourceFilter}
+            sx={{
+              marginRight: "15px",
+              display: resourceFilter === "" ? "none" : "",
+            }}
+            onClick={() => setResourceFilter("")}
+          />
+          <Chip
+            size="medium"
+            color="secondary"
+            label={computerFilter}
+            sx={{
+              marginRight: "15px",
+              display: computerFilter === "" ? "none" : "",
+            }}
+            onClick={() => setComputerFilter("")}
+          />
         </div>
       </TableBody>
     </Table>

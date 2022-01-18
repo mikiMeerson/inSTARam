@@ -19,21 +19,33 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
-  const [filters, setFilters] = useState<string[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [assigneeFilter, setAssigneeFilter] = useState<string>("");
+  const [versionFilter, setVersionFilter] = useState<string>("");
+  const [resourceFilter, setResourceFilter] = useState<string>("");
+  const [computerFilter, setComputerFilter] = useState<string>("");
   const [searchValue, setSearchValue] = useState("");
 
   const getFilteredStars = () => {
-    if (filters.length === 0 && searchValue === "") return stars;
+    if (
+      statusFilter === "" &&
+      assigneeFilter === "" &&
+      versionFilter === "" &&
+      searchValue === ""
+    )
+      return stars;
 
     let filteredStars: starType[] = [];
     stars.forEach((s) => {
-      let flag: boolean = s.name.includes(searchValue) || searchValue === "";
-      if (flag) {
-        filters.forEach((f) => {
-          flag = flag && (s.assignee === f || s.status === f);
-        });
-      }
-      if (flag) filteredStars.push(s);
+      if (
+        (s.name.includes(searchValue) || searchValue === "") &&
+        (statusFilter === "" || s.status === statusFilter) &&
+        (versionFilter === "" || s.version === versionFilter) &&
+        (assigneeFilter === "" || s.assignee === assigneeFilter) &&
+        (resourceFilter === "" || s.resources.includes(resourceFilter)) &&
+        (computerFilter === "" || s.computer === computerFilter)
+      )
+        filteredStars.push(s);
     });
     return filteredStars;
   };
@@ -63,9 +75,17 @@ const StarsTable = ({
       }}
     >
       <FiltersHeader
-        filters={filters}
-        setFilters={setFilters}
+        statusFilter={statusFilter}
+        assigneeFilter={assigneeFilter}
+        versionFilter={versionFilter}
+        resourceFilter={resourceFilter}
+        computerFilter={computerFilter}
+        setStatusFilter={setStatusFilter}
+        setAssigneeFilter={setAssigneeFilter}
+        setVersionFilter={setVersionFilter}
         setSearchValue={setSearchValue}
+        setResourceFilter={setResourceFilter}
+        setComputerFilter={setComputerFilter}
       />
       <div className="starsTable">
         {getFilteredStars()

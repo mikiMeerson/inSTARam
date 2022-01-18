@@ -21,6 +21,7 @@ import {
   assignees,
   severities,
   versions,
+  computers,
 } from "../../../assets/star";
 import "../styles/stars.css";
 
@@ -141,11 +142,20 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
                 ))}
               </Select>
             </FormControl>
-            <TextField
-              label="מחשב"
-              variant="standard"
-              onChange={(e) => setAttr("computer", e.target.value)}
-            />
+            <FormControl sx={{ width: "30%" }}>
+              <InputLabel>מחשב</InputLabel>
+              <Select
+                variant="outlined"
+                input={<Input />}
+                onChange={(e: any) => setAttr("computer", e.target.value)}
+              >
+                {computers.map((computer: string) => (
+                  <MenuItem key={computer} value={computer}>
+                    {computer}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
         </DialogContentText>
       </DialogContent>

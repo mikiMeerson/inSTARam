@@ -76,6 +76,7 @@
 
 .starRow {
     margin-bottom: 30px;
+    margin-left: 5px;
     border: 1px solid silver;
     cursor: pointer;
     overflow-x: hidden;
