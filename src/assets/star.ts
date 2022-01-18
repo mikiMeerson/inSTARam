@@ -1,49 +1,7 @@
 export const statuses = ["פתוח", "בעבודה", "סגור"];
 export const assignees = ["מאב", "אינטגרציה", "מנט", "לצד", "אמלח"];
 export const severities = ["חמור מאוד", "חמור", "בינוני", "קל"];
-export const versions = ["ו רעם", "ה רעם", "ד רעם", "ז בז", "ו בז", "ה בז"]
-
-export type headerTabType = {
-  displayName: string;
-  width: string;
-  action: string;
-  options?: string[];
-}
-export const TableHeaderTabs: headerTabType[] = [
-  {
-    displayName: "עדיפות",
-    width: "20px",
-    action: ""
-  },
-  {
-    displayName: "שם",
-    width: "100px",
-    action: "search"
-  },
-  {
-    displayName: "סטטוס",
-    width: "20px",
-    action: "dropdown",
-    options: statuses
-  },
-  {
-    displayName: "אחראי",
-    width: "60px",
-    action: "dropdown",
-    options: assignees
-  },
-  {
-    displayName: "תאריך",
-    width: "70px",
-    action: "",
-  },
-  {
-    displayName: "בלוק",
-    width: "50px",
-    action: "dropdown",
-    options: versions
-  },
-];
+export const versions = ["ו רעם", "ה רעם", "ד רעם", "ז בז", "ו בז", "ה בז"];
 
 export type commentType = {
   publisher: string;
