@@ -31,9 +31,13 @@ interface filterProps {
   statusFilter: string;
   assigneeFilter: string;
   versionFilter: string;
+  resourceFilter: string;
+  computerFilter: string;
   setStatusFilter: (param: string) => void;
   setAssigneeFilter: (param: string) => void;
   setVersionFilter: (param: string) => void;
+  setResourceFilter: (param: string) => void;
+  setComputerFilter: (param: string) => void;
 }
 
 const FiltersHeader = ({
@@ -41,9 +45,13 @@ const FiltersHeader = ({
   statusFilter,
   assigneeFilter,
   versionFilter,
+  resourceFilter,
+  computerFilter,
   setStatusFilter,
   setAssigneeFilter,
   setVersionFilter,
+  setResourceFilter, 
+  setComputerFilter
 }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
   const [search, setSearch] = useState(false);
@@ -233,6 +241,8 @@ const FiltersHeader = ({
               if (lastTab === "status") return o !== statusFilter;
               else if (lastTab === "assignee") return o !== assigneeFilter;
               else if (lastTab === "version") return o !== versionFilter;
+              else if (lastTab === "resources") return o !== resourceFilter;
+              else if(lastTab === "computer") return o !== computerFilter;
               else return true;
             })
             .map((o: string) => {
@@ -246,6 +256,8 @@ const FiltersHeader = ({
                     if (lastTab === "status") setStatusFilter(o);
                     else if (lastTab === "assignee") setAssigneeFilter(o);
                     else if (lastTab === "version") setVersionFilter(o);
+                    else if(lastTab === "resources") setResourceFilter(o);
+                    else if(lastTab === "computer") setComputerFilter(o);
                   }}
                 />
               );
@@ -288,6 +300,26 @@ const FiltersHeader = ({
               display: versionFilter === "" ? "none" : "",
             }}
             onClick={() => setVersionFilter("")}
+          />
+          <Chip
+            size="medium"
+            color="secondary"
+            label={resourceFilter}
+            sx={{
+              marginRight: "15px",
+              display: resourceFilter === "" ? "none" : "",
+            }}
+            onClick={() => setResourceFilter("")}
+          />
+          <Chip
+            size="medium"
+            color="secondary"
+            label={computerFilter}
+            sx={{
+              marginRight: "15px",
+              display: computerFilter === "" ? "none" : "",
+            }}
+            onClick={() => setComputerFilter("")}
           />
         </div>
       </TableBody>

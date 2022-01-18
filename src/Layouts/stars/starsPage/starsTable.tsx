@@ -22,6 +22,8 @@ const StarsTable = ({
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [assigneeFilter, setAssigneeFilter] = useState<string>("");
   const [versionFilter, setVersionFilter] = useState<string>("");
+  const [resourceFilter, setResourceFilter] = useState<string>("");
+  const [computerFilter, setComputerFilter] = useState<string>("");
   const [searchValue, setSearchValue] = useState("");
 
   const getFilteredStars = () => {
@@ -39,7 +41,9 @@ const StarsTable = ({
         (s.name.includes(searchValue) || searchValue === "") &&
         (statusFilter === "" || s.status === statusFilter) &&
         (versionFilter === "" || s.version === versionFilter) &&
-        (assigneeFilter === "" || s.assignee === assigneeFilter)
+        (assigneeFilter === "" || s.assignee === assigneeFilter) &&
+        (resourceFilter === "" || s.resources.includes(resourceFilter)) &&
+        (computerFilter === "" || s.computer === computerFilter)
       )
         filteredStars.push(s);
     });
@@ -74,10 +78,14 @@ const StarsTable = ({
         statusFilter={statusFilter}
         assigneeFilter={assigneeFilter}
         versionFilter={versionFilter}
+        resourceFilter={resourceFilter}
+        computerFilter={computerFilter}
         setStatusFilter={setStatusFilter}
         setAssigneeFilter={setAssigneeFilter}
         setVersionFilter={setVersionFilter}
         setSearchValue={setSearchValue}
+        setResourceFilter={setResourceFilter}
+        setComputerFilter={setComputerFilter}
       />
       <div className="starsTable">
         {getFilteredStars()
