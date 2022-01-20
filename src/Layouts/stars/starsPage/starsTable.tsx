@@ -48,7 +48,7 @@ const StarsTable = ({
         break;
     }
   };
-  
+
   const getFilteredStars = () => {
     if (
       statusFilter === "" &&

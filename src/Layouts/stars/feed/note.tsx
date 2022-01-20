@@ -1,4 +1,4 @@
-import { ReplyOutlined } from "@material-ui/icons";
+import { ReplyOutlined, DeleteOutline } from "@material-ui/icons";
 import { Grid, Avatar, Typography, Divider } from "@mui/material";
 import { useState } from "react";
 import { noteType } from "../../../assets/star";
@@ -10,6 +10,7 @@ interface noteProps {
   replyBranch: number;
   replyTo: noteType | undefined;
   setReplyTo: (param: noteType | undefined) => void;
+  deleteNote: (note: noteType) => void;
 }
 const Note = ({
   notes,
@@ -18,9 +19,10 @@ const Note = ({
   replyBranch,
   replyTo,
   setReplyTo,
+  deleteNote
 }: noteProps) => {
   const [isReply, setIsReply] = useState(false);
-  const indent = (replyBranch * 40).toString() + "px";
+  const indent = (replyBranch + 40).toString() + "px";
 
   const getReplies = (note: noteType) => {
     return notes.filter((n: noteType) => n.repliesTo === note.id);
@@ -45,6 +47,8 @@ const Note = ({
           <Typography variant="body2">{note.note}</Typography>
           <div className="commentActions">
             <Typography variant="caption">posted 1 minute ago</Typography>
+            <div className="noteActions">
+            <DeleteOutline style={{display: note.publisher === "מיקי - מאב" ? "" : "none"}} className="deleteButton" onClick={() => deleteNote(note)} />
             <ReplyOutlined
               className="replyButton"
               onClick={() => {
@@ -53,6 +57,7 @@ const Note = ({
                 else setReplyTo(note);
               }}
             />
+            </div>
           </div>
           <Divider />
         </Grid>
@@ -65,6 +70,7 @@ const Note = ({
               replyBranch={replyBranch + 1}
               replyTo={replyTo}
               setReplyTo={setReplyTo}
+              deleteNote={deleteNote}
             />
           );
         })}

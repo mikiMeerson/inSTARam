@@ -13,11 +13,12 @@ const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
 
   const addComment = () => {
     let newNote: noteType = {
-      id: 7,
+      id: Math.random(),
       publisher: "מיקי - מאב",
       note: input,
       repliesTo: replyTo?.id,
     };
+    
     setInput("");
     setReplyTo(undefined);
     addNote(newNote);
@@ -34,7 +35,7 @@ const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
         onChange={(e: any) => setInput(e.target.value)}
         variant="outlined"
         placeholder={replyTo ? `תגובה ל${replyTo.publisher}` : "הוסף הערה..."}
-        onFocus={addComment}
+        
       />
       <Button sx={{ height: "50px", marginTop: "10px" }} onClick={addComment}>
         פרסם

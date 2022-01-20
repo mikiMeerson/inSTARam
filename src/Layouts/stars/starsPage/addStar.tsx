@@ -36,6 +36,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
 
   const setAttr = (attr: keyof starType, value: string | number) => {
     let s = newStar;
+    newStar.id = Math.random();
     s[attr] = value as never;
     setNewStar(s);
   };

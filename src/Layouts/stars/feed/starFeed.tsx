@@ -6,20 +6,27 @@ import "../styles/feed.css";
 
 interface starProps {
   star: starType;
-  setNotes: (star: starType, note: noteType) => void;
+  setNotes: (star: starType, notes: noteType[]) => void;
 }
 
 const StarFeed = ({ star, setNotes }: starProps) => {
-
   const addNote = (newNote: noteType) => {
-    setNotes(star, newNote);
+    star.notes.push(newNote);
+    setNotes(star, star.notes);
+  };
+
+  const deleteNote = (note: noteType) => {
+    star.notes = star.notes.filter((n: noteType) => {
+      return n !== note;
+    });
+    setNotes(star, star.notes);
   };
 
   return (
     <div className="starFeed">
       <StarDesc star={star} />
       <div className="starDetails">
-        <StarNotes notes={star.notes} addNote={addNote} />
+        <StarNotes notes={star.notes} addNote={addNote} deleteNote={deleteNote} />
         <StarActivity activity={star.activity} />
       </div>
     </div>
