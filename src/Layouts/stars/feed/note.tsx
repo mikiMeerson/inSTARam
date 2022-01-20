@@ -1,20 +1,34 @@
-import { CancelOutlined, ReplyOutlined } from "@material-ui/icons";
-import { Grid, Avatar, Typography, Divider, Button } from "@mui/material";
+import { ReplyOutlined } from "@material-ui/icons";
+import { Grid, Avatar, Typography, Divider } from "@mui/material";
 import { useState } from "react";
-import { commentType } from "../../../assets/star";
-import AddComment from "./addComment";
+import { noteType } from "../../../assets/star";
 
 interface noteProps {
-  note: commentType;
+  notes: noteType[];
+  note: noteType;
+  replies: noteType[];
   replyBranch: number;
+  replyTo: noteType | undefined;
+  setReplyTo: (param: noteType | undefined) => void;
 }
-const Note = ({ note, replyBranch }: noteProps) => {
+const Note = ({
+  notes,
+  note,
+  replies,
+  replyBranch,
+  replyTo,
+  setReplyTo,
+}: noteProps) => {
   const [isReply, setIsReply] = useState(false);
   const indent = (replyBranch * 40).toString() + "px";
 
+  const getReplies = (note: noteType) => {
+    return notes.filter((n: noteType) => n.repliesTo === note.id);
+  };
+
   return (
     <>
-      <Grid container sx={{ textAlign: "right", paddingRight: indent }}>
+      <Grid container sx={{ textAlign: "right", paddingRight: indent}}>
         <Grid item>
           <Avatar
             sx={{ width: 24, height: 24, margin: "7px" }}
@@ -24,22 +38,35 @@ const Note = ({ note, replyBranch }: noteProps) => {
             }
           />
         </Grid>
-        <Grid justifyContent="left" item xs zeroMinWidth>
+        <Grid justifyContent="left" item xs zeroMinWidth sx={{ background: replyTo === note ? "whitesmoke" : "" }}>
           <Typography variant="h6" sx={{ fontSize: "medium", fontWeight: 600 }}>
             {note.publisher}
           </Typography>
-          <Typography variant="body2">{note.comment}</Typography>
+          <Typography variant="body2">{note.note}</Typography>
           <div className="commentActions">
             <Typography variant="caption">posted 1 minute ago</Typography>
             <ReplyOutlined
               className="replyButton"
-              onClick={() => setIsReply(true)}
+              onClick={() => {
+                setIsReply(true);
+                if (replyTo === note) setReplyTo(undefined);
+                else setReplyTo(note);
+              }}
             />
           </div>
           <Divider />
         </Grid>
-        {note.replies?.map((reply) => {
-          return <Note note={reply} replyBranch={replyBranch + 1} />;
+        {replies?.map((reply) => {
+          return (
+            <Note
+              notes={notes}
+              note={reply}
+              replies={getReplies(reply)}
+              replyBranch={replyBranch + 1}
+              replyTo={replyTo}
+              setReplyTo={setReplyTo}
+            />
+          );
         })}
       </Grid>
       <div
@@ -49,20 +76,7 @@ const Note = ({ note, replyBranch }: noteProps) => {
           flexDirection: "row-reverse",
           width: "100%",
         }}
-      >
-        <Button
-          sx={{
-            height: "fit-content",
-            width: "fit-content",
-            background: "transparent",
-            color: "black",
-          }}
-          onClick={() => setIsReply(false)}
-        >
-          <CancelOutlined fontSize="small" />
-        </Button>
-        <AddComment />
-      </div>
+      ></div>
     </>
   );
 };

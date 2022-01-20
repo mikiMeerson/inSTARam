@@ -3,11 +3,13 @@ export const assignees = ["מאב", "אינטגרציה", "מנט", "לצד", "�
 export const severities = ["חמור מאוד", "חמור", "בינוני", "קל"];
 export const versions = ["ו רעם", "ה רעם", "ד רעם", "ז בז", "ו בז", "ה בז"];
 export const resources = ["STF", "AIF", "מודל UWI", "מודל ASB", "חימוש אמיתי"];
-export const computers = ["AAA", "BBB", "CCC", "DDD"]
-export type commentType = {
+export const computers = ["AAA", "BBB", "CCC", "DDD"];
+
+export type noteType = {
+  id: number;
   publisher: string;
-  comment: string;
-  replies: commentType[];
+  note: string;
+  repliesTo?: number;
 };
 
 export type activityLogType = {
@@ -30,7 +32,7 @@ export type starType = {
   resources: string[];
   desc: string;
   computer: string;
-  notes: commentType[];
+  notes: noteType[];
   activity: activityLogType[];
 };
 
@@ -51,27 +53,26 @@ export const starList: starType[] = [
     computer: "VHSIC",
     notes: [
       {
+        id: 1,
         publisher: "לודה - לצד",
-        comment:
-          "תיאור של דיון הסטארים לאחר גיחת בלוק ו שבו הגענו לכל מיני מסקנות על זה שמאב צריכים מעבדה",
-        replies: [
-          {
-            publisher: "אריאל - מאב",
-            comment: "זה ממש נכון אנחנו באמת צריכים ימי מעבדה",
-            replies: [],
-          },
-          {
-            publisher: "יונתן - אמלח",
-            comment:
-              "אני אישית חושב שמאב צריכים לקבל את כל זמן המעבדה בעולם העיקר שלא יפסיקו לעבוד לרגע",
-            replies: [],
-          },
-        ],
+        note: "תיאור של דיון הסטארים לאחר גיחת בלוק ו שבו הגענו לכל מיני מסקנות על זה שמאב צריכים מעבדה",
       },
       {
+        id: 2,
         publisher: "אריאל - מאב",
-        comment: "לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה",
-        replies: [],
+        note: "לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה",
+      },
+      {
+        id: 3,
+        publisher: "אריאל - מאב",
+        note: "זה ממש נכון אנחנו באמת צריכים ימי מעבדה",
+        repliesTo: 1,
+      },
+      {
+        id: 4,
+        publisher: "יונתן - אמלח",
+        note: "אני אישית חושב שמאב צריכים לקבל את כל זמן המעבדה בעולם העיקר שלא יפסיקו לעבוד לרגע",
+        repliesTo: 1,
       },
     ],
     activity: [],

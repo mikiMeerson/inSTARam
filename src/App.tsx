@@ -4,7 +4,7 @@ import StarFeed from "./Layouts/stars/feed/starFeed";
 import StarsPage from "./Layouts/stars/starsPage/starsPage";
 import Navbar from "./Layouts/navbar/navbar";
 import { useState } from "react";
-import { starList, starType } from "./assets/star";
+import { noteType, starList, starType } from "./assets/star";
 
 function App() {
   const [feedToDisplay, setFeedToDisplay] = useState(starList[0]);
@@ -55,6 +55,14 @@ function App() {
     setStars(newStars);
   };
   
+  const setNotes = (star: starType, note: noteType) => {
+    star.notes.push(note);
+    let newStars = stars.map((s: starType) => {
+      return s === star ? star : s;
+    })
+    setStars(newStars);
+  };
+
   return (
     <HashRouter>
       <div className="App" dir="rtl">
@@ -84,7 +92,7 @@ function App() {
               />
             }
           />
-          <Route path="/starfeed" element={<StarFeed star={feedToDisplay} />} />
+          <Route path="/starfeed" element={<StarFeed star={feedToDisplay} setNotes={setNotes} />} />
         </Routes>
       </div>
     </HashRouter>
