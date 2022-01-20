@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   TextField,
   Typography,
@@ -7,9 +8,8 @@ import {
   Chip,
   MenuItem,
   Input,
-} from "@mui/material";
-import { starType, resources } from "../../../assets/star";
-import { useState } from "react";
+} from '@mui/material';
+import { starType, resources, severityColors } from '../../../assets/star';
 
 interface starProps {
   star: starType;
@@ -25,17 +25,10 @@ const StarDesc = ({ star }: starProps) => {
           <span
             id="priority"
             style={{
-              color:
-                star.severity === 1
-                  ? "red"
-                  : star.severity === 2
-                  ? "orange"
-                  : star.severity === 3
-                  ? "yellow"
-                  : "green",
+              color: severityColors[star.severity - 1],
             }}
           >
-            {star.priority > 0 ? star.priority : ""}{" "}
+            {star.priority > 0 ? star.priority : ''}{' '}
           </span>
           {star.name}
         </h1>
@@ -44,26 +37,26 @@ const StarDesc = ({ star }: starProps) => {
       <div className="starData">
         <div className="dataCol">
           <div className="dataRow">
-            <Typography variant="caption" sx={{ padding: "7px 7px 7px 0" }}>
+            <Typography variant="caption" sx={{ padding: '7px 7px 7px 0' }}>
               הועלה ע"י {star.publisher} מתוך {star.event} {star.date}
             </Typography>
           </div>
           <div className="dataRow">
             <TextField
-              sx={{ margin: "7px", flexGrow: 1 }}
+              sx={{ margin: '7px', flexGrow: 1 }}
               label="גורם מטפל"
               defaultValue={star.assignee}
               variant="outlined"
             />
             <TextField
-              sx={{ margin: "7px", flexGrow: 1 }}
+              sx={{ margin: '7px', flexGrow: 1 }}
               label="סטטוס"
               defaultValue={star.status}
               variant="outlined"
             />
           </div>
           <div className="dataRow">
-            <FormControl sx={{ width: "90%" }}>
+            <FormControl sx={{ width: '90%' }}>
               <InputLabel id="resources">משאבים נדרשים</InputLabel>
               <Select
                 labelId="resources"
@@ -71,7 +64,7 @@ const StarDesc = ({ star }: starProps) => {
                 value={resourceList}
                 onChange={(e: any) => setResourceList(e.target.value)}
                 input={<Input />}
-                renderValue={(selected: any) => (
+                renderValue={(selected: string[]) => (
                   <div>
                     {selected.map((value: string) => (
                       <Chip key={value} label={value} />
@@ -90,7 +83,7 @@ const StarDesc = ({ star }: starProps) => {
         </div>
         <div className="dataCol">
           <TextField
-            sx={{ display: "grid", height: "123px", marginTop: "42px" }}
+            sx={{ display: 'grid', height: '123px', marginTop: '42px' }}
             label="תיאור"
             defaultValue={star.desc}
             variant="outlined"

@@ -21,7 +21,10 @@
     "react/react-in-jsx-scope": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
-    "react/jsx-filename-extension": ["warn", { "extensions": [".tsx", ".js", ".jsx", ".ts"] }],
+    "react/jsx-filename-extension": [
+      "warn",
+      { "extensions": [".tsx", ".js", ".jsx", ".ts"] }
+    ],
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "import/extensions": [
@@ -37,7 +40,14 @@
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-param-reassign": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "no-return-assign": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "function-declaration"
+      }
+    ]
   },
   "settings": {
     "import/resolver": {

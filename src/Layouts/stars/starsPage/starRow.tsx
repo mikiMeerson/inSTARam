@@ -5,10 +5,10 @@ import {
   TableCell,
   Paper,
   Collapse,
-} from "@mui/material";
-import { useState } from "react";
-import StarExpand from "./starExpand";
-import { starType } from "../../../assets/star";
+} from '@mui/material';
+import { useState } from 'react';
+import StarExpand from './starExpand';
+import { starType, severityColors } from '../../../assets/star';
 
 interface starProps {
   star: starType;
@@ -18,6 +18,7 @@ interface starProps {
   dragged: starType | undefined;
   setDragged: (star: starType | undefined) => void;
 }
+// eslint-disable-next-line react/function-component-definition
 const StarRow = ({
   star,
   setFeed,
@@ -28,7 +29,7 @@ const StarRow = ({
 }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
-  const deleteStar = (star: starType) => {
+  const deleteStar = () => {
     setOpenDesc(false);
     removeStar(star);
   };
@@ -38,11 +39,12 @@ const StarRow = ({
   };
   const handleDragOver = (e: any) => {
     e.preventDefault();
-    e.currentTarget.style.borderTop = "2px solid blue";
+    e.currentTarget.style.marginTop = '50px';
+    e.currentTarget.style.borderTop = '2px solid blue';
   };
 
   const handleDrop = (e: any) => {
-    e.currentTarget.style.borderTop = "none";
+    e.currentTarget.style.borderTop = 'none';
     if (dragged) {
       if (star.priority === 0) {
         // if moved into the unprioritized table
@@ -65,24 +67,17 @@ const StarRow = ({
           draggable
           onDragStart={handleStartDrag}
           onDragOver={handleDragOver}
-          onDragLeave={(e: any) => (e.currentTarget.style.borderTop = "none")}
+          onDragLeave={(e: any) => (e.currentTarget.style.borderTop = 'none')}
           onDrop={handleDrop}
         >
           <TableCell align="center" width="50px">
             <div
               id="priority"
               style={{
-                color:
-                  star.severity === 1
-                    ? "red"
-                    : star.severity === 2
-                    ? "orange"
-                    : star.severity === 3
-                    ? "yellow"
-                    : "green",
+                color: severityColors[star.severity - 1],
               }}
             >
-              {star.priority > 0 ? star.priority : "?"}
+              {star.priority > 0 ? star.priority : '?'}
             </div>
           </TableCell>
           <TableCell width="105px">{star.name}</TableCell>
@@ -92,7 +87,7 @@ const StarRow = ({
           <TableCell width="60px">{star.version}</TableCell>
         </TableRow>
       </Table>
-      <Collapse in={openDesc} sx={{ overflow: "hidden" }}>
+      <Collapse in={openDesc} sx={{ overflow: 'hidden' }}>
         <StarExpand star={star} setFeed={setFeed} removeStar={deleteStar} />
       </Collapse>
     </TableContainer>
