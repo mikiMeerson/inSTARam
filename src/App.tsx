@@ -55,8 +55,8 @@ function App() {
     setStars(newStars);
   };
   
-  const setNotes = (star: starType, note: noteType) => {
-    star.notes.push(note);
+  const setNotes = (star: starType, notes: noteType[]) => {
+    star.notes = notes;
     let newStars = stars.map((s: starType) => {
       return s === star ? star : s;
     })

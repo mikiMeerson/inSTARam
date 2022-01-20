@@ -77,7 +77,7 @@
     padding-left: 15px;
 }
 
-.replyButton {
+.replyButton, .deleteButton {
     cursor: pointer;
     padding: 3px;
     font-size: 17px !important;
@@ -85,6 +85,10 @@
 
 .replyButton:hover {
     color: purple !important;
+}
+
+.deleteButton:hover {
+    color: red !important;
 }
 
 .addComment {

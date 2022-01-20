@@ -7,8 +7,9 @@ import { useState } from "react";
 interface notesProps {
   notes: noteType[];
   addNote: (note: noteType) => void;
+  deleteNote: (note: noteType) => void;
 }
-const StarNotes = ({ notes, addNote }: notesProps) => {
+const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
   const [replyTo, setReplyTo] = useState<noteType | undefined>(undefined);
 
   const getNotes = () => {
@@ -44,6 +45,7 @@ const StarNotes = ({ notes, addNote }: notesProps) => {
                 key={key}
                 replyTo={replyTo}
                 setReplyTo={setReplyTo}
+                deleteNote={deleteNote}
               />
             );
           })}
