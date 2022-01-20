@@ -1,10 +1,10 @@
-import "./App.css";
-import { HashRouter, Routes, Route } from "react-router-dom";
-import StarFeed from "./Layouts/stars/feed/starFeed";
-import StarsPage from "./Layouts/stars/starsPage/starsPage";
-import Navbar from "./Layouts/navbar/navbar";
-import { useState } from "react";
-import { noteType, starList, starType } from "./assets/star";
+import './App.css';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
+import StarFeed from './Layouts/stars/feed/starFeed';
+import StarsPage from './Layouts/stars/starsPage/starsPage';
+import Navbar from './Layouts/navbar/navbar';
+import { noteType, starList, starType } from './assets/star';
 
 function App() {
   const [feedToDisplay, setFeedToDisplay] = useState(starList[0]);
@@ -17,7 +17,7 @@ function App() {
         .map((s: starType) => {
           if (s.priority > star.priority && star.priority > 0) s.priority -= 1;
           return s;
-        })
+        }),
     );
   };
 
@@ -26,10 +26,8 @@ function App() {
   };
 
   const changePriority = (star: starType, priority: number) => {
-    let newStars = stars.map((s: starType) => {
-      star.priority = priority;
-      return s === star ? star : s;
-    });
+    star.priority = priority;
+    const newStars = stars.map((s: starType) => (s === star ? star : s));
 
     if (priority === 1) {
       let index = 2;
@@ -54,12 +52,10 @@ function App() {
     }
     setStars(newStars);
   };
-  
+
   const setNotes = (star: starType, notes: noteType[]) => {
     star.notes = notes;
-    let newStars = stars.map((s: starType) => {
-      return s === star ? star : s;
-    })
+    const newStars = stars.map((s: starType) => (s === star ? star : s));
     setStars(newStars);
   };
 
@@ -70,7 +66,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
+            element={(
               <StarsPage
                 stars={stars}
                 addStar={addStar}
@@ -78,11 +74,11 @@ function App() {
                 setFeed={setFeedToDisplay}
                 changePriority={changePriority}
               />
-            }
+            )}
           />
           <Route
             path="/stars"
-            element={
+            element={(
               <StarsPage
                 stars={stars}
                 addStar={addStar}
@@ -90,9 +86,12 @@ function App() {
                 setFeed={setFeedToDisplay}
                 changePriority={changePriority}
               />
-            }
+            )}
           />
-          <Route path="/starfeed" element={<StarFeed star={feedToDisplay} setNotes={setNotes} />} />
+          <Route
+            path="/starfeed"
+            element={<StarFeed star={feedToDisplay} setNotes={setNotes} />}
+          />
         </Routes>
       </div>
     </HashRouter>
