@@ -1,33 +1,54 @@
-import { commentType } from "../../../assets/star";
+import { noteType } from "../../../assets/star";
 import { Typography } from "@mui/material";
 import Note from "./note";
 import AddComment from "./addComment";
+import { useState } from "react";
 
 interface notesProps {
-  notes: commentType[];
+  notes: noteType[];
+  addNote: (note: noteType) => void;
 }
-const StarNotes = ({ notes }: notesProps) => {
+const StarNotes = ({ notes, addNote }: notesProps) => {
+  const [replyTo, setReplyTo] = useState<noteType | undefined>(undefined);
+
+  const getNotes = () => {
+    return notes.filter((n: noteType) => n.repliesTo === undefined );
+  }
+  const getReplies = (note: noteType) => {
+    return notes.filter((n: noteType) => n.repliesTo === note.id);
+  };
+
   if (notes.length === 0) {
     return (
       <div className="feedSection">
         <Typography variant="caption">עדיין אין הערות על סטאר זה</Typography>
-        <AddComment />
+        <div style={{ display: replyTo ? "none" : "" }}>
+          <AddComment replyTo={replyTo} setReplyTo={setReplyTo} addNote={addNote} />
+        </div>
       </div>
     );
   } else {
     return (
       <div className="feedSection">
-        <div className="notesHeader">
-          <Typography variant="h5" paddingBottom="10px">
-            הערות
-          </Typography>
-        </div>
-        <div style={{ overflow: "scroll", height: "70%" }}>
-          {notes.map((note: commentType, key) => {
-            return <Note note={note} replyBranch={0} key={key} />;
+        <Typography variant="h5" paddingBottom="10px" height="10%">
+          הערות
+        </Typography>
+        <div style={{ overflow: "scroll", height: "65%" }}>
+          {getNotes().map((note: noteType, key) => {
+            return (
+              <Note
+                notes={notes}
+                note={note}
+                replies={getReplies(note)}
+                replyBranch={0}
+                key={key}
+                replyTo={replyTo}
+                setReplyTo={setReplyTo}
+              />
+            );
           })}
         </div>
-        <AddComment />
+        <AddComment replyTo={replyTo} addNote={addNote} setReplyTo={setReplyTo} />
       </div>
     );
   }
