@@ -9,6 +9,7 @@ export type noteType = {
   id: number;
   publisher: string;
   note: string;
+  time: Date;
   repliesTo?: number;
 };
 
@@ -56,22 +57,26 @@ export const starList: starType[] = [
         id: 1,
         publisher: "לודה - לצד",
         note: "תיאור של דיון הסטארים לאחר גיחת בלוק ו שבו הגענו לכל מיני מסקנות על זה שמאב צריכים מעבדה",
+        time: new Date(),
       },
       {
         id: 2,
         publisher: "אריאל - מאב",
         note: "לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה",
+        time: new Date(),
       },
       {
         id: 3,
         publisher: "אריאל - מאב",
         note: "זה ממש נכון אנחנו באמת צריכים ימי מעבדה",
+        time: new Date(),
         repliesTo: 1,
       },
       {
         id: 4,
         publisher: "יונתן - אמלח",
         note: "אני אישית חושב שמאב צריכים לקבל את כל זמן המעבדה בעולם העיקר שלא יפסיקו לעבוד לרגע",
+        time: new Date(),
         repliesTo: 1,
       },
     ],

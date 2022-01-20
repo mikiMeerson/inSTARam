@@ -16,6 +16,7 @@ const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
       id: Math.random(),
       publisher: "מיקי - מאב",
       note: input,
+      time: new Date(),
       repliesTo: replyTo?.id,
     };
     
