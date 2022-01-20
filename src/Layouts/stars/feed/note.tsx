@@ -1,4 +1,4 @@
-import { ReplyOutlined, DeleteOutline, EditOutlined } from "@material-ui/icons";
+import { ReplyOutlined, DeleteOutline } from "@material-ui/icons";
 import { Grid, Avatar, Typography, Divider } from "@mui/material";
 import { useState } from "react";
 import { noteType } from "../../../assets/star";
