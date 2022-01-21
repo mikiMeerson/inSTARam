@@ -1,7 +1,7 @@
-import { Collapse, SpeedDial, SpeedDialIcon } from "@mui/material";
-import { StarBorder } from "@material-ui/icons";
-import StarsTable from "./starsTable";
-import { starType } from "../../../assets/star";
+import { Collapse, SpeedDial, SpeedDialIcon } from '@mui/material';
+import { StarBorder } from '@material-ui/icons';
+import StarsTable from './starsTable';
+import { starType } from '../../../assets/star';
 
 interface tableProps {
   stars: starType[];
@@ -31,19 +31,19 @@ const NoPriority = ({
   };
   return (
     <Collapse
-      orientation={"horizontal"}
+      orientation="horizontal"
       in={noPriority}
-      sx={{ overflow: "hidden", width: "fit-content", height: "100%" }}
+      sx={{ overflow: 'hidden', width: 'fit-content', height: '100%' }}
       classes={{
-        root: noPriority ? "collapseOpen" : "collapseClosed",
+        root: noPriority ? 'collapseOpen' : 'collapseClosed',
         wrapperInner: noPriority
-          ? "collapseInnerWrapperOpen"
-          : "collapseInnerWrapperClosed",
+          ? 'collapseInnerWrapperOpen'
+          : 'collapseInnerWrapperClosed',
       }}
     >
       <div
         className="noPriority"
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
         onDragOver={(e: any) => {
           e.preventDefault();
         }}
@@ -51,7 +51,7 @@ const NoPriority = ({
       >
         <div className="noPrioirityHeader">
           <SpeedDial
-            sx={{ position: "fixed", left: "110px" }}
+            sx={{ position: 'fixed', left: '110px' }}
             ariaLabel="SpeedDial controlled open example"
             icon={<SpeedDialIcon openIcon={<StarBorder />} />}
             onClick={() => toggleAddStar(true)}

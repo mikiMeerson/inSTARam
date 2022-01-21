@@ -10,11 +10,11 @@ import {
   Button,
   Tooltip,
   MenuItem,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { StarOutline } from "@material-ui/icons";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { StarOutline } from '@material-ui/icons';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import './styles/navbar.css';
 
 type linkDisplayType = {
@@ -23,10 +23,10 @@ type linkDisplayType = {
 };
 
 const pages: linkDisplayType[] = [
-  { display: "סטארים", link: "/stars" },
-  { display: "גיחות", link: "/flights" },
+  { display: 'סטארים', link: '/stars' },
+  { display: 'גיחות', link: '/flights' },
 ];
-const settings = ["Profile", "Logout"];
+const settings = ['Profile', 'Logout'];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -37,19 +37,19 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ background: "goldenrod" }}>
+    <AppBar position="static" sx={{ background: 'goldenrod' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
             <StarOutline fontSize="large" />
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-haspopup="true"
@@ -61,18 +61,18 @@ const Navbar = () => {
             <Menu
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
+                vertical: 'bottom',
+                horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
+                vertical: 'top',
+                horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: 'block', md: 'none' },
               }}
             >
               {pages.map((page: linkDisplayType) => (
@@ -88,11 +88,11 @@ const Navbar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
             <StarOutline fontSize="large" />
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page: linkDisplayType) => (
               <NavLink to={page.link}>
                 <Button
@@ -100,10 +100,10 @@ const Navbar = () => {
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: 2,
-                    fontSize: "large",
-                    color: "white",
-                    display: "block",
-                    marginRight: "15px",
+                    fontSize: 'large',
+                    color: 'white',
+                    display: 'block',
+                    marginRight: '15px',
                   }}
                 >
                   {page.display}
@@ -122,16 +122,16 @@ const Navbar = () => {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: '45px' }}
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
               onClose={() => setAnchorElUser(null)}

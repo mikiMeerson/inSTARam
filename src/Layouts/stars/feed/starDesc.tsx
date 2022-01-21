@@ -28,7 +28,8 @@ const StarDesc = ({ star }: starProps) => {
               color: severityColors[star.severity - 1],
             }}
           >
-            {star.priority > 0 ? star.priority : ''}{' '}
+            {star.priority > 0 ? star.priority : ''}
+            {' '}
           </span>
           {star.name}
         </h1>
@@ -38,7 +39,12 @@ const StarDesc = ({ star }: starProps) => {
         <div className="dataCol">
           <div className="dataRow">
             <Typography variant="caption" sx={{ padding: '7px 7px 7px 0' }}>
-              הועלה ע"י {star.publisher} מתוך {star.event} {star.date}
+              הועלה על עדי
+              {star.publisher}
+              מתוך
+              {star.event}
+              {' '}
+              {star.date}
             </Typography>
           </div>
           <div className="dataRow">

@@ -1,8 +1,8 @@
-import { noteType, starType } from "../../../assets/star";
-import StarActivity from "./starActivity";
-import StarDesc from "./starDesc";
-import StarNotes from "./starNotes";
-import "../styles/feed.css";
+import { noteType, starType } from '../../../assets/star';
+import StarActivity from './starActivity';
+import StarDesc from './starDesc';
+import StarNotes from './starNotes';
+import '../styles/feed.css';
 
 interface starProps {
   star: starType;
@@ -16,9 +16,7 @@ const StarFeed = ({ star, setNotes }: starProps) => {
   };
 
   const deleteNote = (note: noteType) => {
-    star.notes = star.notes.filter((n: noteType) => {
-      return n !== note;
-    });
+    star.notes = star.notes.filter((n: noteType) => n !== note);
     setNotes(star, star.notes);
   };
 
@@ -26,7 +24,11 @@ const StarFeed = ({ star, setNotes }: starProps) => {
     <div className="starFeed">
       <StarDesc star={star} />
       <div className="starDetails">
-        <StarNotes notes={star.notes} addNote={addNote} deleteNote={deleteNote} />
+        <StarNotes
+          notes={star.notes}
+          addNote={addNote}
+          deleteNote={deleteNote}
+        />
         <StarActivity activity={star.activity} />
       </div>
     </div>

@@ -1,6 +1,6 @@
-import { TextField, Avatar, Button } from "@mui/material";
-import { noteType } from "../../../assets/star";
-import { useState } from "react";
+import { TextField, Avatar, Button } from '@mui/material';
+import { useState } from 'react';
+import { noteType } from '../../../assets/star';
 
 interface commentProps {
   replyTo: noteType | undefined;
@@ -9,18 +9,18 @@ interface commentProps {
 }
 
 const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>('');
 
   const addComment = () => {
-    let newNote: noteType = {
+    const newNote: noteType = {
       id: Math.random(),
-      publisher: "מיקי - מאב",
+      publisher: 'מיקי - מאב',
       note: input,
       time: new Date(),
       repliesTo: replyTo?.id,
     };
-    
-    setInput("");
+
+    setInput('');
     setReplyTo(undefined);
     addNote(newNote);
   };
@@ -29,16 +29,16 @@ const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
     <div className="addComment">
       <Avatar id="avatar" alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
       <TextField
-        sx={{ margin: "5px", background: "white" }}
+        sx={{ margin: '5px', background: 'white' }}
         fullWidth
         multiline
         value={input}
         onChange={(e: any) => setInput(e.target.value)}
         variant="outlined"
-        placeholder={replyTo ? `תגובה ל${replyTo.publisher}` : "הוסף הערה..."}
-        
+        placeholder={replyTo ? `תגובה ל${replyTo.publisher}` : 'הוסף הערה...'}
+
       />
-      <Button sx={{ height: "50px", marginTop: "10px" }} onClick={addComment}>
+      <Button sx={{ height: '50px', marginTop: '10px' }} onClick={addComment}>
         פרסם
       </Button>
     </div>

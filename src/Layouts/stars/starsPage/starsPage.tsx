@@ -1,11 +1,11 @@
-import { useState } from "react";
-import StarsTable from "./starsTable";
-import { Button } from "@mui/material";
-import { ChevronRight, MenuOpenSharp } from "@material-ui/icons";
-import "../styles/stars.css";
-import { starType } from "../../../assets/star";
-import AddStar from "./addStar";
-import NoPriority from "./noPriority";
+import { useState } from 'react';
+import { Button } from '@mui/material';
+import { ChevronRight, MenuOpenSharp } from '@material-ui/icons';
+import StarsTable from './starsTable';
+import '../styles/stars.css';
+import { starType } from '../../../assets/star';
+import AddStar from './addStar';
+import NoPriority from './noPriority';
 
 interface starProps {
   stars: starType[];
@@ -53,17 +53,17 @@ const StarsPage = ({
         />
       </div>
       <Button
-        classes={{ root: "collapseButton" }}
+        classes={{ root: 'collapseButton' }}
         variant="contained"
         sx={{
-          height: "60px",
-          width: "40px",
-          borderRadius: "50%",
-          margin: "3%",
-          position: "absolute",
-          background: "black",
+          height: '60px',
+          width: '40px',
+          borderRadius: '50%',
+          margin: '3%',
+          position: 'absolute',
+          background: 'black',
           bottom: 0,
-          left: "5px",
+          left: '5px',
         }}
         onClick={() => toggleNoPriority(!noPriority)}
       >

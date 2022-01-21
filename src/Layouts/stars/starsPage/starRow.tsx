@@ -18,7 +18,6 @@ interface starProps {
   dragged: starType | undefined;
   setDragged: (star: starType | undefined) => void;
 }
-// eslint-disable-next-line react/function-component-definition
 const StarRow = ({
   star,
   setFeed,
@@ -39,7 +38,6 @@ const StarRow = ({
   };
   const handleDragOver = (e: any) => {
     e.preventDefault();
-    e.currentTarget.style.marginTop = '50px';
     e.currentTarget.style.borderTop = '2px solid blue';
   };
 

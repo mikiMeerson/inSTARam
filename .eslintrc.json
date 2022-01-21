@@ -42,12 +42,7 @@
     "no-param-reassign": "off",
     "linebreak-style": "off",
     "no-return-assign": "off",
-    "react/function-component-definition": [
-      2,
-      {
-        "namedComponents": "function-declaration"
-      }
-    ]
+    "react/function-component-definition": "off"
   },
   "settings": {
     "import/resolver": {
