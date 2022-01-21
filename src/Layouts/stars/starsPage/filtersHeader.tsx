@@ -17,7 +17,7 @@ import {
   FlashOn,
   Computer,
 } from '@material-ui/icons';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import {
   statuses,
   assignees,
@@ -99,7 +99,15 @@ const FiltersHeader = ({
     },
   ];
 
-  const primaryFilterFields = [
+  interface filterField {
+    name: string;
+    activation: string;
+    displayName: string;
+    icon: ReactElement<unknown>;
+    width?: string;
+    options?: string[];
+  }
+  const primaryFilterFields: filterField[] = [
     {
       name: 'name',
       width: '120px',
@@ -140,7 +148,7 @@ const FiltersHeader = ({
     },
   ];
 
-  const secondaryFilterFields = [
+  const secondaryFilterFields: filterField[] = [
     {
       name: 'resource',
       activation: 'options',
@@ -178,7 +186,7 @@ const FiltersHeader = ({
               />
             </Button>
           </TableCell>
-          {primaryFilterFields.map((field: any) => (
+          {primaryFilterFields.map((field: filterField) => (
             <TableCell width={field.width} sx={{ textAlign: 'center' }}>
               <Button
                 sx={{
@@ -186,9 +194,9 @@ const FiltersHeader = ({
                   fontWeight: 'bold',
                   textAlign: 'center',
                   background:
-                      lastTab === field.name && (displayOptions || search)
-                        ? 'whitesmoke'
-                        : '',
+                    lastTab === field.name && (displayOptions || search)
+                      ? 'whitesmoke'
+                      : '',
                 }}
                 onClick={() => {
                   if (field.activation === 'search') {
@@ -198,7 +206,7 @@ const FiltersHeader = ({
                     setDisplayOptions(
                       lastTab === field.name ? !displayOptions : true,
                     );
-                    setOptions(field.options);
+                    if (field.options) setOptions(field.options);
                     setSearch(false);
                     setLastTab(field.name);
                   }
@@ -215,7 +223,7 @@ const FiltersHeader = ({
         <TableRow sx={{ display: displayMore ? '' : 'none' }}>
           <TableCell width="60px" />
 
-          {secondaryFilterFields.map((field: any) => (
+          {secondaryFilterFields.map((field: filterField) => (
             <TableCell sx={{ textAlign: 'center' }}>
               <Button
                 sx={{
@@ -224,15 +232,15 @@ const FiltersHeader = ({
                   textAlign: 'center',
                   paddingLeft: 0,
                   background:
-                      lastTab === field.name && (displayOptions || search)
-                        ? 'whitesmoke'
-                        : '',
+                    lastTab === field.name && (displayOptions || search)
+                      ? 'whitesmoke'
+                      : '',
                 }}
                 onClick={() => {
                   setDisplayOptions(
                     lastTab === field.name ? !displayOptions : true,
                   );
-                  setOptions(field.options);
+                  if (field.options) setOptions(field.options);
                   setSearch(false);
                   setLastTab(field.name);
                 }}

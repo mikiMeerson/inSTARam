@@ -8,6 +8,7 @@ import {
   Chip,
   MenuItem,
   Input,
+  SelectChangeEvent,
 } from '@mui/material';
 import { starType, resources, severityColors } from '../../../assets/star';
 
@@ -16,7 +17,7 @@ interface starProps {
 }
 
 const StarDesc = ({ star }: starProps) => {
-  const [resourceList, setResourceList] = useState(star.resources);
+  const [resourceList, setResourceList] = useState<string[]>(star.resources);
 
   return (
     <div className="starDesc">
@@ -68,7 +69,15 @@ const StarDesc = ({ star }: starProps) => {
                 labelId="resources"
                 multiple
                 value={resourceList}
-                onChange={(e: any) => setResourceList(e.target.value)}
+                onChange={(
+                  e: SelectChangeEvent<string[]>,
+                ) => {
+                  let newResources: string[] = [];
+                  if (typeof e.target.value.length === 'string') {
+                    newResources.push(e.target.value as string);
+                  } else newResources = e.target.value as string[];
+                  setResourceList(newResources);
+                }}
                 input={<Input />}
                 renderValue={(selected: string[]) => (
                   <div>

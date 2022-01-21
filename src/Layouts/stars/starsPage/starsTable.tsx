@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import StarRow from './starRow';
 import { starType } from '../../../assets/star';
 import FiltersHeader from './filtersHeader';
@@ -70,12 +70,12 @@ const StarsTable = ({
     return filteredStars;
   };
 
-  const handleDragOver = (e: any) => {
+  const handleDragOver = (e: BaseSyntheticEvent) => {
     e.preventDefault();
     e.currentTarget.style.borderTop = '2px solid blue';
   };
 
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: BaseSyntheticEvent) => {
     e.currentTarget.style.border = 'none';
     if (dragged) {
       const maxPri = stars
@@ -120,7 +120,9 @@ const StarsTable = ({
         <div
           style={{ width: '100%', height: '50px' }}
           onDragOver={handleDragOver}
-          onDragLeave={(e: any) => (e.currentTarget.style.border = 'none')}
+          onDragLeave={
+            (e: BaseSyntheticEvent) => (e.currentTarget.style.border = 'none')
+          }
           onDrop={handleDrop}
         />
       </div>

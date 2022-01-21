@@ -13,6 +13,7 @@ import {
   Input,
   MenuItem,
   Divider,
+  SelectChangeEvent,
 } from '@mui/material';
 import {
   starType,
@@ -70,9 +71,13 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setAttr('severity', e.target.value)}
+                onChange={
+                  (
+                    e: SelectChangeEvent<string>,
+                  ) => setAttr('severity', e.target.value)
+                }
               >
-                {severities.map((sever: any, index: number) => (
+                {severities.map((sever: string, index: number) => (
                   <MenuItem value={index + 1}>
                     {sever}
                   </MenuItem>
@@ -96,7 +101,9 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setAttr('version', e.target.value)}
+                onChange={(
+                  e: SelectChangeEvent<string>,
+                ) => setAttr('version', e.target.value)}
               >
                 {versions.map((version: string) => (
                   <MenuItem key={version} value={version}>
@@ -120,7 +127,9 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setAttr('assignee', e.target.value)}
+                onChange={(
+                  e: SelectChangeEvent<string>,
+                ) => setAttr('assignee', e.target.value)}
               >
                 {assignees.map((assignee: string) => (
                   <MenuItem key={assignee} value={assignee}>
@@ -134,7 +143,9 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setAttr('status', e.target.value)}
+                onChange={(
+                  e: SelectChangeEvent<string>,
+                ) => setAttr('status', e.target.value)}
               >
                 {statuses.map((status: string) => (
                   <MenuItem key={status} value={status}>
@@ -148,7 +159,9 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               <Select
                 variant="outlined"
                 input={<Input />}
-                onChange={(e: any) => setAttr('computer', e.target.value)}
+                onChange={(
+                  e: SelectChangeEvent<string>,
+                ) => setAttr('computer', e.target.value)}
               >
                 {computers.map((computer: string) => (
                   <MenuItem key={computer} value={computer}>
