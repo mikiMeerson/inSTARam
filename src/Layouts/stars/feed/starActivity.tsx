@@ -23,7 +23,7 @@ const StarActivity = ({ activity }: activityProps) => {
     .map((time) => new Date(time));
 
   return (
-    <div className="feedSection">
+    <div className="feedSection" id="activity">
       <Typography variant="h5" paddingBottom="10px">
         פעילות
       </Typography>
