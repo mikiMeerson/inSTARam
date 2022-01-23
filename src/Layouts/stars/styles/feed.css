@@ -103,6 +103,24 @@
     margin-top: 12px;
 }
 
+.activityItem {
+    display: flex;
+    width: 100%;
+    margin: 5px 0 5px 0;
+}
+
+.logIcon {
+    font-size: 22px !important;
+    margin: 0 5px 0 10px;
+}
+
+.logPublisher {
+    color: crimson;
+}
+
+.logValue {
+    color: cornflowerblue;
+}
 /* Redesign scrollbar */
 
 ::-webkit-scrollbar {
