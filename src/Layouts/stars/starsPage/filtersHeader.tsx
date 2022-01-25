@@ -24,26 +24,17 @@ import {
   versions,
   resources,
   computers,
+  filterDataType,
 } from '../../../assets/star';
 
 interface filterProps {
   setSearchValue: (param: string) => void;
-  statusFilter: string;
-  assigneeFilter: string;
-  versionFilter: string;
-  resourceFilter: string;
-  computerFilter: string;
-  setFilter: (field: string, value: string) => void;
+  filtersData: filterDataType[];
 }
 
 const FiltersHeader = ({
   setSearchValue,
-  statusFilter,
-  assigneeFilter,
-  versionFilter,
-  resourceFilter,
-  computerFilter,
-  setFilter,
+  filtersData,
 }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
   const [search, setSearch] = useState(false);
@@ -51,11 +42,11 @@ const FiltersHeader = ({
   const [lastTab, setLastTab] = useState('');
   const [displayMore, setDisplayMore] = useState(false);
 
-  const filterEmpty = statusFilter === ''
-    && assigneeFilter === ''
-    && versionFilter === ''
-    && resourceFilter === ''
-    && computerFilter === '';
+  const filterEmpty = filtersData.every((sf) => sf.filter === '');
+
+  const setFilter = (filter: string, value: string) => {
+    filtersData.find((f) => f.tabName === filter)?.func(value);
+  };
 
   const getFilterMargin = () => {
     if ((displayOptions && !filterEmpty)
@@ -66,38 +57,12 @@ const FiltersHeader = ({
 
   const getOptions = () => {
     const newOptions = options.filter((o) => {
-      if (lastTab === 'status') return o !== statusFilter;
-      if (lastTab === 'assignee') return o !== assigneeFilter;
-      if (lastTab === 'version') return o !== versionFilter;
-      if (lastTab === 'resource') return o !== resourceFilter;
-      if (lastTab === 'computer') return o !== computerFilter;
+      const currentFilter = filtersData.find((f) => f.tabName === lastTab);
+      if (currentFilter) return o !== currentFilter.filter;
       return true;
     });
     return newOptions;
   };
-
-  const selectedFilters = [
-    {
-      filter: statusFilter,
-      tabName: 'status',
-    },
-    {
-      filter: assigneeFilter,
-      tabName: 'assignee',
-    },
-    {
-      filter: versionFilter,
-      tabName: 'version',
-    },
-    {
-      filter: resourceFilter,
-      tabName: 'resource',
-    },
-    {
-      filter: computerFilter,
-      tabName: 'computer',
-    },
-  ];
 
   interface filterField {
     name: string;
@@ -293,7 +258,7 @@ const FiltersHeader = ({
             marginTop: displayOptions || search ? '50px' : 0,
           }}
         >
-          {selectedFilters.map((selected) => (
+          {filtersData.map((selected) => (
             <Chip
               size="medium"
               color="secondary"

@@ -217,3 +217,9 @@ export const defaultStar: starType = {
   notes: [],
   activity: [],
 };
+
+export interface filterDataType {
+  tabName: string;
+  filter: string;
+  func: (param: string) => void;
+}
