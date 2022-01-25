@@ -109,7 +109,7 @@ const FiltersHeader = ({
       activation: 'options',
       options: versions,
       displayName: 'בלוק',
-      icon: <Flight className="dropdownIcon" />,
+      icon: <Flight className="dropdownIcon" style={{ fontSize: '17px' }} />,
     },
   ];
 
