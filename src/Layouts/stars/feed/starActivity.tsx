@@ -18,9 +18,11 @@ const StarActivity = ({ activity }: activityProps) => {
   }
 
   const activityDates = activity
-    .map((log) => log.time).map((date) => date.getTime())
-    .filter((date, i, array) => array.indexOf(date) === i)
-    .map((time) => new Date(time));
+    .map((log) => log.time.getTime())
+    .reduce((allDates, date, i, array) => {
+      array.indexOf(date) === i && allDates.push(new Date(date));
+      return allDates;
+    }, [] as Date[]);
 
   return (
     <div className="feedSection" id="activity">
