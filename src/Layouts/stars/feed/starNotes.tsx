@@ -21,7 +21,7 @@ const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
 
   if (notes.length === 0) {
     return (
-      <div className="feedSection">
+      <div className="feedSection" id="notes">
         <Typography variant="caption">עדיין אין הערות על סטאר זה</Typography>
         <div style={{ display: replyTo ? 'none' : '' }}>
           <AddComment

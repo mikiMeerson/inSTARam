@@ -18,6 +18,7 @@ export type noteType = {
 export type activityLogType = {
   publisher: string;
   action: string;
+  time: Date;
   value?: string;
 };
 
@@ -52,37 +53,65 @@ export const starList: starType[] = [
     publisher: 'גדות - מאב',
     event: 'גיחת ניסוי בלוק ו רעם',
     resources: ['AIF', 'חימוש אמיתי'],
-    desc: 'במסך מסוים אמור להיות מוצג זמן ובמקום הזמן מוצגות סולמיות וזה מאוד מכעיס ולא בסדר',
+    desc: 'במסך מסוים אמור להיות מוצג זמן ובמקום הזמן מוצגות סולמיות וזה מכעיס',
     computer: 'VHSIC',
     notes: [
       {
         id: 1,
         publisher: 'לודה - לצד',
-        note: 'תיאור של דיון הסטארים לאחר גיחת בלוק ו שבו הגענו לכל מיני מסקנות על זה שמאב צריכים מעבדה',
-        time: new Date(),
+        note: 'תיאור של דיון הסטארים שבו הגענו למסקנות על זה שמאב צריכים מעבדה',
+        time: new Date(2012, 5, 26),
       },
       {
         id: 2,
         publisher: 'אריאל - מאב',
         note: 'לא רלוונטי פתרתי הכל לבד עוד לפני הגיחה',
-        time: new Date(),
+        time: new Date(2011, 12, 2),
       },
       {
         id: 3,
         publisher: 'אריאל - מאב',
         note: 'זה ממש נכון אנחנו באמת צריכים ימי מעבדה',
-        time: new Date(),
+        time: new Date(2012, 5, 26),
         repliesTo: 1,
       },
       {
         id: 4,
         publisher: 'יונתן - אמלח',
-        note: 'אני אישית חושב שמאב צריכים לקבל את כל זמן המעבדה בעולם העיקר שלא יפסיקו לעבוד לרגע',
-        time: new Date(),
+        note: 'חושב שמאב צריכים לקבל את כל זמן המעבדה רק שלא יפסיקו לעבוד לרגע',
+        time: new Date(2015, 1, 1),
         repliesTo: 1,
       },
     ],
-    activity: [],
+    activity: [
+      {
+        publisher: 'גדות - מאב',
+        action: 'יצר/ה את הסטאר',
+        time: new Date(2010, 3, 3),
+      },
+      {
+        publisher: 'ינון - מאב',
+        action: 'שינת/ה את הסטטוס',
+        time: new Date(2016, 7, 12),
+        value: 'בתהליך',
+      },
+      {
+        publisher: 'לודה - לצד',
+        action: 'הוסיפ/ה הערה חדשה',
+        time: new Date(2010, 3, 3),
+      },
+      {
+        publisher: 'אריאל - מאב',
+        action: 'הוסיפ/ה הערה חדשה',
+        time: new Date(2015, 1, 15),
+      },
+      {
+        publisher: 'אריאל - מאב',
+        action: 'שינת/ה את הסטטוס',
+        time: new Date(2010, 12, 5),
+        value: 'סגור',
+      },
+    ],
   },
   {
     id: 2,
@@ -99,30 +128,7 @@ export const starList: starType[] = [
     desc: 'במסכים שונים מוצגים סטטוסים שונים',
     computer: 'AIU',
     notes: [],
-    activity: [
-      {
-        publisher: 'גדות - מאב',
-        action: 'יצר את הסטאר',
-      },
-      {
-        publisher: 'ינון - מאב',
-        action: 'שינה את הסטטוס',
-        value: 'בתהליך',
-      },
-      {
-        publisher: 'לודה - לצד',
-        action: 'הוסיפה הערה חדשה',
-      },
-      {
-        publisher: 'אריאל - מאב',
-        action: 'הוסיף הערה חדשה',
-      },
-      {
-        publisher: 'אריאל - מאב',
-        action: 'שינה את הסטטוס',
-        value: 'סגור',
-      },
-    ],
+    activity: [],
   },
   {
     id: 3,
@@ -211,3 +217,9 @@ export const defaultStar: starType = {
   notes: [],
   activity: [],
 };
+
+export interface filterDataType {
+  tabName: string;
+  filter: string;
+  func: (param: string) => void;
+}

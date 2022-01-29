@@ -6,7 +6,7 @@ import {
   Paper,
   Collapse,
 } from '@mui/material';
-import { useState } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import StarExpand from './starExpand';
 import { starType, severityColors } from '../../../assets/star';
 
@@ -36,12 +36,12 @@ const StarRow = ({
   const handleStartDrag = () => {
     setDragged(star);
   };
-  const handleDragOver = (e: any) => {
+  const handleDragOver = (e: BaseSyntheticEvent) => {
     e.preventDefault();
     e.currentTarget.style.borderTop = '2px solid blue';
   };
 
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: BaseSyntheticEvent) => {
     e.currentTarget.style.borderTop = 'none';
     if (dragged) {
       if (star.priority === 0) {
@@ -65,7 +65,9 @@ const StarRow = ({
           draggable
           onDragStart={handleStartDrag}
           onDragOver={handleDragOver}
-          onDragLeave={(e: any) => (e.currentTarget.style.borderTop = 'none')}
+          onDragLeave={
+            (e: BaseSyntheticEvent) => e.currentTarget.style.borderTop = 'none'
+          }
           onDrop={handleDrop}
         >
           <TableCell align="center" width="50px">

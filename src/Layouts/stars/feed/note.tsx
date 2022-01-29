@@ -74,8 +74,7 @@ const Note = ({
                 className="replyButton"
                 onClick={() => {
                   setIsReply(true);
-                  if (replyTo === note) setReplyTo(undefined);
-                  else setReplyTo(note);
+                  replyTo === note ? setReplyTo(undefined) : setReplyTo(note);
                 }}
               />
             </div>

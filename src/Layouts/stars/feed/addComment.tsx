@@ -1,5 +1,5 @@
 import { TextField, Avatar, Button } from '@mui/material';
-import { useState } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import { noteType } from '../../../assets/star';
 
 interface commentProps {
@@ -33,7 +33,7 @@ const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
         fullWidth
         multiline
         value={input}
-        onChange={(e: any) => setInput(e.target.value)}
+        onChange={(e: BaseSyntheticEvent) => setInput(e.target.value)}
         variant="outlined"
         placeholder={replyTo ? `תגובה ל${replyTo.publisher}` : 'הוסף הערה...'}
 

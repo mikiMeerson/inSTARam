@@ -22,7 +22,9 @@ function App() {
   };
 
   const addStar = (star: starType) => {
-    setStars([...stars, star]);
+    const s = JSON.parse(JSON.stringify(star));
+    s.id = Math.random();
+    setStars([...stars, s]);
   };
 
   const changePriority = (star: starType, priority: number) => {

@@ -1,3 +1,4 @@
+import { BaseSyntheticEvent } from 'react';
 import { Collapse, SpeedDial, SpeedDialIcon } from '@mui/material';
 import { StarBorder } from '@material-ui/icons';
 import StarsTable from './starsTable';
@@ -44,7 +45,7 @@ const NoPriority = ({
       <div
         className="noPriority"
         style={{ width: '100%' }}
-        onDragOver={(e: any) => {
+        onDragOver={(e: BaseSyntheticEvent) => {
           e.preventDefault();
         }}
         onDrop={handleDrop}

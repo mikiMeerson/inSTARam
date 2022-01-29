@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { StarOutline } from '@material-ui/icons';
-import { useState } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './styles/navbar.css';
 
@@ -29,11 +29,11 @@ const pages: linkDisplayType[] = [
 const settings = ['Profile', 'Logout'];
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElNav, setAnchorElNav] = useState();
+  const [anchorElUser, setAnchorElUser] = useState();
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAnchorElNav(undefined);
   };
 
   return (
@@ -53,7 +53,9 @@ const Navbar = () => {
             <IconButton
               size="large"
               aria-haspopup="true"
-              onClick={(e: any) => setAnchorElNav(e.currentTarget)}
+              onClick={(
+                e: BaseSyntheticEvent,
+              ) => setAnchorElNav(e.currentTarget)}
               color="inherit"
             >
               <MenuIcon />
@@ -115,7 +117,9 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton
-                onClick={(e: any) => setAnchorElUser(e.currentTarget)}
+                onClick={
+                  (e: BaseSyntheticEvent) => setAnchorElUser(e.currentTarget)
+                }
                 sx={{ p: 0 }}
               >
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -134,7 +138,7 @@ const Navbar = () => {
                 horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
-              onClose={() => setAnchorElUser(null)}
+              onClose={() => setAnchorElUser(undefined)}
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseNavMenu}>
