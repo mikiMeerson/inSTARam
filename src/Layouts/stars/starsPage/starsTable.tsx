@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import StarRow from './starRow';
-import { starType } from '../../../assets/star';
+import { starType, filterDataType } from '../../../assets/star';
 import FiltersHeader from './filtersHeader';
 
 interface starProps {
@@ -11,6 +11,7 @@ interface starProps {
   dragged: starType | undefined;
   setDragged: (star: starType | undefined) => void;
 }
+
 const StarsTable = ({
   stars,
   setFeed,
@@ -26,46 +27,49 @@ const StarsTable = ({
   const [computerFilter, setComputerFilter] = useState<string>('');
   const [searchValue, setSearchValue] = useState('');
 
-  const setFilter = (filter: string, value: string) => {
-    switch (filter) {
-      case 'status':
-        setStatusFilter(value);
-        break;
-      case 'assignee':
-        setAssigneeFilter(value);
-        break;
-      case 'version':
-        setVersionFilter(value);
-        break;
-      case 'resource':
-        setResourceFilter(value);
-        break;
-      case 'computer':
-        setComputerFilter(value);
-        break;
-      default:
-        break;
-    }
-  };
+  const filtersData: filterDataType[] = [
+    {
+      tabName: 'status',
+      filter: statusFilter,
+      func: setStatusFilter,
+    },
+    {
+      tabName: 'assignee',
+      filter: assigneeFilter,
+      func: setAssigneeFilter,
+    },
+    {
+      tabName: 'version',
+      filter: versionFilter,
+      func: setVersionFilter,
+    },
+    {
+      tabName: 'resource',
+      filter: resourceFilter,
+      func: setResourceFilter,
+    },
+    {
+      tabName: 'computer',
+      filter: computerFilter,
+      func: setComputerFilter,
+    },
+  ];
 
   const getFilteredStars = () => {
-    if (
-      statusFilter === ''
-      && assigneeFilter === ''
-      && versionFilter === ''
-      && searchValue === ''
-    ) { return stars; }
+    if (filtersData.every((f) => f.filter === '')) {
+      return stars;
+    }
 
     const filteredStars: starType[] = [];
     stars.forEach((s) => {
-      if (
-        (s.name.includes(searchValue) || searchValue === '')
+      if ((s.name.includes(searchValue) || searchValue === '')
         && (statusFilter === '' || s.status === statusFilter)
         && (versionFilter === '' || s.version === versionFilter)
         && (assigneeFilter === '' || s.assignee === assigneeFilter)
         && (resourceFilter === '' || s.resources.includes(resourceFilter))
-        && (computerFilter === '' || s.computer === computerFilter)
-      ) { filteredStars.push(s); }
+        && (computerFilter === '' || s.computer === computerFilter)) {
+        filteredStars.push(s);
+      }
     });
     return filteredStars;
   };
@@ -95,12 +99,7 @@ const StarsTable = ({
       }}
     >
       <FiltersHeader
-        statusFilter={statusFilter}
-        assigneeFilter={assigneeFilter}
-        versionFilter={versionFilter}
-        resourceFilter={resourceFilter}
-        computerFilter={computerFilter}
-        setFilter={setFilter}
+        filtersData={filtersData}
         setSearchValue={setSearchValue}
       />
       <div className="starsTable">
