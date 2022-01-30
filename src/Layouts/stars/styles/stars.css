@@ -96,12 +96,19 @@
     color: rgb(224, 58, 16);
 }
 
+.addStar {
+    width: 100%;
+}
+.addStar > div > div {
+    width: 500px;
+}
+
 .addStar > div > div > div > p > .dataRow > div {
     margin: 10px 15px 10px 15px;
 }
 
 
-#mui-107, #mui-111, .addStar > div > div > div > p > .dataRow > div > div > input {
+.addStar > div > div > div > p > .dataRow > div > div > input {
     text-align: right !important;
 }
 

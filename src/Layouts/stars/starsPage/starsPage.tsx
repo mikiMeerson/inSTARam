@@ -3,16 +3,15 @@ import { Button } from '@mui/material';
 import { ChevronRight, MenuOpenSharp } from '@material-ui/icons';
 import StarsTable from './starsTable';
 import '../styles/stars.css';
-import { starType } from '../../../assets/star';
 import AddStar from './addStar';
 import NoPriority from './noPriority';
 
 interface starProps {
-  stars: starType[];
-  addStar: (param: starType) => void;
-  removeStar: (param: starType) => void;
-  setFeed: (star: starType) => void;
-  changePriority: (star: starType, priority: number) => void;
+  stars: IStar[];
+  addStar: (e: React.FormEvent, formData: IStar) => void;
+  removeStar: (starId: string) => void;
+  setFeed: (star: IStar) => void;
+  changePriority: (star: IStar, newPri: number) => void;
 }
 const StarsPage = ({
   stars,
@@ -23,7 +22,7 @@ const StarsPage = ({
 }: starProps) => {
   const [noPriority, toggleNoPriority] = useState(true);
   const [openAddStar, toggleOpenAddStar] = useState(false);
-  const [dragged, setDragged] = useState<starType | undefined>(undefined);
+  const [dragged, setDragged] = useState<IStar | undefined>(undefined);
 
   let icon;
   if (noPriority) icon = <MenuOpenSharp fontSize="small" htmlColor="white" />;
@@ -34,6 +33,7 @@ const StarsPage = ({
       <h1>סטארים</h1>
       <div className="stars">
         <StarsTable
+          unpriotized={false}
           stars={stars.filter((star) => star.priority > 0)}
           setFeed={setFeed}
           removeStar={removeStar}

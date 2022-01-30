@@ -77,8 +77,8 @@ const Navbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page: linkDisplayType) => (
-                <NavLink to={page.link} key={page.display}>
+              {pages.map((page: linkDisplayType, index) => (
+                <NavLink to={page.link} key={index}>
                   <MenuItem key={page.display} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page.display}</Typography>
                   </MenuItem>

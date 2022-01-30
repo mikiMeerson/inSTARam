@@ -2,17 +2,16 @@ import { BaseSyntheticEvent } from 'react';
 import { Collapse, SpeedDial, SpeedDialIcon } from '@mui/material';
 import { StarBorder } from '@material-ui/icons';
 import StarsTable from './starsTable';
-import { starType } from '../../../assets/star';
 
 interface tableProps {
-  stars: starType[];
+  stars: IStar[];
   noPriority: boolean;
   toggleAddStar: (param: boolean) => void;
-  setFeed: (param: starType) => void;
-  removeStar: (star: starType) => void;
-  changePriority: (star: starType, priority: number) => void;
-  dragged: starType | undefined;
-  setDragged: (param: starType | undefined) => void;
+  setFeed: (param: IStar) => void;
+  removeStar: (starId: string) => void;
+  changePriority: (star: IStar, priority: number) => void;
+  dragged: IStar | undefined;
+  setDragged: (param: IStar | undefined) => void;
 }
 
 const NoPriority = ({
@@ -60,6 +59,7 @@ const NoPriority = ({
           <h3>ממתינים לתיעדוף</h3>
         </div>
         <StarsTable
+          unpriotized
           setFeed={setFeed}
           stars={stars}
           removeStar={removeStar}

@@ -10,10 +10,10 @@ import {
   Input,
   SelectChangeEvent,
 } from '@mui/material';
-import { starType, resources, severityColors } from '../../../assets/star';
+import { resources, severityColors } from '../../../assets/star';
 
 interface starProps {
-  star: starType;
+  star: IStar;
 }
 
 const StarDesc = ({ star }: starProps) => {
@@ -45,7 +45,7 @@ const StarDesc = ({ star }: starProps) => {
               מתוך
               {star.event}
               {' '}
-              {star.date}
+              {star.createdAt}
             </Typography>
           </div>
           <div className="dataRow">

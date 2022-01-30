@@ -1,18 +1,20 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import StarRow from './starRow';
-import { starType, filterDataType } from '../../../assets/star';
+import { filterDataType } from '../../../assets/star';
 import FiltersHeader from './filtersHeader';
 
 interface starProps {
-  stars: starType[];
-  setFeed: (star: starType) => void;
-  removeStar: (star: starType) => void;
-  changePriority: (star: starType, priority: number) => void;
-  dragged: starType | undefined;
-  setDragged: (star: starType | undefined) => void;
+  unpriotized: boolean;
+  stars: IStar[];
+  setFeed: (star: IStar) => void;
+  removeStar: (starId: string) => void;
+  changePriority: (star: IStar, priority: number) => void;
+  dragged: IStar | undefined;
+  setDragged: (star: IStar | undefined) => void;
 }
 
 const StarsTable = ({
+  unpriotized,
   stars,
   setFeed,
   removeStar,
@@ -60,7 +62,7 @@ const StarsTable = ({
       return stars;
     }
 
-    const filteredStars: starType[] = [];
+    const filteredStars: IStar[] = [];
     stars.forEach((s) => {
       if ((s.name.includes(searchValue) || searchValue === '')
         && (statusFilter === '' || s.status === statusFilter)
@@ -82,12 +84,14 @@ const StarsTable = ({
   const handleDrop = (e: BaseSyntheticEvent) => {
     e.currentTarget.style.border = 'none';
     if (dragged) {
-      const maxPri = stars
-        .sort((a: starType, b: starType) => a.priority - b.priority)
-        .reverse()[0].priority;
-      changePriority(dragged, maxPri + 1);
+      if (unpriotized) changePriority(dragged, 0);
+      else if (stars.length === 0) {
+        changePriority(dragged, 1);
+      } else if (dragged.priority > 0) changePriority(dragged, stars.length);
+      else changePriority(dragged, stars.length + 1);
+
+      setDragged(undefined);
     }
-    setDragged(undefined);
   };
   return (
     <div
@@ -104,10 +108,10 @@ const StarsTable = ({
       />
       <div className="starsTable">
         {getFilteredStars()
-          .sort((a: starType, b: starType) => a.priority - b.priority)
-          .map((star: starType) => (
+          .sort((a: IStar, b: IStar) => a.priority - b.priority)
+          .map((star: IStar) => (
             <StarRow
-              key={star.id}
+              key={star._id}
               star={star}
               setFeed={setFeed}
               removeStar={removeStar}

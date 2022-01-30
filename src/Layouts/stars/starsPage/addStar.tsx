@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { useState } from 'react';
 import {
   Dialog,
@@ -16,7 +17,6 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import {
-  starType,
   defaultStar,
   statuses,
   assignees,
@@ -29,19 +29,14 @@ import '../styles/stars.css';
 interface starProps {
   isOpen: boolean;
   toggleModal: (param: boolean) => void;
-  addStar: (star: starType) => void;
+  addStar: (e: React.FormEvent, star: IStar) => void;
 }
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
-  const [newStar, setNewStar] = useState<starType>(defaultStar);
+  const [formData, setFormData] = useState<IStar | never>(defaultStar);
 
-  const setAttr = (attr: keyof starType, value: string | number) => {
-    setNewStar(Object.assign(newStar, { [attr]: value }));
-  };
-
-  const buildStar = () => {
-    addStar(newStar);
-    toggleModal(false);
+  const setAttr = (attr: keyof IStar, value: string | number) => {
+    setFormData(Object.assign(formData, { [attr]: value }));
   };
 
   return (
@@ -75,7 +70,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
                 }
               >
                 {severities.map((sever: string, index: number) => (
-                  <MenuItem value={index + 1}>
+                  <MenuItem key={index} value={index + 1}>
                     {sever}
                   </MenuItem>
                 ))}
@@ -88,12 +83,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
               variant="standard"
               onChange={(e) => setAttr('event', e.target.value)}
             />
-            <TextField
-              label="תאריך"
-              variant="standard"
-              onChange={(e) => setAttr('date', e.target.value)}
-            />
-            <FormControl sx={{ width: '30%' }}>
+            <FormControl sx={{ width: '45%' }}>
               <InputLabel>בלוק</InputLabel>
               <Select
                 variant="outlined"
@@ -119,7 +109,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             />
           </div>
           <div className="dataRow">
-            <FormControl sx={{ width: '30%' }}>
+            <FormControl sx={{ width: '45%' }}>
               <InputLabel>אחראי</InputLabel>
               <Select
                 variant="outlined"
@@ -135,23 +125,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ width: '30%' }}>
-              <InputLabel>סטטוס</InputLabel>
-              <Select
-                variant="outlined"
-                input={<Input />}
-                onChange={(
-                  e: SelectChangeEvent<string>,
-                ) => setAttr('status', e.target.value)}
-              >
-                {statuses.map((status: string) => (
-                  <MenuItem key={status} value={status}>
-                    {status}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl sx={{ width: '30%' }}>
+            <FormControl sx={{ width: '45%' }}>
               <InputLabel>מחשב</InputLabel>
               <Select
                 variant="outlined"
@@ -181,7 +155,11 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => buildStar()}
+          disabled={formData === undefined}
+          onClick={(e) => {
+            toggleModal(false);
+            formData && addStar(e, formData);
+          }}
         >
           הוסף
         </Button>

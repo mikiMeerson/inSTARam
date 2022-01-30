@@ -8,15 +8,15 @@ import {
 } from '@mui/material';
 import { BaseSyntheticEvent, useState } from 'react';
 import StarExpand from './starExpand';
-import { starType, severityColors } from '../../../assets/star';
+import { severityColors } from '../../../assets/star';
 
 interface starProps {
-  star: starType;
-  setFeed: (star: starType) => void;
-  removeStar: (star: starType) => void;
-  changePriority: (star: starType, priority: number) => void;
-  dragged: starType | undefined;
-  setDragged: (star: starType | undefined) => void;
+  star: IStar;
+  setFeed: (star: IStar) => void;
+  removeStar: (starId: string) => void;
+  changePriority: (star: IStar, priority: number) => void;
+  dragged: IStar | undefined;
+  setDragged: (star: IStar | undefined) => void;
 }
 const StarRow = ({
   star,
@@ -30,7 +30,7 @@ const StarRow = ({
 
   const deleteStar = () => {
     setOpenDesc(false);
-    removeStar(star);
+    removeStar(star._id);
   };
 
   const handleStartDrag = () => {
@@ -83,7 +83,7 @@ const StarRow = ({
           <TableCell width="105px">{star.name}</TableCell>
           <TableCell width="70px">{star.status}</TableCell>
           <TableCell width="70px">{star.assignee}</TableCell>
-          <TableCell width="45px">{star.date}</TableCell>
+          <TableCell width="45px">{star.createdAt}</TableCell>
           <TableCell width="60px">{star.version}</TableCell>
         </TableRow>
       </Table>

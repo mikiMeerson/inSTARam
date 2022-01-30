@@ -2,12 +2,11 @@ import { TextField, Button, Fab } from '@mui/material';
 import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { SaveOutlined, DeleteOutline } from '@material-ui/icons';
-import { starType } from '../../../assets/star';
 
 interface starProps {
-  star: starType;
-  setFeed: (star: starType) => void;
-  removeStar: (star: starType) => void;
+  star: IStar;
+  setFeed: (star: IStar) => void;
+  removeStar: (star: IStar) => void;
 }
 
 const starExpand = ({ star, setFeed, removeStar }: starProps) => (
