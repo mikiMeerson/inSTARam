@@ -40,9 +40,12 @@ const StarDesc = ({ star }: starProps) => {
         <div className="dataCol">
           <div className="dataRow">
             <Typography variant="caption" sx={{ padding: '7px 7px 7px 0' }}>
-              הועלה על עדי
+              הועלה על ידי
+              {' '}
               {star.publisher}
+              {' '}
               מתוך
+              {' '}
               {star.event}
               {' '}
               {star.createdAt}

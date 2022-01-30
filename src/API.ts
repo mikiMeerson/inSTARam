@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
@@ -93,6 +93,19 @@ export const deleteStar = async (
       `${baseUrl}/delete-star/${_id}`,
     );
     return deletedStar;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getStarById = async (
+  _id: string,
+): Promise<AxiosResponse<ApiDataType>> => {
+  try {
+    const star: AxiosResponse<ApiDataType> = await axios.get(
+      `${baseUrl}/star/${_id}`,
+    );
+    return star;
   } catch (error) {
     throw new Error(error as string);
   }

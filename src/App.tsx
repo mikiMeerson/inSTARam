@@ -5,7 +5,7 @@ import StarFeed from './Layouts/stars/feed/starFeed';
 import StarsPage from './Layouts/stars/starsPage/starsPage';
 import Navbar from './Layouts/navbar/navbar';
 import {
-  addStar, deleteStar, getStars, updateStar, updateStars,
+  addStar, deleteStar, getStarById, getStars, updateStars,
 } from './API';
 
 function App() {
@@ -59,6 +59,16 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  const handleShowStar = (starId: string): void => {
+    getStarById(starId)
+      .then(({ status, data }) => {
+        if (status !== 200) {
+          throw new Error('Error! Todo not deleted');
+        }
+        setFeedToDisplay(data.star);
+      })
+      .catch((err) => console.log(err));
+  };
   // const setNotes = (star: starType, notes: noteType[]) => {
   //   star.notes = notes;
   //   const newStars = stars.map((s: starType) => (s === star ? star : s));
@@ -78,7 +88,7 @@ function App() {
                   stars={stars}
                   addStar={handleAddStar}
                   removeStar={handleDeleteStar}
-                  setFeed={setFeedToDisplay}
+                  setFeed={handleShowStar}
                   changePriority={changePriority}
                 />
               )
@@ -92,21 +102,21 @@ function App() {
                   stars={stars}
                   addStar={handleAddStar}
                   removeStar={handleDeleteStar}
-                  setFeed={setFeedToDisplay}
+                  setFeed={handleShowStar}
                   changePriority={changePriority}
                 />
               )
             )}
           />
-          {/* <Route
-            path="/starfeed"
+          <Route
+            path={`/star/${feedToDisplay?._id}`}
             element={feedToDisplay && (
             <StarFeed
               star={feedToDisplay}
-              setNotes={setNotes}
+              // setNotes={setNotes}
             />
             )}
-          /> */}
+          />
         </Routes>
       </div>
     </HashRouter>

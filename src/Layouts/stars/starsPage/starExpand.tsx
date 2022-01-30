@@ -5,7 +5,7 @@ import { SaveOutlined, DeleteOutline } from '@material-ui/icons';
 
 interface starProps {
   star: IStar;
-  setFeed: (star: IStar) => void;
+  setFeed: (id: string) => void;
   removeStar: (star: IStar) => void;
 }
 
@@ -41,7 +41,7 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => (
       />
     </div>
     <div className="starActions">
-      <NavLink to="/starfeed" onClick={() => setFeed(star)}>
+      <NavLink to={`/star/${star._id}`} onClick={() => setFeed(star._id)}>
         <Button variant="contained" sx={{ background: 'goldenrod' }}>
           עבור לעמוד הסטאר
         </Button>

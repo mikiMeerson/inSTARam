@@ -10,7 +10,7 @@ interface starProps {
   stars: IStar[];
   addStar: (e: React.FormEvent, formData: IStar) => void;
   removeStar: (starId: string) => void;
-  setFeed: (star: IStar) => void;
+  setFeed: (id: string) => void;
   changePriority: (star: IStar, newPri: number) => void;
 }
 const StarsPage = ({

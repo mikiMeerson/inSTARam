@@ -6,7 +6,7 @@ import FiltersHeader from './filtersHeader';
 interface starProps {
   unpriotized: boolean;
   stars: IStar[];
-  setFeed: (star: IStar) => void;
+  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;

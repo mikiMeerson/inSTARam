@@ -15,9 +15,10 @@ const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
   const getNotes = () => notes.filter(
     (n: noteType) => n.repliesTo === undefined,
   );
-  const getReplies = (note: noteType) => notes.filter(
-    (n: noteType) => n.repliesTo === note.id,
-  );
+  const getReplies = (note: noteType) => notes;
+  // notes.filter(
+  // (n: noteType) => n.repliesTo === note.id,
+  // );
 
   if (notes.length === 0) {
     return (

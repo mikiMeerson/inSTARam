@@ -13,11 +13,11 @@ const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
 
   const addComment = () => {
     const newNote: noteType = {
-      id: Math.random(),
+      id: 'dsdsd',
       publisher: 'מיקי - מאב',
       note: input,
       time: new Date(),
-      repliesTo: replyTo?.id,
+      // repliesTo: replyTo?.id,
     };
 
     setInput('');

@@ -8,7 +8,7 @@ export const computers = ['AAA', 'BBB', 'CCC', 'DDD'];
 export const severityColors = ['red', 'orange', 'yellow', 'green'];
 
 export type noteType = {
-  id: number;
+  id: string;
   publisher: string;
   note: string;
   time: Date;
@@ -23,7 +23,7 @@ export type activityLogType = {
 };
 
 export type starType = {
-  id: number;
+  id: string;
   priority: number;
   severity: number;
   name: string;

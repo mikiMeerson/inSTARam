@@ -6,10 +6,10 @@ import '../styles/feed.css';
 
 interface starProps {
   star: IStar;
-  setNotes: (star: IStar, notes: noteType[]) => void;
+  // setNotes: (star: IStar, notes: noteType[]) => void;
 }
 
-const StarFeed = ({ star, setNotes }: starProps) => (
+const StarFeed = ({ star }: starProps) => (
   // const addNote = (newNote: noteType) => {
   //   star.notes.push(newNote);
   //   setNotes(star, star.notes);
@@ -21,15 +21,15 @@ const StarFeed = ({ star, setNotes }: starProps) => (
   // };
 
   <div className="starFeed">
-    {/* <StarDesc star={star} />
-    <div className="starDetails">
+    <StarDesc star={star} />
+    {/* <div className="starDetails">
       <StarNotes
         notes={star.notes}
         addNote={addNote}
         deleteNote={deleteNote}
       />
-      <StarActivity activity={star.activity} />
-    </div> */}
+      <StarActivity activity={star.activity} /> */}
+    {/* </div> */}
   </div>
 );
 

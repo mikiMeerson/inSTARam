@@ -27,9 +27,10 @@ const Note = ({
 
   const indent = `${(replyBranch + 40).toString()}px`;
 
-  const getReplies = (currentNote: noteType) => notes.filter(
-    (n: noteType) => n.repliesTo === currentNote.id,
-  );
+  const getReplies = (currentNote: noteType) => notes;
+  //  notes.filter(
+  // (n: noteType) => n.repliesTo === currentNote.id,
+  // );
 
   const getNoteTime = () => `${note.time.getDate()}/${note.time.getMonth() + 1}/
   ${note.time.getFullYear()} ${note.time.getHours()}:${note.time.getMinutes()}`;
