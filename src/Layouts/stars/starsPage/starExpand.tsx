@@ -47,7 +47,7 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
     {
       row: 3,
       label: 'מחשב',
-      defaultValue: star.computer,
+      defaultValue: star.computer ? star.computer : '',
       isMultiline: false,
       width: '30%',
       variant: 'standard',
@@ -55,22 +55,24 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
   ];
   return (
     <div className="starExpand">
-      {[1, 2, 3].map((row) => (
-        <div className="dataRow" style={{ width: '100%' }}>
-          {fields
-            .filter((f) => f.row === row)
-            .map((field) => (
-              <TextField
-                disabled
-                sx={{ width: field.width, margin: '7px' }}
-                label={field.label}
-                defaultValue={field.defaultValue}
-                multiline={field.isMultiline}
-                variant={field.variant}
-              />
-            ))}
-        </div>
-      ))}
+      {Array.from(new Set(fields.map((f) => f.row)))
+        .map((row) => (
+          <div key={row} className="dataRow" style={{ width: '100%' }}>
+            {fields
+              .filter((f) => f.row === row)
+              .map((field) => (
+                <TextField
+                  key={field.label}
+                  disabled
+                  sx={{ width: field.width, margin: '7px' }}
+                  label={field.label}
+                  defaultValue={field.defaultValue}
+                  multiline={field.isMultiline}
+                  variant={field.variant}
+                />
+              ))}
+          </div>
+        ))}
       <div className="starActions">
         <NavLink to="/starFeed" onClick={() => setFeed(star._id)}>
           <Button variant="contained" sx={{ background: 'goldenrod' }}>

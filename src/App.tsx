@@ -112,7 +112,6 @@ function App() {
               <StarFeed
                 star={feedToDisplay}
                 updateStar={handleUpdateStar}
-              // setNotes={setNotes}
               />
             )}
           />

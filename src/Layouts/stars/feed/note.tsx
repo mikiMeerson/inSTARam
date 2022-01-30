@@ -3,16 +3,15 @@ import {
   Grid, Avatar, Typography, Divider,
 } from '@mui/material';
 import { useState } from 'react';
-import { noteType } from '../../../assets/star';
 
 interface noteProps {
-  notes: noteType[];
-  note: noteType;
-  replies: noteType[];
+  notes: INote[];
+  note: INote;
+  replies: INote[];
   replyBranch: number;
-  replyTo: noteType | undefined;
-  setReplyTo: (param: noteType | undefined) => void;
-  deleteNote: (note: noteType) => void;
+  replyTo: INote | undefined;
+  setReplyTo: (param: INote | undefined) => void;
+  // deleteNote: (note: INote) => void;
 }
 const Note = ({
   notes,
@@ -21,19 +20,22 @@ const Note = ({
   replyBranch,
   replyTo,
   setReplyTo,
-  deleteNote,
+  // deleteNote,
 }: noteProps) => {
   const [isReply, setIsReply] = useState(false);
 
   const indent = `${(replyBranch + 40).toString()}px`;
 
-  const getReplies = (currentNote: noteType) => notes;
-  //  notes.filter(
-  // (n: noteType) => n.repliesTo === currentNote.id,
-  // );
+  const getReplies = (currentNote: INote) => notes.filter(
+    (n: INote) => n.repliesTo === currentNote._id,
+  );
 
-  const getNoteTime = () => `${note.time.getDate()}/${note.time.getMonth() + 1}/
-  ${note.time.getFullYear()} ${note.time.getHours()}:${note.time.getMinutes()}`;
+  const getNoteTime = () => {
+    const date = note.createdAt ? new Date(note.createdAt) : undefined;
+    const displayDate = date && `${date.getDate()}/${date.getMonth() + 1}/
+      ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    return displayDate;
+  };
 
   return (
     <>
@@ -69,7 +71,7 @@ const Note = ({
                   display: note.publisher === 'מיקי - מאב' ? '' : 'none',
                 }}
                 className="deleteButton"
-                onClick={() => deleteNote(note)}
+                // onClick={() => deleteNote(note)}
               />
               <ReplyOutlined
                 className="replyButton"
@@ -90,7 +92,7 @@ const Note = ({
             replyBranch={replyBranch + 1}
             replyTo={replyTo}
             setReplyTo={setReplyTo}
-            deleteNote={deleteNote}
+            // deleteNote={deleteNote}
           />
         ))}
       </Grid>

@@ -2,9 +2,9 @@ import axios, { AxiosResponse } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
-export const getStars = async (): Promise<AxiosResponse<ApiDataType>> => {
+export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const stars: AxiosResponse<ApiDataType> = await axios.get(
+    const stars: AxiosResponse<ApiStarsType> = await axios.get(
       `${baseUrl}/stars`,
     );
     return stars;
@@ -15,7 +15,7 @@ export const getStars = async (): Promise<AxiosResponse<ApiDataType>> => {
 
 export const addStar = async (
   formData: IStar,
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const star: Omit<IStar, '_id'> = {
       priority: 0,
@@ -30,7 +30,7 @@ export const addStar = async (
       desc: formData.desc,
       computer: formData.computer,
     };
-    const saveStar: AxiosResponse<ApiDataType> = await axios.post(
+    const saveStar: AxiosResponse<ApiStarsType> = await axios.post(
       `${baseUrl}/add-star`,
       star,
     );
@@ -43,9 +43,9 @@ export const addStar = async (
 export const updateStar = async (
   starId: string,
   newStar: IStar,
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const updatedStar: AxiosResponse<ApiDataType> = await axios.put(
+    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
       `${baseUrl}/edit-star/${starId}`,
       newStar,
     );
@@ -59,11 +59,11 @@ export const updateStarField = async (
   field: keyof IStar,
   star: IStar,
   newValue: number | string,
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const starUpdate = Object.assign(star, { [field]: newValue });
 
-    const updatedStar: AxiosResponse<ApiDataType> = await axios.put(
+    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
       `${baseUrl}/edit-star/${star._id}`,
       starUpdate,
     );
@@ -77,10 +77,10 @@ export const updatePriorities = async (
   draggedStar: IStar,
   newPri: number,
   stars: IStar[],
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     let axiosRes: Promise<
-      AxiosResponse<ApiDataType>
+      AxiosResponse<ApiStarsType>
     > = updateStarField('priority', draggedStar, newPri);
 
     let index: number;
@@ -102,9 +102,9 @@ export const updatePriorities = async (
 
 export const deleteStar = async (
   _id: string,
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const deletedStar: AxiosResponse<ApiDataType> = await axios.delete(
+    const deletedStar: AxiosResponse<ApiStarsType> = await axios.delete(
       `${baseUrl}/delete-star/${_id}`,
     );
     return deletedStar;
@@ -115,12 +115,45 @@ export const deleteStar = async (
 
 export const getStarById = async (
   _id: string,
-): Promise<AxiosResponse<ApiDataType>> => {
+): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const star: AxiosResponse<ApiDataType> = await axios.get(
+    const star: AxiosResponse<ApiStarsType> = await axios.get(
       `${baseUrl}/star/${_id}`,
     );
     return star;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getNotes = async (starId: string)
+: Promise<AxiosResponse<ApiNotesType>> => {
+  try {
+    const notes: AxiosResponse<ApiNotesType> = await axios.get(
+      `${baseUrl}/notes/${starId}`,
+    );
+    console.log(notes);
+    return notes;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const addNote = async (
+  noteData: INote,
+): Promise<AxiosResponse<ApiNotesType>> => {
+  try {
+    const note: Omit<INote, '_id'> = {
+      starId: noteData.starId,
+      note: noteData.note,
+      publisher: noteData.publisher,
+      repliesTo: noteData.repliesTo,
+    };
+    const saveNote: AxiosResponse<ApiNotesType> = await axios.post(
+      `${baseUrl}/add-note`,
+      note,
+    );
+    return saveNote;
   } catch (error) {
     throw new Error(error as string);
   }
