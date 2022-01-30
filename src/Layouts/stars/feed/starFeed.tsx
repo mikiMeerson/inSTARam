@@ -6,10 +6,11 @@ import '../styles/feed.css';
 
 interface starProps {
   star: IStar;
+  updateStar: (starId: string, formData: IStar) => void;
   // setNotes: (star: IStar, notes: noteType[]) => void;
 }
 
-const StarFeed = ({ star }: starProps) => (
+const StarFeed = ({ star, updateStar }: starProps) => (
   // const addNote = (newNote: noteType) => {
   //   star.notes.push(newNote);
   //   setNotes(star, star.notes);
@@ -21,7 +22,7 @@ const StarFeed = ({ star }: starProps) => (
   // };
 
   <div className="starFeed">
-    <StarDesc star={star} />
+    <StarDesc star={star} updateStar={updateStar} />
     {/* <div className="starDetails">
       <StarNotes
         notes={star.notes}

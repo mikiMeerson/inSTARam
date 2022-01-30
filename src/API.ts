@@ -41,13 +41,28 @@ export const addStar = async (
 };
 
 export const updateStar = async (
-  star: IStar,
-  newPri: number,
+  starId: string,
+  newStar: IStar,
 ): Promise<AxiosResponse<ApiDataType>> => {
   try {
-    const starUpdate: Pick<IStar, 'priority'> = {
-      priority: newPri,
-    };
+    const updatedStar: AxiosResponse<ApiDataType> = await axios.put(
+      `${baseUrl}/edit-star/${starId}`,
+      newStar,
+    );
+    return updatedStar;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const updateStarField = async (
+  field: keyof IStar,
+  star: IStar,
+  newValue: number | string,
+): Promise<AxiosResponse<ApiDataType>> => {
+  try {
+    const starUpdate = Object.assign(star, { [field]: newValue });
+
     const updatedStar: AxiosResponse<ApiDataType> = await axios.put(
       `${baseUrl}/edit-star/${star._id}`,
       starUpdate,
@@ -58,7 +73,7 @@ export const updateStar = async (
   }
 };
 
-export const updateStars = async (
+export const updatePriorities = async (
   draggedStar: IStar,
   newPri: number,
   stars: IStar[],
@@ -66,7 +81,7 @@ export const updateStars = async (
   try {
     let axiosRes: Promise<
       AxiosResponse<ApiDataType>
-    > = updateStar(draggedStar, newPri);
+    > = updateStarField('priority', draggedStar, newPri);
 
     let index: number;
     index = newPri === 1 ? 2 : 1;
@@ -74,7 +89,7 @@ export const updateStars = async (
       .filter((s) => s.priority > 0 && s !== draggedStar)
       .sort((a, b) => a.priority - b.priority)
       .forEach((s) => {
-        axiosRes = updateStar(s, index);
+        axiosRes = updateStarField('priority', s, index);
         index += 1;
         if (index === newPri) index += 1;
       });

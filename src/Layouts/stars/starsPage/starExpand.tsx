@@ -41,7 +41,7 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => (
       />
     </div>
     <div className="starActions">
-      <NavLink to={`/star/${star._id}`} onClick={() => setFeed(star._id)}>
+      <NavLink to="/starFeed" onClick={() => setFeed(star._id)}>
         <Button variant="contained" sx={{ background: 'goldenrod' }}>
           עבור לעמוד הסטאר
         </Button>
@@ -49,9 +49,6 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => (
       <div className="actionButtons">
         <Fab size="small" id="delete" onClick={() => removeStar(star)}>
           <DeleteOutline />
-        </Fab>
-        <Fab size="small" id="save" color="primary">
-          <SaveOutlined />
         </Fab>
       </div>
     </div>

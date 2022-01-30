@@ -5,7 +5,7 @@ import StarFeed from './Layouts/stars/feed/starFeed';
 import StarsPage from './Layouts/stars/starsPage/starsPage';
 import Navbar from './Layouts/navbar/navbar';
 import {
-  addStar, deleteStar, getStarById, getStars, updateStars,
+  addStar, deleteStar, getStarById, getStars, updatePriorities, updateStar,
 } from './API';
 
 function App() {
@@ -49,7 +49,7 @@ function App() {
 
   const changePriority = (draggedStar: IStar, newPri: number) => {
     console.log(newPri);
-    updateStars(draggedStar, newPri, stars)
+    updatePriorities(draggedStar, newPri, stars)
       .then(({ status, data }) => {
         if (status !== 200) {
           throw new Error('Error! star not deleted');
@@ -57,6 +57,19 @@ function App() {
         setStars(data.stars);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleUpdateStar = (
+    starId: string,
+    formData: IStar,
+  ) => {
+    updateStar(starId, formData)
+      .then(({ status, data }) => {
+        if (status !== 200) {
+          throw new Error('Error! star not updated');
+        }
+        setStars(data.stars);
+      });
   };
 
   const handleShowStar = (starId: string): void => {
@@ -69,52 +82,38 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
-  // const setNotes = (star: starType, notes: noteType[]) => {
-  //   star.notes = notes;
-  //   const newStars = stars.map((s: starType) => (s === star ? star : s));
-  //   setStars(newStars);
-  // };
 
   return (
     <HashRouter>
       <div className="App" dir="rtl">
         <Navbar />
         <Routes>
+          {['/', '/stars'].map(
+            (path) => (
+              <Route
+                path={path}
+                element={(
+                  stars && (
+                    <StarsPage
+                      stars={stars}
+                      addStar={handleAddStar}
+                      removeStar={handleDeleteStar}
+                      setFeed={handleShowStar}
+                      changePriority={changePriority}
+                    />
+                  )
+                )}
+              />
+            ),
+          )}
           <Route
-            path="/"
-            element={(
-              stars && (
-                <StarsPage
-                  stars={stars}
-                  addStar={handleAddStar}
-                  removeStar={handleDeleteStar}
-                  setFeed={handleShowStar}
-                  changePriority={changePriority}
-                />
-              )
-            )}
-          />
-          <Route
-            path="/stars"
-            element={(
-              stars && (
-                <StarsPage
-                  stars={stars}
-                  addStar={handleAddStar}
-                  removeStar={handleDeleteStar}
-                  setFeed={handleShowStar}
-                  changePriority={changePriority}
-                />
-              )
-            )}
-          />
-          <Route
-            path={`/star/${feedToDisplay?._id}`}
+            path="/starFeed"
             element={feedToDisplay && (
-            <StarFeed
-              star={feedToDisplay}
+              <StarFeed
+                star={feedToDisplay}
+                updateStar={handleUpdateStar}
               // setNotes={setNotes}
-            />
+              />
             )}
           />
         </Routes>

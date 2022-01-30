@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import {
   defaultStar,
-  statuses,
   assignees,
   severities,
   versions,
