@@ -6,9 +6,9 @@ import AddComment from './addComment';
 interface notesProps {
   notes: INote[];
   addNote: (note: INote) => void;
-  // deleteNote: (note: INote) => void;
+  deleteNote: (noteId: string) => void;
 }
-const StarNotes = ({ notes, addNote }: notesProps) => {
+const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
   const [replyTo, setReplyTo] = useState<INote | undefined>(undefined);
 
   const getNotes = () => notes.filter(
@@ -47,7 +47,7 @@ const StarNotes = ({ notes, addNote }: notesProps) => {
             key={note._id}
             replyTo={replyTo}
             setReplyTo={setReplyTo}
-            // deleteNote={deleteNote}
+            deleteNote={deleteNote}
           />
         ))}
       </div>

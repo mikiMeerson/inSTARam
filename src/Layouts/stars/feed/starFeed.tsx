@@ -4,7 +4,7 @@ import StarActivity from './starActivity';
 import StarDesc from './starDesc';
 import StarNotes from './starNotes';
 import '../styles/feed.css';
-import { addNote, getNotes } from '../../../API';
+import { addNote, deleteNotes, getNotes } from '../../../API';
 
 interface starProps {
   star: IStar;
@@ -14,35 +14,40 @@ interface starProps {
 
 const StarFeed = ({ star, updateStar }: starProps) => {
   const [notes, setNotes] = useState<INote[]>([]);
-
-  const fetchNotes = (): void => {
-    getNotes(star._id)
-      .then((res) => {
-        setNotes(res.data.notes);
-      })
-      .catch((err: Error) => console.log(err));
-  };
-
   useEffect(() => {
+    const fetchNotes = (): void => {
+      getNotes(star._id)
+        .then((res) => {
+          setNotes(res.data.notes);
+        })
+        .catch((err: Error) => console.log(err));
+    };
     fetchNotes();
-  }, []);
+  }, [notes, star._id]);
 
   const handleAddNote = (noteData: INote): void => {
     noteData.starId = star._id;
     addNote(noteData)
       .then(({ status, data }) => {
         if (status !== 201) {
-          throw new Error('Error! Todo not saved');
+          throw new Error('Error! note not saved');
         }
         setNotes(data.notes);
       })
       .catch((err: string) => console.log(err));
   };
 
-  // const deleteNote = (note: noteType) => {
-  //   star.notes = star.notes.filter((n: noteType) => n !== note);
-  //   setNotes(star, star.notes);
-  // };
+  const handleDeleteNote = (noteId: string): void => {
+    deleteNotes(noteId, notes)
+      .then(({ status, data }) => {
+        if (status !== 201) {
+          throw new Error('Error! note not deleted');
+        }
+        setNotes(data.notes);
+      })
+      .catch((err: string) => console.log(err));
+  };
+
   return (
     <div className="starFeed">
       <StarDesc star={star} updateStar={updateStar} />
@@ -50,7 +55,7 @@ const StarFeed = ({ star, updateStar }: starProps) => {
         <StarNotes
           notes={notes}
           addNote={handleAddNote}
-          // deleteNote={deleteNote}
+          deleteNote={handleDeleteNote}
         />
         {/* <StarActivity activity={star.activity} /> */}
       </div>

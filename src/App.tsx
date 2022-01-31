@@ -29,7 +29,7 @@ function App() {
     addStar(formData)
       .then(({ status, data }) => {
         if (status !== 201) {
-          throw new Error('Error! Todo not saved');
+          throw new Error('Error! star not saved');
         }
         setStars(data.stars);
       })
@@ -40,7 +40,7 @@ function App() {
     deleteStar(_id)
       .then(({ status, data }) => {
         if (status !== 200) {
-          throw new Error('Error! Todo not deleted');
+          throw new Error('Error! Star not deleted');
         }
         setStars(data.stars);
       })
@@ -48,7 +48,6 @@ function App() {
   };
 
   const changePriority = (draggedStar: IStar, newPri: number) => {
-    console.log(newPri);
     updatePriorities(draggedStar, newPri, stars)
       .then(({ status, data }) => {
         if (status !== 200) {
@@ -107,13 +106,24 @@ function App() {
             ),
           )}
           <Route
-            path="/starFeed"
-            element={feedToDisplay && (
-              <StarFeed
-                star={feedToDisplay}
-                updateStar={handleUpdateStar}
-              />
-            )}
+            path={feedToDisplay ? `/star/${feedToDisplay._id}` : '/'}
+            element={
+              feedToDisplay ? (
+                <StarFeed
+                  star={feedToDisplay}
+                  updateStar={handleUpdateStar}
+                />
+              ) : (
+                // todo should be star not found page
+                <StarsPage
+                  stars={stars}
+                  addStar={handleAddStar}
+                  removeStar={handleDeleteStar}
+                  setFeed={handleShowStar}
+                  changePriority={changePriority}
+                />
+              )
+            }
           />
         </Routes>
       </div>

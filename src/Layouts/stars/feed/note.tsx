@@ -11,7 +11,7 @@ interface noteProps {
   replyBranch: number;
   replyTo: INote | undefined;
   setReplyTo: (param: INote | undefined) => void;
-  // deleteNote: (note: INote) => void;
+  deleteNote: (noteId: string) => void;
 }
 const Note = ({
   notes,
@@ -20,7 +20,7 @@ const Note = ({
   replyBranch,
   replyTo,
   setReplyTo,
-  // deleteNote,
+  deleteNote,
 }: noteProps) => {
   const [isReply, setIsReply] = useState(false);
 
@@ -71,7 +71,7 @@ const Note = ({
                   display: note.publisher === 'מיקי - מאב' ? '' : 'none',
                 }}
                 className="deleteButton"
-                // onClick={() => deleteNote(note)}
+                onClick={() => deleteNote(note._id)}
               />
               <ReplyOutlined
                 className="replyButton"
@@ -92,7 +92,7 @@ const Note = ({
             replyBranch={replyBranch + 1}
             replyTo={replyTo}
             setReplyTo={setReplyTo}
-            // deleteNote={deleteNote}
+            deleteNote={deleteNote}
           />
         ))}
       </Grid>

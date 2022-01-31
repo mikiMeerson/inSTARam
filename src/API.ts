@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { Axios, AxiosResponse } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
@@ -127,12 +127,11 @@ export const getStarById = async (
 };
 
 export const getNotes = async (starId: string)
-: Promise<AxiosResponse<ApiNotesType>> => {
+  : Promise<AxiosResponse<ApiNotesType>> => {
   try {
     const notes: AxiosResponse<ApiNotesType> = await axios.get(
       `${baseUrl}/notes/${starId}`,
     );
-    console.log(notes);
     return notes;
   } catch (error) {
     throw new Error(error as string);
@@ -154,6 +153,39 @@ export const addNote = async (
       note,
     );
     return saveNote;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const deleteSingleNote = async (
+  _id: string,
+): Promise<AxiosResponse<ApiNotesType>> => {
+  try {
+    const deletedNote: AxiosResponse<ApiNotesType> = await axios.delete(
+      `${baseUrl}/delete-note/${_id}`,
+    );
+    return deletedNote;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const deleteNotes = async (
+  _id: string,
+  notes: INote[],
+): Promise<AxiosResponse<ApiNotesType>> => {
+  try {
+    let axiosRes: Promise<
+      AxiosResponse<ApiNotesType>
+    > = deleteSingleNote(_id);
+
+    notes
+      .filter((n) => n.repliesTo === _id)
+      .forEach((n) => {
+        axiosRes = deleteNotes(n._id, notes);
+      });
+    return axiosRes;
   } catch (error) {
     throw new Error(error as string);
   }

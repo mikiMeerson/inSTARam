@@ -74,7 +74,7 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
           </div>
         ))}
       <div className="starActions">
-        <NavLink to="/starFeed" onClick={() => setFeed(star._id)}>
+        <NavLink to={`/star/${star._id}`} onClick={() => setFeed(star._id)}>
           <Button variant="contained" sx={{ background: 'goldenrod' }}>
             עבור לעמוד הסטאר
           </Button>
