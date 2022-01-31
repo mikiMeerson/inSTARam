@@ -5,7 +5,12 @@ import StarFeed from './Layouts/stars/feed/starFeed';
 import StarsPage from './Layouts/stars/starsPage/starsPage';
 import Navbar from './Layouts/navbar/navbar';
 import {
-  addStar, deleteStar, getStars, updateStar, updateStars,
+  addStar,
+  deleteStar,
+  getStarById,
+  getStars,
+  updatePriorities,
+  updateStar,
 } from './API';
 
 function App() {
@@ -27,86 +32,97 @@ function App() {
   const handleAddStar = (e: React.FormEvent, formData: IStar): void => {
     e.preventDefault();
     addStar(formData)
-      .then(({ status, data }) => {
+      .then(({ status }) => {
         if (status !== 201) {
-          throw new Error('Error! Todo not saved');
+          throw new Error('Error! star not saved');
         }
-        setStars(data.stars);
+        fetchStars();
       })
       .catch((err: string) => console.log(err));
   };
 
   const handleDeleteStar = (_id: string): void => {
-    deleteStar(_id)
+    deleteStar(_id);
+  };
+
+  const changePriority = (draggedStar: IStar, newPri: number) => {
+    updatePriorities(draggedStar, newPri, stars)
+      .then(({ status }) => {
+        if (status !== 200) {
+          throw new Error('Error! star not deleted');
+        }
+        fetchStars();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleUpdateStar = (
+    starId: string,
+    formData: IStar,
+  ) => {
+    updateStar(starId, formData)
+      .then(({ status, data }) => {
+        if (status !== 200) {
+          throw new Error('Error! star not updated');
+        }
+        setStars(data.stars);
+      });
+  };
+
+  const handleShowStar = (starId: string): void => {
+    getStarById(starId)
       .then(({ status, data }) => {
         if (status !== 200) {
           throw new Error('Error! Todo not deleted');
         }
-        setStars(data.stars);
+        setFeedToDisplay(data.star);
       })
       .catch((err) => console.log(err));
   };
-
-  const changePriority = (draggedStar: IStar, newPri: number) => {
-    console.log(newPri);
-    updateStars(draggedStar, newPri, stars)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error('Error! star not deleted');
-        }
-        setStars(data.stars);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  // const setNotes = (star: starType, notes: noteType[]) => {
-  //   star.notes = notes;
-  //   const newStars = stars.map((s: starType) => (s === star ? star : s));
-  //   setStars(newStars);
-  // };
 
   return (
     <HashRouter>
       <div className="App" dir="rtl">
         <Navbar />
         <Routes>
+          {['/', '/stars'].map(
+            (path) => (
+              <Route
+                path={path}
+                element={(
+                  stars && (
+                    <StarsPage
+                      stars={stars}
+                      addStar={handleAddStar}
+                      removeStar={handleDeleteStar}
+                      setFeed={handleShowStar}
+                      changePriority={changePriority}
+                    />
+                  )
+                )}
+              />
+            ),
+          )}
           <Route
-            path="/"
-            element={(
-              stars && (
+            path={feedToDisplay ? `/star/${feedToDisplay._id}` : '/'}
+            element={
+              feedToDisplay ? (
+                <StarFeed
+                  star={feedToDisplay}
+                  updateStar={handleUpdateStar}
+                />
+              ) : (
+                // todo should be star not found page
                 <StarsPage
                   stars={stars}
                   addStar={handleAddStar}
                   removeStar={handleDeleteStar}
-                  setFeed={setFeedToDisplay}
+                  setFeed={handleShowStar}
                   changePriority={changePriority}
                 />
               )
-            )}
+            }
           />
-          <Route
-            path="/stars"
-            element={(
-              stars && (
-                <StarsPage
-                  stars={stars}
-                  addStar={handleAddStar}
-                  removeStar={handleDeleteStar}
-                  setFeed={setFeedToDisplay}
-                  changePriority={changePriority}
-                />
-              )
-            )}
-          />
-          {/* <Route
-            path="/starfeed"
-            element={feedToDisplay && (
-            <StarFeed
-              star={feedToDisplay}
-              setNotes={setNotes}
-            />
-            )}
-          /> */}
         </Routes>
       </div>
     </HashRouter>

@@ -12,7 +12,7 @@ import { severityColors } from '../../../assets/star';
 
 interface starProps {
   star: IStar;
-  setFeed: (star: IStar) => void;
+  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;

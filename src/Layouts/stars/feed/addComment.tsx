@@ -1,23 +1,24 @@
 import { TextField, Avatar, Button } from '@mui/material';
 import { BaseSyntheticEvent, useState } from 'react';
-import { noteType } from '../../../assets/star';
 
 interface commentProps {
-  replyTo: noteType | undefined;
-  setReplyTo: (param: noteType | undefined) => void;
-  addNote: (note: noteType) => void;
+  replyTo: INote | undefined;
+  setReplyTo: (param: INote | undefined) => void;
+  addNote: (note: INote) => void;
 }
 
-const AddComment = ({ replyTo, setReplyTo, addNote }: commentProps) => {
+const AddComment = ({
+  replyTo, setReplyTo, addNote,
+}: commentProps) => {
   const [input, setInput] = useState<string>('');
 
   const addComment = () => {
-    const newNote: noteType = {
-      id: Math.random(),
+    const newNote: INote = {
+      _id: Math.random().toString(),
+      starId: '0',
       publisher: 'מיקי - מאב',
       note: input,
-      time: new Date(),
-      repliesTo: replyTo?.id,
+      repliesTo: replyTo?._id,
     };
 
     setInput('');

@@ -45,7 +45,8 @@
     "react/function-component-definition": "off",
     "no-unused-expressions": "off",
     "no-underscore-dangle": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-console": "off"
   },
   "settings": {
     "import/resolver": {

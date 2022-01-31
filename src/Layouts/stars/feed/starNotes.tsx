@@ -1,22 +1,21 @@
 import { Typography } from '@mui/material';
 import { useState } from 'react';
-import { noteType } from '../../../assets/star';
 import Note from './note';
 import AddComment from './addComment';
 
 interface notesProps {
-  notes: noteType[];
-  addNote: (note: noteType) => void;
-  deleteNote: (note: noteType) => void;
+  notes: INote[];
+  addNote: (note: INote) => void;
+  deleteNote: (noteId: string) => void;
 }
 const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
-  const [replyTo, setReplyTo] = useState<noteType | undefined>(undefined);
+  const [replyTo, setReplyTo] = useState<INote | undefined>(undefined);
 
   const getNotes = () => notes.filter(
-    (n: noteType) => n.repliesTo === undefined,
+    (n: INote) => n.repliesTo === undefined,
   );
-  const getReplies = (note: noteType) => notes.filter(
-    (n: noteType) => n.repliesTo === note.id,
+  const getReplies = (note: INote) => notes.filter(
+    (n: INote) => n.repliesTo === note._id,
   );
 
   if (notes.length === 0) {
@@ -34,18 +33,18 @@ const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
     );
   }
   return (
-    <div className="feedSection">
+    <div className="feedSection" id="notes">
       <Typography variant="h5" paddingBottom="10px" height="10%">
         הערות
       </Typography>
       <div style={{ overflow: 'scroll', height: '65%' }}>
-        {getNotes().map((note: noteType) => (
+        {getNotes().map((note: INote) => (
           <Note
             notes={notes}
             note={note}
             replies={getReplies(note)}
             replyBranch={0}
-            key={note.id}
+            key={note._id}
             replyTo={replyTo}
             setReplyTo={setReplyTo}
             deleteNote={deleteNote}

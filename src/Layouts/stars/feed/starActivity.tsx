@@ -1,15 +1,14 @@
 import { Typography } from '@mui/material';
-import { activityLogType } from '../../../assets/star';
 import ActivityItem from './activityItem';
 
 interface activityProps {
-  activity: activityLogType[];
+  activity: IActivity[];
 }
 
 const StarActivity = ({ activity }: activityProps) => {
   if (activity.length === 0) {
     return (
-      <div className="feedSection">
+      <div className="feedSection" id="activity">
         <Typography variant="caption">
           לא נעשתה פעילות בסטאר זה
         </Typography>
@@ -17,8 +16,17 @@ const StarActivity = ({ activity }: activityProps) => {
     );
   }
 
+  const getDisplayDate = (time: Date) => {
+    const displayDate = `${time.getFullYear()} 
+          ${time.getDate()} 
+          ${time.toLocaleString('default', { month: 'long' })}`;
+    return displayDate || '';
+  };
+
   const activityDates = activity
-    .map((log) => log.time.getTime())
+    .map(
+      (log) => (log.createdAt ? getDisplayDate(new Date(log.createdAt)) : ''),
+    )
     .reduce((allDates, date, i, array) => {
       array.indexOf(date) === i && allDates.push(new Date(date));
       return allDates;
@@ -34,15 +42,16 @@ const StarActivity = ({ activity }: activityProps) => {
         {activityDates.map((currDate) => (
           <div style={{ textAlign: 'right' }}>
             <Typography variant="caption">
-              {`${currDate.getFullYear()} 
-              ${currDate.getDate()} 
-              ${currDate.toLocaleString('default', { month: 'long' })}`}
+              {getDisplayDate(currDate)}
             </Typography>
             {
               activity.filter(
-                (log) => log.time.getTime() === currDate.getTime(),
+                (log) => log.createdAt
+                  && new Date(
+                    getDisplayDate(new Date(log.createdAt)),
+                  ).getTime() === currDate.getTime(),
               )
-                .map((log: activityLogType) => (
+                .map((log: IActivity) => (
                   <ActivityItem log={log} />
                 ))
             }
