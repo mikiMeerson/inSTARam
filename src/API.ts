@@ -100,7 +100,7 @@ export const updatePriorities = async (
   }
 };
 
-export const deleteStar = async (
+export const deleteSingleStar = async (
   _id: string,
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
@@ -197,7 +197,6 @@ export const getActivities = async (starId: string)
     const activities: AxiosResponse<ApiActivitiesType> = await axios.get(
       `${baseUrl}/activities/${starId}`,
     );
-    console.log(activities);
     return activities;
   } catch (error) {
     throw new Error(error as string);
@@ -219,6 +218,43 @@ export const addActivity = async (
       activity,
     );
     return saveActivity;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const deleteActivity = async (
+  _id: string,
+): Promise<AxiosResponse<ApiActivitiesType>> => {
+  try {
+    const deletedActivity: AxiosResponse<
+      ApiActivitiesType
+    > = await axios.delete(
+      `${baseUrl}/delete-activity/${_id}`,
+    );
+    return deletedActivity;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const deleteStar = async (
+  _id: string,
+) => {
+  try {
+    deleteSingleStar(_id);
+    getNotes(_id)
+      .then((res) => {
+        res.data.notes.forEach((n) => {
+          deleteNotes(n._id, res.data.notes);
+        });
+      }).catch((err: Error) => console.log(err));
+    getActivities(_id)
+      .then((res) => {
+        res.data.activities.forEach((a) => {
+          deleteActivity(a._id);
+        });
+      }).catch((err: Error) => console.log(err));
   } catch (error) {
     throw new Error(error as string);
   }

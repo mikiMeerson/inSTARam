@@ -28,7 +28,6 @@ const StarFeed = ({ star, updateStar }: starProps) => {
   const fetchActivity = useCallback((): void => {
     getActivities(star._id)
       .then((res) => {
-        console.log(res);
         setActivity(res.data.activities);
       })
       .catch((err: Error) => console.log(err));

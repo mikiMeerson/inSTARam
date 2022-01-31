@@ -10,7 +10,7 @@
     padding: 1%; 
     border: 2px solid silver;
     border-radius: 7px;
-    height: 35%;
+    height: 45%;
 }
 
 .header {
@@ -78,10 +78,12 @@
 
 #notes {
     width: 60%;
+    height: 90%;
 }
 
 #activity {
     width: 40%;
+    height: 90%;
 }
 
 .commentActions {

@@ -5,7 +5,12 @@ import StarFeed from './Layouts/stars/feed/starFeed';
 import StarsPage from './Layouts/stars/starsPage/starsPage';
 import Navbar from './Layouts/navbar/navbar';
 import {
-  addStar, deleteStar, getStarById, getStars, updatePriorities, updateStar,
+  addStar,
+  deleteStar,
+  getStarById,
+  getStars,
+  updatePriorities,
+  updateStar,
 } from './API';
 
 function App() {
@@ -37,14 +42,7 @@ function App() {
   };
 
   const handleDeleteStar = (_id: string): void => {
-    deleteStar(_id)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error('Error! Star not deleted');
-        }
-        setStars(data.stars);
-      })
-      .catch((err) => console.log(err));
+    deleteStar(_id);
   };
 
   const changePriority = (draggedStar: IStar, newPri: number) => {

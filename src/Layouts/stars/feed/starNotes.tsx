@@ -33,7 +33,7 @@ const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
     );
   }
   return (
-    <div className="feedSection">
+    <div className="feedSection" id="notes">
       <Typography variant="h5" paddingBottom="10px" height="10%">
         הערות
       </Typography>
