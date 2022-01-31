@@ -190,3 +190,35 @@ export const deleteNotes = async (
     throw new Error(error as string);
   }
 };
+
+export const getActivities = async (starId: string)
+  : Promise<AxiosResponse<ApiActivitiesType>> => {
+  try {
+    const activities: AxiosResponse<ApiActivitiesType> = await axios.get(
+      `${baseUrl}/activities/${starId}`,
+    );
+    return activities;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const addActivity = async (
+  activityData: IActivity,
+): Promise<AxiosResponse<ApiActivitiesType>> => {
+  try {
+    const activity: Omit<IActivity, '_id'> = {
+      starId: activityData.starId,
+      publisher: activityData.publisher,
+      action: activityData.action,
+      value: activityData.value,
+    };
+    const saveActivity: AxiosResponse<ApiActivitiesType> = await axios.post(
+      `${baseUrl}/add-activity`,
+      activity,
+    );
+    return saveActivity;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};

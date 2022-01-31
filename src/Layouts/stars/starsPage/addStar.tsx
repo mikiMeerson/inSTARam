@@ -156,6 +156,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
           color="secondary"
           disabled={formData === undefined}
           onClick={(e) => {
+            // todo validate all fields
             toggleModal(false);
             formData && addStar(e, formData);
           }}

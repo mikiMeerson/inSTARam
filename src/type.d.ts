@@ -25,6 +25,16 @@ interface INote {
     updatedAt?: string;
 }
 
+interface IActivity {
+    _id: string;
+    starId: string;
+    publisher: string;
+    action: string;
+    value?: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
 type ApiStarsType = {
     message: string
     status: string
@@ -37,4 +47,11 @@ type ApiNotesType = {
     status: string
     notes: INote[]
     note?: INote
+}
+
+type ApiActivitiesType = {
+    message: string
+    status: string
+    activities: IActivity[]
+    activity?: IActivity
 }

@@ -7,39 +7,6 @@ export const computers = ['AAA', 'BBB', 'CCC', 'DDD'];
 
 export const severityColors = ['red', 'orange', 'yellow', 'green'];
 
-export type noteType = {
-  id: string;
-  publisher: string;
-  note: string;
-  time: Date;
-  repliesTo?: number;
-};
-
-export type activityLogType = {
-  publisher: string;
-  action: string;
-  time: Date;
-  value?: string;
-};
-
-export type starType = {
-  id: string;
-  priority: number;
-  severity: number;
-  name: string;
-  status: string;
-  assignee: string;
-  date: string;
-  version: string;
-  publisher: string;
-  event: string;
-  resources: string[];
-  desc: string;
-  computer: string;
-  notes: noteType[];
-  activity: activityLogType[];
-};
-
 export const defaultStar: IStar = {
   _id: '',
   priority: 0,

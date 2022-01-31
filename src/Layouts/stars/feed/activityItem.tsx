@@ -6,10 +6,8 @@ import {
   OfflineBoltOutlined,
 } from '@mui/icons-material';
 
-import { activityLogType } from '../../../assets/star';
-
 interface activityProps {
-    log: activityLogType;
+    log: IActivity;
 }
 
 const actionToIcon = [
