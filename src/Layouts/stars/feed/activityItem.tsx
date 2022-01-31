@@ -4,6 +4,7 @@ import {
   CheckCircleOutlined,
   TextSnippetOutlined,
   OfflineBoltOutlined,
+  PersonOutline,
 } from '@mui/icons-material';
 
 interface activityProps {
@@ -22,6 +23,10 @@ const actionToIcon = [
   {
     action: 'הוסיפ/ה הערה חדשה',
     icon: <TextSnippetOutlined className="logIcon" />,
+  },
+  {
+    action: 'שינת/ה את האחראי',
+    icon: <PersonOutline className="logIcon" />,
   },
   {
     action: 'הוסיפ/ה משאבים נדרשים',

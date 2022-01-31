@@ -8,7 +8,7 @@ interface activityProps {
 const StarActivity = ({ activity }: activityProps) => {
   if (activity.length === 0) {
     return (
-      <div className="feedSection">
+      <div className="feedSection" id="activity">
         <Typography variant="caption">
           לא נעשתה פעילות בסטאר זה
         </Typography>

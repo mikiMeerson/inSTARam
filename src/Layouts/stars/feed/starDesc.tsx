@@ -22,14 +22,43 @@ import {
 interface starProps {
   star: IStar;
   updateStar: (starId: string, formData: IStar) => void;
+  saveActivity: (activityData: IActivity) => void
 }
 
-const StarDesc = ({ star, updateStar }: starProps) => {
+const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState<IStar>(star);
+  const [statusActivity, setStatusActivity] = useState<IActivity>();
+  const [assigneeActivity, setAssigneeActivity] = useState<IActivity>();
+
+  const handleSave = () => {
+    if (statusActivity) saveActivity(statusActivity);
+    if (assigneeActivity) saveActivity(assigneeActivity);
+    setStatusActivity(undefined);
+    setAssigneeActivity(undefined);
+    setIsEdit(false);
+    updateStar(star._id, formData);
+  };
 
   const setAttr = (attr: keyof IStar, value: string | string[] | number) => {
+    if (attr === 'status') {
+      setStatusActivity({
+        _id: '0',
+        starId: star._id,
+        publisher: 'מיקי - מאב',
+        action: 'שינת/ה את הסטטוס',
+        value: value as string,
+      });
+    } else if (attr === 'assignee') {
+      setAssigneeActivity({
+        _id: '0',
+        starId: star._id,
+        publisher: 'מיקי - מאב',
+        action: 'שינת/ה את האחראי',
+        value: value as string,
+      });
+    }
     setFormData(Object.assign(formData, { [attr]: value }));
   };
 
@@ -39,6 +68,7 @@ const StarDesc = ({ star, updateStar }: starProps) => {
       && `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     return displayDate || '';
   };
+
   return (
     <div className="starDesc">
       <div className="header">
@@ -70,13 +100,7 @@ const StarDesc = ({ star, updateStar }: starProps) => {
           sx={{ background: isEdit ? 'blue' : 'goldenrod', color: 'white' }}
         >
           {isEdit
-            ? (
-              <SaveOutlined onClick={() => {
-                setIsEdit(false);
-                updateStar(star._id, formData);
-              }}
-              />
-            )
+            ? (<SaveOutlined onClick={handleSave} />)
             : <EditOutlined onClick={() => setIsEdit(true)} />}
         </Fab>
       </div>

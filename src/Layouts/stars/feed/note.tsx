@@ -32,8 +32,9 @@ const Note = ({
 
   const getNoteTime = () => {
     const date = note.createdAt ? new Date(note.createdAt) : undefined;
-    const displayDate = date && `${date.getDate()}/${date.getMonth() + 1}/
-      ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    const displayDate = date
+      && `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}
+     ${date.getHours()}:${date.getMinutes()}`;
     return displayDate;
   };
 

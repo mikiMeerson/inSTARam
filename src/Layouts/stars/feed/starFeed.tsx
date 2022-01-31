@@ -66,7 +66,7 @@ const StarFeed = ({ star, updateStar }: starProps) => {
           _id: '0',
           starId: star._id,
           publisher: noteData.publisher,
-          action: ' הוסיפ/ה הערה חדשה',
+          action: 'הוסיפ/ה הערה חדשה',
         });
       })
       .catch((err: string) => console.log(err));
@@ -85,7 +85,11 @@ const StarFeed = ({ star, updateStar }: starProps) => {
 
   return (
     <div className="starFeed">
-      <StarDesc star={star} updateStar={updateStar} />
+      <StarDesc
+        star={star}
+        updateStar={updateStar}
+        saveActivity={handleAddActivity}
+      />
       <div className="starDetails">
         <StarNotes
           notes={notes}
