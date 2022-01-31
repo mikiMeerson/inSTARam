@@ -31,12 +31,21 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
   const [formData, setFormData] = useState<IStar>(star);
   const [statusActivity, setStatusActivity] = useState<IActivity>();
   const [assigneeActivity, setAssigneeActivity] = useState<IActivity>();
+  const [resourcesActivity, setResourcesActivity] = useState<IActivity>();
 
   const handleSave = () => {
-    if (statusActivity) saveActivity(statusActivity);
-    if (assigneeActivity) saveActivity(assigneeActivity);
-    setStatusActivity(undefined);
-    setAssigneeActivity(undefined);
+    if (statusActivity) {
+      saveActivity(statusActivity);
+      setStatusActivity(undefined);
+    }
+    if (assigneeActivity) {
+      saveActivity(assigneeActivity);
+      setAssigneeActivity(undefined);
+    }
+    if (resourcesActivity) {
+      saveActivity(resourcesActivity);
+      setResourcesActivity(undefined);
+    }
     setIsEdit(false);
     updateStar(star._id, formData);
   };
@@ -57,6 +66,13 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
         publisher: 'מיקי - מאב',
         action: 'שינת/ה את האחראי',
         value: value as string,
+      });
+    } else if (attr === 'resources') {
+      setResourcesActivity({
+        _id: '0',
+        starId: star._id,
+        publisher: 'מיקי - מאב',
+        action: 'הוסיפ/ה משאבים נדרשים',
       });
     }
     setFormData(Object.assign(formData, { [attr]: value }));

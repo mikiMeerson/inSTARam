@@ -32,11 +32,11 @@ function App() {
   const handleAddStar = (e: React.FormEvent, formData: IStar): void => {
     e.preventDefault();
     addStar(formData)
-      .then(({ status, data }) => {
+      .then(({ status }) => {
         if (status !== 201) {
           throw new Error('Error! star not saved');
         }
-        setStars(data.stars);
+        fetchStars();
       })
       .catch((err: string) => console.log(err));
   };
@@ -47,11 +47,11 @@ function App() {
 
   const changePriority = (draggedStar: IStar, newPri: number) => {
     updatePriorities(draggedStar, newPri, stars)
-      .then(({ status, data }) => {
+      .then(({ status }) => {
         if (status !== 200) {
           throw new Error('Error! star not deleted');
         }
-        setStars(data.stars);
+        fetchStars();
       })
       .catch((err) => console.log(err));
   };
