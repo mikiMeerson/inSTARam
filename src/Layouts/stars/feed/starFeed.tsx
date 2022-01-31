@@ -28,6 +28,7 @@ const StarFeed = ({ star, updateStar }: starProps) => {
   const fetchActivity = useCallback((): void => {
     getActivities(star._id)
       .then((res) => {
+        console.log(res);
         setActivity(res.data.activities);
       })
       .catch((err: Error) => console.log(err));
@@ -36,16 +37,20 @@ const StarFeed = ({ star, updateStar }: starProps) => {
   useEffect(() => {
     fetchNotes();
     fetchActivity();
+    return () => {
+      setNotes([]); // This worked for me
+      setActivity([]);
+    };
   }, [fetchActivity, fetchNotes]);
 
   const handleAddActivity = (activityData: IActivity): void => {
     activityData.starId = star._id;
     addActivity(activityData)
-      .then(({ status, data }) => {
-        if (status !== 200) {
+      .then(({ status }) => {
+        if (status !== 201) {
           throw new Error('Error! note not saved');
         }
-        setActivity(data.activities);
+        fetchActivity();
       })
       .catch((err: string) => console.log(err));
   };

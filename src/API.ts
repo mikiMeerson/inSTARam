@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
 
@@ -197,6 +197,7 @@ export const getActivities = async (starId: string)
     const activities: AxiosResponse<ApiActivitiesType> = await axios.get(
       `${baseUrl}/activities/${starId}`,
     );
+    console.log(activities);
     return activities;
   } catch (error) {
     throw new Error(error as string);
