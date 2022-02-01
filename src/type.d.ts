@@ -1,11 +1,3 @@
-interface IUser {
-    _id: string,
-    username: string,
-    unit: string,
-    password: string,
-    roles?: string[],
-}
-
 interface IStar {
     _id: string;
     priority: number;
