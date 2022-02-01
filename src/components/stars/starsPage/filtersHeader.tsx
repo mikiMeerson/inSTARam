@@ -152,7 +152,11 @@ const FiltersHeader = ({
             </Button>
           </TableCell>
           {primaryFilterFields.map((field: filterField) => (
-            <TableCell width={field.width} sx={{ textAlign: 'center' }}>
+            <TableCell
+              key={field.name}
+              width={field.width}
+              sx={{ textAlign: 'center' }}
+            >
               <Button
                 sx={{
                   color: 'Gray',
@@ -189,7 +193,7 @@ const FiltersHeader = ({
           <TableCell width="60px" />
 
           {secondaryFilterFields.map((field: filterField) => (
-            <TableCell sx={{ textAlign: 'center' }}>
+            <TableCell key={field.name} sx={{ textAlign: 'center' }}>
               <Button
                 sx={{
                   color: 'Gray',
@@ -231,7 +235,6 @@ const FiltersHeader = ({
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
-
         <div
           className="optionSection"
           style={{
@@ -260,6 +263,7 @@ const FiltersHeader = ({
         >
           {filtersData.map((selected) => (
             <Chip
+              key={selected.tabName}
               size="medium"
               color="secondary"
               label={selected.filter}

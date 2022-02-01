@@ -87,6 +87,7 @@ const Note = ({
         </Grid>
         {replies?.map((reply) => (
           <Note
+            key={reply._id}
             notes={notes}
             note={reply}
             replies={getReplies(reply)}

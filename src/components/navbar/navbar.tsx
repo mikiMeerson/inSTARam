@@ -16,6 +16,7 @@ import { StarOutline } from '@material-ui/icons';
 import { BaseSyntheticEvent, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './styles/navbar.css';
+import { logout } from '../../services/user-service';
 
 type linkDisplayType = {
   display: string;
@@ -26,7 +27,6 @@ const pages: linkDisplayType[] = [
   { display: 'סטארים', link: '/stars' },
   { display: 'גיחות', link: '/flights' },
 ];
-const settings = ['Profile', 'Logout'];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState();
@@ -96,7 +96,7 @@ const Navbar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page: linkDisplayType) => (
-              <NavLink to={page.link}>
+              <NavLink to={page.link} key={page.link}>
                 <Button
                   key={page.display}
                   onClick={handleCloseNavMenu}
@@ -140,11 +140,16 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={() => setAnchorElUser(undefined)}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => {
+                handleCloseNavMenu;
+                logout();
+              }}
+              >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
