@@ -10,17 +10,28 @@ import {
   Typography,
 } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/user-service';
 
 const Login = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // todo add form validation
-    login(username, password);
+    login(username, password)
+      .then(({ status }) => {
+        if (status !== 200) {
+          throw new Error('Error! wrong credentials');
+        }
+        navigate('/stars');
+        console.log('Login successful');
+        window.location.reload();
+      })
+      .catch((err: string) => console.log(err));
   };
 
   return (

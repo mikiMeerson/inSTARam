@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Container,
   CssBaseline,
@@ -19,6 +19,8 @@ const Register = () => {
   const [name, setName] = useState<string>('');
   const [unit, setUnit] = useState<string>('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // todo add form validation
@@ -29,7 +31,9 @@ const Register = () => {
         if (status !== 201) {
           throw new Error('Error! user not saved');
         }
+        navigate('/stars');
         console.log('user added');
+        window.location.reload();
       })
       .catch((err: string) => console.log(err));
   };
@@ -98,7 +102,7 @@ const Register = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link to="/signin">
+              <Link to="/login">
                 Already have an account? Sign in
               </Link>
             </Grid>

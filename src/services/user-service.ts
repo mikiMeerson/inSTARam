@@ -16,13 +16,6 @@ export const register = async (
   formData: IUser,
 ): Promise<AxiosResponse<ApiUsersType>> => {
   try {
-    const existingUser: AxiosResponse<ApiUsersType> = await axios.get(
-      `${baseUrl}/user/${formData.username}`,
-    );
-    if (existingUser.data.user) {
-      throw new Error(`Username ${formData.username} taken`);
-    }
-
     const user: Omit<IUser, '_id'> = {
       username: formData.username,
       password: formData.password,
@@ -36,8 +29,6 @@ export const register = async (
       user,
     );
     localStorage.setItem('user', JSON.stringify(saveUser.data.user));
-    window.location.reload();
-
     return saveUser;
   } catch (error) {
     throw new Error(error as string);
@@ -50,7 +41,6 @@ export const login = async (
 ): Promise<AxiosResponse<ApiUsersType>> => {
   try {
     const credentials = { username, password };
-    console.log(credentials);
     const userFound: AxiosResponse<ApiUsersType> = await axios
       .post(`${baseUrl}/login`, credentials);
 
@@ -59,7 +49,6 @@ export const login = async (
         'user',
         JSON.stringify(userFound.data.user),
       );
-      window.location.reload();
     }
     return userFound;
   } catch (error) {
@@ -69,7 +58,6 @@ export const login = async (
 
 export const logout = () => {
   localStorage.removeItem('user');
-  window.location.reload();
 };
 
 export const updateUser = async (

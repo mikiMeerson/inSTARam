@@ -14,7 +14,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { StarOutline } from '@material-ui/icons';
 import { BaseSyntheticEvent, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './styles/navbar.css';
 import { logout } from '../../services/user-service';
 
@@ -31,6 +31,8 @@ const pages: linkDisplayType[] = [
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState();
   const [anchorElUser, setAnchorElUser] = useState();
+
+  const navigate = useNavigate();
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(undefined);
@@ -146,6 +148,8 @@ const Navbar = () => {
               <MenuItem onClick={() => {
                 handleCloseNavMenu;
                 logout();
+                navigate('/login');
+                window.location.reload();
               }}
               >
                 <Typography textAlign="center">Logout</Typography>
