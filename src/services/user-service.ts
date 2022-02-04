@@ -12,9 +12,25 @@ export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
   }
 };
 
-export const register = async (
-  formData: IUser,
-): Promise<AxiosResponse<ApiUsersType>> => {
+export const login = async (username: string, password: string) => {
+  try {
+    const credentials = { username, password };
+    const userFound = await axios
+      .post(`${baseUrl}/login`, credentials);
+
+    if (userFound.data.success) {
+      localStorage.setItem(
+        'user',
+        JSON.stringify(userFound.data),
+      );
+    }
+    return userFound;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const register = async (formData: IUser) => {
   try {
     const user: Omit<IUser, '_id'> = {
       username: formData.username,
@@ -24,33 +40,14 @@ export const register = async (
       roles: [],
     };
 
-    const saveUser: AxiosResponse<ApiUsersType> = await axios.post(
+    const saveUser = await axios.post(
       `${baseUrl}/add-user`,
       user,
     );
-    localStorage.setItem('user', JSON.stringify(saveUser.data.user));
-    return saveUser;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-};
-
-export const login = async (
-  username: string,
-  password: string,
-): Promise<AxiosResponse<ApiUsersType>> => {
-  try {
-    const credentials = { username, password };
-    const userFound: AxiosResponse<ApiUsersType> = await axios
-      .post(`${baseUrl}/login`, credentials);
-
-    if (userFound.data.user) {
-      localStorage.setItem(
-        'user',
-        JSON.stringify(userFound.data.user),
-      );
+    if (saveUser.data.success) {
+      await login(formData.username, formData.password);
     }
-    return userFound;
+    return saveUser;
   } catch (error) {
     throw new Error(error as string);
   }
@@ -58,21 +55,6 @@ export const login = async (
 
 export const logout = () => {
   localStorage.removeItem('user');
-};
-
-export const updateUser = async (
-  userId: string,
-  newUser: IUser,
-): Promise<AxiosResponse<ApiUsersType>> => {
-  try {
-    const updatedUser: AxiosResponse<ApiUsersType> = await axios.put(
-      `${baseUrl}/edit-user/${userId}`,
-      newUser,
-    );
-    return updatedUser;
-  } catch (error) {
-    throw new Error(error as string);
-  }
 };
 
 export const updateUserField = async (

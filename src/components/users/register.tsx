@@ -28,7 +28,7 @@ const Register = () => {
       _id: '0', username, password, name, unit,
     })
       .then(({ status }) => {
-        if (status !== 201) {
+        if (status !== 200) {
           throw new Error('Error! user not saved');
         }
         navigate('/stars');
