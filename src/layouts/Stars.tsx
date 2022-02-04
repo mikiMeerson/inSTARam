@@ -4,20 +4,22 @@ import StarFeed from '../components/stars/feed/starFeed';
 import StarsPage from '../components/stars/starsPage/starsPage';
 import {
   addStar,
-  deleteStar,
-  getStarById,
+  deleteSingleStar,
   getStars,
   updatePriorities,
   updateStar,
-} from '../API';
+} from '../services/star-service';
+import { deleteNotes, getNotes } from '../services/note-service';
+import { deleteActivity, getActivities } from '../services/activity-service';
 
 const Stars = () => {
-  const [feedToDisplay, setFeedToDisplay] = useState<IStar>();
+  const [feedToDisplay, setFeedToDisplay] = useState<string>();
   const [stars, setStars] = useState<IStar[]>([]);
 
   const fetchStars = (): void => {
     getStars()
       .then((res) => {
+        console.log(res.data.stars[0]._id);
         setStars(res.data.stars);
       })
       .catch((err: Error) => console.log(err));
@@ -40,7 +42,23 @@ const Stars = () => {
   };
 
   const handleDeleteStar = (_id: string): void => {
-    deleteStar(_id);
+    try {
+      deleteSingleStar(_id);
+      getNotes(_id)
+        .then((res) => {
+          res.data.notes.forEach((n) => {
+            deleteNotes(n._id, res.data.notes);
+          });
+        }).catch((err: Error) => console.log(err));
+      getActivities(_id)
+        .then((res) => {
+          res.data.activities.forEach((a) => {
+            deleteActivity(a._id);
+          });
+        }).catch((err: Error) => console.log(err));
+    } catch (error) {
+      throw new Error(error as string);
+    }
   };
 
   const changePriority = (draggedStar: IStar, newPri: number) => {
@@ -67,23 +85,13 @@ const Stars = () => {
       });
   };
 
-  const handleShowStar = (starId: string): void => {
-    getStarById(starId)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error('Error! Todo not deleted');
-        }
-        setFeedToDisplay(data.star);
-      })
-      .catch((err) => console.log(err));
-  };
-
   return (
 
     <Routes>
       {['/', '/stars'].map(
         (path) => (
           <Route
+            key={path}
             path={path}
             element={(
               stars && (
@@ -91,7 +99,7 @@ const Stars = () => {
                   stars={stars}
                   addStar={handleAddStar}
                   removeStar={handleDeleteStar}
-                  setFeed={handleShowStar}
+                  setFeed={setFeedToDisplay}
                   changePriority={changePriority}
                 />
               )
@@ -100,11 +108,11 @@ const Stars = () => {
         ),
       )}
       <Route
-        path={feedToDisplay ? `/star/${feedToDisplay._id}` : '/'}
+        path={feedToDisplay ? `/star/${feedToDisplay}` : '/'}
         element={
           feedToDisplay ? (
             <StarFeed
-              star={feedToDisplay}
+              starId={feedToDisplay}
               updateStar={handleUpdateStar}
             />
           ) : (
@@ -113,7 +121,7 @@ const Stars = () => {
               stars={stars}
               addStar={handleAddStar}
               removeStar={handleDeleteStar}
-              setFeed={handleShowStar}
+              setFeed={setFeedToDisplay}
               changePriority={changePriority}
             />
           )

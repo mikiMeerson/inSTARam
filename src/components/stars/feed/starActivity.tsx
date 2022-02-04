@@ -40,7 +40,7 @@ const StarActivity = ({ activity }: activityProps) => {
       </Typography>
       <div style={{ height: '80%', overflowY: 'scroll' }}>
         {activityDates.map((currDate) => (
-          <div style={{ textAlign: 'right' }}>
+          <div style={{ textAlign: 'right' }} key={currDate.getTime()}>
             <Typography variant="caption">
               {getDisplayDate(currDate)}
             </Typography>
@@ -52,7 +52,7 @@ const StarActivity = ({ activity }: activityProps) => {
                   ).getTime() === currDate.getTime(),
               )
                 .map((log: IActivity) => (
-                  <ActivityItem log={log} />
+                  <ActivityItem key={log._id} log={log} />
                 ))
             }
           </div>
