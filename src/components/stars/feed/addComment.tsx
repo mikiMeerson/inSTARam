@@ -16,7 +16,7 @@ const AddComment = ({
     const newNote: INote = {
       _id: Math.random().toString(),
       starId: '0',
-      publisher: 'מיקי - מאב',
+      publisher: localStorage.getItem('userDisplay')!,
       note: input,
       repliesTo: replyTo?._id,
     };

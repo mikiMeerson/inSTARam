@@ -10,7 +10,7 @@
     padding: 1%; 
     border: 2px solid silver;
     border-radius: 7px;
-    height: 45%;
+    height: 40%;
 }
 
 .header {
@@ -42,7 +42,7 @@
 .starDetails {
     display: flex;
     flex-direction: row;
-    height: 70%;
+    height: 50%;
 }
 
 .starDetails > * {

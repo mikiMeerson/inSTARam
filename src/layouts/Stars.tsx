@@ -30,6 +30,7 @@ const Stars = () => {
   }, []);
 
   const handleAddStar = (e: React.FormEvent, formData: IStar): void => {
+    formData.publisher = localStorage.getItem('userDisplay')!;
     e.preventDefault();
     addStar(formData)
       .then(({ status }) => {

@@ -1,6 +1,17 @@
 import axios, { AxiosResponse } from 'axios';
 import { baseUrl } from '../globals';
 
+export const getPublisher = () => {
+  const usrstr = localStorage.getItem('user');
+
+  if (usrstr) {
+    const user = JSON.parse(usrstr).message;
+    return `${user.name} - ${user.unit}`;
+  }
+
+  return '';
+};
+
 export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
   try {
     const users: AxiosResponse<ApiUsersType> = await axios.get(
@@ -22,6 +33,10 @@ export const login = async (username: string, password: string) => {
       localStorage.setItem(
         'user',
         JSON.stringify(userFound.data),
+      );
+      localStorage.setItem(
+        'userDisplay',
+        getPublisher(),
       );
     }
     return userFound;
