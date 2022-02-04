@@ -4,6 +4,7 @@ import Navbar from './components/navbar/navbar';
 import './App.css';
 import Register from './components/users/register';
 import Login from './components/users/login';
+import Users from './components/users/users';
 
 const App = () => {
   const user = localStorage.getItem('user');
@@ -14,6 +15,9 @@ const App = () => {
         user && (
           <div className="App" dir="rtl">
             <Navbar />
+            <Routes>
+              <Route path="/users" element={<Users />} />
+            </Routes>
             <Stars />
           </div>
         )

@@ -19,6 +19,7 @@ const Stars = () => {
   const fetchStars = (): void => {
     getStars()
       .then((res) => {
+        console.log(res.data.stars[0]._id);
         setStars(res.data.stars);
       })
       .catch((err: Error) => console.log(err));

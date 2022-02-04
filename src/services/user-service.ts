@@ -4,7 +4,7 @@ import { baseUrl } from '../globals';
 export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
   try {
     const users: AxiosResponse<ApiUsersType> = await axios.get(
-      `${baseUrl}/users`,
+      `${baseUrl}/all-users`,
     );
     return users;
   } catch (error) {
@@ -77,9 +77,9 @@ export const updateUserField = async (
 
 export const deleteUser = async (
   _id: string,
-): Promise<AxiosResponse<ApiUsersType>> => {
+): Promise<AxiosResponse<any>> => {
   try {
-    const deletedUser: AxiosResponse<ApiUsersType> = await axios.delete(
+    const deletedUser: AxiosResponse<any> = await axios.delete(
       `${baseUrl}/delete-user/${_id}`,
     );
     return deletedUser;

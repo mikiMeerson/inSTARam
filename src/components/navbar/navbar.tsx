@@ -26,6 +26,7 @@ type linkDisplayType = {
 const pages: linkDisplayType[] = [
   { display: 'סטארים', link: '/stars' },
   { display: 'גיחות', link: '/flights' },
+  { display: 'משתמשים', link: '/users' },
 ];
 
 const Navbar = () => {
