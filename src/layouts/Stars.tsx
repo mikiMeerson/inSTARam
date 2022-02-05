@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Alert } from '@mui/material';
 import StarFeed from '../components/stars/feed/starFeed';
 import StarsPage from '../components/stars/starsPage/starsPage';
 import {
@@ -15,11 +16,34 @@ import { deleteActivity, getActivities } from '../services/activity-service';
 const Stars = () => {
   const [feedToDisplay, setFeedToDisplay] = useState<string>();
   const [stars, setStars] = useState<IStar[]>([]);
+  const [alert, setAlert] = useState<IAlert>({
+    isAlert: false,
+    content: '',
+    severity: 'info',
+  });
+
+  const handleAlert = (
+    currStatus: number,
+    successStatus: number,
+    successContent: string,
+    errorContent: string,
+  ) => {
+    setAlert({
+      isAlert: true,
+      content:
+        currStatus === successStatus
+          ? successContent
+          : errorContent,
+      severity: currStatus === successStatus ? 'success' : 'error',
+    });
+    setTimeout(() => {
+      setAlert(Object.assign(alert, { isAlert: false }));
+    }, 5000);
+  };
 
   const fetchStars = (): void => {
     getStars()
       .then((res) => {
-        console.log(res.data.stars[0]._id);
         setStars(res.data.stars);
       })
       .catch((err: Error) => console.log(err));
@@ -31,69 +55,98 @@ const Stars = () => {
 
   const handleAddStar = (e: React.FormEvent, formData: IStar): void => {
     e.preventDefault();
+    const currUser = localStorage.getItem('userDisplay');
+    formData.publisher = currUser || 'אנונימי';
     addStar(formData)
       .then(({ status }) => {
-        if (status !== 201) {
-          throw new Error('Error! star not saved');
-        }
+        handleAlert(
+          status,
+          201,
+          'הסטאר נוצר בהצלחה!',
+          'שגיאה! לא הצלחנו ליצור את הסטאר',
+        );
         fetchStars();
       })
-      .catch((err: string) => console.log(err));
+      .catch((err: string) => handleAlert(500, 201, err, err));
   };
 
   const handleDeleteStar = (_id: string): void => {
     try {
-      deleteSingleStar(_id);
+      deleteSingleStar(_id).then(({ status }) => {
+        handleAlert(
+          status,
+          200,
+          'הסטאר נמחק בהצלחה!',
+          'שגיאה! לא הצלחנו למחוק את הסטאר',
+        );
+      });
       getNotes(_id)
         .then((res) => {
           res.data.notes.forEach((n) => {
             deleteNotes(n._id, res.data.notes);
           });
-        }).catch((err: Error) => console.log(err));
+        })
+        .catch((err) => handleAlert(500, 201, err as string, err as string));
       getActivities(_id)
         .then((res) => {
           res.data.activities.forEach((a) => {
             deleteActivity(a._id);
           });
-        }).catch((err: Error) => console.log(err));
+        })
+        .catch((err: string) => handleAlert(500, 201, err, err));
+      fetchStars();
     } catch (error) {
-      throw new Error(error as string);
+      handleAlert(500, 201, error as string, error as string);
     }
   };
 
   const changePriority = (draggedStar: IStar, newPri: number) => {
     updatePriorities(draggedStar, newPri, stars)
       .then(({ status }) => {
-        if (status !== 200) {
-          throw new Error('Error! star not deleted');
-        }
+        handleAlert(
+          status,
+          200,
+          'הסטאר עודכן בהצלחה!',
+          'שגיאה! לא הצלחנו לעדכן את הסטאר',
+        );
         fetchStars();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => handleAlert(
+        500,
+        200,
+        err,
+        err,
+      ));
   };
 
-  const handleUpdateStar = (
-    starId: string,
-    formData: IStar,
-  ) => {
-    updateStar(starId, formData)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error('Error! star not updated');
-        }
-        setStars(data.stars);
-      });
+  const handleUpdateStar = (starId: string, formData: IStar) => {
+    updateStar(starId, formData).then(({ status, data }) => {
+      handleAlert(
+        status,
+        200,
+        'הסטאר עודכן בהצלחה!',
+        'שגיאה! לא הצלחנו לעדכן את הסטאר',
+      );
+      setStars(data.stars);
+    });
   };
 
   return (
-
-    <Routes>
-      {['/', '/stars'].map(
-        (path) => (
+    <>
+      {alert.isAlert && (
+        <Alert
+          color={alert.severity}
+          sx={{ position: 'absolute', bottom: '5%', zIndex: 1 }}
+        >
+          {alert.content}
+        </Alert>
+      )}
+      <Routes>
+        {['/', '/stars'].map((path) => (
           <Route
             key={path}
             path={path}
-            element={(
+            element={
               stars && (
                 <StarsPage
                   stars={stars}
@@ -103,31 +156,28 @@ const Stars = () => {
                   changePriority={changePriority}
                 />
               )
-            )}
+            }
           />
-        ),
-      )}
-      <Route
-        path={feedToDisplay ? `/star/${feedToDisplay}` : '/'}
-        element={
-          feedToDisplay ? (
-            <StarFeed
-              starId={feedToDisplay}
-              updateStar={handleUpdateStar}
-            />
-          ) : (
-            // todo should be star not found page
-            <StarsPage
-              stars={stars}
-              addStar={handleAddStar}
-              removeStar={handleDeleteStar}
-              setFeed={setFeedToDisplay}
-              changePriority={changePriority}
-            />
-          )
-        }
-      />
-    </Routes>
+        ))}
+        <Route
+          path={feedToDisplay ? `/star/${feedToDisplay}` : '/'}
+          element={
+            feedToDisplay ? (
+              <StarFeed starId={feedToDisplay} updateStar={handleUpdateStar} />
+            ) : (
+              // todo should be star not found page
+              <StarsPage
+                stars={stars}
+                addStar={handleAddStar}
+                removeStar={handleDeleteStar}
+                setFeed={setFeedToDisplay}
+                changePriority={changePriority}
+              />
+            )
+          }
+        />
+      </Routes>
+    </>
   );
 };
 

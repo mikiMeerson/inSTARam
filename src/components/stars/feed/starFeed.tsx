@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 import StarActivity from './starActivity';
 import StarDesc from './starDesc';
 import StarNotes from './starNotes';
@@ -16,6 +17,7 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
   const [star, setStar] = useState<IStar>();
   const [notes, setNotes] = useState<INote[]>([]);
   const [activity, setActivity] = useState<IActivity[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchNotes = useCallback((): void => {
     getNotes(starId)
@@ -34,6 +36,7 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
   }, [starId]);
 
   useEffect(() => {
+    setLoading(true);
     const fetchStar = (): void => {
       getStarById(starId)
         .then(({ status, data }) => {
@@ -49,10 +52,18 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
       fetchNotes();
       fetchActivity();
     }
+    setLoading(false);
   }, [fetchActivity, fetchNotes, star, starId]);
 
   if (!star) {
-    return <div>Star not found!</div>;
+    return (
+      <Box sx={{
+        position: 'absolute', top: '50%', right: '50%', zIndex: 1,
+      }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   const handleAddActivity = (activityData: IActivity): void => {
@@ -68,6 +79,7 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
   };
 
   const handleAddNote = (noteData: INote): void => {
+    setLoading(true);
     noteData.starId = star._id;
     addNote(noteData)
       .then(({ status }) => {
@@ -81,37 +93,50 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
           publisher: noteData.publisher,
           action: 'הוסיפ/ה הערה חדשה',
         });
+        setLoading(false);
       })
       .catch((err: string) => console.log(err));
   };
 
   const handleDeleteNote = (noteId: string): void => {
+    setLoading(true);
     deleteNotes(noteId, notes)
       .then(({ status }) => {
         if (status !== 200) {
           throw new Error('Error! note not deleted');
         }
         fetchNotes();
+        setLoading(false);
       })
       .catch((err: string) => console.log(err));
   };
 
   return (
-    <div className="starFeed">
-      <StarDesc
-        star={star}
-        updateStar={updateStar}
-        saveActivity={handleAddActivity}
-      />
-      <div className="starDetails">
-        <StarNotes
-          notes={notes}
-          addNote={handleAddNote}
-          deleteNote={handleDeleteNote}
+    <>
+      {loading && (
+        <Box sx={{
+          position: 'absolute', top: '50%', right: '50%', zIndex: 1,
+        }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
+      <div className="starFeed">
+        <StarDesc
+          star={star}
+          updateStar={updateStar}
+          saveActivity={handleAddActivity}
         />
-        <StarActivity activity={activity} />
+        <div className="starDetails">
+          <StarNotes
+            notes={notes}
+            addNote={handleAddNote}
+            deleteNote={handleDeleteNote}
+          />
+          <StarActivity activity={activity} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

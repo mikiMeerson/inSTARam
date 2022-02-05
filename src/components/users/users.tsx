@@ -7,7 +7,6 @@ const Users = () => {
   const fetchUsers = (): void => {
     getUsers()
       .then((res) => {
-        console.log(res);
         setUsers(res.data.users);
       })
       .catch((err: Error) => console.log(err));
