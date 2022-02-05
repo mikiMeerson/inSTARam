@@ -73,3 +73,9 @@ type ApiUsersType = {
     users: IUser[]
     user?: IUser
 }
+
+type IAlert = {
+    isAlert: boolean
+    content: string
+    severity: 'success' | 'info' | 'warning' | 'error'
+}
