@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   CssBaseline,
@@ -14,15 +16,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/user-service';
 
 const Login = () => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .required('נא למלא שם משתמש'),
+    password: Yup.string()
+      .required('נא למלא סיסמה'),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmit = (data: any) => {
     // todo add form validation
-    login(username, password)
+    login(data.username, data.password)
       .then(({ status }) => {
         if (status !== 200) {
           throw new Error('Error! wrong credentials');
@@ -35,7 +48,7 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" sx={{ width: '50%' }}>
       <CssBaseline />
       <Box
         sx={{
@@ -51,27 +64,36 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box sx={{ mt: 1, width: '50%' }}>
           <TextField
             margin="normal"
             required
             fullWidth
             label="שם משתמש"
             autoFocus
-            onChange={(e) => setUsername(e.target.value)}
+            {...register('username')}
+            error={errors.username}
           />
+          <Typography variant="inherit" color="textSecondary">
+            {errors.username?.message}
+          </Typography>
           <TextField
             margin="normal"
             required
             fullWidth
             label="סיסמה"
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            {...register('password')}
+            error={errors.password}
           />
+          <Typography variant="inherit" color="textSecondary">
+            {errors.password?.message}
+          </Typography>
           <Button
             type="submit"
             fullWidth
             variant="contained"
+            onClick={handleSubmit(onSubmit)}
             sx={{ mt: 3, mb: 2 }}
           >
             היכנס
