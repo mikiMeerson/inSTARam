@@ -1,4 +1,5 @@
 import { ReplyOutlined, DeleteOutline } from '@material-ui/icons';
+import { AccountCircle } from '@mui/icons-material';
 import {
   Grid, Avatar, Typography, Divider,
 } from '@mui/material';
@@ -44,10 +45,9 @@ const Note = ({
         <Grid item>
           <Avatar
             sx={{ width: 24, height: 24, margin: '7px' }}
-            alt="Remy Sharp"
-            src="https://images.pexels.com/photos/1681010/pexels-photo-1681010
-            .jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-          />
+          >
+            <AccountCircle fontSize="large" />
+          </Avatar>
         </Grid>
         <Grid
           justifyContent="left"

@@ -11,6 +11,7 @@ import {
   Tooltip,
   MenuItem,
 } from '@mui/material';
+import { AccountCircle } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { StarOutline } from '@material-ui/icons';
 import { BaseSyntheticEvent, useState } from 'react';
@@ -125,7 +126,7 @@ const Navbar = () => {
                 }
                 sx={{ p: 0 }}
               >
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar><AccountCircle fontSize="large" /></Avatar>
               </IconButton>
             </Tooltip>
             <Menu
