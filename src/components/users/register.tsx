@@ -61,7 +61,7 @@ const Register = () => {
               <TextField
                 required
                 fullWidth
-                label="Name"
+                label="שם"
                 autoFocus
                 onChange={(e) => setName(e.target.value)}
               />
@@ -70,7 +70,7 @@ const Register = () => {
               <TextField
                 required
                 fullWidth
-                label="Unit"
+                label="יחידה"
                 onChange={(e) => setUnit(e.target.value)}
               />
             </Grid>
@@ -78,7 +78,7 @@ const Register = () => {
               <TextField
                 required
                 fullWidth
-                label="Username"
+                label="שם משתמש"
                 onChange={(e) => setUserName(e.target.value)}
               />
             </Grid>
@@ -86,7 +86,7 @@ const Register = () => {
               <TextField
                 required
                 fullWidth
-                label="Password"
+                label="סיסמה"
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -98,12 +98,12 @@ const Register = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            הירשם
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link to="/login">
-                Already have an account? Sign in
+                כבר רשום? לחץ כאן
               </Link>
             </Grid>
           </Grid>

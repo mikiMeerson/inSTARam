@@ -1,3 +1,4 @@
+import { AccountCircle } from '@mui/icons-material';
 import { TextField, Avatar, Button } from '@mui/material';
 import { BaseSyntheticEvent, useState } from 'react';
 
@@ -28,7 +29,7 @@ const AddComment = ({
 
   return (
     <div className="addComment">
-      <Avatar id="avatar" alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+      <Avatar><AccountCircle fontSize="large" /></Avatar>
       <TextField
         sx={{ margin: '5px', background: 'white' }}
         fullWidth

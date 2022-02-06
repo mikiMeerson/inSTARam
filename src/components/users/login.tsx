@@ -56,7 +56,7 @@ const Login = () => {
             margin="normal"
             required
             fullWidth
-            label="Username"
+            label="שם משתמש"
             autoFocus
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -64,7 +64,7 @@ const Login = () => {
             margin="normal"
             required
             fullWidth
-            label="Password"
+            label="סיסמה"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -74,12 +74,12 @@ const Login = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            היכנס
           </Button>
           <Grid container>
             <Grid item>
               <Link to="/register">
-                Dont have an account? Sign Up
+                עדיין לא נרשמת? לחץ כאן
               </Link>
             </Grid>
           </Grid>
