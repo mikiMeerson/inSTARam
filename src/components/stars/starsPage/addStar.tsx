@@ -1,6 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import { useState } from 'react';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  Grid,
   Dialog,
   DialogActions,
   DialogTitle,
@@ -14,10 +16,9 @@ import {
   Input,
   MenuItem,
   Divider,
-  SelectChangeEvent,
+  Typography,
 } from '@mui/material';
 import {
-  defaultStar,
   assignees,
   severities,
   versions,
@@ -28,14 +29,34 @@ import '../styles/stars.css';
 interface starProps {
   isOpen: boolean;
   toggleModal: (param: boolean) => void;
-  addStar: (e: React.FormEvent, star: IStar) => void;
+  addStar: (star: any) => void;
 }
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
-  const [formData, setFormData] = useState<IStar | never>(defaultStar);
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required('נא למלא את שם הסטאר')
+      .max(40, 'שם הסטאר לא יעלה על 40 תווים'),
+    severity: Yup.string().required('נא למלא חומרה'),
+    assignee: Yup.string().required('נא למלא אחראי'),
+    version: Yup.string().required('נא למלא בלוק'),
+    event: Yup.string().required('נא למלא שם אירוע/גיחה'),
+    desc: Yup.string()
+      .required('נא למלא תיאור')
+      .max(100, 'תיאור הסטאר לא יכול לעלות על 100 תווים'),
+  });
 
-  const setAttr = (attr: keyof IStar, value: string | number) => {
-    setFormData(Object.assign(formData, { [attr]: value }));
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const handleAddStar = (data: any) => {
+    toggleModal(false);
+    addStar(data);
   };
 
   return (
@@ -49,98 +70,126 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
       <Divider />
       <DialogContent>
         <DialogContentText>
-          <div className="dataRow">
-            <TextField
-              autoFocus
-              label="שם הסטאר"
-              variant="standard"
-              onChange={(e) => setAttr('name', e.target.value)}
-              sx={{ width: '70%', flexGrow: 1, margin: '5px' }}
-            />
-            <FormControl sx={{ width: '30%' }}>
-              <InputLabel>חומרה</InputLabel>
-              <Select
-                variant="outlined"
-                input={<Input />}
-                onChange={
-                  (
-                    e: SelectChangeEvent<string>,
-                  ) => setAttr('severity', e.target.value)
-                }
-              >
-                {severities.map((sever: string, index: number) => (
-                  <MenuItem key={index} value={index + 1}>
-                    {sever}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          <div className="dataRow">
-            <TextField
-              label="אירוע"
-              variant="standard"
-              onChange={(e) => setAttr('event', e.target.value)}
-            />
-            <FormControl sx={{ width: '45%' }}>
-              <InputLabel>בלוק</InputLabel>
-              <Select
-                variant="outlined"
-                input={<Input />}
-                onChange={(
-                  e: SelectChangeEvent<string>,
-                ) => setAttr('version', e.target.value)}
-              >
-                {versions.map((version: string) => (
-                  <MenuItem key={version} value={version}>
-                    {version}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          <div className="dataRow">
+          <Grid container spacing={2} sx={{ marginTop: '5px' }}>
+            <Grid item xs={12} sm={8}>
+              <TextField
+                autoFocus
+                fullWidth
+                label="שם הסטאר"
+                variant="standard"
+                {...register('name')}
+                error={errors.name}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.name?.message}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>חומרה</InputLabel>
+                <Select
+                  variant="outlined"
+                  input={<Input />}
+                  {...register('severity')}
+                  error={errors.severity}
+                >
+                  {severities.map((sever: string, index: number) => (
+                    <MenuItem key={index} value={index + 1}>
+                      {sever}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography variant="inherit" color="textSecondary">
+                {errors.severity?.message}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} sx={{ marginTop: '5px' }}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="אירוע"
+                variant="standard"
+                {...register('event')}
+                error={errors.event}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.event?.message}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>בלוק</InputLabel>
+                <Select
+                  variant="outlined"
+                  input={<Input />}
+                  {...register('version')}
+                  error={errors.version}
+                >
+                  {versions.map((version: string) => (
+                    <MenuItem key={version} value={version}>
+                      {version}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography variant="inherit" color="textSecondary">
+                {errors.version?.message}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container sx={{ marginTop: '15px' }}>
             <TextField
               fullWidth
               multiline
               label="תיאור"
-              onChange={(e) => setAttr('desc', e.target.value)}
+              {...register('desc')}
+              error={errors.desc}
             />
-          </div>
-          <div className="dataRow">
-            <FormControl sx={{ width: '45%' }}>
-              <InputLabel>אחראי</InputLabel>
-              <Select
-                variant="outlined"
-                input={<Input />}
-                onChange={(
-                  e: SelectChangeEvent<string>,
-                ) => setAttr('assignee', e.target.value)}
-              >
-                {assignees.map((assignee: string) => (
-                  <MenuItem key={assignee} value={assignee}>
-                    {assignee}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl sx={{ width: '45%' }}>
-              <InputLabel>מחשב</InputLabel>
-              <Select
-                variant="outlined"
-                input={<Input />}
-                onChange={(
-                  e: SelectChangeEvent<string>,
-                ) => setAttr('computer', e.target.value)}
-              >
-                {computers.map((computer: string) => (
-                  <MenuItem key={computer} value={computer}>
-                    {computer}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
+            <Typography variant="inherit" color="textSecondary">
+              {errors.desc?.message}
+            </Typography>
+          </Grid>
+          <Grid container spacing={2} sx={{ marginTop: '5px' }}>
+            <Grid item xs={12} sm={6}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>אחראי</InputLabel>
+                <Select
+                  variant="outlined"
+                  input={<Input />}
+                  {...register('assignee')}
+                  error={errors.assignee}
+                >
+                  {assignees.map((assignee: string) => (
+                    <MenuItem key={assignee} value={assignee}>
+                      {assignee}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography variant="inherit" color="textSecondary">
+                {errors.assignee?.message}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>מחשב</InputLabel>
+                <Select
+                  variant="outlined"
+                  input={<Input />}
+                  {...register('computer')}
+                  error={errors.computer}
+                >
+                  {computers.map((computer: string) => (
+                    <MenuItem key={computer} value={computer}>
+                      {computer}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -154,12 +203,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
         <Button
           variant="contained"
           color="secondary"
-          disabled={formData === undefined}
-          onClick={(e) => {
-            // todo validate all fields
-            toggleModal(false);
-            formData && addStar(e, formData);
-          }}
+          onClick={handleSubmit(handleAddStar)}
         >
           הוסף
         </Button>

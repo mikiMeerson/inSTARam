@@ -8,7 +8,7 @@ import NoPriority from './noPriority';
 
 interface starProps {
   stars: IStar[];
-  addStar: (e: React.FormEvent, formData: IStar) => void;
+  addStar: (formData: any) => void;
   removeStar: (starId: string) => void;
   setFeed: (id: string) => void;
   changePriority: (star: IStar, newPri: number) => void;

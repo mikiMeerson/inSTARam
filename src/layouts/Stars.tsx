@@ -53,8 +53,7 @@ const Stars = () => {
     fetchStars();
   }, []);
 
-  const handleAddStar = (e: React.FormEvent, formData: IStar): void => {
-    e.preventDefault();
+  const handleAddStar = (formData: any): void => {
     const currUser = localStorage.getItem('userDisplay');
     formData.publisher = currUser || 'אנונימי';
     addStar(formData)
