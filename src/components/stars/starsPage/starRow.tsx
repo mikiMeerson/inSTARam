@@ -28,6 +28,12 @@ const StarRow = ({
 }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
+  const getCreationTime = () => {
+    const date = star.createdAt ? new Date(star.createdAt) : undefined;
+    const displayDate = date
+      && `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    return displayDate;
+  };
   const deleteStar = () => {
     setOpenDesc(false);
     removeStar(star._id);
@@ -83,7 +89,7 @@ const StarRow = ({
           <TableCell width="105px">{star.name}</TableCell>
           <TableCell width="70px">{star.status}</TableCell>
           <TableCell width="70px">{star.assignee}</TableCell>
-          <TableCell width="45px">{star.createdAt}</TableCell>
+          <TableCell width="45px">{getCreationTime()}</TableCell>
           <TableCell width="60px">{star.version}</TableCell>
         </TableRow>
       </Table>

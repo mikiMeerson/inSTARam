@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,12 +11,19 @@ import {
   TextField,
   Avatar,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/user-service';
 
 const Login = () => {
+  const [loginError, setLoginError] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
@@ -34,7 +42,6 @@ const Login = () => {
   });
 
   const onSubmit = (data: any) => {
-    // todo add form validation
     login(data.username, data.password)
       .then(({ status }) => {
         if (status !== 200) {
@@ -44,7 +51,7 @@ const Login = () => {
         console.log('Login successful');
         window.location.reload();
       })
-      .catch((err: string) => console.log(err));
+      .catch(() => setLoginError(true));
   };
 
   return (
@@ -107,6 +114,22 @@ const Login = () => {
           </Grid>
         </Box>
       </Box>
+      <Dialog
+        open={loginError}
+        onClose={() => setLoginError(false)}
+      >
+        <DialogTitle dir="rtl">
+          שגיאה!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            שם משתמש או סיסמה שגויים
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setLoginError(false)}>נסה שוב</Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

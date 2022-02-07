@@ -38,7 +38,7 @@ const Stars = () => {
     });
     setTimeout(() => {
       setAlert(Object.assign(alert, { isAlert: false }));
-    }, 5000);
+    }, 3000);
   };
 
   const fetchStars = (): void => {
@@ -78,6 +78,7 @@ const Stars = () => {
           'הסטאר נמחק בהצלחה!',
           'שגיאה! לא הצלחנו למחוק את הסטאר',
         );
+        fetchStars();
       });
       getNotes(_id)
         .then((res) => {
@@ -93,7 +94,6 @@ const Stars = () => {
           });
         })
         .catch((err: string) => handleAlert(500, 201, err, err));
-      fetchStars();
     } catch (error) {
       handleAlert(500, 201, error as string, error as string);
     }

@@ -1,4 +1,14 @@
-import { TextField, Button, Fab } from '@mui/material';
+import { useState } from 'react';
+import {
+  TextField,
+  Button,
+  Fab,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { DeleteOutline } from '@material-ui/icons';
@@ -19,6 +29,7 @@ interface fieldType {
 }
 
 const starExpand = ({ star, setFeed, removeStar }: starProps) => {
+  const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
   const fields: fieldType[] = [
     {
       row: 1,
@@ -54,38 +65,67 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
     },
   ];
   return (
-    <div className="starExpand">
-      {Array.from(new Set(fields.map((f) => f.row)))
-        .map((row) => (
-          <div key={row} className="dataRow" style={{ width: '100%' }}>
-            {fields
-              .filter((f) => f.row === row)
-              .map((field) => (
-                <TextField
-                  key={field.label}
-                  disabled
-                  sx={{ width: field.width, margin: '7px' }}
-                  label={field.label}
-                  defaultValue={field.defaultValue}
-                  multiline={field.isMultiline}
-                  variant={field.variant}
-                />
-              ))}
+    <>
+      <div className="starExpand">
+        {Array.from(new Set(fields.map((f) => f.row)))
+          .map((row) => (
+            <div key={row} className="dataRow" style={{ width: '100%' }}>
+              {fields
+                .filter((f) => f.row === row)
+                .map((field) => (
+                  <TextField
+                    key={field.label}
+                    disabled
+                    sx={{ width: field.width, margin: '7px' }}
+                    label={field.label}
+                    defaultValue={field.defaultValue}
+                    multiline={field.isMultiline}
+                    variant={field.variant}
+                  />
+                ))}
+            </div>
+          ))}
+        <div className="starActions">
+          <NavLink to={`/star/${star._id}`} onClick={() => setFeed(star._id)}>
+            <Button variant="contained" sx={{ background: 'goldenrod' }}>
+              עבור לעמוד הסטאר
+            </Button>
+          </NavLink>
+          <div className="actionButtons">
+            <Fab size="small" id="delete" onClick={() => setDeleteAlert(true)}>
+              <DeleteOutline />
+            </Fab>
           </div>
-        ))}
-      <div className="starActions">
-        <NavLink to={`/star/${star._id}`} onClick={() => setFeed(star._id)}>
-          <Button variant="contained" sx={{ background: 'goldenrod' }}>
-            עבור לעמוד הסטאר
-          </Button>
-        </NavLink>
-        <div className="actionButtons">
-          <Fab size="small" id="delete" onClick={() => removeStar(star)}>
-            <DeleteOutline />
-          </Fab>
         </div>
       </div>
-    </div>
+      <Dialog
+        open={deleteAlert}
+        onClose={() => setDeleteAlert(false)}
+      >
+        <DialogTitle dir="rtl">
+          למחוק את הסטאר?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            כל פרטי הסטאר והפעילות שנעשתה בו יימחקו לצמיתות
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteAlert(false)}>בטל</Button>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => {
+              setDeleteAlert(false);
+              removeStar(star);
+            }}
+            autoFocus
+          >
+            מחק
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
