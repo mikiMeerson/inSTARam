@@ -9,14 +9,17 @@ import {
   MenuItem,
   Input,
   SelectChangeEvent,
+  Grid,
   Fab,
 } from '@mui/material';
 import { SaveOutlined, EditOutlined } from '@mui/icons-material';
 import {
   assignees,
+  computers,
   resources,
   severityColors,
   statuses,
+  versions,
 } from '../../../assets/star';
 
 interface starProps {
@@ -121,8 +124,8 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
         </Fab>
       </div>
       <div className="starData">
-        <div className="dataCol">
-          <div className="dataRow">
+        <Grid item xs={12} sx={{ marginLeft: '3%' }}>
+          <Grid container>
             <Typography
               variant="caption"
               sx={{ padding: '7px', marginBottom: '10px' }}
@@ -139,92 +142,143 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
               {' '}
               {getDisplayDate()}
             </Typography>
-          </div>
-          <div className="dataRow">
-            <FormControl sx={{ width: '45%' }}>
-              <InputLabel>אחראי</InputLabel>
-              <Select
-                variant="outlined"
-                disabled={!isEdit}
-                input={<Input />}
-                defaultValue={star.assignee}
-                onChange={(
-                  e: SelectChangeEvent<string>,
-                ) => setAttr('assignee', e.target.value)}
-              >
-                {assignees.map((assignee: string) => (
-                  <MenuItem key={assignee} value={assignee}>
-                    {assignee}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl sx={{ width: '45%' }}>
-              <InputLabel>סטטוס</InputLabel>
-              <Select
-                variant="outlined"
-                disabled={!isEdit}
-                input={<Input />}
-                defaultValue={star.status}
-                onChange={(
-                  e: SelectChangeEvent<string>,
-                ) => setAttr('status', e.target.value)}
-              >
-                {statuses.map((status: string) => (
-                  <MenuItem key={status} value={status}>
-                    {status}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          <div className="dataRow">
-            <FormControl sx={{ width: '90%', marginTop: '4%' }}>
-              <InputLabel id="resources">משאבים נדרשים</InputLabel>
-              <Select
-                labelId="resources"
-                disabled={!isEdit}
-                multiple
-                value={resourceList}
-                onChange={(
-                  e: SelectChangeEvent<string[]>,
-                ) => {
-                  let newResources: string[] = [];
-                  if (typeof e.target.value.length === 'string') {
-                    newResources.push(e.target.value as string);
-                  } else newResources = e.target.value as string[];
-                  setResourceList(newResources);
-                  setAttr('resources', newResources);
-                }}
-                input={<Input />}
-                renderValue={(selected: string[]) => (
-                  <div>
-                    {selected.map((value: string) => (
-                      <Chip key={value} label={value} />
-                    ))}
-                  </div>
-                )}
-              >
-                {resources.map((resource: string) => (
-                  <MenuItem key={resource} value={resource}>
-                    {resource}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-        <div className="dataCol">
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>אחראי</InputLabel>
+                <Select
+                  variant="outlined"
+                  disabled={!isEdit}
+                  input={<Input />}
+                  defaultValue={star.assignee}
+                  onChange={(
+                    e: SelectChangeEvent<string>,
+                  ) => setAttr('assignee', e.target.value)}
+                >
+                  {assignees.map((assignee: string) => (
+                    <MenuItem key={assignee} value={assignee}>
+                      {assignee}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>סטטוס</InputLabel>
+                <Select
+                  variant="outlined"
+                  disabled={!isEdit}
+                  input={<Input />}
+                  defaultValue={star.status}
+                  onChange={(
+                    e: SelectChangeEvent<string>,
+                  ) => setAttr('status', e.target.value)}
+                >
+                  {statuses.map((status: string) => (
+                    <MenuItem key={status} value={status}>
+                      {status}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>בלוק</InputLabel>
+                <Select
+                  variant="outlined"
+                  disabled={!isEdit}
+                  input={<Input />}
+                  defaultValue={star.version}
+                  onChange={(
+                    e: SelectChangeEvent<string>,
+                  ) => setAttr('version', e.target.value)}
+                >
+                  {versions.map((version: string) => (
+                    <MenuItem key={version} value={version}>
+                      {version}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} sx={{ marginTop: '3%' }}>
+            <Grid item xs={8}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel id="resources">משאבים נדרשים</InputLabel>
+                <Select
+                  labelId="resources"
+                  disabled={!isEdit}
+                  multiple
+                  value={resourceList}
+                  onChange={(
+                    e: SelectChangeEvent<string[]>,
+                  ) => {
+                    let newResources: string[] = [];
+                    if (typeof e.target.value.length === 'string') {
+                      newResources.push(e.target.value as string);
+                    } else newResources = e.target.value as string[];
+                    setResourceList(newResources);
+                    setAttr('resources', newResources);
+                  }}
+                  input={<Input />}
+                  renderValue={(selected: string[]) => (
+                    <div>
+                      {selected.map((value: string) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </div>
+                  )}
+                >
+                  {resources.map((resource: string) => (
+                    <MenuItem key={resource} value={resource}>
+                      {resource}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>מחשב</InputLabel>
+                <Select
+                  variant="outlined"
+                  disabled={!isEdit}
+                  input={<Input />}
+                  defaultValue={star.computer}
+                  onChange={(
+                    e: SelectChangeEvent<string>,
+                  ) => setAttr('computer', e.target.value)}
+                >
+                  {computers.map((computer: string) => (
+                    <MenuItem key={computer} value={computer}>
+                      {computer}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
           <TextField
             disabled={!isEdit}
-            sx={{ display: 'grid', height: '123px', marginTop: '42px' }}
+            sx={{
+              display: 'grid',
+              height: '123px',
+              maxHeight: '123px',
+              marginTop: '42px',
+            }}
             label="תיאור"
             defaultValue={star.desc}
             variant="outlined"
             multiline
             onChange={(e) => setAttr('desc', e.target.value)}
           />
-        </div>
+        </Grid>
       </div>
     </div>
   );

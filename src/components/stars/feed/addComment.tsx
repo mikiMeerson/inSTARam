@@ -40,7 +40,11 @@ const AddComment = ({
         placeholder={replyTo ? `תגובה ל${replyTo.publisher}` : 'הוסף הערה...'}
 
       />
-      <Button sx={{ height: '50px', marginTop: '10px' }} onClick={addComment}>
+      <Button
+        sx={{ height: '50px', marginTop: '10px' }}
+        onClick={addComment}
+        disabled={input === ''}
+      >
         פרסם
       </Button>
     </div>
