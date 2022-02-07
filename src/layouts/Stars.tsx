@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Alert } from '@mui/material';
+import { Alert, CircularProgress, Box } from '@mui/material';
 import StarFeed from '../components/stars/feed/starFeed';
 import StarsPage from '../components/stars/starsPage/starsPage';
 import {
@@ -14,6 +14,7 @@ import { deleteNotes, getNotes } from '../services/note-service';
 import { deleteActivity, getActivities } from '../services/activity-service';
 
 const Stars = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [feedToDisplay, setFeedToDisplay] = useState<string>();
   const [stars, setStars] = useState<IStar[]>([]);
   const [alert, setAlert] = useState<IAlert>({
@@ -42,11 +43,16 @@ const Stars = () => {
   };
 
   const fetchStars = (): void => {
+    setLoading(true);
     getStars()
       .then((res) => {
         setStars(res.data.stars);
+        setLoading(false);
       })
-      .catch((err: Error) => console.log(err));
+      .catch((err: Error) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -139,6 +145,14 @@ const Stars = () => {
         >
           {alert.content}
         </Alert>
+      )}
+      {loading && (
+        <Box sx={{
+          position: 'absolute', top: '50%', right: '50%', zIndex: 1,
+        }}
+        >
+          <CircularProgress size="100px" />
+        </Box>
       )}
       <Routes>
         {['/', '/stars'].map((path) => (

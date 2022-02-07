@@ -78,7 +78,9 @@ const Note = ({
             <div className="noteActions">
               <DeleteOutline
                 style={{
-                  display: note.publisher === 'מיקי - מאב' ? '' : 'none',
+                  display:
+                  note.publisher === localStorage.getItem('userDisplay')
+                    ? '' : 'none',
                 }}
                 className="deleteButton"
                 onClick={() => setDeleteAlert(true)}
