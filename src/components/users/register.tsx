@@ -1,4 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   CssBaseline,
@@ -10,21 +13,38 @@ import {
   Typography,
 } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
-import { useState } from 'react';
-import { register } from '../../services/user-service';
+import { signUp } from '../../services/user-service';
 
 const Register = () => {
-  const [username, setUserName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [unit, setUnit] = useState<string>('');
-
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // todo add form validation
-    register({
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required('נא למלא שם'),
+    unit: Yup.string()
+      .required('נא למלא יחידה'),
+    username: Yup.string()
+      .required('נא למלא שם משתמש')
+      .min(6, 'שם המשתמש חייב להיות לפחות באורך 6 תווים')
+      .max(14, 'שם המשתמש לא יכול להיות יותר מ-14 תווים'),
+    password: Yup.string()
+      .required('נא למלא סיסמה')
+      .min(8, 'הסיסמה חייבת להיות לפחות באורך 8 תווים')
+      .max(20, 'הסיסמה לא יכולה להיות יותר מ-20 תווים'),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmit = (data: any) => {
+    const {
+      name, unit, username, password,
+    } = data;
+    signUp({
       _id: '0', username, password, name, unit,
     })
       .then(({ status }) => {
@@ -55,7 +75,7 @@ const Register = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -63,24 +83,36 @@ const Register = () => {
                 fullWidth
                 label="שם"
                 autoFocus
-                onChange={(e) => setName(e.target.value)}
+                {...register('name')}
+                error={errors.name}
               />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.name?.message}
+              </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 required
                 fullWidth
                 label="יחידה"
-                onChange={(e) => setUnit(e.target.value)}
+                {...register('unit')}
+                error={errors.unit}
               />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.unit?.message}
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
                 label="שם משתמש"
-                onChange={(e) => setUserName(e.target.value)}
+                {...register('username')}
+                error={errors.username}
               />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.username?.message}
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -88,14 +120,19 @@ const Register = () => {
                 fullWidth
                 label="סיסמה"
                 type="password"
-                onChange={(e) => setPassword(e.target.value)}
+                {...register('password')}
+                error={errors.password}
               />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.password?.message}
+              </Typography>
             </Grid>
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
+            onClick={handleSubmit(onSubmit)}
             sx={{ mt: 3, mb: 2 }}
           >
             הירשם

@@ -22,7 +22,7 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
-  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<string>('פתוח');
   const [assigneeFilter, setAssigneeFilter] = useState<string>('');
   const [versionFilter, setVersionFilter] = useState<string>('');
   const [resourceFilter, setResourceFilter] = useState<string>('');

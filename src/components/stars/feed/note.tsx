@@ -1,7 +1,16 @@
 import { ReplyOutlined, DeleteOutline } from '@material-ui/icons';
 import { AccountCircle } from '@mui/icons-material';
 import {
-  Grid, Avatar, Typography, Divider,
+  Grid,
+  Avatar,
+  Typography,
+  Divider,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
 import { useState } from 'react';
 
@@ -23,8 +32,8 @@ const Note = ({
   setReplyTo,
   deleteNote,
 }: noteProps) => {
-  const [isReply, setIsReply] = useState(false);
-
+  const [isReply, setIsReply] = useState<boolean>(false);
+  const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
   const indent = `${(replyBranch + 40).toString()}px`;
 
   const getReplies = (currentNote: INote) => notes.filter(
@@ -72,7 +81,7 @@ const Note = ({
                   display: note.publisher === 'מיקי - מאב' ? '' : 'none',
                 }}
                 className="deleteButton"
-                onClick={() => deleteNote(note._id)}
+                onClick={() => setDeleteAlert(true)}
               />
               <ReplyOutlined
                 className="replyButton"
@@ -106,6 +115,33 @@ const Note = ({
           width: '100%',
         }}
       />
+      <Dialog
+        open={deleteAlert}
+        onClose={() => setDeleteAlert(false)}
+      >
+        <DialogTitle dir="rtl">
+          למחוק את ההערה?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            ההערה וכל תגובותיה יימחקו לצמיתות
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteAlert(false)}>בטל</Button>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => {
+              setDeleteAlert(false);
+              deleteNote(note._id);
+            }}
+            autoFocus
+          >
+            מחק
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

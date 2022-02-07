@@ -30,7 +30,7 @@ export const login = async (username: string, password: string) => {
   }
 };
 
-export const register = async (formData: IUser) => {
+export const signUp = async (formData: IUser) => {
   try {
     const user: Omit<IUser, '_id'> = {
       username: formData.username,
