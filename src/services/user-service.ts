@@ -23,6 +23,10 @@ export const login = async (username: string, password: string) => {
         'user',
         JSON.stringify(userFound.data),
       );
+      localStorage.setItem(
+        'userDisplay',
+        `${userFound.data.message.name} - ${userFound.data.message.unit}`,
+      );
     }
     return userFound;
   } catch (error) {

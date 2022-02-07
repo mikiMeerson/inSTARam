@@ -58,7 +58,7 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
       setStatusActivity({
         _id: '0',
         starId: star._id,
-        publisher: 'מיקי - מאב',
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
         action: 'שינת/ה את הסטטוס',
         value: value as string,
       });
@@ -66,7 +66,7 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
       setAssigneeActivity({
         _id: '0',
         starId: star._id,
-        publisher: 'מיקי - מאב',
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
         action: 'שינת/ה את האחראי',
         value: value as string,
       });
