@@ -36,9 +36,17 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  const resetForm = () => {
+    resetField('name');
+    resetField('password');
+    resetField('username');
+    resetField('password');
+  };
 
   const onSubmit = (data: any) => {
     const {
@@ -56,6 +64,7 @@ const Register = () => {
         window.location.reload();
       })
       .catch((err: string) => console.log(err));
+    resetForm();
   };
 
   return (

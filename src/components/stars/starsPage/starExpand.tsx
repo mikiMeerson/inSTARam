@@ -45,12 +45,12 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
             borderRadius: '2%',
             height: '30%',
             padding: '15px',
-            margin: '5% 0 5% 0',
+            margin: '2% 0 2% 0',
           }}
         >
           <Typography>{star.desc}</Typography>
         </Grid>
-        <Grid container sx={{ marginBottom: '5%' }}>
+        <Grid container sx={{ marginBottom: '2%' }}>
           <ComputerOutlined fontSize="small" />
           <Typography
             variant="caption"

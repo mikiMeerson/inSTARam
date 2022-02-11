@@ -28,12 +28,14 @@ import {
 } from '../../../assets/star';
 
 interface filterProps {
-  setSearchValue: (param: string) => void;
+  nameFilter: string;
+  setNameFilter: (param: string) => void;
   filtersData: filterDataType[];
 }
 
 const FiltersHeader = ({
-  setSearchValue,
+  nameFilter,
+  setNameFilter,
   filtersData,
 }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
@@ -42,10 +44,29 @@ const FiltersHeader = ({
   const [lastTab, setLastTab] = useState('');
   const [displayMore, setDisplayMore] = useState(false);
 
-  const filterEmpty = filtersData.every((sf) => sf.filter === '');
+  const filterEmpty = filtersData.every((sf) => sf.filter.length === 0)
+    && nameFilter === '';
 
-  const setFilter = (filter: string, value: string) => {
-    filtersData.find((f) => f.tabName === filter)?.func(value);
+  const setFilter = (
+    filter: string,
+    value: string,
+    action: 'add' | 'remove',
+  ) => {
+    const currFilter = filtersData.find((f) => f.tabName === filter);
+    let newFilterValues = JSON.parse(JSON.stringify(currFilter?.filter));
+
+    // add or remove the selected value according to the wanted action
+    if (action === 'add') newFilterValues.push(value);
+    else newFilterValues = newFilterValues.filter((f: string) => f !== value);
+
+    // update the current filter by adding the new selected value
+    currFilter?.func(newFilterValues);
+
+    // save the new selected list
+    localStorage.setItem(
+      `${filter} filter`,
+      JSON.stringify(newFilterValues),
+    );
   };
 
   const getFilterMargin = () => {
@@ -58,7 +79,7 @@ const FiltersHeader = ({
   const getOptions = () => {
     const newOptions = options.filter((o) => {
       const currentFilter = filtersData.find((f) => f.tabName === lastTab);
-      if (currentFilter) return o !== currentFilter.filter;
+      if (currentFilter) return !currentFilter.filter.includes(o);
       return true;
     });
     return newOptions;
@@ -231,8 +252,8 @@ const FiltersHeader = ({
             fullWidth
             autoFocus
             variant="standard"
-            label="חפש לפי טקסט חופשי"
-            onChange={(e) => setSearchValue(e.target.value)}
+            label="חפש לפי שם הסטאר"
+            onChange={(e) => setNameFilter(e.target.value)}
           />
         </div>
         <div
@@ -247,9 +268,7 @@ const FiltersHeader = ({
               sx={{ marginRight: '15px' }}
               label={o}
               key={o}
-              onClick={() => {
-                setFilter(lastTab, o);
-              }}
+              onClick={() => { setFilter(lastTab, o, 'add'); }}
             />
           ))}
         </div>
@@ -261,18 +280,21 @@ const FiltersHeader = ({
             marginTop: displayOptions || search ? '50px' : 0,
           }}
         >
-          {filtersData.map((selected) => (
-            <Chip
-              key={selected.tabName}
-              size="medium"
-              color="secondary"
-              label={selected.filter}
-              sx={{
-                marginRight: '15px',
-                display: selected.filter === '' ? 'none' : '',
-              }}
-              onClick={() => setFilter(selected.tabName, '')}
-            />
+          {filtersData.map((category) => (
+            category.filter.map((selected) => (
+              <Chip
+                key={selected}
+                size="medium"
+                color={category.chipColor}
+                label={selected}
+                sx={{
+                  marginRight: '15px',
+                }}
+                onClick={() => {
+                  setFilter(category.tabName, selected, 'remove');
+                }}
+              />
+            ))
           ))}
         </div>
       </TableBody>

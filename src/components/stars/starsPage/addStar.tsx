@@ -50,13 +50,24 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
+  const resetForm = () => {
+    resetField('name');
+    resetField('severity');
+    resetField('assignee');
+    resetField('version');
+    resetField('event');
+    resetField('desc');
+  };
+
   const handleAddStar = (data: any) => {
     toggleModal(false);
     addStar(data);
+    resetForm();
   };
 
   return (

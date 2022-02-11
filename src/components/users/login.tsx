@@ -36,10 +36,16 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    resetField,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  const resetForm = () => {
+    resetField('username');
+    resetField('password');
+  };
 
   const onSubmit = (data: any) => {
     login(data.username, data.password)
@@ -52,6 +58,7 @@ const Login = () => {
         window.location.reload();
       })
       .catch(() => setLoginError(true));
+    resetForm();
   };
 
   return (

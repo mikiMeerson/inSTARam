@@ -35,6 +35,7 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
   const [statusActivity, setStatusActivity] = useState<IActivity>();
   const [assigneeActivity, setAssigneeActivity] = useState<IActivity>();
   const [resourcesActivity, setResourcesActivity] = useState<IActivity>();
+  const [computerActivity, setComputerActivity] = useState<IActivity>();
 
   const handleSave = () => {
     if (statusActivity) {
@@ -48,6 +49,10 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
     if (resourcesActivity) {
       saveActivity(resourcesActivity);
       setResourcesActivity(undefined);
+    }
+    if (computerActivity) {
+      saveActivity(computerActivity);
+      setComputerActivity(undefined);
     }
     setIsEdit(false);
     updateStar(star._id, formData);
@@ -74,8 +79,16 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
       setResourcesActivity({
         _id: '0',
         starId: star._id,
-        publisher: 'מיקי - מאב',
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
         action: 'הוסיפ/ה משאבים נדרשים',
+      });
+    } else if (attr === 'computer') {
+      setComputerActivity({
+        _id: '0',
+        starId: star._id,
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+        action: 'שינת/ה את המערכת',
+        value: value as string,
       });
     }
     setFormData(Object.assign(formData, { [attr]: value }));

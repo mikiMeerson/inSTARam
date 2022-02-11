@@ -1,4 +1,5 @@
 import { BaseSyntheticEvent, useState } from 'react';
+import { Typography } from '@mui/material';
 import StarRow from './starRow';
 import { filterDataType } from '../../../assets/star';
 import FiltersHeader from './filtersHeader';
@@ -22,54 +23,77 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
-  const [statusFilter, setStatusFilter] = useState<string>('פתוח');
-  const [assigneeFilter, setAssigneeFilter] = useState<string>('');
-  const [versionFilter, setVersionFilter] = useState<string>('');
-  const [resourceFilter, setResourceFilter] = useState<string>('');
-  const [computerFilter, setComputerFilter] = useState<string>('');
-  const [searchValue, setSearchValue] = useState('');
+  const getExistingFilters = (filterName: string) => {
+    const existingFilter = localStorage.getItem(`${filterName} filter`);
+    return existingFilter ? JSON.parse(existingFilter) : [];
+  };
+
+  const [statusFilter, setStatusFilter] = useState<string[]>(
+    getExistingFilters('status'),
+  );
+  const [assigneeFilter, setAssigneeFilter] = useState<string[]>(
+    getExistingFilters('assignee'),
+  );
+  const [versionFilter, setVersionFilter] = useState<string[]>(
+    getExistingFilters('version'),
+  );
+  const [resourceFilter, setResourceFilter] = useState<string[]>(
+    getExistingFilters('resource'),
+  );
+  const [computerFilter, setComputerFilter] = useState<string[]>(
+    getExistingFilters('computer'),
+  );
+  const [nameFilter, setNameFilter] = useState<string>('');
 
   const filtersData: filterDataType[] = [
     {
       tabName: 'status',
       filter: statusFilter,
       func: setStatusFilter,
+      chipColor: 'primary',
     },
     {
       tabName: 'assignee',
       filter: assigneeFilter,
       func: setAssigneeFilter,
+      chipColor: 'secondary',
     },
     {
       tabName: 'version',
       filter: versionFilter,
       func: setVersionFilter,
+      chipColor: 'warning',
     },
     {
       tabName: 'resource',
       filter: resourceFilter,
       func: setResourceFilter,
+      chipColor: 'error',
     },
     {
       tabName: 'computer',
       filter: computerFilter,
       func: setComputerFilter,
+      chipColor: 'info',
     },
   ];
 
   const getFilteredStars = () => {
-    if (filtersData.every((f) => f.filter === '')) {
+    if (filtersData.every((f) => f.filter.length === 0) && nameFilter === '') {
       return stars;
     }
 
     const filteredStars: IStar[] = [];
     stars.forEach((s) => {
-      if ((s.name.includes(searchValue) || searchValue === '')
-        && (statusFilter === '' || s.status === statusFilter)
-        && (versionFilter === '' || s.version === versionFilter)
-        && (assigneeFilter === '' || s.assignee === assigneeFilter)
-        && (resourceFilter === '' || s.resources.includes(resourceFilter))
-        && (computerFilter === '' || s.computer === computerFilter)) {
+      if ((nameFilter === '' || s.name.includes(nameFilter))
+        && (statusFilter.length === 0 || statusFilter.includes(s.status))
+        && (versionFilter.length === 0 || versionFilter.includes(s.version))
+        && (assigneeFilter.length === 0 || assigneeFilter.includes(s.assignee))
+        && (resourceFilter.length === 0
+          || resourceFilter.some((element) => s.resources.includes(element))
+        )
+        && (computerFilter.length === 0
+          || (s.computer && computerFilter.includes(s.computer)))) {
         filteredStars.push(s);
       }
     });
@@ -93,6 +117,7 @@ const StarsTable = ({
       setDragged(undefined);
     }
   };
+
   return (
     <div
       style={{
@@ -103,11 +128,19 @@ const StarsTable = ({
       }}
     >
       <FiltersHeader
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
         filtersData={filtersData}
-        setSearchValue={setSearchValue}
       />
       <div className="starsTable">
-        {getFilteredStars()
+        {getFilteredStars().length === 0 && (
+          <div style={{ textAlign: 'center' }}>
+            <Typography variant="caption">
+              לא נמצאו סטארים
+            </Typography>
+          </div>
+        )}
+        {getFilteredStars().length > 0 && getFilteredStars()
           .sort((a: IStar, b: IStar) => a.priority - b.priority)
           .map((star: IStar) => (
             <StarRow

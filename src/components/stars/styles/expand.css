@@ -1,8 +1,8 @@
 .starExpand {
-    height: 250px;
+    height: 220px;
     width: 90%;
-    overflow: hidden;
     padding: 4%;
+    overflow-y: scroll;
 }
 
 .dataRow {
