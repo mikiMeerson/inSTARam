@@ -248,7 +248,7 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
                   variant="outlined"
                   disabled={!isEdit}
                   input={<Input />}
-                  defaultValue={star.computer}
+                  defaultValue={star.computer ? star.computer : ''}
                   onChange={(
                     e: SelectChangeEvent<string>,
                   ) => setAttr('computer', e.target.value)}
