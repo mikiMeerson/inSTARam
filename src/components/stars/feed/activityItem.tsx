@@ -5,6 +5,7 @@ import {
   TextSnippetOutlined,
   OfflineBoltOutlined,
   PersonOutline,
+  ComputerOutlined,
 } from '@mui/icons-material';
 
 interface activityProps {
@@ -31,6 +32,10 @@ const actionToIcon = [
   {
     action: 'הוסיפ/ה משאבים נדרשים',
     icon: <OfflineBoltOutlined className="logIcon" />,
+  },
+  {
+    action: 'שינת/ה את המערכת',
+    icon: <ComputerOutlined className="logIcon" />,
   },
 ];
 
