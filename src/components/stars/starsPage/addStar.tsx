@@ -55,15 +55,19 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const handleAddStar = (data: any) => {
-    toggleModal(false);
-    addStar(data);
+  const resetForm = () => {
     resetField('name');
     resetField('severity');
     resetField('assignee');
     resetField('version');
     resetField('event');
     resetField('desc');
+  };
+
+  const handleAddStar = (data: any) => {
+    toggleModal(false);
+    addStar(data);
+    resetForm();
   };
 
   return (

@@ -14,6 +14,6 @@ export const severityColors = ['red', 'orange', 'yellow', 'green'];
 
 export interface filterDataType {
   tabName: string;
-  filter: string;
-  func: (param: string) => void;
+  filter: string[];
+  func: (param: string[]) => void;
 }

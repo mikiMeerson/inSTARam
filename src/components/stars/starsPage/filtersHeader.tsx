@@ -28,10 +28,14 @@ import {
 } from '../../../assets/star';
 
 interface filterProps {
+  nameFilter: string;
+  setNameFilter: (param: string) => void;
   filtersData: filterDataType[];
 }
 
 const FiltersHeader = ({
+  nameFilter,
+  setNameFilter,
   filtersData,
 }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
@@ -40,10 +44,12 @@ const FiltersHeader = ({
   const [lastTab, setLastTab] = useState('');
   const [displayMore, setDisplayMore] = useState(false);
 
-  const filterEmpty = filtersData.every((sf) => sf.filter === '');
+  const filterEmpty = filtersData.every((sf) => sf.filter.length === 0)
+    && nameFilter === '';
 
   const setFilter = (filter: string, value: string) => {
-    filtersData.find((f) => f.tabName === filter)?.func(value);
+    const currFilter = filtersData.find((f) => f.tabName === filter);
+    currFilter?.func([...currFilter.filter, value]);
   };
 
   const getFilterMargin = () => {
@@ -56,7 +62,7 @@ const FiltersHeader = ({
   const getOptions = () => {
     const newOptions = options.filter((o) => {
       const currentFilter = filtersData.find((f) => f.tabName === lastTab);
-      if (currentFilter) return o !== currentFilter.filter;
+      if (currentFilter) return !currentFilter.filter.includes(o);
       return true;
     });
     return newOptions;
@@ -230,8 +236,7 @@ const FiltersHeader = ({
             autoFocus
             variant="standard"
             label="חפש לפי שם הסטאר"
-            onChange={(e) => filtersData
-              .find((f) => f.tabName === 'name')?.func(e.target.value)}
+            onChange={(e) => setNameFilter(e.target.value)}
           />
         </div>
         <div
@@ -260,19 +265,36 @@ const FiltersHeader = ({
             marginTop: displayOptions || search ? '50px' : 0,
           }}
         >
-          {filtersData.map((selected) => (
+          {filtersData.map((category) => (
+            category.filter.map((selected) => (
+              <Chip
+                key={selected}
+                size="medium"
+                color="secondary"
+                label={selected}
+                sx={{
+                  marginRight: '15px',
+                }}
+                onClick={
+                  () => category
+                    .func(category.filter.filter((f) => f !== selected))
+                }
+              />
+            ))
+          ))}
+          {/* {filtersData.map((category) => (
             <Chip
-              key={selected.tabName}
+              key={category.tabName}
               size="medium"
               color="secondary"
-              label={selected.filter}
+              label={category.filter}
               sx={{
                 marginRight: '15px',
-                display: selected.filter === '' ? 'none' : '',
+                display: category.filter === '' ? 'none' : '',
               }}
-              onClick={() => setFilter(selected.tabName, '')}
+              onClick={() => setFilter(category.tabName, '')}
             />
-          ))}
+          ))} */}
         </div>
       </TableBody>
     </Table>
