@@ -12,6 +12,7 @@ import {
 } from '../services/star-service';
 import { deleteNotes, getNotes } from '../services/note-service';
 import { deleteActivity, getActivities } from '../services/activity-service';
+import Users from '../components/users/users';
 
 const Stars = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -155,6 +156,7 @@ const Stars = () => {
         </Box>
       )}
       <Routes>
+        <Route path="/users" element={<Users />} />
         {['/', '/stars'].map((path) => (
           <Route
             key={path}
