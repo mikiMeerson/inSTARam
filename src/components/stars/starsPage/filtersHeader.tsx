@@ -28,12 +28,10 @@ import {
 } from '../../../assets/star';
 
 interface filterProps {
-  setSearchValue: (param: string) => void;
   filtersData: filterDataType[];
 }
 
 const FiltersHeader = ({
-  setSearchValue,
   filtersData,
 }: filterProps) => {
   const [displayOptions, setDisplayOptions] = useState(false);
@@ -231,8 +229,9 @@ const FiltersHeader = ({
             fullWidth
             autoFocus
             variant="standard"
-            label="חפש לפי טקסט חופשי"
-            onChange={(e) => setSearchValue(e.target.value)}
+            label="חפש לפי שם הסטאר"
+            onChange={(e) => filtersData
+              .find((f) => f.tabName === 'name')?.func(e.target.value)}
           />
         </div>
         <div

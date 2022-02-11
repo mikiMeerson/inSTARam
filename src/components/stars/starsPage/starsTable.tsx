@@ -55,6 +55,11 @@ const StarsTable = ({
       filter: computerFilter,
       func: setComputerFilter,
     },
+    {
+      tabName: 'name',
+      filter: searchValue,
+      func: setSearchValue,
+    },
   ];
 
   const getFilteredStars = () => {
@@ -64,7 +69,7 @@ const StarsTable = ({
 
     const filteredStars: IStar[] = [];
     stars.forEach((s) => {
-      if ((s.name.includes(searchValue) || searchValue === '')
+      if ((searchValue === '' || s.name.includes(searchValue))
         && (statusFilter === '' || s.status === statusFilter)
         && (versionFilter === '' || s.version === versionFilter)
         && (assigneeFilter === '' || s.assignee === assigneeFilter)
@@ -104,7 +109,6 @@ const StarsTable = ({
     >
       <FiltersHeader
         filtersData={filtersData}
-        setSearchValue={setSearchValue}
       />
       <div className="starsTable">
         {getFilteredStars()
