@@ -44,7 +44,7 @@ const StarRow = ({
   };
   const handleDragOver = (e: BaseSyntheticEvent) => {
     e.preventDefault();
-    e.currentTarget.style.borderTop = '2px solid blue';
+    e.currentTarget.style.borderTop = '50px solid transparent';
   };
 
   const handleDrop = (e: BaseSyntheticEvent) => {

@@ -54,7 +54,7 @@ const FiltersHeader = ({
   ) => {
     const currFilter = filtersData.find((f) => f.tabName === filter);
     let newFilterValues = JSON.parse(JSON.stringify(currFilter?.filter));
-    console.log(currFilter);
+
     // add or remove the selected value according to the wanted action
     if (action === 'add') newFilterValues.push(value);
     else newFilterValues = newFilterValues.filter((f: string) => f !== value);
