@@ -47,9 +47,26 @@ const FiltersHeader = ({
   const filterEmpty = filtersData.every((sf) => sf.filter.length === 0)
     && nameFilter === '';
 
-  const setFilter = (filter: string, value: string) => {
+  const setFilter = (
+    filter: string,
+    value: string,
+    action: 'add' | 'remove',
+  ) => {
     const currFilter = filtersData.find((f) => f.tabName === filter);
-    currFilter?.func([...currFilter.filter, value]);
+    let newFilterValues = JSON.parse(JSON.stringify(currFilter?.filter));
+    console.log(currFilter);
+    // add or remove the selected value according to the wanted action
+    if (action === 'add') newFilterValues.push(value);
+    else newFilterValues = newFilterValues.filter((f: string) => f !== value);
+
+    // update the current filter by adding the new selected value
+    currFilter?.func(newFilterValues);
+
+    // save the new selected list
+    localStorage.setItem(
+      `${filter} filter`,
+      JSON.stringify(newFilterValues),
+    );
   };
 
   const getFilterMargin = () => {
@@ -251,9 +268,7 @@ const FiltersHeader = ({
               sx={{ marginRight: '15px' }}
               label={o}
               key={o}
-              onClick={() => {
-                setFilter(lastTab, o);
-              }}
+              onClick={() => { setFilter(lastTab, o, 'add'); }}
             />
           ))}
         </div>
@@ -275,10 +290,9 @@ const FiltersHeader = ({
                 sx={{
                   marginRight: '15px',
                 }}
-                onClick={
-                  () => category
-                    .func(category.filter.filter((f) => f !== selected))
-                }
+                onClick={() => {
+                  setFilter(category.tabName, selected, 'remove');
+                }}
               />
             ))
           ))}

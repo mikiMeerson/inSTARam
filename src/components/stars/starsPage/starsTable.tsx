@@ -23,11 +23,26 @@ const StarsTable = ({
   dragged,
   setDragged,
 }: starProps) => {
-  const [statusFilter, setStatusFilter] = useState<string[]>([]);
-  const [assigneeFilter, setAssigneeFilter] = useState<string[]>([]);
-  const [versionFilter, setVersionFilter] = useState<string[]>([]);
-  const [resourceFilter, setResourceFilter] = useState<string[]>([]);
-  const [computerFilter, setComputerFilter] = useState<string[]>([]);
+  const getExistingFilters = (filterName: string) => {
+    const existingFilter = localStorage.getItem(`${filterName} filter`);
+    return existingFilter ? JSON.parse(existingFilter) : [];
+  };
+
+  const [statusFilter, setStatusFilter] = useState<string[]>(
+    getExistingFilters('status'),
+  );
+  const [assigneeFilter, setAssigneeFilter] = useState<string[]>(
+    getExistingFilters('assignee'),
+  );
+  const [versionFilter, setVersionFilter] = useState<string[]>(
+    getExistingFilters('version'),
+  );
+  const [resourceFilter, setResourceFilter] = useState<string[]>(
+    getExistingFilters('resource'),
+  );
+  const [computerFilter, setComputerFilter] = useState<string[]>(
+    getExistingFilters('computer'),
+  );
   const [nameFilter, setNameFilter] = useState<string>('');
 
   const filtersData: filterDataType[] = [
