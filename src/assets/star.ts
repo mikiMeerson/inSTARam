@@ -16,4 +16,11 @@ export interface filterDataType {
   tabName: string;
   filter: string[];
   func: (param: string[]) => void;
+  chipColor: 'default'
+  | 'secondary'
+  | 'primary'
+  | 'error'
+  | 'info'
+  | 'success'
+  | 'warning',
 }

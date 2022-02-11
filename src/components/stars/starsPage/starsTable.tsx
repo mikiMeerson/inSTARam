@@ -35,26 +35,31 @@ const StarsTable = ({
       tabName: 'status',
       filter: statusFilter,
       func: setStatusFilter,
+      chipColor: 'primary',
     },
     {
       tabName: 'assignee',
       filter: assigneeFilter,
       func: setAssigneeFilter,
+      chipColor: 'secondary',
     },
     {
       tabName: 'version',
       filter: versionFilter,
       func: setVersionFilter,
+      chipColor: 'warning',
     },
     {
       tabName: 'resource',
       filter: resourceFilter,
       func: setResourceFilter,
+      chipColor: 'error',
     },
     {
       tabName: 'computer',
       filter: computerFilter,
       func: setComputerFilter,
+      chipColor: 'info',
     },
   ];
 

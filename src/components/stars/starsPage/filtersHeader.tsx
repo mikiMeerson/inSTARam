@@ -270,7 +270,7 @@ const FiltersHeader = ({
               <Chip
                 key={selected}
                 size="medium"
-                color="secondary"
+                color={category.chipColor}
                 label={selected}
                 sx={{
                   marginRight: '15px',
@@ -282,19 +282,6 @@ const FiltersHeader = ({
               />
             ))
           ))}
-          {/* {filtersData.map((category) => (
-            <Chip
-              key={category.tabName}
-              size="medium"
-              color="secondary"
-              label={category.filter}
-              sx={{
-                marginRight: '15px',
-                display: category.filter === '' ? 'none' : '',
-              }}
-              onClick={() => setFilter(category.tabName, '')}
-            />
-          ))} */}
         </div>
       </TableBody>
     </Table>
