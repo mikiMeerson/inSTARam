@@ -48,7 +48,8 @@
     "react/no-array-index-key": "off",
     "no-console": "off",
     "class-methods-use-this": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "object-curly-newline": "off"
   },
   "settings": {
     "import/resolver": {
