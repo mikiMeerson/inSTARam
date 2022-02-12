@@ -21,6 +21,7 @@ import {
   statuses,
   versions,
 } from '../../../assets/star';
+import { isEditable } from '../../../assets/utils';
 
 interface starProps {
   star: IStar;
@@ -129,7 +130,11 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
         <Fab
           size="small"
           color="secondary"
-          sx={{ background: isEdit ? 'blue' : 'goldenrod', color: 'white' }}
+          sx={{
+            background: isEdit ? 'blue' : 'goldenrod',
+            color: 'white',
+            display: isEditable() ? '' : 'none',
+          }}
         >
           {isEdit
             ? (<SaveOutlined onClick={handleSave} />)

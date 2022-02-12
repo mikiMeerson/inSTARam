@@ -41,10 +41,12 @@ interface IUser {
     password: string;
     name: string;
     unit: string;
-    roles?: string[];
+    role: userRole;
     createdAt?: string;
     updatedAt?: string;
 }
+
+type userRole = 'viewer' | 'editor' | 'admin';
 
 type ApiStarsType = {
     message: string

@@ -53,7 +53,7 @@ const Register = () => {
       name, unit, username, password,
     } = data;
     signUp({
-      _id: '0', username, password, name, unit,
+      _id: '0', username, password, name, unit, role: 'viewer',
     })
       .then(({ status }) => {
         if (status !== 200) {

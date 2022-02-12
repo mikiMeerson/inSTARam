@@ -18,19 +18,25 @@ import { BaseSyntheticEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './styles/navbar.css';
 import { logout } from '../../services/user-service';
+import { isViewable } from '../../assets/utils';
 
 type linkDisplayType = {
   display: string;
   link: string;
+  role: userRole;
 };
 
 const pages: linkDisplayType[] = [
-  { display: 'סטארים', link: '/stars' },
-  { display: 'גיחות', link: '/flights' },
-  { display: 'משתמשים', link: '/users' },
+  { display: 'סטארים', link: '/stars', role: 'viewer' },
+  { display: 'גיחות', link: '/flights', role: 'viewer' },
+  { display: 'משתמשים', link: '/users', role: 'admin' },
 ];
 
-const Navbar = () => {
+interface navbarProps {
+  role: userRole;
+}
+
+const Navbar = ({ role }: navbarProps) => {
   const [anchorElNav, setAnchorElNav] = useState();
   const [anchorElUser, setAnchorElUser] = useState();
 
@@ -81,13 +87,15 @@ const Navbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page: linkDisplayType, index) => (
-                <NavLink to={page.link} key={index}>
-                  <MenuItem key={page.display} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page.display}</Typography>
-                  </MenuItem>
-                </NavLink>
-              ))}
+              {pages
+                .filter((p) => isViewable(p.role, role))
+                .map((page: linkDisplayType, index) => (
+                  <NavLink to={page.link} key={index}>
+                    <MenuItem key={page.display} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page.display}</Typography>
+                    </MenuItem>
+                  </NavLink>
+                ))}
             </Menu>
           </Box>
           <Typography
@@ -99,23 +107,25 @@ const Navbar = () => {
             <StarOutline fontSize="large" />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page: linkDisplayType) => (
-              <NavLink to={page.link} key={page.link}>
-                <Button
-                  key={page.display}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    fontSize: 'large',
-                    color: 'white',
-                    display: 'block',
-                    marginRight: '15px',
-                  }}
-                >
-                  {page.display}
-                </Button>
-              </NavLink>
-            ))}
+            {pages
+              .filter((p) => isViewable(p.role, role))
+              .map((page: linkDisplayType) => (
+                <NavLink to={page.link} key={page.link}>
+                  <Button
+                    key={page.display}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      my: 2,
+                      fontSize: 'large',
+                      color: 'white',
+                      display: 'block',
+                      marginRight: '15px',
+                    }}
+                  >
+                    {page.display}
+                  </Button>
+                </NavLink>
+              ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

@@ -41,7 +41,7 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
       getStarById(starId)
         .then(({ status, data }) => {
           if (status !== 200) {
-            throw new Error('Error! Todo not deleted');
+            throw new Error('Error! Star not deleted');
           }
           setStar(data.star);
         })

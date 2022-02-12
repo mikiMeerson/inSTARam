@@ -12,6 +12,19 @@ export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
   }
 };
 
+export const getUserById = async (
+  userId: string,
+): Promise<AxiosResponse<ApiUsersType>> => {
+  try {
+    const user: AxiosResponse<ApiUsersType> = await axios.get(
+      `${baseUrl}/user/${userId}`,
+    );
+    return user;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
 export const login = async (username: string, password: string) => {
   try {
     const credentials = { username, password };
@@ -27,11 +40,24 @@ export const login = async (username: string, password: string) => {
         'userDisplay',
         `${userFound.data.message.name} - ${userFound.data.message.unit}`,
       );
+      localStorage.setItem('role', userFound.data.message.role);
     }
     return userFound;
   } catch (error) {
     throw new Error(error as string);
   }
+};
+
+export const getUserRole = async () => {
+  const currStoredUser = localStorage.getItem('user');
+  if (currStoredUser) {
+    const currUserId = JSON.parse(currStoredUser).message._id;
+    const role = await getUserById(currUserId)
+      .then(({ data }) => data.user && data.user.role);
+    return role;
+  }
+
+  return undefined;
 };
 
 export const signUp = async (formData: IUser) => {
@@ -41,7 +67,7 @@ export const signUp = async (formData: IUser) => {
       password: formData.password,
       name: formData.name,
       unit: formData.unit,
-      roles: [],
+      role: 'viewer',
     };
 
     const saveUser = await axios.post(
@@ -61,17 +87,14 @@ export const logout = () => {
   localStorage.removeItem('user');
 };
 
-export const updateUserField = async (
-  field: keyof IUser,
+export const EditUser = async (
   user: IUser,
-  newValue: string | string[],
+  newUser: IUser,
 ): Promise<AxiosResponse<ApiUsersType>> => {
   try {
-    const userUpdate = Object.assign(user, { [field]: newValue });
-
     const updatedUser: AxiosResponse<ApiUsersType> = await axios.put(
       `${baseUrl}/edit-user/${user._id}`,
-      userUpdate,
+      newUser,
     );
     return updatedUser;
   } catch (error) {

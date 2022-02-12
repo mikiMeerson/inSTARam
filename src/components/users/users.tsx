@@ -1,21 +1,16 @@
 import { useEffect, useState } from 'react';
 import { DataGrid, GridCellParams } from '@mui/x-data-grid';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
+import { Button } from '@mui/material';
 import { DeleteOutline, EditOutlined } from '@mui/icons-material';
-import { deleteUser, getUsers, logout } from '../../services/user-service';
+import { getUsers } from '../../services/user-service';
+import UserDialog from './userDialog';
 
 interface userRowType {
   id: string;
   name: string;
   unit: string;
   username: string;
+  role: userRole;
   createdAt: string | null;
 }
 const Users = () => {
@@ -36,12 +31,9 @@ const Users = () => {
     const action = params.field;
     setSelectedUser(user);
 
-    if (action === 'delete') {
+    if (action === 'delete' || action === 'edit') {
       setUserAction(action);
       setOpenDialog(true);
-    } else if (action === 'edit') {
-      setUserAction(action);
-      // todo transfer to edit page
     }
   };
 
@@ -53,6 +45,7 @@ const Users = () => {
         name: user.name,
         unit: user.unit,
         username: user.username,
+        role: user.role,
         createdAt:
           user.createdAt ? getDisplayDate(new Date(user.createdAt)) : null,
       });
@@ -73,31 +66,12 @@ const Users = () => {
     fetchUsers();
   });
 
-  const handleUserAction = () => {
-    if (userAction === 'delete') {
-      const loggedUser = localStorage.getItem('user');
-      deleteUser(selectedUser!.id)
-        .then(
-          ({ status }) => {
-            if (status !== 200) {
-              throw new Error('Error! User not deleted');
-            }
-            fetchUsers();
-            if (loggedUser
-              && JSON.parse(loggedUser).message._id === selectedUser?.id) {
-              logout();
-            }
-          },
-        )
-        .catch((err: string) => console.log(err));
-    }
-  };
-
   const columns = [
     { field: 'id', headerName: 'ID', flex: 1 },
     { field: 'name', headerName: 'שם', flex: 1 },
     { field: 'unit', headerName: 'יחידה', flex: 1 },
     { field: 'username', headerName: 'שם משתמש', flex: 1 },
+    { field: 'role', headerName: 'הרשאות', flex: 1 },
     { field: 'createdAt', headerName: 'זמן יצירה', flex: 1 },
     {
       field: 'edit',
@@ -135,30 +109,13 @@ const Users = () => {
         autoHeight
         onCellClick={selectUser}
       />
-      <Dialog
-        open={openDialog}
-        onClose={() => setOpenDialog(false)}
-      >
-        <DialogTitle>מחיקת משתמש</DialogTitle>
-        <DialogContent>
-          <DialogContentText>האם למחוק את המשתמש?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDialog(false)} color="primary">
-            בטל
-          </Button>
-          <Button
-            onClick={() => {
-              setOpenDialog(false);
-              handleUserAction();
-            }}
-            variant="contained"
-            color="error"
-          >
-            מחק
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <UserDialog
+        isOpen={openDialog}
+        setIsOpen={setOpenDialog}
+        userAction={userAction}
+        selectedUser={selectedUser}
+        fetchUsers={fetchUsers}
+      />
     </>
   );
 };

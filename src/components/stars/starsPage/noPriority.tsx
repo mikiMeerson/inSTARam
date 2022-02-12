@@ -2,6 +2,7 @@ import { BaseSyntheticEvent } from 'react';
 import { Collapse, SpeedDial, SpeedDialIcon } from '@mui/material';
 import { StarBorder } from '@material-ui/icons';
 import StarsTable from './starsTable';
+import { isEditable } from '../../../assets/utils';
 
 interface tableProps {
   stars: IStar[];
@@ -51,7 +52,11 @@ const NoPriority = ({
       >
         <div className="noPrioirityHeader">
           <SpeedDial
-            sx={{ position: 'fixed', left: '110px' }}
+            sx={{
+              position: 'fixed',
+              left: '110px',
+              display: isEditable() ? '' : 'none',
+            }}
             ariaLabel="SpeedDial controlled open example"
             icon={<SpeedDialIcon openIcon={<StarBorder />} />}
             onClick={() => toggleAddStar(true)}

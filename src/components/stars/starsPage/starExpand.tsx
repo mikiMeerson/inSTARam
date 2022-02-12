@@ -13,6 +13,7 @@ import {
 import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
+import { isEditable } from '../../../assets/utils';
 
 interface starProps {
   star: IStar;
@@ -66,7 +67,10 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
               עבור לעמוד הסטאר
             </Button>
           </NavLink>
-          <div className="actionButtons">
+          <div
+            className="actionButtons"
+            style={{ display: isEditable() ? '' : 'none' }}
+          >
             <Fab size="small" id="delete" onClick={() => setDeleteAlert(true)}>
               <DeleteOutline />
             </Fab>
