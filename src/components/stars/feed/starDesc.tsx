@@ -21,7 +21,6 @@ import {
   statuses,
   versions,
 } from '../../../assets/star';
-import { isEditable } from '../../../assets/utils';
 
 interface starProps {
   star: IStar;
@@ -37,6 +36,11 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
   const [assigneeActivity, setAssigneeActivity] = useState<IActivity>();
   const [resourcesActivity, setResourcesActivity] = useState<IActivity>();
   const [computerActivity, setComputerActivity] = useState<IActivity>();
+
+  const isEditable = (): boolean => {
+    const role = localStorage.getItem('role');
+    return (role === 'editor' || role === 'admin');
+  };
 
   const handleSave = () => {
     if (statusActivity) {

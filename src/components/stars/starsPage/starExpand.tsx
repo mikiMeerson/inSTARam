@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Grid,
   Button,
@@ -13,7 +13,7 @@ import {
 import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
-import { isEditable } from '../../../assets/utils';
+import { authorizeUser } from '../../../services/user-service';
 
 interface starProps {
   star: IStar;
@@ -23,6 +23,11 @@ interface starProps {
 
 const starExpand = ({ star, setFeed, removeStar }: starProps) => {
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
+  const [isEditor, setIsEditor] = useState<boolean>(false);
+
+  useEffect(() => {
+    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+  }, []);
 
   return (
     <>
@@ -69,7 +74,7 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
           </NavLink>
           <div
             className="actionButtons"
-            style={{ display: isEditable() ? '' : 'none' }}
+            style={{ display: isEditor ? '' : 'none' }}
           >
             <Fab size="small" id="delete" onClick={() => setDeleteAlert(true)}>
               <DeleteOutline />

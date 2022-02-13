@@ -1,3 +1,4 @@
+import { useEffect, BaseSyntheticEvent, useState } from 'react';
 import {
   AppBar,
   Box,
@@ -14,11 +15,9 @@ import {
 import { AccountCircle } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { StarOutline } from '@material-ui/icons';
-import { BaseSyntheticEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './styles/navbar.css';
-import { logout } from '../../services/user-service';
-import { isViewable } from '../../assets/utils';
+import { logout, authorizeUser } from '../../services/user-service';
 
 type linkDisplayType = {
   display: string;
@@ -32,14 +31,16 @@ const pages: linkDisplayType[] = [
   { display: 'משתמשים', link: '/users', role: 'admin' },
 ];
 
-interface navbarProps {
-  role: userRole;
-}
-
-const Navbar = ({ role }: navbarProps) => {
+const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState();
   const [anchorElUser, setAnchorElUser] = useState();
+  const [isEditor, setIsEditor] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
+  useEffect(() => {
+    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+    authorizeUser('admin').then((res: boolean) => setIsAdmin(res));
+  }, []);
   const navigate = useNavigate();
 
   const handleCloseNavMenu = () => {
@@ -88,7 +89,9 @@ const Navbar = ({ role }: navbarProps) => {
               }}
             >
               {pages
-                .filter((p) => isViewable(p.role, role))
+                .filter((p) => p.role === 'viewer'
+                  || isAdmin
+                  || (p.role === 'editor' && isEditor))
                 .map((page: linkDisplayType, index) => (
                   <NavLink to={page.link} key={index}>
                     <MenuItem key={page.display} onClick={handleCloseNavMenu}>
@@ -108,7 +111,9 @@ const Navbar = ({ role }: navbarProps) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages
-              .filter((p) => isViewable(p.role, role))
+              .filter((p) => p.role === 'viewer'
+                || isAdmin
+                || (p.role === 'editor' && isEditor))
               .map((page: linkDisplayType) => (
                 <NavLink to={page.link} key={page.link}>
                   <Button
@@ -127,7 +132,9 @@ const Navbar = ({ role }: navbarProps) => {
                 </NavLink>
               ))}
           </Box>
-
+          <Typography variant="h6" sx={{ paddingLeft: '15px' }}>
+            {localStorage.getItem('userDisplay')}
+          </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton

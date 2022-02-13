@@ -48,18 +48,6 @@ export const login = async (username: string, password: string) => {
   }
 };
 
-export const getUserRole = async () => {
-  const currStoredUser = localStorage.getItem('user');
-  if (currStoredUser) {
-    const currUserId = JSON.parse(currStoredUser).message._id;
-    const role = await getUserById(currUserId)
-      .then(({ data }) => data.user && data.user.role);
-    return role;
-  }
-
-  return undefined;
-};
-
 export const signUp = async (formData: IUser) => {
   try {
     const user: Omit<IUser, '_id'> = {
@@ -113,4 +101,20 @@ export const deleteUser = async (
   } catch (error) {
     throw new Error(error as string);
   }
+};
+
+export const authorizeUser = async (authorization: userRole) => {
+  const rolesConversion = ['viewer', 'editor', 'admin'];
+  let res = false;
+  const loggedUser = localStorage.getItem('user');
+  if (loggedUser) {
+    const userId = JSON.parse(loggedUser).message._id;
+    await getUserById(userId).then(({ data }) => {
+      const userRole = data.user ? data.user.role : 'viewer';
+      res = rolesConversion.indexOf(userRole) >= rolesConversion.indexOf(authorization);
+      console.log(res);
+    });
+  }
+  console.log(res);
+  return res;
 };
