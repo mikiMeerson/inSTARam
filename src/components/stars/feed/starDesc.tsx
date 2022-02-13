@@ -37,6 +37,11 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
   const [resourcesActivity, setResourcesActivity] = useState<IActivity>();
   const [computerActivity, setComputerActivity] = useState<IActivity>();
 
+  const isEditable = (): boolean => {
+    const role = localStorage.getItem('role');
+    return (role === 'editor' || role === 'admin');
+  };
+
   const handleSave = () => {
     if (statusActivity) {
       saveActivity(statusActivity);
@@ -129,7 +134,11 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
         <Fab
           size="small"
           color="secondary"
-          sx={{ background: isEdit ? 'blue' : 'goldenrod', color: 'white' }}
+          sx={{
+            background: isEdit ? 'blue' : 'goldenrod',
+            color: 'white',
+            display: isEditable() ? '' : 'none',
+          }}
         >
           {isEdit
             ? (<SaveOutlined onClick={handleSave} />)

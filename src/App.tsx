@@ -7,26 +7,23 @@ import Login from './components/users/login';
 
 const App = () => {
   const user = localStorage.getItem('user');
-
+  if (user) {
+    return (
+      <HashRouter>
+        <div className="App" dir="rtl">
+          <Navbar />
+          <Stars />
+        </div>
+      </HashRouter>
+    );
+  }
   return (
     <HashRouter>
-      {
-        user && (
-          <div className="App" dir="rtl">
-            <Navbar />
-            <Stars />
-          </div>
-        )
-      }
-      {
-        (!user) && (
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        )
-      }
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </HashRouter>
   );
 };

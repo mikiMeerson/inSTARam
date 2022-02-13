@@ -1,3 +1,4 @@
+import { useEffect, BaseSyntheticEvent, useState } from 'react';
 import {
   AppBar,
   Box,
@@ -14,26 +15,32 @@ import {
 import { AccountCircle } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { StarOutline } from '@material-ui/icons';
-import { BaseSyntheticEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './styles/navbar.css';
-import { logout } from '../../services/user-service';
+import { logout, authorizeUser } from '../../services/user-service';
 
 type linkDisplayType = {
   display: string;
   link: string;
+  role: userRole;
 };
 
 const pages: linkDisplayType[] = [
-  { display: 'סטארים', link: '/stars' },
-  { display: 'גיחות', link: '/flights' },
-  { display: 'משתמשים', link: '/users' },
+  { display: 'סטארים', link: '/stars', role: 'viewer' },
+  { display: 'גיחות', link: '/flights', role: 'viewer' },
+  { display: 'משתמשים', link: '/users', role: 'admin' },
 ];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState();
   const [anchorElUser, setAnchorElUser] = useState();
+  const [isEditor, setIsEditor] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
+  useEffect(() => {
+    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+    authorizeUser('admin').then((res: boolean) => setIsAdmin(res));
+  }, []);
   const navigate = useNavigate();
 
   const handleCloseNavMenu = () => {
@@ -81,13 +88,17 @@ const Navbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page: linkDisplayType, index) => (
-                <NavLink to={page.link} key={index}>
-                  <MenuItem key={page.display} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page.display}</Typography>
-                  </MenuItem>
-                </NavLink>
-              ))}
+              {pages
+                .filter((p) => p.role === 'viewer'
+                  || isAdmin
+                  || (p.role === 'editor' && isEditor))
+                .map((page: linkDisplayType, index) => (
+                  <NavLink to={page.link} key={index}>
+                    <MenuItem key={page.display} onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page.display}</Typography>
+                    </MenuItem>
+                  </NavLink>
+                ))}
             </Menu>
           </Box>
           <Typography
@@ -99,25 +110,31 @@ const Navbar = () => {
             <StarOutline fontSize="large" />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page: linkDisplayType) => (
-              <NavLink to={page.link} key={page.link}>
-                <Button
-                  key={page.display}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    fontSize: 'large',
-                    color: 'white',
-                    display: 'block',
-                    marginRight: '15px',
-                  }}
-                >
-                  {page.display}
-                </Button>
-              </NavLink>
-            ))}
+            {pages
+              .filter((p) => p.role === 'viewer'
+                || isAdmin
+                || (p.role === 'editor' && isEditor))
+              .map((page: linkDisplayType) => (
+                <NavLink to={page.link} key={page.link}>
+                  <Button
+                    key={page.display}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      my: 2,
+                      fontSize: 'large',
+                      color: 'white',
+                      display: 'block',
+                      marginRight: '15px',
+                    }}
+                  >
+                    {page.display}
+                  </Button>
+                </NavLink>
+              ))}
           </Box>
-
+          <Typography variant="h6" sx={{ paddingLeft: '15px' }}>
+            {localStorage.getItem('userDisplay')}
+          </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton

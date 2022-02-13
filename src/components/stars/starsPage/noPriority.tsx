@@ -1,7 +1,8 @@
-import { BaseSyntheticEvent } from 'react';
+import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { Collapse, SpeedDial, SpeedDialIcon } from '@mui/material';
 import { StarBorder } from '@material-ui/icons';
 import StarsTable from './starsTable';
+import { authorizeUser } from '../../../services/user-service';
 
 interface tableProps {
   stars: IStar[];
@@ -24,11 +25,18 @@ const NoPriority = ({
   dragged,
   setDragged,
 }: tableProps) => {
+  const [isEditor, setIsEditor] = useState<boolean>(false);
+
   const handleDrop = () => {
     if (dragged) {
       changePriority(dragged, 0);
     }
   };
+
+  useEffect(() => {
+    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+  }, []);
+
   return (
     <Collapse
       orientation="horizontal"
@@ -51,7 +59,11 @@ const NoPriority = ({
       >
         <div className="noPrioirityHeader">
           <SpeedDial
-            sx={{ position: 'fixed', left: '110px' }}
+            sx={{
+              display: isEditor ? 'inherit' : 'none',
+              position: 'fixed',
+              left: '110px',
+            }}
             ariaLabel="SpeedDial controlled open example"
             icon={<SpeedDialIcon openIcon={<StarBorder />} />}
             onClick={() => toggleAddStar(true)}

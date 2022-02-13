@@ -1,3 +1,4 @@
+import { useState, useEffect, BaseSyntheticEvent } from 'react';
 import {
   Table,
   TableContainer,
@@ -6,9 +7,9 @@ import {
   Paper,
   Collapse,
 } from '@mui/material';
-import { BaseSyntheticEvent, useState } from 'react';
 import StarExpand from './starExpand';
 import { severityColors } from '../../../assets/star';
+import { authorizeUser } from '../../../services/user-service';
 
 interface starProps {
   star: IStar;
@@ -27,6 +28,11 @@ const StarRow = ({
   setDragged,
 }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
+  const [isEditor, setIsEditor] = useState<boolean>(false);
+
+  useEffect(() => {
+    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+  }, []);
 
   const getCreationTime = () => {
     const date = star.createdAt ? new Date(star.createdAt) : undefined;
@@ -68,7 +74,7 @@ const StarRow = ({
     <TableContainer component={Paper} className="starRow">
       <Table onClick={() => setOpenDesc(!openDesc)}>
         <TableRow
-          draggable
+          draggable={isEditor}
           onDragStart={handleStartDrag}
           onDragOver={handleDragOver}
           onDragLeave={
