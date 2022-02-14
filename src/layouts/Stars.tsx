@@ -13,7 +13,7 @@ import {
 import { deleteNotes, getNotes } from '../services/note-service';
 import { deleteActivity, getActivities } from '../services/activity-service';
 import Users from '../components/users/users';
-import StarsHistory from '../components/stars/starsHistory/stars-history';
+import StarsHistory from '../components/stars/starsHistory/starsHistory';
 
 const Stars = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,7 +48,7 @@ const Stars = () => {
     setLoading(true);
     getStars()
       .then((res) => {
-        setStars(res.data.stars);
+        setStars(res.data.stars.filter((s) => s.status !== 'סגור'));
         setLoading(false);
       })
       .catch((err: Error) => {
@@ -181,7 +181,6 @@ const Stars = () => {
             feedToDisplay ? (
               <StarFeed starId={feedToDisplay} updateStar={handleUpdateStar} />
             ) : (
-              // todo should be star not found page
               <StarsPage
                 stars={stars}
                 addStar={handleAddStar}

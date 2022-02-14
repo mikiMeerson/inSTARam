@@ -1,9 +1,12 @@
+type starStatus = 'פתוח' | 'סגור' | 'בעבודה';
+type userRole = 'viewer' | 'editor' | 'admin';
+
 interface IStar {
     _id: string;
     priority: number;
     severity: number;
     name: string;
-    status: string;
+    status: starStatus;
     assignee: string;
     version: string;
     publisher: string;
@@ -45,8 +48,6 @@ interface IUser {
     createdAt?: string;
     updatedAt?: string;
 }
-
-type userRole = 'viewer' | 'editor' | 'admin';
 
 type ApiStarsType = {
     message: string

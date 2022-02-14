@@ -5,12 +5,6 @@ import {
   Avatar,
   Typography,
   Divider,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from '@mui/material';
 import { useState } from 'react';
 import DialogAlert from '../../general/dialogAlert';
