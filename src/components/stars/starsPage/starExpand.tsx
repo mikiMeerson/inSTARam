@@ -26,7 +26,9 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
   const [isEditor, setIsEditor] = useState<boolean>(false);
 
   useEffect(() => {
+    const ac = new AbortController();
     authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+    return () => ac.abort();
   }, []);
 
   return (

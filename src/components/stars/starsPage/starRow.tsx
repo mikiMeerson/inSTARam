@@ -6,6 +6,7 @@ import {
   TableCell,
   Paper,
   Collapse,
+  TableBody,
 } from '@mui/material';
 import StarExpand from './starExpand';
 import { severityColors } from '../../../assets/star';
@@ -31,7 +32,9 @@ const StarRow = ({
   const [isEditor, setIsEditor] = useState<boolean>(false);
 
   useEffect(() => {
+    const ac = new AbortController();
     authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+    return () => ac.abort();
   }, []);
 
   const getCreationTime = () => {
@@ -73,31 +76,33 @@ const StarRow = ({
   return (
     <TableContainer component={Paper} className="starRow">
       <Table onClick={() => setOpenDesc(!openDesc)}>
-        <TableRow
-          draggable={isEditor}
-          onDragStart={handleStartDrag}
-          onDragOver={handleDragOver}
-          onDragLeave={
-            (e: BaseSyntheticEvent) => e.currentTarget.style.borderTop = 'none'
-          }
-          onDrop={handleDrop}
-        >
-          <TableCell align="center" width="50px">
-            <div
-              id="priority"
-              style={{
-                color: severityColors[star.severity - 1],
-              }}
-            >
-              {star.priority > 0 ? star.priority : '?'}
-            </div>
-          </TableCell>
-          <TableCell width="105px">{star.name}</TableCell>
-          <TableCell width="70px">{star.status}</TableCell>
-          <TableCell width="70px">{star.assignee}</TableCell>
-          <TableCell width="45px">{getCreationTime()}</TableCell>
-          <TableCell width="60px">{star.version}</TableCell>
-        </TableRow>
+        <TableBody>
+          <TableRow
+            draggable={isEditor}
+            onDragStart={handleStartDrag}
+            onDragOver={handleDragOver}
+            onDragLeave={
+              (e: BaseSyntheticEvent) => e.currentTarget.style.borderTop = 'none'
+            }
+            onDrop={handleDrop}
+          >
+            <TableCell align="center" width="50px">
+              <div
+                id="priority"
+                style={{
+                  color: severityColors[star.severity - 1],
+                }}
+              >
+                {star.priority > 0 ? star.priority : '?'}
+              </div>
+            </TableCell>
+            <TableCell width="105px">{star.name}</TableCell>
+            <TableCell width="70px">{star.status}</TableCell>
+            <TableCell width="70px">{star.assignee}</TableCell>
+            <TableCell width="45px">{getCreationTime()}</TableCell>
+            <TableCell width="60px">{star.version}</TableCell>
+          </TableRow>
+        </TableBody>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: 'hidden' }}>
         <StarExpand star={star} setFeed={setFeed} removeStar={deleteStar} />

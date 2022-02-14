@@ -54,7 +54,6 @@ const Login = () => {
           throw new Error('Error! wrong credentials');
         }
         navigate('/stars');
-        console.log('Login successful');
         window.location.reload();
       })
       .catch(() => setLoginError(true));

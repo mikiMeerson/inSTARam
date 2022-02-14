@@ -36,6 +36,7 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
   }, [starId]);
 
   useEffect(() => {
+    const ac = new AbortController();
     setLoading(true);
     const fetchStar = (): void => {
       getStarById(starId)
@@ -53,6 +54,8 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
       fetchActivity();
     }
     setLoading(false);
+
+    return () => ac.abort();
   }, [fetchActivity, fetchNotes, star, starId]);
 
   if (!star) {

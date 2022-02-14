@@ -175,7 +175,7 @@ const Stars = () => {
           />
         ))}
         <Route
-          path={feedToDisplay ? `/star/${feedToDisplay}` : '/'}
+          path="/star/:id"
           element={
             feedToDisplay ? (
               <StarFeed starId={feedToDisplay} updateStar={handleUpdateStar} />

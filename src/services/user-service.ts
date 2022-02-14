@@ -112,9 +112,7 @@ export const authorizeUser = async (authorization: userRole) => {
     await getUserById(userId).then(({ data }) => {
       const userRole = data.user ? data.user.role : 'viewer';
       res = rolesConversion.indexOf(userRole) >= rolesConversion.indexOf(authorization);
-      console.log(res);
     });
   }
-  console.log(res);
   return res;
 };

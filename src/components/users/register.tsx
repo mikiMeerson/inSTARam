@@ -60,7 +60,6 @@ const Register = () => {
           throw new Error('Error! user not saved');
         }
         navigate('/stars');
-        console.log('user added');
         window.location.reload();
       })
       .catch((err: string) => console.log(err));

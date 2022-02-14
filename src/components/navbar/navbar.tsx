@@ -38,8 +38,10 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
+    const ac = new AbortController();
     authorizeUser('editor').then((res: boolean) => setIsEditor(res));
     authorizeUser('admin').then((res: boolean) => setIsAdmin(res));
+    return () => ac.abort();
   }, []);
   const navigate = useNavigate();
 

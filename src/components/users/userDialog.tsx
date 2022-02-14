@@ -112,7 +112,6 @@ const UserDialog = ({
             });
         }
       });
-    console.log(formData);
   };
 
   if (userAction === 'delete' && selectedUser) {
