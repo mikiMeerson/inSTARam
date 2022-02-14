@@ -82,11 +82,12 @@ const StarRow = ({
             onDragStart={handleStartDrag}
             onDragOver={handleDragOver}
             onDragLeave={
-              (e: BaseSyntheticEvent) => e.currentTarget.style.borderTop = 'none'
+              (e: BaseSyntheticEvent) => e.currentTarget
+                .style.borderTop = 'none'
             }
             onDrop={handleDrop}
           >
-            <TableCell align="center" width="50px">
+            <TableCell align="center" width="40px">
               <div
                 id="priority"
                 style={{
@@ -96,11 +97,13 @@ const StarRow = ({
                 {star.priority > 0 ? star.priority : '?'}
               </div>
             </TableCell>
-            <TableCell width="105px">{star.name}</TableCell>
-            <TableCell width="70px">{star.status}</TableCell>
-            <TableCell width="70px">{star.assignee}</TableCell>
-            <TableCell width="45px">{getCreationTime()}</TableCell>
-            <TableCell width="60px">{star.version}</TableCell>
+            <TableCell width="105px" align="center">{star.name}</TableCell>
+            <TableCell width="70px" align="center">{star.status}</TableCell>
+            <TableCell width="70px" align="center">{star.assignee}</TableCell>
+            <TableCell width="45px" align="center">
+              {getCreationTime()}
+            </TableCell>
+            <TableCell width="60px" align="center">{star.version}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

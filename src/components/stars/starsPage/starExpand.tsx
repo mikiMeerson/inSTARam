@@ -14,6 +14,7 @@ import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
 import { authorizeUser } from '../../../services/user-service';
+import DialogAlert from '../../general/dialogAlert';
 
 interface starProps {
   star: IStar;
@@ -84,33 +85,14 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
           </div>
         </div>
       </div>
-      <Dialog
-        open={deleteAlert}
-        onClose={() => setDeleteAlert(false)}
-      >
-        <DialogTitle dir="rtl">
-          למחוק את הסטאר?
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            כל פרטי הסטאר והפעילות שנעשתה בו יימחקו לצמיתות
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteAlert(false)}>בטל</Button>
-          <Button
-            color="error"
-            variant="contained"
-            onClick={() => {
-              setDeleteAlert(false);
-              removeStar(star);
-            }}
-            autoFocus
-          >
-            מחק
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogAlert
+        header="למחוק את הסטאר?"
+        content="כל פרטי הסטאר והפעילות שנעשתה בו יימחקו לצמיתות"
+        isOpen={deleteAlert}
+        setIsOpen={setDeleteAlert}
+        activateResponse={removeStar}
+        param={star}
+      />
     </>
   );
 };

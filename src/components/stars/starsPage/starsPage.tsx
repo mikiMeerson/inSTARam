@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { ChevronRight, MenuOpenSharp } from '@material-ui/icons';
 import StarsTable from './starsTable';
@@ -30,7 +31,12 @@ const StarsPage = ({
 
   return (
     <div className="Page">
-      <h1>סטארים</h1>
+      <div className="pageHeader">
+        <h1>ניהול סטארים</h1>
+        <Link to="/stars-history">
+          <Button>לטבלת הסטארים המלאה</Button>
+        </Link>
+      </div>
       <div className="stars">
         <StarsTable
           unpriotized={false}

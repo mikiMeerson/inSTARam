@@ -13,6 +13,7 @@ import {
 import { deleteNotes, getNotes } from '../services/note-service';
 import { deleteActivity, getActivities } from '../services/activity-service';
 import Users from '../components/users/users';
+import StarsHistory from '../components/stars/starsHistory/stars-history';
 
 const Stars = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -191,6 +192,7 @@ const Stars = () => {
             )
           }
         />
+        <Route path="/stars-history" element={<StarsHistory />} />
       </Routes>
     </>
   );

@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useState } from 'react';
+import DialogAlert from '../../general/dialogAlert';
 
 interface noteProps {
   notes: INote[];
@@ -79,8 +80,8 @@ const Note = ({
               <DeleteOutline
                 style={{
                   display:
-                  note.publisher === localStorage.getItem('userDisplay')
-                    ? '' : 'none',
+                    note.publisher === localStorage.getItem('userDisplay')
+                      ? '' : 'none',
                 }}
                 className="deleteButton"
                 onClick={() => setDeleteAlert(true)}
@@ -117,33 +118,14 @@ const Note = ({
           width: '100%',
         }}
       />
-      <Dialog
-        open={deleteAlert}
-        onClose={() => setDeleteAlert(false)}
-      >
-        <DialogTitle dir="rtl">
-          למחוק את ההערה?
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            ההערה וכל תגובותיה יימחקו לצמיתות
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteAlert(false)}>בטל</Button>
-          <Button
-            color="error"
-            variant="contained"
-            onClick={() => {
-              setDeleteAlert(false);
-              deleteNote(note._id);
-            }}
-            autoFocus
-          >
-            מחק
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogAlert
+        header="למחוק את ההערה?"
+        content="ההערה וכל תגובותיה יימחקו לצמיתות"
+        isOpen={deleteAlert}
+        setIsOpen={setDeleteAlert}
+        activateResponse={deleteNote}
+        param={note._id}
+      />
     </>
   );
 };

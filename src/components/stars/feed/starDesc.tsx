@@ -21,6 +21,7 @@ import {
   statuses,
   versions,
 } from '../../../assets/star';
+import DialogAlert from '../../general/dialogAlert';
 
 interface starProps {
   star: IStar;
@@ -29,6 +30,8 @@ interface starProps {
 }
 
 const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
+  const [closeAlert, setCloseAlert] = useState<boolean>(false);
+  const [isClose, setIsClose] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState<IStar>(star);
@@ -42,29 +45,9 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
     return (role === 'editor' || role === 'admin');
   };
 
-  const handleSave = () => {
-    if (statusActivity) {
-      saveActivity(statusActivity);
-      setStatusActivity(undefined);
-    }
-    if (assigneeActivity) {
-      saveActivity(assigneeActivity);
-      setAssigneeActivity(undefined);
-    }
-    if (resourcesActivity) {
-      saveActivity(resourcesActivity);
-      setResourcesActivity(undefined);
-    }
-    if (computerActivity) {
-      saveActivity(computerActivity);
-      setComputerActivity(undefined);
-    }
-    setIsEdit(false);
-    updateStar(star._id, formData);
-  };
-
   const setAttr = (attr: keyof IStar, value: string | string[] | number) => {
     if (attr === 'status') {
+      setCloseAlert(value === 'סגור');
       setStatusActivity({
         _id: '0',
         starId: star._id,
@@ -97,6 +80,29 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
       });
     }
     setFormData(Object.assign(formData, { [attr]: value }));
+  };
+
+  const handleSave = () => {
+    if (statusActivity) {
+      saveActivity(statusActivity);
+      setStatusActivity(undefined);
+    }
+    if (assigneeActivity) {
+      saveActivity(assigneeActivity);
+      setAssigneeActivity(undefined);
+    }
+    if (resourcesActivity) {
+      saveActivity(resourcesActivity);
+      setResourcesActivity(undefined);
+    }
+    if (computerActivity) {
+      saveActivity(computerActivity);
+      setComputerActivity(undefined);
+    }
+    setIsEdit(false);
+
+    if (isClose) setAttr('priority', 0);
+    updateStar(star._id, formData);
   };
 
   const getDisplayDate = () => {
@@ -302,6 +308,15 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
           />
         </Grid>
       </div>
+      <DialogAlert
+        header="שים לב!"
+        content="לאחר סגירת הסטאר הוא ייעלם מדף הניהול.
+         ניתן למצוא אותו בדף ההיסטוריה"
+        isOpen={closeAlert}
+        setIsOpen={setCloseAlert}
+        activateResponse={setIsClose}
+        param
+      />
     </div>
   );
 };
