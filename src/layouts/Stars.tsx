@@ -191,7 +191,10 @@ const Stars = () => {
             )
           }
         />
-        <Route path="/stars-history" element={<StarsHistory />} />
+        <Route
+          path="/stars-history"
+          element={<StarsHistory updateStar={handleUpdateStar} />}
+        />
       </Routes>
     </>
   );

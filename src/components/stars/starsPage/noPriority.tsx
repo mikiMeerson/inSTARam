@@ -34,7 +34,9 @@ const NoPriority = ({
   };
 
   useEffect(() => {
+    const ac = new AbortController();
     authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+    return () => ac.abort();
   }, []);
 
   return (
@@ -58,16 +60,17 @@ const NoPriority = ({
         onDrop={handleDrop}
       >
         <div className="noPrioirityHeader">
-          <SpeedDial
-            sx={{
-              display: isEditor ? 'inherit' : 'none',
-              position: 'fixed',
-              left: '110px',
-            }}
-            ariaLabel="SpeedDial controlled open example"
-            icon={<SpeedDialIcon openIcon={<StarBorder />} />}
-            onClick={() => toggleAddStar(true)}
-          />
+          {isEditor && (
+            <SpeedDial
+              sx={{
+                position: 'fixed',
+                left: '110px',
+              }}
+              ariaLabel="SpeedDial controlled open example"
+              icon={<SpeedDialIcon openIcon={<StarBorder />} />}
+              onClick={() => toggleAddStar(true)}
+            />
+          )}
           <h3>ממתינים לתיעדוף</h3>
         </div>
         <StarsTable

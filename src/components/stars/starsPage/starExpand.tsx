@@ -70,14 +70,17 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
               עבור לעמוד הסטאר
             </Button>
           </NavLink>
-          <div
-            className="actionButtons"
-            style={{ display: isEditor ? '' : 'none' }}
-          >
-            <Fab size="small" id="delete" onClick={() => setDeleteAlert(true)}>
-              <DeleteOutline />
-            </Fab>
-          </div>
+          {isEditor && (
+            <div className="actionButtons">
+              <Fab
+                size="small"
+                id="delete"
+                onClick={() => setDeleteAlert(true)}
+              >
+                <DeleteOutline />
+              </Fab>
+            </div>
+          )}
         </div>
       </div>
       <DialogAlert

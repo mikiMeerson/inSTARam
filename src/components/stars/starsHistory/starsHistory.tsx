@@ -14,15 +14,21 @@ import {
   Typography,
   Button,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import { getStars } from '../../../services/star-service';
+import { authorizeUser } from '../../../services/user-service';
+
+// todo: 1. make desc section better
+//       3. filtering
+//       4. sorting
 
 interface rowType {
   row: IStar;
+  updateStar: (starId: string, newStar: IStar) => void;
+  isEditor: boolean;
 }
 
-function Row({ row }: rowType) {
+function Row({ row, updateStar, isEditor }: rowType) {
   const { name, event, createdAt, assignee, status, version, desc } = row;
   const [open, setOpen] = useState(false);
 
@@ -31,6 +37,12 @@ function Row({ row }: rowType) {
           ${time.getDate()} 
           ${time.toLocaleString('default', { month: 'long' })}`;
     return displayDate || '';
+  };
+
+  const handleReopen = () => {
+    const newStar = JSON.parse(JSON.stringify(row));
+    newStar.status = 'פתוח';
+    updateStar(row._id, newStar);
   };
 
   return (
@@ -48,8 +60,16 @@ function Row({ row }: rowType) {
         <TableCell align="center" component="th" scope="row">{name}</TableCell>
         <TableCell align="center">{assignee}</TableCell>
         <TableCell align="center">
-          {status === 'סגור'
-            ? <Button variant="contained" color="info">פתח מחדש</Button>
+          {status === 'סגור' && isEditor
+            ? (
+              <Button
+                variant="contained"
+                color="info"
+                onClick={(handleReopen)}
+              >
+                פתח מחדש
+              </Button>
+            )
             : status}
         </TableCell>
         <TableCell align="center">
@@ -84,34 +104,19 @@ function Row({ row }: rowType) {
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-};
+interface historyProps {
+  updateStar: (starId: string, newStar: IStar) => void;
+}
 
-const StarsHistory = () => {
+const StarsHistory = ({ updateStar }: historyProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [stars, setStars] = useState<IStar[]>([]);
+  const [isEditor, setIsEditor] = useState<boolean>(false);
 
   const fetchStars = (): void => {
-    setLoading(true);
     getStars()
       .then((res) => {
         setStars(res.data.stars);
-        setLoading(false);
       })
       .catch((err: Error) => {
         console.log(err);
@@ -120,7 +125,12 @@ const StarsHistory = () => {
   };
 
   useEffect(() => {
+    const ac = new AbortController();
+    setLoading(true);
     fetchStars();
+    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
+    setLoading(false);
+    return () => ac.abort();
   }, []);
   return (
     <div style={{ height: '95%' }}>
@@ -147,7 +157,12 @@ const StarsHistory = () => {
           </TableHead>
           <TableBody>
             {stars.map((row) => (
-              <Row key={row.name} row={row} />
+              <Row
+                key={row.name}
+                row={row}
+                updateStar={updateStar}
+                isEditor={isEditor}
+              />
             ))}
           </TableBody>
         </Table>

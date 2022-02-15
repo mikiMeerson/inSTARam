@@ -54,7 +54,6 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
       fetchActivity();
     }
     setLoading(false);
-
     return () => ac.abort();
   }, [fetchActivity, fetchNotes, star, starId]);
 
