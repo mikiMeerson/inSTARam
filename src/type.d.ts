@@ -1,5 +1,6 @@
 type starStatus = 'פתוח' | 'סגור' | 'בעבודה';
 type userRole = 'viewer' | 'editor' | 'admin';
+type orderType = 'desc' | 'asc';
 
 interface IStar {
     _id: string;

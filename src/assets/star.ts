@@ -24,3 +24,59 @@ export interface filterDataType {
   | 'success'
   | 'warning',
 }
+
+export interface starKeyDisplayType {
+  key: keyof IStar;
+  display: string;
+}
+
+export const starKeyDisplay: starKeyDisplayType[] = [
+  {
+    key: 'priority',
+    display: 'עדיפות',
+  },
+  {
+    key: 'severity',
+    display: 'חומרה',
+  },
+  {
+    key: 'name',
+    display: 'שם הסטאר',
+  },
+  {
+    key: 'status',
+    display: 'סטטוס',
+  },
+  {
+    key: 'assignee',
+    display: 'אחראי',
+  },
+  {
+    key: 'publisher',
+    display: 'הועלה על ידי',
+  },
+  {
+    key: 'event',
+    display: 'אירוע',
+  },
+  {
+    key: 'resources',
+    display: 'משאבים נדרשים',
+  },
+  {
+    key: 'version',
+    display: 'בלוק',
+  },
+  {
+    key: 'desc',
+    display: 'תיאור',
+  },
+  {
+    key: 'computer',
+    display: 'מחשב',
+  },
+  {
+    key: 'createdAt',
+    display: 'זמן יצירה',
+  },
+];
