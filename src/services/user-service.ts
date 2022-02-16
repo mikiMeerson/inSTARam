@@ -4,7 +4,7 @@ import { baseUrl } from '../globals';
 export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
   try {
     const users: AxiosResponse<ApiUsersType> = await axios.get(
-      `${baseUrl}/all-users`,
+      `${baseUrl}/users`,
     );
     return users;
   } catch (error) {
@@ -17,7 +17,7 @@ export const getUserById = async (
 ): Promise<AxiosResponse<ApiUsersType>> => {
   try {
     const user: AxiosResponse<ApiUsersType> = await axios.get(
-      `${baseUrl}/user/${userId}`,
+      `${baseUrl}/users/${userId}`,
     );
     return user;
   } catch (error) {
@@ -59,7 +59,7 @@ export const signUp = async (formData: IUser) => {
     };
 
     const saveUser = await axios.post(
-      `${baseUrl}/add-user`,
+      `${baseUrl}/register`,
       user,
     );
     if (saveUser.data.success) {
@@ -81,7 +81,7 @@ export const EditUser = async (
 ): Promise<AxiosResponse<ApiUsersType>> => {
   try {
     const updatedUser: AxiosResponse<ApiUsersType> = await axios.put(
-      `${baseUrl}/edit-user/${user._id}`,
+      `${baseUrl}/users/${user._id}`,
       newUser,
     );
     return updatedUser;
@@ -95,7 +95,7 @@ export const deleteUser = async (
 ): Promise<AxiosResponse<any>> => {
   try {
     const deletedUser: AxiosResponse<any> = await axios.delete(
-      `${baseUrl}/delete-user/${_id}`,
+      `${baseUrl}/users/${_id}`,
     );
     return deletedUser;
   } catch (error) {

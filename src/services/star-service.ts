@@ -30,7 +30,7 @@ export const addStar = async (
       computer: formData.computer,
     };
     const saveStar: AxiosResponse<ApiStarsType> = await axios.post(
-      `${baseUrl}/add-star`,
+      `${baseUrl}/stars`,
       star,
     );
     return saveStar;
@@ -45,7 +45,7 @@ export const updateStar = async (
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
-      `${baseUrl}/edit-star/${starId}`,
+      `${baseUrl}/stars/${starId}`,
       newStar,
     );
     return updatedStar;
@@ -63,7 +63,7 @@ export const updateStarField = async (
     const starUpdate = Object.assign(star, { [field]: newValue });
 
     const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
-      `${baseUrl}/edit-star/${star._id}`,
+      `${baseUrl}/stars/${star._id}`,
       starUpdate,
     );
     return updatedStar;
@@ -104,7 +104,7 @@ export const deleteSingleStar = async (
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const deletedStar: AxiosResponse<ApiStarsType> = await axios.delete(
-      `${baseUrl}/delete-star/${_id}`,
+      `${baseUrl}/stars/${_id}`,
     );
     return deletedStar;
   } catch (error) {
@@ -117,7 +117,7 @@ export const getStarById = async (
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const star: AxiosResponse<ApiStarsType> = await axios.get(
-      `${baseUrl}/star/${_id}`,
+      `${baseUrl}/stars/${_id}`,
     );
     return star;
   } catch (error) {

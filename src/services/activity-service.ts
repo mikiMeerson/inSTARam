@@ -24,7 +24,7 @@ export const addActivity = async (
       value: activityData.value,
     };
     const saveActivity: AxiosResponse<ApiActivitiesType> = await axios.post(
-      `${baseUrl}/add-activity`,
+      `${baseUrl}/activities/`,
       activity,
     );
     return saveActivity;
@@ -40,7 +40,7 @@ export const deleteActivity = async (
     const deletedActivity: AxiosResponse<
       ApiActivitiesType
     > = await axios.delete(
-      `${baseUrl}/delete-activity/${_id}`,
+      `${baseUrl}/activities/${_id}`,
     );
     return deletedActivity;
   } catch (error) {

@@ -24,7 +24,7 @@ export const addNote = async (
       repliesTo: noteData.repliesTo,
     };
     const saveNote: AxiosResponse<ApiNotesType> = await axios.post(
-      `${baseUrl}/add-note`,
+      `${baseUrl}/notes`,
       note,
     );
     return saveNote;
@@ -38,7 +38,7 @@ export const deleteSingleNote = async (
 ): Promise<AxiosResponse<ApiNotesType>> => {
   try {
     const deletedNote: AxiosResponse<ApiNotesType> = await axios.delete(
-      `${baseUrl}/delete-note/${_id}`,
+      `${baseUrl}/notes/${_id}`,
     );
     return deletedNote;
   } catch (error) {
