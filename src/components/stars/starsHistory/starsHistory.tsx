@@ -13,7 +13,9 @@ import {
   Collapse,
   Typography,
   Button,
+  TableSortLabel,
 } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import { getStars } from '../../../services/star-service';
 import { authorizeUser } from '../../../services/user-service';
@@ -78,18 +80,10 @@ function Row({ row, updateStar, isEditor }: rowType) {
         <TableCell align="center">{event}</TableCell>
         <TableCell align="center">{version}</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell
-          align="right"
-          colSpan={12}
-          sx={{
-            display: open ? '' : 'none',
-            background: open ? 'whitesmoke' : '',
-            border: open ? '1px solid silver' : '',
-          }}
-        >
+      {/* <TableRow>
+        <TableCell sx={{ flexGrow: 1 }}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
+            <Box>
               <Typography variant="h6" gutterBottom component="div">
                 פרטים נוספים
               </Typography>
@@ -99,9 +93,117 @@ function Row({ row, updateStar, isEditor }: rowType) {
             </Box>
           </Collapse>
         </TableCell>
-      </TableRow>
+      </TableRow> */}
     </>
   );
+}
+
+type Order = 'asc' | 'desc';
+
+interface HeadCell {
+  id: keyof IStar;
+  label: string;
+}
+
+const headCells: HeadCell[] = [
+  {
+    id: 'desc',
+    label: '',
+  },
+  {
+    id: 'name',
+    label: 'שם הסטאר',
+  },
+  {
+    id: 'assignee',
+    label: 'אחראי',
+  },
+  {
+    id: 'status',
+    label: 'סטטוס',
+  },
+  {
+    id: 'createdAt',
+    label: 'זמן יצירה',
+  },
+  {
+    id: 'event',
+    label: 'אירוע',
+  },
+  {
+    id: 'version',
+    label: 'בלוק',
+  },
+];
+
+interface EnhancedTableProps {
+  order: Order;
+  orderBy: any;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof any
+  ) => void;
+}
+
+function EnhancedTableHead(props: EnhancedTableProps) {
+  const {
+    order,
+    orderBy,
+    onRequestSort } = props;
+  const createSortHandler = function (property: keyof any) {
+    return (event: React.MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
+  };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align="center"
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key,
+): (
+  a: { [key in Key]: any },
+  b: { [key in Key]: any },
+) => number {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 interface historyProps {
@@ -112,6 +214,8 @@ const StarsHistory = ({ updateStar }: historyProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [stars, setStars] = useState<IStar[]>([]);
   const [isEditor, setIsEditor] = useState<boolean>(false);
+  const [order, setOrder] = useState<Order>('asc');
+  const [orderBy, setOrderBy] = useState<keyof any>('name');
 
   const fetchStars = (): void => {
     getStars()
@@ -132,6 +236,16 @@ const StarsHistory = ({ updateStar }: historyProps) => {
     setLoading(false);
     return () => ac.abort();
   }, []);
+
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: keyof any,
+  ) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
   return (
     <div style={{ height: '95%' }}>
       {loading && (
@@ -144,26 +258,21 @@ const StarsHistory = ({ updateStar }: historyProps) => {
       )}
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell align="center">שם הסטאר</TableCell>
-              <TableCell align="center">אחראי</TableCell>
-              <TableCell align="center">סטטוס</TableCell>
-              <TableCell align="center">זמן יצירה</TableCell>
-              <TableCell align="center">אירוע</TableCell>
-              <TableCell align="center">בלוק</TableCell>
-            </TableRow>
-          </TableHead>
+          <EnhancedTableHead
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+          />
           <TableBody>
-            {stars.map((row) => (
-              <Row
-                key={row.name}
-                row={row}
-                updateStar={updateStar}
-                isEditor={isEditor}
-              />
-            ))}
+            {stars.slice().sort(getComparator(order, orderBy))
+              .map((row) => (
+                <Row
+                  key={row.name}
+                  row={row}
+                  updateStar={updateStar}
+                  isEditor={isEditor}
+                />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
