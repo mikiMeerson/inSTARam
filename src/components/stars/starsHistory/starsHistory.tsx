@@ -44,15 +44,9 @@ const StarsHistory = ({ userRole, updateStar }: historyProps) => {
   const [order, setOrder] = useState<orderType>('asc');
   const [orderBy, setOrderBy] = useState<keyof IStar>('name');
 
-  const fetchStars = (): void => {
-    getStars()
-      .then((res) => {
-        setStars(res.data.stars);
-      })
-      .catch((err: Error) => {
-        console.log(err);
-        setLoading(false);
-      });
+  const fetchStars = async (): Promise<void> => {
+    const { data } = await getStars();
+    setStars(data.stars);
   };
 
   useEffect(() => {

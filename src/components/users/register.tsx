@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { StatusCodes } from 'http-status-codes';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -48,21 +49,17 @@ const Register = () => {
     resetField('password');
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any): Promise<void> => {
     const {
       name, unit, username, password,
     } = data;
-    signUp({
-      _id: '0', username, password, name, unit, role: 'viewer',
-    })
-      .then(({ status }) => {
-        if (status !== 200) {
-          throw new Error('Error! user not saved');
-        }
-        navigate('/stars');
-        window.location.reload();
-      })
-      .catch((err: string) => console.log(err));
+    const { status } = await
+    signUp({ _id: '0', username, password, name, unit, role: 'viewer' });
+    if (status !== StatusCodes.CREATED) {
+      console.log('Error! user not saved');
+    }
+    navigate('/stars');
+    window.location.reload();
     resetForm();
   };
 

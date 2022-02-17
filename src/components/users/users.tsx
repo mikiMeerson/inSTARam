@@ -54,12 +54,9 @@ const Users = () => {
     setRows(newRows);
   };
 
-  const fetchUsers = (): void => {
-    getUsers()
-      .then((res) => {
-        createRows(res.data.users);
-      })
-      .catch((err: Error) => console.log(err));
+  const fetchUsers = async (): Promise<void> => {
+    const { data } = await getUsers();
+    createRows(data.users);
   };
 
   useEffect(() => {

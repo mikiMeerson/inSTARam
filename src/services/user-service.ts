@@ -103,16 +103,14 @@ export const deleteUser = async (
   }
 };
 
-export const authorizeUser = async (authorization: userRole) => {
-  const rolesConversion = ['viewer', 'editor', 'admin'];
-  let res = false;
+export const authorizeUser = async (): Promise<userRole> => {
   const loggedUser = localStorage.getItem('user');
   if (loggedUser) {
     const userId = JSON.parse(loggedUser).message._id;
-    await getUserById(userId).then(({ data }) => {
-      const userRole = data.user ? data.user.role : 'viewer';
-      res = rolesConversion.indexOf(userRole) >= rolesConversion.indexOf(authorization);
-    });
+    const { data } = await getUserById(userId);
+    const userRole = data.user ? data.user.role : 'viewer';
+    console.log(userRole);
+    return userRole;
   }
-  return res;
+  return 'viewer';
 };

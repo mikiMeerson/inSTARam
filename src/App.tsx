@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Stars from './layouts/Stars';
 import Navbar from './components/navbar/navbar';
@@ -12,19 +12,18 @@ const App = () => {
   const [userRole, setUserRole] = useState<userRole>('viewer');
   const user = localStorage.getItem('user');
 
-  if (user) {
-    authorizeUser('admin').then(
-      (res: boolean) => {
-        if (res) setUserRole('admin');
-        else {
-          authorizeUser('editor')
-            .then((res: boolean) => {
-              if (res) setUserRole('editor');
-            });
-        }
-      },
-    );
+  const getUserRole = useCallback(async (): Promise<void> => {
+    const res = await authorizeUser();
+    setUserRole(res);
+  }, []);
 
+  useEffect(() => {
+    if (user) {
+      getUserRole();
+    }
+  }, [getUserRole, user]);
+
+  if (user) {
     return (
       <div className="App" dir="rtl">
         <HashRouter>
@@ -37,6 +36,7 @@ const App = () => {
       </div>
     );
   }
+
   return (
     <HashRouter>
       <Routes>

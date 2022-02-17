@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -68,50 +69,40 @@ const UserDialog = ({
     resolver: yupResolver(validationSchema),
   });
 
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async (): Promise<void> => {
     const loggedUser = localStorage.getItem('user');
-    deleteUser(selectedUser!.id)
-      .then(
-        ({ status }) => {
-          if (status !== 200) {
-            throw new Error('Error! User not deleted');
-          }
-          fetchUsers();
-          if (loggedUser
-            && JSON.parse(loggedUser).message._id === selectedUser?.id) {
-            logout();
-            navigate('/login');
-          }
-        },
-      )
-      .catch((err: string) => console.log(err));
+    const { status } = await deleteUser(selectedUser!.id);
+    if (status !== StatusCodes.OK) throw new Error('Error! User not deleted');
+    fetchUsers();
+    if (loggedUser
+      && JSON.parse(loggedUser).message._id === selectedUser?.id) {
+      logout();
+      navigate('/login');
+    }
   };
 
-  const handleEditUser = (formData: any) => {
+  const handleEditUser = async (formData: any): Promise<void> => {
     const loggedUser = localStorage.getItem('user');
     setIsOpen(false);
-    selectedUser && getUserById(selectedUser.id)
-      .then(({ status, data }) => {
-        if (status !== 200) {
-          throw new Error('Error! User not found');
-        } else if (data.user) {
-          const existingUser = data.user;
-          const newUser = JSON.parse(JSON.stringify(existingUser));
-          newUser.name = formData.name;
-          newUser.unit = formData.unit;
-          newUser.role = formData.role;
+    if (selectedUser) {
+      const { status, data } = await getUserById(selectedUser.id);
+      if (status !== StatusCodes.OK) console.log('Error! User not found');
+      else if (data.user) {
+        const existingUser = data.user;
+        const newUser = JSON.parse(JSON.stringify(existingUser));
+        newUser.name = formData.name;
+        newUser.unit = formData.unit;
+        newUser.role = formData.role;
 
-          EditUser(existingUser, newUser)
-            .then(() => {
-              if (loggedUser
-                && JSON.parse(loggedUser).message._id === selectedUser?.id) {
-                logout();
-                navigate('/login');
-              }
-              fetchUsers();
-            });
+        await EditUser(existingUser, newUser);
+        if (loggedUser
+           && JSON.parse(loggedUser).message._id === selectedUser?.id) {
+          logout();
+          navigate('/login');
         }
-      });
+        fetchUsers();
+      }
+    }
   };
 
   if (userAction === 'delete' && selectedUser) {
