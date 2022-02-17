@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import { Box, CircularProgress } from '@mui/material';
+import { StatusCodes } from 'http-status-codes';
 import StarActivity from './starActivity';
 import StarDesc from './starDesc';
 import StarNotes from './starNotes';
@@ -9,7 +11,7 @@ import { addNote, deleteNotes, getNotes } from '../../../services/note-service';
 import { addActivity, getActivities } from '../../../services/activity-service';
 
 interface starProps {
-  starId: string;
+  starId: string | undefined;
   updateStar: (starId: string, formData: IStar) => void;
 }
 
@@ -19,43 +21,41 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
   const [activity, setActivity] = useState<IActivity[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchNotes = useCallback((): void => {
-    getNotes(starId)
-      .then((res) => {
-        setNotes(res.data.notes);
-      })
-      .catch((err: Error) => console.log(err));
+  if (!starId) {
+    const navigate = useNavigate();
+    navigate('/stars');
+    return null;
+  }
+
+  const fetchStar = useCallback(async (): Promise<void> => {
+    const { status, data } = await getStarById(starId);
+    if (status !== StatusCodes.OK) {
+      throw new Error('Error! Star not found');
+    }
+    setStar(data.star);
   }, [starId]);
 
-  const fetchActivity = useCallback((): void => {
-    getActivities(starId)
-      .then((res) => {
-        setActivity(res.data.activities);
-      })
-      .catch((err: Error) => console.log(err));
-  }, [starId]);
+  const fetchNotes = useCallback(async (id: string): Promise<void> => {
+    const { data } = await getNotes(id);
+    setNotes(data.notes);
+  }, []);
+
+  const fetchActivity = useCallback(async (id: string): Promise<void> => {
+    const { data } = await getActivities(id);
+    setActivity(data.activities);
+  }, []);
 
   useEffect(() => {
     const ac = new AbortController();
     setLoading(true);
-    const fetchStar = (): void => {
-      getStarById(starId)
-        .then(({ status, data }) => {
-          if (status !== 200) {
-            throw new Error('Error! Star not deleted');
-          }
-          setStar(data.star);
-        })
-        .catch((err) => console.log(err));
-    };
     fetchStar();
     if (star) {
-      fetchNotes();
-      fetchActivity();
+      fetchNotes(star._id);
+      fetchActivity(star._id);
     }
     setLoading(false);
     return () => ac.abort();
-  }, [fetchActivity, fetchNotes, star, starId]);
+  }, [fetchActivity, fetchNotes, fetchStar, star]);
 
   if (!star) {
     return (
@@ -68,49 +68,40 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
     );
   }
 
-  const handleAddActivity = (activityData: IActivity): void => {
+  const handleAddActivity = async (activityData: IActivity): Promise<void> => {
     activityData.starId = star._id;
-    addActivity(activityData)
-      .then(({ status }) => {
-        if (status !== 201) {
-          throw new Error('Error! note not saved');
-        }
-        fetchActivity();
-      })
-      .catch((err: string) => console.log(err));
+    const { status } = await addActivity(activityData);
+    if (status !== StatusCodes.CREATED) {
+      console.log('activity failed to saved');
+    }
+    fetchActivity(star._id);
   };
 
-  const handleAddNote = (noteData: INote): void => {
+  const handleAddNote = async (noteData: INote): Promise<void> => {
     setLoading(true);
     noteData.starId = star._id;
-    addNote(noteData)
-      .then(({ status }) => {
-        if (status !== 201) {
-          throw new Error('Error! note not saved');
-        }
-        fetchNotes();
-        handleAddActivity({
-          _id: '0',
-          starId: star._id,
-          publisher: noteData.publisher,
-          action: 'הוסיפ/ה הערה חדשה',
-        });
-        setLoading(false);
-      })
-      .catch((err: string) => console.log(err));
+    const { status } = await addNote(noteData);
+    if (status !== StatusCodes.CREATED) {
+      console.log('note failed to save');
+    }
+    fetchNotes(star._id);
+    handleAddActivity({
+      _id: '0',
+      starId: star._id,
+      publisher: noteData.publisher,
+      action: 'הוסיפ/ה הערה חדשה',
+    });
+    setLoading(false);
   };
 
-  const handleDeleteNote = (noteId: string): void => {
+  const handleDeleteNote = async (noteId: string): Promise<void> => {
     setLoading(true);
-    deleteNotes(noteId, notes)
-      .then(({ status }) => {
-        if (status !== 200) {
-          throw new Error('Error! note not deleted');
-        }
-        fetchNotes();
-        setLoading(false);
-      })
-      .catch((err: string) => console.log(err));
+    const { status } = await deleteNotes(noteId, notes);
+    if (status !== StatusCodes.OK) {
+      throw new Error('Error! note not deleted');
+    }
+    fetchNotes(star._id);
+    setLoading(false);
   };
 
   return (

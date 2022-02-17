@@ -5,15 +5,13 @@ import { NavLink } from 'react-router-dom';
 interface NavbarProps {
     pages: linkDisplayType[];
     setAnchorElNav: (param: any) => void;
-    isAdmin: boolean;
-    isEditor: boolean;
+    userRole: userRole;
 }
 
 const HalfWidthNavbar = ({
   pages,
   setAnchorElNav,
-  isAdmin,
-  isEditor,
+  userRole,
 }: NavbarProps) => (
   <>
     <Typography
@@ -27,8 +25,8 @@ const HalfWidthNavbar = ({
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       {pages
         .filter((p) => p.role === 'viewer'
-                    || isAdmin
-                    || (p.role === 'editor' && isEditor))
+                    || userRole === 'admin'
+                    || (p.role === userRole))
         .map((page: linkDisplayType) => (
           <NavLink to={page.link} key={page.link}>
             <Button

@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import { Alert, CircularProgress, Box } from '@mui/material';
 import StarFeed from '../components/stars/feed/starFeed';
 import StarsPage from '../components/stars/starsPage/starsPage';
@@ -15,7 +16,11 @@ import { deleteActivity, getActivities } from '../services/activity-service';
 import Users from '../components/users/users';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
 
-const Stars = () => {
+interface starProps {
+  userRole: userRole;
+}
+
+const Stars = ({ userRole }: starProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [feedToDisplay, setFeedToDisplay] = useState<string>();
   const [stars, setStars] = useState<IStar[]>([]);
@@ -26,116 +31,95 @@ const Stars = () => {
   });
 
   const handleAlert = (
-    currStatus: number,
-    successStatus: number,
-    successContent: string,
-    errorContent: string,
+    isSuccess: boolean,
+    content: string,
   ) => {
     setAlert({
       isAlert: true,
-      content:
-        currStatus === successStatus
-          ? successContent
-          : errorContent,
-      severity: currStatus === successStatus ? 'success' : 'error',
+      content,
+      severity: isSuccess ? 'success' : 'error',
     });
     setTimeout(() => {
       setAlert(Object.assign(alert, { isAlert: false }));
     }, 3000);
   };
 
-  const fetchStars = (): void => {
+  const fetchStars = async (): Promise<void> => {
     setLoading(true);
-    getStars()
-      .then((res) => {
-        setStars(res.data.stars.filter((s) => s.status !== 'סגור'));
-        setLoading(false);
-      })
-      .catch((err: Error) => {
-        console.log(err);
-        setLoading(false);
-      });
+    const { data } = await getStars();
+    setStars(data.stars.filter((s) => s.status !== 'סגור'));
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchStars();
   }, []);
 
-  const handleAddStar = (formData: any): void => {
-    const currUser = localStorage.getItem('userDisplay');
-    formData.publisher = currUser || 'אנונימי';
-    addStar(formData)
-      .then(({ status }) => {
-        handleAlert(
-          status,
-          201,
-          'הסטאר נוצר בהצלחה!',
-          'שגיאה! לא הצלחנו ליצור את הסטאר',
-        );
-        fetchStars();
-      })
-      .catch((err: string) => handleAlert(500, 201, err, err));
-  };
-
-  const handleDeleteStar = (_id: string): void => {
-    try {
-      deleteSingleStar(_id).then(({ status }) => {
-        handleAlert(
-          status,
-          200,
-          'הסטאר נמחק בהצלחה!',
-          'שגיאה! לא הצלחנו למחוק את הסטאר',
-        );
-        fetchStars();
-      });
-      getNotes(_id)
-        .then((res) => {
-          res.data.notes.forEach((n) => {
-            deleteNotes(n._id, res.data.notes);
-          });
-        })
-        .catch((err) => handleAlert(500, 201, err as string, err as string));
-      getActivities(_id)
-        .then((res) => {
-          res.data.activities.forEach((a) => {
-            deleteActivity(a._id);
-          });
-        })
-        .catch((err: string) => handleAlert(500, 201, err, err));
-    } catch (error) {
-      handleAlert(500, 201, error as string, error as string);
+  const handleAddStar = async (formData: any): Promise<void> => {
+    if (userRole === 'viewer') {
+      handleAlert(false, 'אין לך הרשאה לפעולה זו');
+    } else {
+      formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
+      const { status } = await addStar(formData);
+      handleAlert(
+        status === StatusCodes.CREATED,
+        status === StatusCodes.CREATED
+          ? 'הסטאר נוצר בהצלחה!' : 'שגיאה! לא הצלחנו ליצור את הסטאר',
+      );
+      fetchStars();
     }
   };
 
-  const changePriority = (draggedStar: IStar, newPri: number) => {
-    updatePriorities(draggedStar, newPri, stars)
-      .then(({ status }) => {
-        handleAlert(
-          status,
-          200,
-          'הסטאר עודכן בהצלחה!',
-          'שגיאה! לא הצלחנו לעדכן את הסטאר',
-        );
-        fetchStars();
-      })
-      .catch((err) => handleAlert(
-        500,
-        200,
-        err,
-        err,
-      ));
+  const handleDeleteStar = async (_id: string): Promise<void> => {
+    try {
+      const { status } = await deleteSingleStar(_id);
+      handleAlert(
+        status === StatusCodes.OK,
+        status === StatusCodes.OK
+          ? 'הסטאר נמחק בהצלחה!' : 'שגיאה! לא הצלחנו למחוק את הסטאר',
+      );
+
+      const { data: notesData } = await getNotes(_id);
+      notesData.notes.forEach((n) => {
+        deleteNotes(n._id, notesData.notes);
+      });
+
+      const { data: activityData } = await getActivities(_id);
+
+      activityData.activities.forEach((a) => {
+        deleteActivity(a._id);
+      });
+
+      fetchStars();
+    } catch (error) {
+      handleAlert(false, error as string);
+    }
   };
 
-  const handleUpdateStar = (starId: string, formData: IStar) => {
-    updateStar(starId, formData).then(({ status, data }) => {
-      handleAlert(
-        status,
-        200,
-        'הסטאר עודכן בהצלחה!',
-        'שגיאה! לא הצלחנו לעדכן את הסטאר',
-      );
-      setStars(data.stars);
-    });
+  const changePriority = async (
+    draggedStar: IStar,
+    newPri: number,
+  ): Promise<void> => {
+    const { status } = await updatePriorities(draggedStar, newPri, stars);
+    handleAlert(
+      status === StatusCodes.OK,
+      status === StatusCodes.OK
+        ? 'הסטאר עודכן בהצלחה!' : 'שגיאה! לא הצלחנו לעדכן את הסטאר',
+    );
+    fetchStars();
+  };
+
+  const handleUpdateStar = async (
+    starId: string,
+    formData: IStar,
+  ): Promise<void> => {
+    const { status, data } = await updateStar(starId, formData);
+    handleAlert(
+      status === StatusCodes.OK,
+      status === StatusCodes.OK
+        ? 'הסטאר עודכן בהצלחה!' : 'שגיאה! לא הצלחנו לעדכן את הסטאר',
+    );
+    setStars(data.stars);
   };
 
   return (
@@ -157,7 +141,6 @@ const Stars = () => {
         </Box>
       )}
       <Routes>
-        <Route path="/users" element={<Users />} />
         {['/', '/stars'].map((path) => (
           <Route
             key={path}
@@ -178,17 +161,7 @@ const Stars = () => {
         <Route
           path="/star/:id"
           element={
-            feedToDisplay ? (
-              <StarFeed starId={feedToDisplay} updateStar={handleUpdateStar} />
-            ) : (
-              <StarsPage
-                stars={stars}
-                addStar={handleAddStar}
-                removeStar={handleDeleteStar}
-                setFeed={setFeedToDisplay}
-                changePriority={changePriority}
-              />
-            )
+            <StarFeed starId={feedToDisplay} updateStar={handleUpdateStar} />
           }
         />
         <Route

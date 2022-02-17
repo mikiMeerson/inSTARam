@@ -8,16 +8,14 @@ interface NavbarProps {
     pages: linkDisplayType[];
     setAnchorElNav: (param: any) => void;
     anchorElNav: any;
-    isAdmin: boolean;
-    isEditor: boolean;
+    userRole: userRole;
 }
 
 const FullWidthNavBar = ({
   pages,
   anchorElNav,
   setAnchorElNav,
-  isAdmin,
-  isEditor,
+  userRole,
 }: NavbarProps) => (
   <>
     <Typography
@@ -61,8 +59,8 @@ const FullWidthNavBar = ({
       >
         {pages
           .filter((p) => p.role === 'viewer'
-                  || isAdmin
-                  || (p.role === 'editor' && isEditor))
+                  || userRole === 'admin'
+                  || (p.role === userRole))
           .map((page: linkDisplayType, index) => (
             <NavLink to={page.link} key={index}>
               <MenuItem
