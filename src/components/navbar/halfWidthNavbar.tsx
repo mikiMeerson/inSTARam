@@ -24,7 +24,6 @@ const HalfWidthNavbar = ({
     >
       <StarOutline fontSize="large" />
     </Typography>
-    ,
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       {pages
         .filter((p) => p.role === 'viewer'
