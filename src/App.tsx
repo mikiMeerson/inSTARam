@@ -9,12 +9,13 @@ const App = () => {
   const user = localStorage.getItem('user');
   if (user) {
     return (
-      <HashRouter>
-        <div className="App" dir="rtl">
+      <div className="App" dir="rtl">
+        <HashRouter>
           <Navbar />
           <Stars />
-        </div>
-      </HashRouter>
+        </HashRouter>
+
+      </div>
     );
   }
   return (

@@ -2,6 +2,12 @@ type starStatus = 'פתוח' | 'סגור' | 'בעבודה';
 type userRole = 'viewer' | 'editor' | 'admin';
 type orderType = 'desc' | 'asc';
 
+type linkDisplayType = {
+    display: string;
+    link: string;
+    role: userRole;
+}
+
 interface IStar {
     _id: string;
     priority: number;
