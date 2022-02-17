@@ -24,9 +24,7 @@ const HalfWidthNavbar = ({
     </Typography>
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       {pages
-        .filter((p) => p.role === 'viewer'
-                    || userRole === 'admin'
-                    || (p.role === userRole))
+        .filter((p) => p.role === 'viewer' || userRole !== 'viewer')
         .map((page: linkDisplayType) => (
           <NavLink to={page.link} key={page.link}>
             <Button

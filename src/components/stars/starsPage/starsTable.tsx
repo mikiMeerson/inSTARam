@@ -5,7 +5,8 @@ import { filterDataType } from '../../../assets/star';
 import FiltersHeader from './filtersHeader';
 
 interface starProps {
-  unpriotized: boolean;
+  userRole: userRole;
+  unprioritized: boolean;
   stars: IStar[];
   setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
@@ -15,7 +16,8 @@ interface starProps {
 }
 
 const StarsTable = ({
-  unpriotized,
+  userRole,
+  unprioritized,
   stars,
   setFeed,
   removeStar,
@@ -108,7 +110,7 @@ const StarsTable = ({
   const handleDrop = (e: BaseSyntheticEvent) => {
     e.currentTarget.style.border = 'none';
     if (dragged) {
-      if (unpriotized) changePriority(dragged, 0);
+      if (unprioritized) changePriority(dragged, 0);
       else if (stars.length === 0) {
         changePriority(dragged, 1);
       } else if (dragged.priority > 0) changePriority(dragged, stars.length);
@@ -144,6 +146,7 @@ const StarsTable = ({
           .sort((a: IStar, b: IStar) => a.priority - b.priority)
           .map((star: IStar) => (
             <StarRow
+              userRole={userRole}
               key={star._id}
               star={star}
               setFeed={setFeed}

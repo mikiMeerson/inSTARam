@@ -11,11 +11,12 @@ import { addNote, deleteNotes, getNotes } from '../../../services/note-service';
 import { addActivity, getActivities } from '../../../services/activity-service';
 
 interface starProps {
+  userRole: userRole;
   starId: string | undefined;
   updateStar: (starId: string, formData: IStar) => void;
 }
 
-const StarFeed = ({ starId, updateStar }: starProps) => {
+const StarFeed = ({ userRole, starId, updateStar }: starProps) => {
   const [star, setStar] = useState<IStar>();
   const [notes, setNotes] = useState<INote[]>([]);
   const [activity, setActivity] = useState<IActivity[]>([]);
@@ -116,6 +117,7 @@ const StarFeed = ({ starId, updateStar }: starProps) => {
       )}
       <div className="starFeed">
         <StarDesc
+          userRole={userRole}
           star={star}
           updateStar={updateStar}
           saveActivity={handleAddActivity}

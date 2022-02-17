@@ -8,7 +8,6 @@ import {
   Paper,
 } from '@mui/material';
 import { getStars } from '../../../services/star-service';
-import { authorizeUser } from '../../../services/user-service';
 import EnhancedTableHead from './tableHead';
 import Row from './tableRow';
 
@@ -35,13 +34,13 @@ function getComparator(
 }
 
 interface historyProps {
+  userRole: userRole;
   updateStar: (starId: string, newStar: IStar) => void;
 }
 
-const StarsHistory = ({ updateStar }: historyProps) => {
+const StarsHistory = ({ userRole, updateStar }: historyProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [stars, setStars] = useState<IStar[]>([]);
-  const [isEditor, setIsEditor] = useState<boolean>(false);
   const [order, setOrder] = useState<orderType>('asc');
   const [orderBy, setOrderBy] = useState<keyof IStar>('name');
 
@@ -60,7 +59,6 @@ const StarsHistory = ({ updateStar }: historyProps) => {
     const ac = new AbortController();
     setLoading(true);
     fetchStars();
-    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
     setLoading(false);
     return () => ac.abort();
   }, []);
@@ -98,7 +96,7 @@ const StarsHistory = ({ updateStar }: historyProps) => {
                   key={row.name}
                   row={row}
                   updateStar={updateStar}
-                  isEditor={isEditor}
+                  userRole={userRole}
                 />
               ))}
           </TableBody>

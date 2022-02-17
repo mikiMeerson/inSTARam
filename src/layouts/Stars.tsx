@@ -56,18 +56,14 @@ const Stars = ({ userRole }: starProps) => {
   }, []);
 
   const handleAddStar = async (formData: any): Promise<void> => {
-    if (userRole === 'viewer') {
-      handleAlert(false, 'אין לך הרשאה לפעולה זו');
-    } else {
-      formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
-      const { status } = await addStar(formData);
-      handleAlert(
-        status === StatusCodes.CREATED,
-        status === StatusCodes.CREATED
-          ? 'הסטאר נוצר בהצלחה!' : 'שגיאה! לא הצלחנו ליצור את הסטאר',
-      );
-      fetchStars();
-    }
+    formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
+    const { status } = await addStar(formData);
+    handleAlert(
+      status === StatusCodes.CREATED,
+      status === StatusCodes.CREATED
+        ? 'הסטאר נוצר בהצלחה!' : 'שגיאה! לא הצלחנו ליצור את הסטאר',
+    );
+    fetchStars();
   };
 
   const handleDeleteStar = async (_id: string): Promise<void> => {
@@ -148,6 +144,7 @@ const Stars = ({ userRole }: starProps) => {
             element={
               stars && (
                 <StarsPage
+                  userRole={userRole}
                   stars={stars}
                   addStar={handleAddStar}
                   removeStar={handleDeleteStar}
@@ -160,13 +157,19 @@ const Stars = ({ userRole }: starProps) => {
         ))}
         <Route
           path="/star/:id"
-          element={
-            <StarFeed starId={feedToDisplay} updateStar={handleUpdateStar} />
-          }
+          element={(
+            <StarFeed
+              userRole={userRole}
+              starId={feedToDisplay}
+              updateStar={handleUpdateStar}
+            />
+          )}
         />
         <Route
           path="/stars-history"
-          element={<StarsHistory updateStar={handleUpdateStar} />}
+          element={
+            <StarsHistory userRole={userRole} updateStar={handleUpdateStar} />
+          }
         />
       </Routes>
     </>

@@ -1,4 +1,4 @@
-import { useState, useEffect, BaseSyntheticEvent } from 'react';
+import { useState, BaseSyntheticEvent } from 'react';
 import {
   Table,
   TableContainer,
@@ -10,9 +10,9 @@ import {
 } from '@mui/material';
 import StarExpand from './starExpand';
 import { severityColors } from '../../../assets/star';
-import { authorizeUser } from '../../../services/user-service';
 
 interface starProps {
+  userRole: userRole;
   star: IStar;
   setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
@@ -21,6 +21,7 @@ interface starProps {
   setDragged: (star: IStar | undefined) => void;
 }
 const StarRow = ({
+  userRole,
   star,
   setFeed,
   removeStar,
@@ -29,13 +30,6 @@ const StarRow = ({
   setDragged,
 }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
-  const [isEditor, setIsEditor] = useState<boolean>(false);
-
-  useEffect(() => {
-    const ac = new AbortController();
-    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
-    return () => ac.abort();
-  }, []);
 
   const getCreationTime = () => {
     const date = star.createdAt ? new Date(star.createdAt) : undefined;
@@ -78,7 +72,7 @@ const StarRow = ({
       <Table onClick={() => setOpenDesc(!openDesc)}>
         <TableBody>
           <TableRow
-            draggable={isEditor}
+            draggable={userRole !== 'viewer'}
             onDragStart={handleStartDrag}
             onDragOver={handleDragOver}
             onDragLeave={
@@ -108,7 +102,12 @@ const StarRow = ({
         </TableBody>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: 'hidden' }}>
-        <StarExpand star={star} setFeed={setFeed} removeStar={deleteStar} />
+        <StarExpand
+          userRole={userRole}
+          star={star}
+          setFeed={setFeed}
+          removeStar={deleteStar}
+        />
       </Collapse>
     </TableContainer>
   );

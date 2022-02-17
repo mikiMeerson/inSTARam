@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Grid,
   Button,
@@ -8,24 +8,17 @@ import {
 import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
-import { authorizeUser } from '../../../services/user-service';
 import DialogAlert from '../../general/dialogAlert';
 
 interface starProps {
+  userRole: userRole;
   star: IStar;
   setFeed: (id: string) => void;
   removeStar: (star: IStar) => void;
 }
 
-const starExpand = ({ star, setFeed, removeStar }: starProps) => {
+const starExpand = ({ userRole, star, setFeed, removeStar }: starProps) => {
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
-  const [isEditor, setIsEditor] = useState<boolean>(false);
-
-  useEffect(() => {
-    const ac = new AbortController();
-    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
-    return () => ac.abort();
-  }, []);
 
   return (
     <>
@@ -70,7 +63,7 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
               עבור לעמוד הסטאר
             </Button>
           </NavLink>
-          {isEditor && (
+          {(userRole !== 'viewer') && (
             <div className="actionButtons">
               <Fab
                 size="small"

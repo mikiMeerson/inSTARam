@@ -24,12 +24,13 @@ import {
 import DialogAlert from '../../general/dialogAlert';
 
 interface starProps {
+  userRole: userRole;
   star: IStar;
   updateStar: (starId: string, formData: IStar) => void;
   saveActivity: (activityData: IActivity) => void
 }
 
-const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
+const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [isClose, setIsClose] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
@@ -39,11 +40,6 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
   const [assigneeActivity, setAssigneeActivity] = useState<IActivity>();
   const [resourcesActivity, setResourcesActivity] = useState<IActivity>();
   const [computerActivity, setComputerActivity] = useState<IActivity>();
-
-  const isEditable = (): boolean => {
-    const role = localStorage.getItem('role');
-    return (role === 'editor' || role === 'admin');
-  };
 
   const setAttr = (attr: keyof IStar, value: string | string[] | number) => {
     if (attr === 'status') {
@@ -137,19 +133,21 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
           {' '}
           {star.version}
         </Typography>
-        <Fab
-          size="small"
-          color="secondary"
-          sx={{
-            background: isEdit ? 'blue' : 'goldenrod',
-            color: 'white',
-            display: isEditable() ? '' : 'none',
-          }}
-        >
-          {isEdit
-            ? (<SaveOutlined onClick={handleSave} />)
-            : <EditOutlined onClick={() => setIsEdit(true)} />}
-        </Fab>
+        {(userRole !== 'viewer')
+          && (
+          <Fab
+            size="small"
+            color="secondary"
+            sx={{
+              background: isEdit ? 'blue' : 'goldenrod',
+              color: 'white',
+            }}
+          >
+            {isEdit
+              ? (<SaveOutlined onClick={handleSave} />)
+              : <EditOutlined onClick={() => setIsEdit(true)} />}
+          </Fab>
+          )}
       </div>
       <div className="starData">
         <Grid item xs={12} sx={{ marginLeft: '3%' }}>

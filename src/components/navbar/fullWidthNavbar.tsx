@@ -58,9 +58,7 @@ const FullWidthNavBar = ({
         }}
       >
         {pages
-          .filter((p) => p.role === 'viewer'
-                  || userRole === 'admin'
-                  || (p.role === userRole))
+          .filter((p) => p.role === 'viewer' || userRole !== 'viewer')
           .map((page: linkDisplayType, index) => (
             <NavLink to={page.link} key={index}>
               <MenuItem

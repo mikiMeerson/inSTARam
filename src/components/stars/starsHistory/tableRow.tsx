@@ -3,10 +3,10 @@ import { TableRow, TableCell, Button } from '@mui/material';
 interface rowType {
     row: IStar;
     updateStar: (starId: string, newStar: IStar) => void;
-    isEditor: boolean;
+    userRole: userRole;
 }
 
-const Row = ({ row, updateStar, isEditor }: rowType) => {
+const Row = ({ row, updateStar, userRole }: rowType) => {
   const { name, event, createdAt, assignee, status, version } = row;
 
   const getDisplayDate = (time: Date) => {
@@ -27,7 +27,7 @@ const Row = ({ row, updateStar, isEditor }: rowType) => {
       <TableCell align="center" component="th" scope="row">{name}</TableCell>
       <TableCell align="center">{assignee}</TableCell>
       <TableCell align="center">
-        {status === 'סגור' && isEditor
+        {status === 'סגור' && userRole !== 'viewer'
           ? (
             <Button
               variant="contained"

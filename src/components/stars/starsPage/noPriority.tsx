@@ -1,12 +1,11 @@
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
-import { Collapse, SpeedDial, SpeedDialIcon } from '@mui/material';
-import { StarBorder } from '@material-ui/icons';
+import { BaseSyntheticEvent, useState } from 'react';
+import { Collapse, SpeedDial, SpeedDialIcon, Button } from '@mui/material';
+import { StarBorder, ChevronRight, MenuOpenSharp } from '@material-ui/icons';
 import StarsTable from './starsTable';
-import { authorizeUser } from '../../../services/user-service';
 
 interface tableProps {
+  userRole: userRole;
   stars: IStar[];
-  noPriority: boolean;
   toggleAddStar: (param: boolean) => void;
   setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
@@ -16,8 +15,8 @@ interface tableProps {
 }
 
 const NoPriority = ({
+  userRole,
   stars,
-  noPriority,
   toggleAddStar,
   setFeed,
   removeStar,
@@ -25,7 +24,7 @@ const NoPriority = ({
   dragged,
   setDragged,
 }: tableProps) => {
-  const [isEditor, setIsEditor] = useState<boolean>(false);
+  const [hideNoPriority, toggleHideNoPriority] = useState<boolean>(false);
 
   const handleDrop = () => {
     if (dragged) {
@@ -33,57 +32,73 @@ const NoPriority = ({
     }
   };
 
-  useEffect(() => {
-    const ac = new AbortController();
-    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
-    return () => ac.abort();
-  }, []);
-
   return (
-    <Collapse
-      orientation="horizontal"
-      in={noPriority}
-      sx={{ overflow: 'hidden', width: 'fit-content', height: '100%' }}
-      classes={{
-        root: noPriority ? 'collapseOpen' : 'collapseClosed',
-        wrapperInner: noPriority
-          ? 'collapseInnerWrapperOpen'
-          : 'collapseInnerWrapperClosed',
-      }}
-    >
-      <div
-        className="noPriority"
-        style={{ width: '100%' }}
-        onDragOver={(e: BaseSyntheticEvent) => {
-          e.preventDefault();
+    <>
+      <Collapse
+        orientation="horizontal"
+        in={!hideNoPriority}
+        sx={{ overflow: 'hidden', width: 'fit-content', height: '100%' }}
+        classes={{
+          root: hideNoPriority ? 'collapseClosed' : 'collapseOpen',
+          wrapperInner: hideNoPriority
+            ? 'collapseInnerWrapperClosed'
+            : 'collapseInnerWrapperOpen',
         }}
-        onDrop={handleDrop}
       >
-        <div className="noPrioirityHeader">
-          {isEditor && (
-            <SpeedDial
-              sx={{
-                position: 'fixed',
-                left: '110px',
-              }}
-              ariaLabel="SpeedDial controlled open example"
-              icon={<SpeedDialIcon openIcon={<StarBorder />} />}
-              onClick={() => toggleAddStar(true)}
-            />
-          )}
-          <h3>ממתינים לתיעדוף</h3>
+        <div
+          className="noPriority"
+          style={{ width: '100%' }}
+          onDragOver={(e: BaseSyntheticEvent) => {
+            e.preventDefault();
+          }}
+          onDrop={handleDrop}
+        >
+          <div className="noPrioirityHeader">
+            {(userRole !== 'viewer') && (
+              <SpeedDial
+                sx={{
+                  position: 'fixed',
+                  left: '110px',
+                }}
+                ariaLabel="SpeedDial controlled open example"
+                icon={<SpeedDialIcon openIcon={<StarBorder />} />}
+                onClick={() => toggleAddStar(true)}
+              />
+            )}
+            <h3>ממתינים לתיעדוף</h3>
+          </div>
+          <StarsTable
+            userRole={userRole}
+            unprioritized
+            setFeed={setFeed}
+            stars={stars}
+            removeStar={removeStar}
+            changePriority={changePriority}
+            dragged={dragged}
+            setDragged={setDragged}
+          />
         </div>
-        <StarsTable
-          unpriotized
-          setFeed={setFeed}
-          stars={stars}
-          removeStar={removeStar}
-          changePriority={changePriority}
-          dragged={dragged}
-          setDragged={setDragged}
-        />
-      </div>
-    </Collapse>
+      </Collapse>
+      <Button
+        classes={{ root: 'collapseButton' }}
+        variant="contained"
+        sx={{
+          height: '60px',
+          width: '40px',
+          borderRadius: '50%',
+          margin: '3%',
+          position: 'absolute',
+          background: 'black',
+          bottom: 0,
+          left: '5px',
+        }}
+        onClick={() => toggleHideNoPriority(!hideNoPriority)}
+      >
+        {hideNoPriority
+          ? <ChevronRight fontSize="small" htmlColor="white" />
+          : <MenuOpenSharp fontSize="small" htmlColor="white" />}
+      </Button>
+    </>
   );
 };
 
