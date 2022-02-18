@@ -30,7 +30,7 @@ const actionToIcon = [
     icon: <PersonOutline key={Math.random()} className="logIcon" />,
   },
   {
-    action: 'הוסיפ/ה משאבים נדרשים',
+    action: 'עדכנ/ה משאבים נדרשים',
     icon: <OfflineBoltOutlined key={Math.random()} className="logIcon" />,
   },
   {

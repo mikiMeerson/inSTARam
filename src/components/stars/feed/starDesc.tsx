@@ -23,6 +23,11 @@ import {
 } from '../../../assets/utils';
 import DialogAlert from '../../general/dialogAlert';
 
+interface activityType {
+  name: string;
+  activity: IActivity;
+}
+
 interface starProps {
   userRole: userRole;
   star: IStar;
@@ -36,65 +41,78 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState<IStar>(star);
-  const [statusActivity, setStatusActivity] = useState<IActivity>();
-  const [assigneeActivity, setAssigneeActivity] = useState<IActivity>();
-  const [resourcesActivity, setResourcesActivity] = useState<IActivity>();
-  const [computerActivity, setComputerActivity] = useState<IActivity>();
+  const [activityArray, setActivityArray] = useState<
+    { name: string; activity: IActivity | undefined }[]
+  >([
+    { name: 'status', activity: undefined },
+    { name: 'assignee', activity: undefined },
+    { name: 'resources', activity: undefined },
+    { name: 'computer', activity: undefined },
+  ]);
+
+  const activityInfoArray = [
+    {
+      name: 'status',
+      action: 'שינת/ה את הסטטוס',
+      isValue: true,
+    },
+    {
+      name: 'assignee',
+      action: 'שינת/ה את האחראי',
+      isValue: true,
+    },
+    {
+      name: 'resources',
+      action: 'עדכנ/ה משאבים נדרשים',
+      isValue: false,
+    },
+    {
+      name: 'computer',
+      action: 'שינת/ה את המערכת',
+      isValue: true,
+    },
+  ];
+
+  const setNewActivity = (attr: keyof IStar, value: string) => {
+    const activityInfo = activityInfoArray.find((a) => a.name === attr);
+
+    if (activityInfo) {
+      const newActivity: IActivity = {
+        _id: '0',
+        starId: star._id,
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+        action: activityInfo.action,
+        value: activityInfo.isValue ? value : undefined,
+      };
+
+      const newActivityArray = activityArray;
+      newActivityArray.find((a) => a.name === attr)!.activity = newActivity;
+
+      setActivityArray(newActivityArray);
+    }
+  };
 
   const setAttr = (attr: keyof IStar, value: string | string[] | number) => {
-    if (attr === 'status') {
-      setCloseAlert(value === 'סגור');
-      setStatusActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'שינת/ה את הסטטוס',
-        value: value as string,
-      });
-    } else if (attr === 'assignee') {
-      setAssigneeActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'שינת/ה את האחראי',
-        value: value as string,
-      });
-    } else if (attr === 'resources') {
-      setResourcesActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'הוסיפ/ה משאבים נדרשים',
-      });
-    } else if (attr === 'computer') {
-      setComputerActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'שינת/ה את המערכת',
-        value: value as string,
-      });
+    if (attr === 'status') setCloseAlert(value === 'סגור');
+
+    if (activityArray.map((a) => a.name).includes(attr)) {
+      setNewActivity(attr, value as string);
     }
+
     setFormData(Object.assign(formData, { [attr]: value }));
   };
 
   const handleSave = () => {
-    if (statusActivity) {
-      saveActivity(statusActivity);
-      setStatusActivity(undefined);
-    }
-    if (assigneeActivity) {
-      saveActivity(assigneeActivity);
-      setAssigneeActivity(undefined);
-    }
-    if (resourcesActivity) {
-      saveActivity(resourcesActivity);
-      setResourcesActivity(undefined);
-    }
-    if (computerActivity) {
-      saveActivity(computerActivity);
-      setComputerActivity(undefined);
-    }
+    activityArray.forEach((a) => {
+      if (a.activity) saveActivity(a.activity);
+    });
+
+    const resetActivityArray = activityArray;
+    resetActivityArray.forEach((a) => {
+      a.activity = undefined;
+    });
+    setActivityArray(resetActivityArray);
+
     setIsEdit(false);
 
     if (isClose) setAttr('priority', 0);
@@ -135,18 +153,18 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
         </Typography>
         {(userRole !== 'viewer')
           && (
-          <Fab
-            size="small"
-            color="secondary"
-            sx={{
-              background: isEdit ? 'blue' : 'goldenrod',
-              color: 'white',
-            }}
-          >
-            {isEdit
-              ? (<SaveOutlined onClick={handleSave} />)
-              : <EditOutlined onClick={() => setIsEdit(true)} />}
-          </Fab>
+            <Fab
+              size="small"
+              color="secondary"
+              sx={{
+                background: isEdit ? 'blue' : 'goldenrod',
+                color: 'white',
+              }}
+            >
+              {isEdit
+                ? (<SaveOutlined onClick={handleSave} />)
+                : <EditOutlined onClick={() => setIsEdit(true)} />}
+            </Fab>
           )}
       </div>
       <div className="starData">
@@ -157,7 +175,6 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
               sx={{ padding: '7px', marginBottom: '10px' }}
             >
               הועלה על ידי
-              {' '}
               {star.publisher}
               {' '}
               מתוך
