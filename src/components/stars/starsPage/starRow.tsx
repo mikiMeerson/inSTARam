@@ -9,7 +9,7 @@ import {
   TableBody,
 } from '@mui/material';
 import StarExpand from './starExpand';
-import { severityColors } from '../../../assets/star';
+import { severityColors } from '../../../assets/utils';
 
 interface starProps {
   userRole: userRole;

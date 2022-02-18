@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
-import { filterDataType } from '../../../assets/star';
+import { filterDataType } from '../../../assets/utils';
 import FiltersHeader from './filtersHeader';
 
 interface starProps {

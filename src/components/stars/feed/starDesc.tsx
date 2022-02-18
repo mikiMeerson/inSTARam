@@ -20,7 +20,7 @@ import {
   severityColors,
   statuses,
   versions,
-} from '../../../assets/star';
+} from '../../../assets/utils';
 import DialogAlert from '../../general/dialogAlert';
 
 interface starProps {

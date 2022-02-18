@@ -1,5 +1,5 @@
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
-import { starKeyDisplayType } from '../../../assets/star';
+import { starKeyDisplayType } from '../../../assets/utils';
 
 const headCells: starKeyDisplayType[] = [
   {

@@ -25,7 +25,7 @@ import {
   resources,
   computers,
   filterDataType,
-} from '../../../assets/star';
+} from '../../../assets/utils';
 
 interface filterProps {
   nameFilter: string;
