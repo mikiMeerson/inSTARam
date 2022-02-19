@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -47,17 +48,13 @@ const Login = () => {
     resetField('password');
   };
 
-  const onSubmit = (data: any) => {
-    login(data.username, data.password)
-      .then(({ status }) => {
-        if (status !== 200) {
-          throw new Error('Error! wrong credentials');
-        }
-        navigate('/stars');
-        console.log('Login successful');
-        window.location.reload();
-      })
-      .catch(() => setLoginError(true));
+  const onSubmit = async (data: any): Promise<void> => {
+    const { status } = await login(data.username, data.password);
+    if (status !== StatusCodes.OK) {
+      console.log('Error! wrong credentials');
+    }
+    navigate('/stars');
+    window.location.reload();
     resetForm();
   };
 

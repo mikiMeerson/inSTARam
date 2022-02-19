@@ -1,33 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Grid,
   Button,
   Fab,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Typography,
 } from '@mui/material';
 import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
-import { authorizeUser } from '../../../services/user-service';
+import DialogAlert from '../../general/dialogAlert';
 
 interface starProps {
+  userRole: userRole;
   star: IStar;
   setFeed: (id: string) => void;
   removeStar: (star: IStar) => void;
 }
 
-const starExpand = ({ star, setFeed, removeStar }: starProps) => {
+const starExpand = ({ userRole, star, setFeed, removeStar }: starProps) => {
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
-  const [isEditor, setIsEditor] = useState<boolean>(false);
-
-  useEffect(() => {
-    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
-  }, []);
 
   return (
     <>
@@ -72,43 +63,27 @@ const starExpand = ({ star, setFeed, removeStar }: starProps) => {
               עבור לעמוד הסטאר
             </Button>
           </NavLink>
-          <div
-            className="actionButtons"
-            style={{ display: isEditor ? '' : 'none' }}
-          >
-            <Fab size="small" id="delete" onClick={() => setDeleteAlert(true)}>
-              <DeleteOutline />
-            </Fab>
-          </div>
+          {(userRole !== 'viewer') && (
+            <div className="actionButtons">
+              <Fab
+                size="small"
+                id="delete"
+                onClick={() => setDeleteAlert(true)}
+              >
+                <DeleteOutline />
+              </Fab>
+            </div>
+          )}
         </div>
       </div>
-      <Dialog
-        open={deleteAlert}
-        onClose={() => setDeleteAlert(false)}
-      >
-        <DialogTitle dir="rtl">
-          למחוק את הסטאר?
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            כל פרטי הסטאר והפעילות שנעשתה בו יימחקו לצמיתות
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteAlert(false)}>בטל</Button>
-          <Button
-            color="error"
-            variant="contained"
-            onClick={() => {
-              setDeleteAlert(false);
-              removeStar(star);
-            }}
-            autoFocus
-          >
-            מחק
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogAlert
+        header="למחוק את הסטאר?"
+        content="כל פרטי הסטאר והפעילות שנעשתה בו יימחקו לצמיתות"
+        isOpen={deleteAlert}
+        setIsOpen={setDeleteAlert}
+        activateResponse={removeStar}
+        param={star}
+      />
     </>
   );
 };

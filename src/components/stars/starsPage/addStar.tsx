@@ -8,28 +8,23 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  TextField,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  Input,
-  MenuItem,
   Divider,
-  Typography,
 } from '@mui/material';
 import {
   assignees,
   severities,
   versions,
   computers,
-} from '../../../assets/star';
+} from '../../../assets/utils';
 import '../styles/stars.css';
+import InputField from '../../general/inputField';
+import SelectField from '../../general/selectField';
 
 interface starProps {
   isOpen: boolean;
   toggleModal: (param: boolean) => void;
-  addStar: (star: any) => void;
+  addStar: (star: unknown) => void;
 }
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
@@ -55,19 +50,41 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const resetForm = () => {
-    resetField('name');
-    resetField('severity');
-    resetField('assignee');
-    resetField('version');
-    resetField('event');
-    resetField('desc');
-  };
+  const fields = [
+    {
+      field: 'name',
+      type: 'input',
+    },
+    {
+      field: 'severity',
+      type: 'select',
+    },
+    {
+      field: 'event',
+      type: 'input',
+    },
+    {
+      field: 'version',
+      type: 'select',
+    },
+    {
+      field: 'desc',
+      type: 'input',
+    },
+    {
+      field: 'assignee',
+      type: 'select',
+    },
+    {
+      field: 'computer',
+      type: 'select',
+    },
+  ];
 
-  const handleAddStar = (data: any) => {
+  const handleAddStar = (data: unknown) => {
     toggleModal(false);
     addStar(data);
-    resetForm();
+    fields.map((f) => resetField(f.field));
   };
 
   return (
@@ -83,122 +100,61 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
         <DialogContentText>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
             <Grid item xs={12} sm={8}>
-              <TextField
-                autoFocus
-                fullWidth
-                label="שם הסטאר"
-                variant="standard"
-                {...register('name')}
-                error={errors.name}
+              <InputField
+                field="name"
+                register={register}
+                errors={errors}
               />
-              <Typography variant="inherit" color="textSecondary">
-                {errors.name?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>חומרה</InputLabel>
-                <Select
-                  variant="outlined"
-                  input={<Input />}
-                  {...register('severity')}
-                  error={errors.severity}
-                >
-                  {severities.map((sever: string, index: number) => (
-                    <MenuItem key={index} value={index + 1}>
-                      {sever}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Typography variant="inherit" color="textSecondary">
-                {errors.severity?.message}
-              </Typography>
+              <SelectField
+                field="severity"
+                fieldValues={severities}
+                register={register}
+                errors={errors}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="אירוע"
-                variant="standard"
-                {...register('event')}
-                error={errors.event}
+              <InputField
+                field="event"
+                register={register}
+                errors={errors}
               />
-              <Typography variant="inherit" color="textSecondary">
-                {errors.event?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>בלוק</InputLabel>
-                <Select
-                  variant="outlined"
-                  input={<Input />}
-                  {...register('version')}
-                  error={errors.version}
-                >
-                  {versions.map((version: string) => (
-                    <MenuItem key={version} value={version}>
-                      {version}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Typography variant="inherit" color="textSecondary">
-                {errors.version?.message}
-              </Typography>
+              <SelectField
+                field="version"
+                fieldValues={versions}
+                register={register}
+                errors={errors}
+              />
             </Grid>
           </Grid>
           <Grid container sx={{ marginTop: '15px' }}>
-            <TextField
-              fullWidth
-              multiline
-              label="תיאור"
-              {...register('desc')}
-              error={errors.desc}
+            <InputField
+              field="desc"
+              register={register}
+              errors={errors}
             />
-            <Typography variant="inherit" color="textSecondary">
-              {errors.desc?.message}
-            </Typography>
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
             <Grid item xs={12} sm={6}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>אחראי</InputLabel>
-                <Select
-                  variant="outlined"
-                  input={<Input />}
-                  {...register('assignee')}
-                  error={errors.assignee}
-                >
-                  {assignees.map((assignee: string) => (
-                    <MenuItem key={assignee} value={assignee}>
-                      {assignee}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Typography variant="inherit" color="textSecondary">
-                {errors.assignee?.message}
-              </Typography>
+              <SelectField
+                field="assignee"
+                fieldValues={assignees}
+                register={register}
+                errors={errors}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>מחשב</InputLabel>
-                <Select
-                  variant="outlined"
-                  input={<Input />}
-                  {...register('computer')}
-                  error={errors.computer}
-                >
-                  {computers.map((computer: string) => (
-                    <MenuItem key={computer} value={computer}>
-                      {computer}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <SelectField
+                field="computer"
+                fieldValues={computers}
+                register={register}
+                errors={errors}
+              />
             </Grid>
           </Grid>
         </DialogContentText>

@@ -14,89 +14,82 @@ import {
 } from '@mui/material';
 import { SaveOutlined, EditOutlined } from '@mui/icons-material';
 import {
+  activityInfoArray,
   assignees,
   computers,
   resources,
   severityColors,
   statuses,
   versions,
-} from '../../../assets/star';
+} from '../../../assets/utils';
+import DialogAlert from '../../general/dialogAlert';
 
 interface starProps {
+  userRole: userRole;
   star: IStar;
   updateStar: (starId: string, formData: IStar) => void;
   saveActivity: (activityData: IActivity) => void
 }
 
-const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
+const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
+  const [closeAlert, setCloseAlert] = useState<boolean>(false);
+  const [closeStar, setCloseStar] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState<IStar>(star);
-  const [statusActivity, setStatusActivity] = useState<IActivity>();
-  const [assigneeActivity, setAssigneeActivity] = useState<IActivity>();
-  const [resourcesActivity, setResourcesActivity] = useState<IActivity>();
-  const [computerActivity, setComputerActivity] = useState<IActivity>();
+  const [activityArray, setActivityArray] = useState<
+    { name: string; activity: IActivity | undefined }[]
+  >([
+    { name: 'status', activity: undefined },
+    { name: 'assignee', activity: undefined },
+    { name: 'resources', activity: undefined },
+    { name: 'computer', activity: undefined },
+  ]);
 
-  const isEditable = (): boolean => {
-    const role = localStorage.getItem('role');
-    return (role === 'editor' || role === 'admin');
-  };
+  const setNewActivity = (attr: keyof IStar, value: string) => {
+    const activityInfo = activityInfoArray.find((a) => a.name === attr);
 
-  const handleSave = () => {
-    if (statusActivity) {
-      saveActivity(statusActivity);
-      setStatusActivity(undefined);
+    if (activityInfo) {
+      const newActivity: IActivity = {
+        _id: '0',
+        starId: star._id,
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+        action: activityInfo.action,
+        value: activityInfo.isValue ? value : undefined,
+      };
+
+      const newActivityArray = activityArray;
+      newActivityArray.find((a) => a.name === attr)!.activity = newActivity;
+
+      setActivityArray(newActivityArray);
     }
-    if (assigneeActivity) {
-      saveActivity(assigneeActivity);
-      setAssigneeActivity(undefined);
-    }
-    if (resourcesActivity) {
-      saveActivity(resourcesActivity);
-      setResourcesActivity(undefined);
-    }
-    if (computerActivity) {
-      saveActivity(computerActivity);
-      setComputerActivity(undefined);
-    }
-    setIsEdit(false);
-    updateStar(star._id, formData);
   };
 
   const setAttr = (attr: keyof IStar, value: string | string[] | number) => {
-    if (attr === 'status') {
-      setStatusActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'שינת/ה את הסטטוס',
-        value: value as string,
-      });
-    } else if (attr === 'assignee') {
-      setAssigneeActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'שינת/ה את האחראי',
-        value: value as string,
-      });
-    } else if (attr === 'resources') {
-      setResourcesActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'הוסיפ/ה משאבים נדרשים',
-      });
-    } else if (attr === 'computer') {
-      setComputerActivity({
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: 'שינת/ה את המערכת',
-        value: value as string,
-      });
+    if (attr === 'status') setCloseAlert(value === 'סגור');
+
+    if (activityArray.map((a) => a.name).includes(attr)) {
+      setNewActivity(attr, value as string);
     }
+
     setFormData(Object.assign(formData, { [attr]: value }));
+  };
+
+  const handleSave = () => {
+    activityArray.forEach((a) => {
+      if (a.activity) saveActivity(a.activity);
+    });
+
+    const resetActivityArray = activityArray;
+    resetActivityArray.forEach((a) => {
+      a.activity = undefined;
+    });
+    setActivityArray(resetActivityArray);
+
+    setIsEdit(false);
+
+    if (closeStar) setAttr('priority', 0);
+    updateStar(star._id, formData);
   };
 
   const getDisplayDate = () => {
@@ -131,19 +124,21 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
           {' '}
           {star.version}
         </Typography>
-        <Fab
-          size="small"
-          color="secondary"
-          sx={{
-            background: isEdit ? 'blue' : 'goldenrod',
-            color: 'white',
-            display: isEditable() ? '' : 'none',
-          }}
-        >
-          {isEdit
-            ? (<SaveOutlined onClick={handleSave} />)
-            : <EditOutlined onClick={() => setIsEdit(true)} />}
-        </Fab>
+        {(userRole !== 'viewer')
+          && (
+            <Fab
+              size="small"
+              color="secondary"
+              sx={{
+                background: isEdit ? 'blue' : 'goldenrod',
+                color: 'white',
+              }}
+            >
+              {isEdit
+                ? (<SaveOutlined onClick={handleSave} />)
+                : <EditOutlined onClick={() => setIsEdit(true)} />}
+            </Fab>
+          )}
       </div>
       <div className="starData">
         <Grid item xs={12} sx={{ marginLeft: '3%' }}>
@@ -302,6 +297,15 @@ const StarDesc = ({ star, updateStar, saveActivity }: starProps) => {
           />
         </Grid>
       </div>
+      <DialogAlert
+        header="שים לב!"
+        content="לאחר סגירת הסטאר הוא ייעלם מדף הניהול.
+         ניתן למצוא אותו בדף ההיסטוריה"
+        isOpen={closeAlert}
+        setIsOpen={setCloseAlert}
+        activateResponse={setCloseStar}
+        param
+      />
     </div>
   );
 };

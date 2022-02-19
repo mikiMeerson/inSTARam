@@ -1,4 +1,4 @@
-import { useState, useEffect, BaseSyntheticEvent } from 'react';
+import { useState, BaseSyntheticEvent } from 'react';
 import {
   Table,
   TableContainer,
@@ -6,12 +6,13 @@ import {
   TableCell,
   Paper,
   Collapse,
+  TableBody,
 } from '@mui/material';
 import StarExpand from './starExpand';
-import { severityColors } from '../../../assets/star';
-import { authorizeUser } from '../../../services/user-service';
+import { severityColors } from '../../../assets/utils';
 
 interface starProps {
+  userRole: userRole;
   star: IStar;
   setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
@@ -20,6 +21,7 @@ interface starProps {
   setDragged: (star: IStar | undefined) => void;
 }
 const StarRow = ({
+  userRole,
   star,
   setFeed,
   removeStar,
@@ -28,11 +30,6 @@ const StarRow = ({
   setDragged,
 }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
-  const [isEditor, setIsEditor] = useState<boolean>(false);
-
-  useEffect(() => {
-    authorizeUser('editor').then((res: boolean) => setIsEditor(res));
-  }, []);
 
   const getCreationTime = () => {
     const date = star.createdAt ? new Date(star.createdAt) : undefined;
@@ -73,34 +70,44 @@ const StarRow = ({
   return (
     <TableContainer component={Paper} className="starRow">
       <Table onClick={() => setOpenDesc(!openDesc)}>
-        <TableRow
-          draggable={isEditor}
-          onDragStart={handleStartDrag}
-          onDragOver={handleDragOver}
-          onDragLeave={
-            (e: BaseSyntheticEvent) => e.currentTarget.style.borderTop = 'none'
-          }
-          onDrop={handleDrop}
-        >
-          <TableCell align="center" width="50px">
-            <div
-              id="priority"
-              style={{
-                color: severityColors[star.severity - 1],
-              }}
-            >
-              {star.priority > 0 ? star.priority : '?'}
-            </div>
-          </TableCell>
-          <TableCell width="105px">{star.name}</TableCell>
-          <TableCell width="70px">{star.status}</TableCell>
-          <TableCell width="70px">{star.assignee}</TableCell>
-          <TableCell width="45px">{getCreationTime()}</TableCell>
-          <TableCell width="60px">{star.version}</TableCell>
-        </TableRow>
+        <TableBody>
+          <TableRow
+            draggable={userRole !== 'viewer'}
+            onDragStart={handleStartDrag}
+            onDragOver={handleDragOver}
+            onDragLeave={
+              (e: BaseSyntheticEvent) => e.currentTarget
+                .style.borderTop = 'none'
+            }
+            onDrop={handleDrop}
+          >
+            <TableCell align="center" width="40px">
+              <div
+                id="priority"
+                style={{
+                  color: severityColors[star.severity - 1],
+                }}
+              >
+                {star.priority > 0 ? star.priority : '?'}
+              </div>
+            </TableCell>
+            <TableCell width="105px" align="center">{star.name}</TableCell>
+            <TableCell width="70px" align="center">{star.status}</TableCell>
+            <TableCell width="70px" align="center">{star.assignee}</TableCell>
+            <TableCell width="45px" align="center">
+              {getCreationTime()}
+            </TableCell>
+            <TableCell width="60px" align="center">{star.version}</TableCell>
+          </TableRow>
+        </TableBody>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: 'hidden' }}>
-        <StarExpand star={star} setFeed={setFeed} removeStar={deleteStar} />
+        <StarExpand
+          userRole={userRole}
+          star={star}
+          setFeed={setFeed}
+          removeStar={deleteStar}
+        />
       </Collapse>
     </TableContainer>
   );

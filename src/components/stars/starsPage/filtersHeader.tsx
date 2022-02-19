@@ -25,7 +25,7 @@ import {
   resources,
   computers,
   filterDataType,
-} from '../../../assets/star';
+} from '../../../assets/utils';
 
 interface filterProps {
   nameFilter: string;
@@ -242,9 +242,9 @@ const FiltersHeader = ({
           ))}
         </TableRow>
 
-        <div
+        <TableRow
           className="searchSection"
-          style={{
+          sx={{
             display: search ? 'flex' : 'none',
           }}
         >
@@ -255,10 +255,10 @@ const FiltersHeader = ({
             label="חפש לפי שם הסטאר"
             onChange={(e) => setNameFilter(e.target.value)}
           />
-        </div>
-        <div
+        </TableRow>
+        <TableRow
           className="optionSection"
-          style={{
+          sx={{
             display: displayOptions ? 'flex' : 'none',
           }}
         >
@@ -271,11 +271,11 @@ const FiltersHeader = ({
               onClick={() => { setFilter(lastTab, o, 'add'); }}
             />
           ))}
-        </div>
+        </TableRow>
 
-        <div
+        <TableRow
           className="filterSection"
-          style={{
+          sx={{
             display: !filterEmpty ? 'flex' : 'none',
             marginTop: displayOptions || search ? '50px' : 0,
           }}
@@ -296,7 +296,7 @@ const FiltersHeader = ({
               />
             ))
           ))}
-        </div>
+        </TableRow>
       </TableBody>
     </Table>
   );
