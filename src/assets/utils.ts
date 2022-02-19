@@ -80,3 +80,31 @@ export const starKeyDisplay: starKeyDisplayType[] = [
     display: 'זמן יצירה',
   },
 ];
+
+export const activityInfoArray = [
+  {
+    name: 'status',
+    action: 'שינת/ה את הסטטוס',
+    isValue: true,
+  },
+  {
+    name: 'note',
+    action: 'הוסיפ/ה הערה חדשה',
+    isValue: false,
+  },
+  {
+    name: 'assignee',
+    action: 'שינת/ה את האחראי',
+    isValue: true,
+  },
+  {
+    name: 'resources',
+    action: 'עדכנ/ה משאבים נדרשים',
+    isValue: false,
+  },
+  {
+    name: 'computer',
+    action: 'שינת/ה את המערכת',
+    isValue: true,
+  },
+];

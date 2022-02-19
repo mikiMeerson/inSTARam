@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
 import {
-  StarBorderOutlined,
   CheckCircleOutlined,
   TextSnippetOutlined,
   OfflineBoltOutlined,
@@ -13,10 +12,6 @@ interface activityProps {
 }
 
 const actionToIcon = [
-  {
-    action: 'יצר/ה את הסטאר',
-    icon: <StarBorderOutlined key={Math.random()} className="logIcon" />,
-  },
   {
     action: 'שינת/ה את הסטטוס',
     icon: <CheckCircleOutlined key={Math.random()} className="logIcon" />,

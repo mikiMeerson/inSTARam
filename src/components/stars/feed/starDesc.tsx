@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { SaveOutlined, EditOutlined } from '@mui/icons-material';
 import {
+  activityInfoArray,
   assignees,
   computers,
   resources,
@@ -22,11 +23,6 @@ import {
   versions,
 } from '../../../assets/utils';
 import DialogAlert from '../../general/dialogAlert';
-
-interface activityType {
-  name: string;
-  activity: IActivity;
-}
 
 interface starProps {
   userRole: userRole;
@@ -37,7 +33,7 @@ interface starProps {
 
 const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
-  const [isClose, setIsClose] = useState<boolean>(false);
+  const [closeStar, setCloseStar] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [formData, setFormData] = useState<IStar>(star);
@@ -49,29 +45,6 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
     { name: 'resources', activity: undefined },
     { name: 'computer', activity: undefined },
   ]);
-
-  const activityInfoArray = [
-    {
-      name: 'status',
-      action: 'שינת/ה את הסטטוס',
-      isValue: true,
-    },
-    {
-      name: 'assignee',
-      action: 'שינת/ה את האחראי',
-      isValue: true,
-    },
-    {
-      name: 'resources',
-      action: 'עדכנ/ה משאבים נדרשים',
-      isValue: false,
-    },
-    {
-      name: 'computer',
-      action: 'שינת/ה את המערכת',
-      isValue: true,
-    },
-  ];
 
   const setNewActivity = (attr: keyof IStar, value: string) => {
     const activityInfo = activityInfoArray.find((a) => a.name === attr);
@@ -115,7 +88,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
 
     setIsEdit(false);
 
-    if (isClose) setAttr('priority', 0);
+    if (closeStar) setAttr('priority', 0);
     updateStar(star._id, formData);
   };
 
@@ -175,6 +148,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
               sx={{ padding: '7px', marginBottom: '10px' }}
             >
               הועלה על ידי
+              {' '}
               {star.publisher}
               {' '}
               מתוך
@@ -329,7 +303,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
          ניתן למצוא אותו בדף ההיסטוריה"
         isOpen={closeAlert}
         setIsOpen={setCloseAlert}
-        activateResponse={setIsClose}
+        activateResponse={setCloseStar}
         param
       />
     </div>

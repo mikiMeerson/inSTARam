@@ -24,9 +24,9 @@ const StarActivity = ({ activity }: activityProps) => {
   };
 
   const activityDates = activity
-    .map(
-      (log) => (log.createdAt ? getDisplayDate(new Date(log.createdAt)) : ''),
-    )
+    .map((log) => (
+      log.createdAt ? getDisplayDate(new Date(log.createdAt)) : ''
+    ))
     .reduce((allDates, date, i, array) => {
       array.indexOf(date) === i && allDates.push(new Date(date));
       return allDates;
@@ -45,12 +45,9 @@ const StarActivity = ({ activity }: activityProps) => {
               {getDisplayDate(currDate)}
             </Typography>
             {
-              activity.filter(
-                (log) => log.createdAt
-                  && new Date(
-                    getDisplayDate(new Date(log.createdAt)),
-                  ).getTime() === currDate.getTime(),
-              )
+              activity.filter((log) => log.createdAt && new Date(
+                getDisplayDate(new Date(log.createdAt)),
+              ).getTime() === currDate.getTime())
                 .map((log: IActivity) => (
                   <ActivityItem key={log._id} log={log} />
                 ))
