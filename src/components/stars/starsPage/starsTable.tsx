@@ -26,7 +26,9 @@ const StarsTable = ({
   setDragged,
 }: starProps) => {
   const getExistingFilters = (filterName: string) => {
-    const existingFilter = localStorage.getItem(`${filterName} filter`);
+    const existingFilter = unprioritized
+      ? localStorage.getItem(`${filterName} filter unprioritized`)
+      : localStorage.getItem(`${filterName} filter prioritized`);
     return existingFilter ? JSON.parse(existingFilter) : [];
   };
 
@@ -130,6 +132,7 @@ const StarsTable = ({
       }}
     >
       <FiltersHeader
+        unprioritized={unprioritized}
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
         filtersData={filtersData}

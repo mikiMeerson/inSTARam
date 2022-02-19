@@ -28,12 +28,14 @@ import {
 } from '../../../assets/utils';
 
 interface filterProps {
+  unprioritized: boolean;
   nameFilter: string;
   setNameFilter: (param: string) => void;
   filtersData: filterDataType[];
 }
 
 const FiltersHeader = ({
+  unprioritized,
   nameFilter,
   setNameFilter,
   filtersData,
@@ -62,9 +64,10 @@ const FiltersHeader = ({
     // update the current filter by adding the new selected value
     currFilter?.func(newFilterValues);
 
+    const itemToSet = unprioritized ? 'unprioritized' : 'prioritized';
     // save the new selected list
     localStorage.setItem(
-      `${filter} filter`,
+      `${filter} filter ${itemToSet}`,
       JSON.stringify(newFilterValues),
     );
   };
