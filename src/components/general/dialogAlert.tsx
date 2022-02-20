@@ -12,8 +12,8 @@ interface AlertProps {
     content: string;
     isOpen: boolean;
     setIsOpen: (param: boolean) => void;
-    activateResponse: (param:any) => any;
-    param: any;
+    activateResponse?: (param:any) => any;
+    param?: any;
 }
 
 const DialogAlert = ({
@@ -42,7 +42,7 @@ const DialogAlert = ({
         variant="contained"
         onClick={() => {
           setIsOpen(false);
-          activateResponse(param);
+          (activateResponse && param) && activateResponse(param);
         }}
         autoFocus
       >
@@ -53,3 +53,8 @@ const DialogAlert = ({
 );
 
 export default DialogAlert;
+
+DialogAlert.defaultProps = {
+  activateResponse: undefined,
+  param: undefined,
+};
