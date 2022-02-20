@@ -1,3 +1,11 @@
+// I don't know how strings are dealt with in real websites,
+// but I think a better common approach is to have an ID/number/Enum
+// for each status, and then using a different strings service the actual
+// strings are fetched for each corresponding status.
+// This allows changing UI/UX without touching the core services logics or
+// deploy a new frontend version.
+// It's not a must but its nice to get it done early on and not
+// stay with this forever.
 export const statuses = ['פתוח', 'בעבודה', 'סגור'];
 export const assignees = ['מאב', 'אינטגרציה', 'מנט', 'לצד', 'אמלח'];
 export const severities = [

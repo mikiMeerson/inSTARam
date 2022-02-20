@@ -1,3 +1,8 @@
+// This might change based on backend's updates,
+// and might break the code here if not updated as well.
+// Maybe you can export this to a mutual package that
+// frontend and backend can use together? I don't really know
+// a solution but this might be one.
 type starStatus = 'פתוח' | 'סגור' | 'בעבודה';
 type userRole = 'viewer' | 'editor' | 'admin';
 type orderType = 'desc' | 'asc';
