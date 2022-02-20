@@ -115,7 +115,6 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
             }}
           >
             {star.priority > 0 ? star.priority : ''}
-            {' '}
           </span>
           <InputField
             field="name"
@@ -125,11 +124,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
             errors={errors}
           />
         </h1>
-        <Typography variant="caption">
-          בלוק
-          {' '}
-          {star.version}
-        </Typography>
+        <Typography variant="caption">{`בלוק ${star.version}`}</Typography>
         {(userRole !== 'viewer')
           && (
             <Fab
@@ -153,17 +148,8 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
               variant="caption"
               sx={{ padding: '7px', marginBottom: '10px' }}
             >
-              הועלה על ידי
-              {' '}
-              {star.publisher}
-              {' '}
-              מתוך
-              {' '}
-              {star.event}
-              {' '}
-              בתאריך
-              {' '}
-              {getDisplayDate()}
+              {`הועלה על ידי ${star.publisher} מתוך ${star.event}
+               בתאריך ${getDisplayDate()}`}
             </Typography>
           </Grid>
           <Grid container spacing={2}>

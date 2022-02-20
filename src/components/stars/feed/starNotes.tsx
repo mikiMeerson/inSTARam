@@ -22,13 +22,15 @@ const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
     return (
       <div className="feedSection" id="notes">
         <Typography variant="caption">עדיין אין הערות על סטאר זה</Typography>
-        <div style={{ display: replyTo ? 'none' : '' }}>
-          <AddComment
-            replyTo={replyTo}
-            setReplyTo={setReplyTo}
-            addNote={addNote}
-          />
-        </div>
+        {replyTo && (
+          <div>
+            <AddComment
+              replyTo={replyTo}
+              setReplyTo={setReplyTo}
+              addNote={addNote}
+            />
+          </div>
+        )}
       </div>
     );
   }
