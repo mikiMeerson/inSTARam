@@ -37,7 +37,6 @@ interface starProps {
 
 const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
-  const [closeStar, setCloseStar] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const activityAttrs = [
@@ -256,8 +255,6 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
          ניתן למצוא אותו בדף ההיסטוריה"
         isOpen={closeAlert}
         setIsOpen={setCloseAlert}
-        activateResponse={setCloseStar}
-        param
       />
     </div>
   );

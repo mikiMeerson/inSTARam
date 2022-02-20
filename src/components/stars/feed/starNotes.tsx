@@ -42,11 +42,11 @@ const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
       <div style={{ overflow: 'scroll', height: '65%' }}>
         {getNotes().map((note: INote) => (
           <Note
+            key={note._id}
             notes={notes}
             note={note}
             replies={getReplies(note)}
             replyBranch={0}
-            key={note._id}
             replyTo={replyTo}
             setReplyTo={setReplyTo}
             deleteNote={deleteNote}
