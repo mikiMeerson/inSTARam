@@ -85,7 +85,7 @@ const StarRow = ({
               <div
                 id="priority"
                 style={{
-                  color: severityColors[star.severity - 1],
+                  color: severityColors[star.severity],
                 }}
               >
                 {star.priority > 0 ? star.priority : '?'}

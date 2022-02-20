@@ -8,7 +8,7 @@ import {
 } from '@mui/icons-material';
 
 interface activityProps {
-    log: IActivity;
+  log: IActivity;
 }
 
 const actionToIcon = [
@@ -47,11 +47,13 @@ const ActivityItem = ({ log }: activityProps) => (
         {' '}
         {log.action}
       </span>
-      <span style={{ display: log.value ? '' : 'none' }}>
+      {log.value && (
+      <span>
         {' '}
         ל
         <span className="logValue">{log.value}</span>
       </span>
+      )}
     </Typography>
   </div>
 );

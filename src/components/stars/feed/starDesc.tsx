@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  TextField,
   Typography,
   FormControl,
   InputLabel,
@@ -23,6 +25,8 @@ import {
   versions,
 } from '../../../assets/utils';
 import DialogAlert from '../../general/dialogAlert';
+import InputField from '../../general/inputField';
+import SelectField from '../../general/selectField';
 
 interface starProps {
   userRole: userRole;
@@ -36,59 +40,60 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [closeStar, setCloseStar] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [formData, setFormData] = useState<IStar>(star);
-  const [activityArray, setActivityArray] = useState<
-    { name: string; activity: IActivity | undefined }[]
-  >([
-    { name: 'status', activity: undefined },
-    { name: 'assignee', activity: undefined },
-    { name: 'resources', activity: undefined },
-    { name: 'computer', activity: undefined },
-  ]);
+  const activityAttrs = [
+    'status',
+    'assignee',
+    'resources',
+    'computer',
+  ];
 
-  const setNewActivity = (attr: keyof IStar, value: string) => {
-    const activityInfo = activityInfoArray.find((a) => a.name === attr);
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(0, 'נא למלא את שם הסטאר')
+      .max(40, 'שם הסטאר לא יעלה על 40 תווים'),
+    desc: Yup.string()
+      .min(0, 'נא למלא תיאור')
+      .max(100, 'תיאור הסטאר לא יכול לעלות על 100 תווים'),
+  });
 
-    if (activityInfo) {
-      const newActivity: IActivity = {
-        _id: '0',
-        starId: star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: activityInfo.action,
-        value: activityInfo.isValue ? value : undefined,
-      };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: star,
+  });
 
-      const newActivityArray = activityArray;
-      newActivityArray.find((a) => a.name === attr)!.activity = newActivity;
-
-      setActivityArray(newActivityArray);
+  const handleSave = (formData: IStar) => {
+    // if the star is closing, remove its priority and alert the user
+    if (formData.status === 'סגור' && star.status !== formData.status) {
+      formData.priority = 0;
+      setCloseAlert(true);
     }
-  };
-
-  const setAttr = (attr: keyof IStar, value: string | string[] | number) => {
-    if (attr === 'status') setCloseAlert(value === 'סגור');
-
-    if (activityArray.map((a) => a.name).includes(attr)) {
-      setNewActivity(attr, value as string);
-    }
-
-    setFormData(Object.assign(formData, { [attr]: value }));
-  };
-
-  const handleSave = () => {
-    activityArray.forEach((a) => {
-      if (a.activity) saveActivity(a.activity);
+    // for each attribute that has been edited and should generate an activity
+    activityAttrs.filter(
+      (attr) => !(attr === 'resources'
+        && formData[attr].every((item) => star[attr].includes(item))
+        && star[attr].every((item) => formData[attr].includes(item))
+      ) && formData[attr as keyof IStar] !== star[attr as keyof IStar],
+    ).forEach((attr) => {
+      // get the attribute's activity info and use it to generate a new one
+      const info = activityInfoArray
+        .find((i) => i.name === attr);
+      if (info) {
+        saveActivity({
+          _id: '0',
+          starId: star._id,
+          publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+          action: info.action,
+          value: info.isValue
+            ? formData[attr as keyof IStar] as string
+            : undefined,
+        });
+      }
     });
-
-    const resetActivityArray = activityArray;
-    resetActivityArray.forEach((a) => {
-      a.activity = undefined;
-    });
-    setActivityArray(resetActivityArray);
-
     setIsEdit(false);
-
-    if (closeStar) setAttr('priority', 0);
     updateStar(star._id, formData);
   };
 
@@ -106,24 +111,20 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
           <span
             id="priority"
             style={{
-              color: severityColors[star.severity - 1],
+              color: severityColors[star.severity],
             }}
           >
             {star.priority > 0 ? star.priority : ''}
-            {' '}
           </span>
-          <TextField
+          <InputField
+            field="name"
             disabled={!isEdit}
             defaultValue={star.name}
-            variant="standard"
-            onChange={(e) => setAttr('name', e.target.value)}
+            register={register}
+            errors={errors}
           />
         </h1>
-        <Typography variant="caption">
-          בלוק
-          {' '}
-          {star.version}
-        </Typography>
+        <Typography variant="caption">{`בלוק ${star.version}`}</Typography>
         {(userRole !== 'viewer')
           && (
             <Fab
@@ -135,7 +136,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
               }}
             >
               {isEdit
-                ? (<SaveOutlined onClick={handleSave} />)
+                ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
                 : <EditOutlined onClick={() => setIsEdit(true)} />}
             </Fab>
           )}
@@ -147,79 +148,40 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
               variant="caption"
               sx={{ padding: '7px', marginBottom: '10px' }}
             >
-              הועלה על ידי
-              {' '}
-              {star.publisher}
-              {' '}
-              מתוך
-              {' '}
-              {star.event}
-              {' '}
-              בתאריך
-              {' '}
-              {getDisplayDate()}
+              {`הועלה על ידי ${star.publisher} מתוך ${star.event}
+               בתאריך ${getDisplayDate()}`}
             </Typography>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={4}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>אחראי</InputLabel>
-                <Select
-                  variant="outlined"
-                  disabled={!isEdit}
-                  input={<Input />}
-                  defaultValue={star.assignee}
-                  onChange={(
-                    e: SelectChangeEvent<string>,
-                  ) => setAttr('assignee', e.target.value)}
-                >
-                  {assignees.map((assignee: string) => (
-                    <MenuItem key={assignee} value={assignee}>
-                      {assignee}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <SelectField
+                field="assignee"
+                defaultValue={star.assignee}
+                disabled={!isEdit}
+                register={register}
+                fieldValues={assignees}
+                errors={errors}
+              />
             </Grid>
             <Grid item xs={4}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>סטטוס</InputLabel>
-                <Select
-                  variant="outlined"
-                  disabled={!isEdit}
-                  input={<Input />}
-                  defaultValue={star.status}
-                  onChange={(
-                    e: SelectChangeEvent<string>,
-                  ) => setAttr('status', e.target.value)}
-                >
-                  {statuses.map((status: string) => (
-                    <MenuItem key={status} value={status}>
-                      {status}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <SelectField
+                field="status"
+                defaultValue={star.status}
+                disabled={!isEdit}
+                register={register}
+                fieldValues={statuses}
+                errors={errors}
+              />
             </Grid>
             <Grid item xs={4}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>בלוק</InputLabel>
-                <Select
-                  variant="outlined"
-                  disabled={!isEdit}
-                  input={<Input />}
-                  defaultValue={star.version}
-                  onChange={(
-                    e: SelectChangeEvent<string>,
-                  ) => setAttr('version', e.target.value)}
-                >
-                  {versions.map((version: string) => (
-                    <MenuItem key={version} value={version}>
-                      {version}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <SelectField
+                field="version"
+                defaultValue={star.version}
+                disabled={!isEdit}
+                register={register}
+                fieldValues={versions}
+                errors={errors}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '3%' }}>
@@ -231,6 +193,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
                   disabled={!isEdit}
                   multiple
                   value={resourceList}
+                  {...register('resources')}
                   onChange={(
                     e: SelectChangeEvent<string[]>,
                   ) => {
@@ -239,7 +202,6 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
                       newResources.push(e.target.value as string);
                     } else newResources = e.target.value as string[];
                     setResourceList(newResources);
-                    setAttr('resources', newResources);
                   }}
                   input={<Input />}
                   renderValue={(selected: string[]) => (
@@ -259,41 +221,32 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
               </FormControl>
             </Grid>
             <Grid item xs={4}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>מחשב</InputLabel>
-                <Select
-                  variant="outlined"
-                  disabled={!isEdit}
-                  input={<Input />}
-                  defaultValue={star.computer ? star.computer : ''}
-                  onChange={(
-                    e: SelectChangeEvent<string>,
-                  ) => setAttr('computer', e.target.value)}
-                >
-                  {computers.map((computer: string) => (
-                    <MenuItem key={computer} value={computer}>
-                      {computer}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <SelectField
+                field="computer"
+                defaultValue={star.computer}
+                disabled={!isEdit}
+                register={register}
+                fieldValues={computers}
+                errors={errors}
+              />
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <InputField
             disabled={!isEdit}
+            field="desc"
+            defaultValue={star.desc}
+            register={register}
+            errors={errors}
+            multiline
+            variant="outlined"
             sx={{
               display: 'grid',
               height: '123px',
               maxHeight: '123px',
               marginTop: '42px',
             }}
-            label="תיאור"
-            defaultValue={star.desc}
-            variant="outlined"
-            multiline
-            onChange={(e) => setAttr('desc', e.target.value)}
           />
         </Grid>
       </div>

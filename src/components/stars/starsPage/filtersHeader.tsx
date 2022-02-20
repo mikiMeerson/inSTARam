@@ -213,93 +213,98 @@ const FiltersHeader = ({
           ))}
         </TableRow>
 
-        <TableRow sx={{ display: displayMore ? '' : 'none' }}>
-          <TableCell width="60px" />
+        {displayMore && (
+          <TableRow>
+            <TableCell width="60px" />
 
-          {secondaryFilterFields.map((field: filterField) => (
-            <TableCell key={field.name} sx={{ textAlign: 'center' }}>
-              <Button
-                sx={{
-                  color: 'Gray',
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  paddingLeft: 0,
-                  background:
-                    lastTab === field.name && (displayOptions || search)
-                      ? 'whitesmoke'
-                      : '',
-                }}
-                onClick={() => {
-                  setDisplayOptions(
-                    lastTab === field.name ? !displayOptions : true,
-                  );
-                  if (field.options) setOptions(field.options);
-                  setSearch(false);
-                  setLastTab(field.name);
-                }}
-              >
-                {field.displayName}
-                {field.icon}
-              </Button>
-            </TableCell>
-          ))}
-        </TableRow>
+            {secondaryFilterFields.map((field: filterField) => (
+              <TableCell key={field.name} sx={{ textAlign: 'center' }}>
+                <Button
+                  sx={{
+                    color: 'Gray',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    paddingLeft: 0,
+                    background:
+                      lastTab === field.name && (displayOptions || search)
+                        ? 'whitesmoke'
+                        : '',
+                  }}
+                  onClick={() => {
+                    setDisplayOptions(
+                      lastTab === field.name ? !displayOptions : true,
+                    );
+                    if (field.options) setOptions(field.options);
+                    setSearch(false);
+                    setLastTab(field.name);
+                  }}
+                >
+                  {field.displayName}
+                  {field.icon}
+                </Button>
+              </TableCell>
+            ))}
+          </TableRow>
+        )}
 
-        <TableRow
-          className="searchSection"
-          sx={{
-            display: search ? 'flex' : 'none',
-          }}
-        >
-          <TextField
-            fullWidth
-            autoFocus
-            variant="standard"
-            label="חפש לפי שם הסטאר"
-            onChange={(e) => setNameFilter(e.target.value)}
-          />
-        </TableRow>
-        <TableRow
-          className="optionSection"
-          sx={{
-            display: displayOptions ? 'flex' : 'none',
-          }}
-        >
-          {getOptions().map((o: string) => (
-            <Chip
-              size="medium"
-              sx={{ marginRight: '15px' }}
-              label={o}
-              key={o}
-              onClick={() => { setFilter(lastTab, o, 'add'); }}
+        {search && (
+          <TableRow
+            className="searchSection"
+            sx={{
+              display: 'flex',
+            }}
+          >
+            <TextField
+              fullWidth
+              autoFocus
+              variant="standard"
+              label="חפש לפי שם הסטאר"
+              onChange={(e) => setNameFilter(e.target.value)}
             />
-          ))}
-        </TableRow>
-
-        <TableRow
-          className="filterSection"
-          sx={{
-            display: !filterEmpty ? 'flex' : 'none',
-            marginTop: displayOptions || search ? '50px' : 0,
-          }}
-        >
-          {filtersData.map((category) => (
-            category.filter.map((selected) => (
+          </TableRow>
+        )}
+        {displayOptions && (
+          <TableRow
+            className="optionSection"
+            sx={{ display: 'flex' }}
+          >
+            {getOptions().map((o: string) => (
               <Chip
-                key={selected}
                 size="medium"
-                color={category.chipColor}
-                label={selected}
-                sx={{
-                  marginRight: '15px',
-                }}
-                onClick={() => {
-                  setFilter(category.tabName, selected, 'remove');
-                }}
+                sx={{ marginRight: '15px' }}
+                label={o}
+                key={o}
+                onClick={() => { setFilter(lastTab, o, 'add'); }}
               />
-            ))
-          ))}
-        </TableRow>
+            ))}
+          </TableRow>
+        )}
+        {!filterEmpty && (
+          <TableRow
+            className="filterSection"
+            sx={{
+              display: 'flex',
+              marginTop: displayOptions || search ? '50px' : 0,
+            }}
+          >
+            {filtersData.map((category) => (
+              category.filter.map((selected) => (
+                <Chip
+                  key={selected}
+                  size="medium"
+                  color={category.chipColor}
+                  label={selected}
+                  sx={{
+                    marginRight: '15px',
+                  }}
+                  onClick={() => {
+                    setFilter(category.tabName, selected, 'remove');
+                  }}
+                />
+              ))
+            ))}
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );

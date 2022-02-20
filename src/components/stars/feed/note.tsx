@@ -66,20 +66,15 @@ const Note = ({
           <Typography variant="body2">{note.note}</Typography>
           <div className="commentActions">
             <Typography variant="caption">
-              הועלה:
-              {' '}
-              {getNoteTime()}
+              {`הועלה: ${getNoteTime()}`}
             </Typography>
             <div className="noteActions">
-              <DeleteOutline
-                style={{
-                  display:
-                    note.publisher === localStorage.getItem('userDisplay')
-                      ? '' : 'none',
-                }}
-                className="deleteButton"
-                onClick={() => setDeleteAlert(true)}
-              />
+              {localStorage.getItem('userDisplay') && (
+                <DeleteOutline
+                  className="deleteButton"
+                  onClick={() => setDeleteAlert(true)}
+                />
+              )}
               <ReplyOutlined
                 className="replyButton"
                 onClick={() => {
@@ -104,14 +99,16 @@ const Note = ({
           />
         ))}
       </Grid>
-      <div
-        style={{
-          paddingRight: indent,
-          display: isReply ? 'flex' : 'none',
-          flexDirection: 'row-reverse',
-          width: '100%',
-        }}
-      />
+      {isReply && (
+        <div
+          style={{
+            paddingRight: indent,
+            display: 'flex',
+            flexDirection: 'row-reverse',
+            width: '100%',
+          }}
+        />
+      )}
       <DialogAlert
         header="למחוק את ההערה?"
         content="ההערה וכל תגובותיה יימחקו לצמיתות"
