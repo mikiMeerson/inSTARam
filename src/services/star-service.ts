@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { severities } from '../assets/utils';
 import { baseUrl } from '../globals';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {

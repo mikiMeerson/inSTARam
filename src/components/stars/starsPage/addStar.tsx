@@ -81,8 +81,9 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     },
   ];
 
-  const handleAddStar = (data: unknown) => {
+  const handleAddStar = (data: any) => {
     toggleModal(false);
+    data.severity = severities.indexOf(data.severity);
     addStar(data);
     fields.map((f) => resetField(f.field));
   };
@@ -101,6 +102,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
             <Grid item xs={12} sm={8}>
               <InputField
+                fullWidth
                 field="name"
                 register={register}
                 errors={errors}
@@ -118,6 +120,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
             <Grid item xs={12} sm={6}>
               <InputField
+                fullWidth
                 field="event"
                 register={register}
                 errors={errors}
@@ -134,6 +137,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
           </Grid>
           <Grid container sx={{ marginTop: '15px' }}>
             <InputField
+              fullWidth
               field="desc"
               register={register}
               errors={errors}
