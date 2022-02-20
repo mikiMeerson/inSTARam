@@ -126,6 +126,8 @@ const StarsTable = ({
     <div
       style={{
         flexGrow: 1,
+        height: '100%',
+        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
