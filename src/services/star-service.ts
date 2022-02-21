@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { severities } from '../assets/utils';
+import { STATUSES } from '../assets/utils';
 import { baseUrl } from '../globals';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
@@ -21,7 +21,7 @@ export const addStar = async (
       priority: 0,
       severity: formData.severity,
       name: formData.name,
-      status: 'פתוח',
+      status: STATUSES.OPEN,
       assignee: formData.assignee,
       version: formData.version,
       publisher: formData.publisher,

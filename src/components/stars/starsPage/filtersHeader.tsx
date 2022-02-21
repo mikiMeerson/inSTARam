@@ -19,12 +19,12 @@ import {
 } from '@material-ui/icons';
 import { ReactElement, useState } from 'react';
 import {
-  statuses,
-  assignees,
-  versions,
-  resources,
-  computers,
   filterDataType,
+  STATUSES,
+  ASSIGNEES,
+  COMPUTERS,
+  RESOURCES,
+  VERSIONS,
 } from '../../../assets/utils';
 
 interface filterProps {
@@ -108,7 +108,7 @@ const FiltersHeader = ({
       name: 'status',
       width: '40px',
       activation: 'options',
-      options: statuses,
+      options: Object.values(STATUSES),
       displayName: 'סטטוס',
       icon: <CheckCircleOutline className="dropDownIcon" />,
     },
@@ -116,7 +116,7 @@ const FiltersHeader = ({
       name: 'assignee',
       width: '100px',
       activation: 'options',
-      options: assignees,
+      options: Object.values(ASSIGNEES),
       displayName: 'אחראי',
       icon: <PersonOutline className="dropDownIcon" />,
     },
@@ -131,7 +131,7 @@ const FiltersHeader = ({
       name: 'version',
       width: '60px',
       activation: 'options',
-      options: versions,
+      options: Object.values(VERSIONS),
       displayName: 'בלוק',
       icon: <Flight className="dropdownIcon" style={{ fontSize: '17px' }} />,
     },
@@ -141,14 +141,14 @@ const FiltersHeader = ({
     {
       name: 'resource',
       activation: 'options',
-      options: resources,
+      options: Object.values(RESOURCES),
       displayName: 'משאבים',
       icon: <FlashOn className="dropDownIcon" />,
     },
     {
       name: 'computer',
       activation: 'options',
-      options: computers,
+      options: Object.values(COMPUTERS),
       displayName: 'מחשב',
       icon: <Computer className="dropDownIcon" />,
     },

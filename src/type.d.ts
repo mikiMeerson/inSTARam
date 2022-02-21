@@ -3,7 +3,6 @@
 // Maybe you can export this to a mutual package that
 // frontend and backend can use together? I don't really know
 // a solution but this might be one.
-type starStatus = 'פתוח' | 'סגור' | 'בעבודה';
 type userRole = 'viewer' | 'editor' | 'admin';
 type orderType = 'desc' | 'asc';
 
@@ -16,11 +15,11 @@ type linkDisplayType = {
 interface IStar {
     _id: string;
     priority: number;
-    severity: number;
+    severity: SEVERITIES;
     name: string;
-    status: starStatus;
-    assignee: string;
-    version: string;
+    status: STATUSES;
+    assignee: ASSIGNEES;
+    version: VERSIONS;
     publisher: string;
     event: string;
     resources: string[];

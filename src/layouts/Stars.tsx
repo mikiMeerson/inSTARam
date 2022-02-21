@@ -13,8 +13,8 @@ import {
 } from '../services/star-service';
 import { deleteNotes, getNotes } from '../services/note-service';
 import { deleteActivity, getActivities } from '../services/activity-service';
-import Users from '../components/users/users';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
+import { STATUSES } from '../assets/utils';
 
 interface starProps {
   userRole: userRole;
@@ -47,7 +47,7 @@ const Stars = ({ userRole }: starProps) => {
   const fetchStars = async (): Promise<void> => {
     setLoading(true);
     const { data } = await getStars();
-    setStars(data.stars.filter((s) => s.status !== 'סגור'));
+    setStars(data.stars.filter((s) => s.status !== STATUSES.CLOSED));
     setLoading(false);
   };
 
