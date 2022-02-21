@@ -60,6 +60,23 @@ interface IUser {
     updatedAt?: string;
 }
 
+interface IEvent {
+    _id: string;
+    name: string;
+    type: 'flight' | 'integration' | 'industry';
+    version: string;
+    date: string;
+    publisher: string;
+    description: string;
+    configuration: {
+      aaaa: string;
+      bbbb: string;
+      cccc: string;
+      dddd: string;
+    }
+    findings: string[];
+}
+
 type ApiStarsType = {
     message: string
     status: string
@@ -92,4 +109,11 @@ type IAlert = {
     isAlert: boolean
     content: string
     severity: 'success' | 'info' | 'warning' | 'error'
+}
+
+type ApiEventsType = {
+    message: string
+    status: string
+    events: IEvent[]
+    event?: IEvent
 }
