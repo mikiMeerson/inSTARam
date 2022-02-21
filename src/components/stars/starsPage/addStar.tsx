@@ -12,10 +12,10 @@ import {
   Divider,
 } from '@mui/material';
 import {
-  assignees,
-  severities,
-  versions,
-  computers,
+  ASSIGNEES,
+  SEVERITIES,
+  VERSIONS,
+  COMPUTERS,
 } from '../../../assets/utils';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
@@ -83,7 +83,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
 
   const handleAddStar = (data: any) => {
     toggleModal(false);
-    data.severity = severities.indexOf(data.severity);
+    data.severity = Object.values(SEVERITIES).indexOf(data.severity);
     addStar(data);
     fields.map((f) => resetField(f.field));
   };
@@ -111,7 +111,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             <Grid item xs={12} sm={4}>
               <SelectField
                 field="severity"
-                fieldValues={severities}
+                fieldValues={SEVERITIES}
                 register={register}
                 errors={errors}
               />
@@ -129,7 +129,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             <Grid item xs={12} sm={6}>
               <SelectField
                 field="version"
-                fieldValues={versions}
+                fieldValues={VERSIONS}
                 register={register}
                 errors={errors}
               />
@@ -147,7 +147,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             <Grid item xs={12} sm={6}>
               <SelectField
                 field="assignee"
-                fieldValues={assignees}
+                fieldValues={ASSIGNEES}
                 register={register}
                 errors={errors}
               />
@@ -155,7 +155,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             <Grid item xs={12} sm={6}>
               <SelectField
                 field="computer"
-                fieldValues={computers}
+                fieldValues={COMPUTERS}
                 register={register}
                 errors={errors}
               />

@@ -1,14 +1,47 @@
-export const statuses = ['פתוח', 'בעבודה', 'סגור'];
-export const assignees = ['מאב', 'אינטגרציה', 'מנט', 'לצד', 'אמלח'];
-export const severities = [
-  'חמור מאוד (1)',
-  'חמור (2)',
-  'בינוני (3)',
-  'קל (99)',
-];
-export const versions = ['ו רעם', 'ה רעם', 'ד רעם', 'ז בז', 'ו בז', 'ה בז'];
-export const resources = ['STF', 'AIF', 'מודל UWI', 'מודל ASB', 'חימוש אמיתי'];
-export const computers = ['AAA', 'BBB', 'CCC', 'DDD'];
+export enum STATUSES {
+  CLOSED = 'סגור',
+  IN_PROGRESS = 'בעבודה',
+  OPEN = 'פתוח'
+}
+
+export enum ASSIGNEES {
+  AMLH = 'אמלח',
+  LZD = 'לצד',
+  MNT = 'מנט',
+  INT = 'אינטרציה',
+  MAAV = 'מאב',
+}
+
+export enum SEVERITIES {
+  VERY_SERIOUS = 'חמור מאוד (1)',
+  SERIOUS = 'חמור (2)',
+  MEDIUM = 'בינוני (3)',
+  SLIGHT = 'קל (99)',
+}
+
+export enum VERSIONS {
+  RAAM_D = 'ד רעם',
+  RAAM_E = 'ה רעם',
+  RAAM_F = 'ו רעם',
+  BAZ_E = 'ה בז',
+  BAZ_F = 'ו בז',
+  BAZ_G = 'ז בז'
+}
+
+export enum RESOURCES {
+  STF = 'STF',
+  AIF = 'AIF',
+  UWI_MODEL = 'מודל UWI',
+  ASB_MODEL = 'מודל ASB',
+  REAL_WEAPON = 'חימוש אמיתי',
+}
+
+export enum COMPUTERS {
+  AAA = 'AAA',
+  BBB = 'BBB',
+  CCC = 'CCC',
+  DDD = 'DDD',
+}
 
 export const severityColors = ['red', 'orange', 'yellow', 'green'];
 

@@ -1,4 +1,5 @@
 import { TableRow, TableCell, Button } from '@mui/material';
+import { STATUSES } from '../../../assets/utils';
 
 interface rowType {
     row: IStar;
@@ -18,7 +19,7 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
 
   const handleReopen = () => {
     const newStar = JSON.parse(JSON.stringify(row));
-    newStar.status = 'פתוח';
+    newStar.status = STATUSES.OPEN;
     updateStar(row._id, newStar);
   };
 
@@ -27,7 +28,7 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
       <TableCell align="center" component="th" scope="row">{name}</TableCell>
       <TableCell align="center">{assignee}</TableCell>
       <TableCell align="center">
-        {status === 'סגור' && userRole !== 'viewer'
+        {status === STATUSES.CLOSED && userRole !== 'viewer'
           ? (
             <Button
               variant="contained"

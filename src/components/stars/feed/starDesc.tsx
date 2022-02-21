@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import _ from 'lodash';
 import {
   Typography,
   FormControl,
@@ -17,12 +18,12 @@ import {
 import { SaveOutlined, EditOutlined } from '@mui/icons-material';
 import {
   activityInfoArray,
-  assignees,
-  computers,
-  resources,
   severityColors,
-  statuses,
-  versions,
+  STATUSES,
+  ASSIGNEES,
+  VERSIONS,
+  COMPUTERS,
+  RESOURCES,
 } from '../../../assets/utils';
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
@@ -66,7 +67,8 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
 
   const handleSave = (formData: IStar) => {
     // if the star is closing, remove its priority and alert the user
-    if (formData.status === 'סגור' && star.status !== formData.status) {
+    if (formData.status === STATUSES.CLOSED
+        && star.status !== formData.status) {
       formData.priority = 0;
       setCloseAlert(true);
     }
@@ -158,7 +160,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
                 defaultValue={star.assignee}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={assignees}
+                fieldValues={ASSIGNEES}
                 errors={errors}
               />
             </Grid>
@@ -168,7 +170,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
                 defaultValue={star.status}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={statuses}
+                fieldValues={STATUSES}
                 errors={errors}
               />
             </Grid>
@@ -178,7 +180,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
                 defaultValue={star.version}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={versions}
+                fieldValues={VERSIONS}
                 errors={errors}
               />
             </Grid>
@@ -211,7 +213,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
                     </div>
                   )}
                 >
-                  {resources.map((resource: string) => (
+                  {_.map(RESOURCES, (resource: string) => (
                     <MenuItem key={resource} value={resource}>
                       {resource}
                     </MenuItem>
@@ -225,7 +227,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
                 defaultValue={star.computer}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={computers}
+                fieldValues={COMPUTERS}
                 errors={errors}
               />
             </Grid>

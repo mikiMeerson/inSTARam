@@ -6,12 +6,13 @@ import {
   InputLabel,
   Typography,
 } from '@mui/material';
+import _ from 'lodash';
 import { UseFormRegister } from 'react-hook-form';
 import { starKeyDisplay } from '../../assets/utils';
 
 interface fieldProps {
   field: keyof IStar;
-  fieldValues: string[];
+  fieldValues: any;
   register: UseFormRegister<any>;
   errors: {[x: string]: any};
   defaultValue?: string;
@@ -39,7 +40,7 @@ const SelectField = ({
         {...register(field)}
         error={errors[field]}
       >
-        {fieldValues.map((value: string) => (
+        {_.map(fieldValues, (value: string) => (
           <MenuItem key={value} value={value}>
             {value}
           </MenuItem>
