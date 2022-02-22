@@ -8,6 +8,7 @@ import Login from './components/users/login';
 import { authorizeUser } from './services/user-service';
 import Users from './components/users/users';
 import Home from './layouts/Home';
+import Events from './layouts/Events';
 
 const App = () => {
   const [userRole, setUserRole] = useState<userRole>('viewer');
@@ -30,6 +31,7 @@ const App = () => {
         <HashRouter>
           <Navbar userRole={userRole} />
           <Stars userRole={userRole} />
+          <Events />
           <Routes>
             <Route path="users" element={<Users />} />
             <Route path="/" element={<Home />} />
