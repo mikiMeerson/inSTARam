@@ -1,11 +1,11 @@
 import { StarOutline } from '@mui/icons-material';
 import { Typography, Box, Button } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 interface NavbarProps {
-    pages: linkDisplayType[];
-    setAnchorElNav: (param: any) => void;
-    userRole: userRole;
+  pages: linkDisplayType[];
+  setAnchorElNav: (param: any) => void;
+  userRole: userRole;
 }
 
 const HalfWidthNavbar = ({
@@ -14,14 +14,16 @@ const HalfWidthNavbar = ({
   userRole,
 }: NavbarProps) => (
   <>
-    <Typography
-      variant="h6"
-      noWrap
-      component="div"
-      sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-    >
-      <StarOutline fontSize="large" />
-    </Typography>
+    <Link to="/">
+      <Typography
+        variant="h6"
+        noWrap
+        component="div"
+        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+      >
+        <StarOutline fontSize="large" htmlColor="white" />
+      </Typography>
+    </Link>
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       {pages
         .filter((p) => p.role === 'viewer' || userRole !== 'viewer')

@@ -58,7 +58,7 @@ const starExpand = ({ userRole, star, setFeed, removeStar }: starProps) => {
           </Typography>
         </Grid>
         <div className="starActions">
-          <NavLink to={`/star/${star._id}`} onClick={() => setFeed(star._id)}>
+          <NavLink to={`/stars/${star._id}`} onClick={() => setFeed(star._id)}>
             <Button variant="contained" sx={{ background: 'goldenrod' }}>
               עבור לעמוד הסטאר
             </Button>

@@ -29,7 +29,7 @@ const StarsPage = ({
     <div className="Page">
       <div className="pageHeader">
         <h1>ניהול סטארים</h1>
-        <Link to="/stars-history">
+        <Link to="history">
           <Button>לטבלת הסטארים המלאה</Button>
         </Link>
       </div>

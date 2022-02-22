@@ -2,13 +2,13 @@ import { BaseSyntheticEvent } from 'react';
 import { StarOutline } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Typography, Box, MenuItem, Menu } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 interface NavbarProps {
-    pages: linkDisplayType[];
-    setAnchorElNav: (param: any) => void;
-    anchorElNav: any;
-    userRole: userRole;
+  pages: linkDisplayType[];
+  setAnchorElNav: (param: any) => void;
+  anchorElNav: any;
+  userRole: userRole;
 }
 
 const FullWidthNavBar = ({
@@ -18,14 +18,16 @@ const FullWidthNavBar = ({
   userRole,
 }: NavbarProps) => (
   <>
-    <Typography
-      variant="h6"
-      noWrap
-      component="div"
-      sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-    >
-      <StarOutline fontSize="large" />
-    </Typography>
+    <Link to="/">
+      <Typography
+        variant="h6"
+        noWrap
+        component="div"
+        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+      >
+        <StarOutline fontSize="large" htmlColor="white" />
+      </Typography>
+    </Link>
 
     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
       <IconButton

@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { StatusCodes } from 'http-status-codes';
 import { Alert, CircularProgress, Box } from '@mui/material';
@@ -137,41 +137,48 @@ const Stars = ({ userRole }: starProps) => {
         </Box>
       )}
       <Routes>
-        {['/', '/stars'].map((path) => (
+        <Route path="stars/*">
           <Route
-            key={path}
-            path={path}
-            element={
-              stars && (
-                <StarsPage
-                  userRole={userRole}
-                  stars={stars}
-                  addStar={handleAddStar}
-                  removeStar={handleDeleteStar}
-                  setFeed={setFeedToDisplay}
-                  changePriority={changePriority}
-                />
-              )
-            }
+            index
+            element={stars && (
+              <StarsPage
+                userRole={userRole}
+                stars={stars}
+                addStar={handleAddStar}
+                removeStar={handleDeleteStar}
+                setFeed={setFeedToDisplay}
+                changePriority={changePriority}
+              />
+            )}
           />
-        ))}
-        <Route
-          path="/star/:id"
-          element={(
-            <StarFeed
-              userRole={userRole}
-              starId={feedToDisplay}
-              updateStar={handleUpdateStar}
-            />
-          )}
-        />
-        <Route
-          path="/stars-history"
-          element={
-            <StarsHistory userRole={userRole} updateStar={handleUpdateStar} />
-          }
-        />
+          <Route
+            path=":id"
+            element={(
+              <>
+                <StarFeed
+                  userRole={userRole}
+                  starId={feedToDisplay}
+                  updateStar={handleUpdateStar}
+                />
+                <Outlet />
+              </>
+            )}
+          />
+          <Route
+            path="history"
+            element={(
+              <>
+                <StarsHistory
+                  userRole={userRole}
+                  updateStar={handleUpdateStar}
+                />
+                <Outlet />
+              </>
+            )}
+          />
+        </Route>
       </Routes>
+      <Outlet />
     </>
   );
 };
