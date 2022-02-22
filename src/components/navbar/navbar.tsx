@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { AppBar, Toolbar, Container } from '@mui/material';
 import './styles/navbar.css';
-import FullWidthNavbar from './fullWidthNavbar';
-import HalfWidthNavbar from './halfWidthNavbar';
+import FullWidthNavbar from './halfWidthNavbar';
+import HalfWidthNavbar from './fullWidthNavbar';
 import UserNavbar from './userNavbar';
 
 const pages: linkDisplayType[] = [
