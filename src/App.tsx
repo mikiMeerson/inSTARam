@@ -9,6 +9,7 @@ import { authorizeUser } from './services/user-service';
 import Users from './components/users/users';
 import Home from './layouts/Home';
 import Events from './layouts/Events';
+import Profile from './components/users/profile';
 
 const App = () => {
   const [userRole, setUserRole] = useState<userRole>('viewer');
@@ -34,6 +35,7 @@ const App = () => {
           <Events />
           <Routes>
             <Route path="users" element={<Users />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </HashRouter>

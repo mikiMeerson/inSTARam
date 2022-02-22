@@ -49,12 +49,17 @@ const Login = () => {
   };
 
   const onSubmit = async (data: any): Promise<void> => {
-    const { status } = await login(data.username, data.password);
-    if (status !== StatusCodes.OK) {
-      console.log('Error! wrong credentials');
+    try {
+      const { status } = await login(data.username, data.password);
+      if (status !== StatusCodes.OK) {
+        console.log('Error! wrong credentials');
+      } else {
+        navigate('/stars');
+        window.location.reload();
+      }
+    } catch (error) {
+      setLoginError(true);
     }
-    navigate('/stars');
-    window.location.reload();
     resetForm();
   };
 
