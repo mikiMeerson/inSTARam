@@ -12,9 +12,13 @@ import {
   updateStar,
 } from '../services/star-service';
 import { deleteNotes, getNotes } from '../services/note-service';
-import { deleteActivity, getActivities } from '../services/activity-service';
+import {
+  addActivity,
+  deleteActivity,
+  getActivities,
+} from '../services/activity-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
-import { STATUSES } from '../assets/utils';
+import { activityInfoArray, STATUSES } from '../assets/utils';
 
 interface starProps {
   userRole: userRole;
@@ -55,9 +59,28 @@ const Stars = ({ userRole }: starProps) => {
     fetchStars();
   }, []);
 
+  const handleAddActivity = async (
+    starId: string,
+    activityData: IActivity,
+  ): Promise<void> => {
+    activityData.starId = starId;
+    const { status } = await addActivity(activityData);
+    if (status !== StatusCodes.CREATED) {
+      console.log('activity failed to saved');
+    }
+  };
+
   const handleAddStar = async (formData: any): Promise<void> => {
     formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
-    const { status } = await addStar(formData);
+    const { status, data } = await addStar(formData);
+    if (status === StatusCodes.CREATED && data.star) {
+      handleAddActivity(data.star._id, {
+        _id: '0',
+        starId: data.star._id,
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+        action: activityInfoArray.find((i) => i.name === 'star')!.action,
+      });
+    }
     handleAlert(
       status === StatusCodes.CREATED,
       status === StatusCodes.CREATED
@@ -159,6 +182,7 @@ const Stars = ({ userRole }: starProps) => {
                   userRole={userRole}
                   starId={feedToDisplay}
                   updateStar={handleUpdateStar}
+                  saveActivity={handleAddActivity}
                 />
                 <Outlet />
               </>

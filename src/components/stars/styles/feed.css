@@ -38,6 +38,10 @@
     -webkit-text-stroke: 1px black;
 }
 
+.starFabs > * {
+    margin-right: 10px !important;
+}
+
 .starDetails {
     display: flex;
     flex-direction: row;

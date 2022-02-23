@@ -21,7 +21,7 @@ const Profile = () => (
         <div className="userDetails">
           <Button variant="outlined" size="large" color="warning">
             <VisibilityOutlined />
-            <span className="buttonText">דפים שאתה צופה בהם</span>
+            <span className="buttonText">רשימת הצפייה שלך</span>
           </Button>
           <Button variant="outlined" size="large" color="info">
             <AssignmentOutlined />

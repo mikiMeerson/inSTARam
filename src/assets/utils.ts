@@ -116,6 +116,11 @@ export const starKeyDisplay: starKeyDisplayType[] = [
 
 export const activityInfoArray = [
   {
+    name: 'star',
+    action: 'יצר/ה את הסטאר',
+    isValue: false,
+  },
+  {
     name: 'status',
     action: 'שינת/ה את הסטטוס',
     isValue: true,

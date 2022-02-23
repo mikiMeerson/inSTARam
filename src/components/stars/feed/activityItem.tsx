@@ -5,6 +5,7 @@ import {
   OfflineBoltOutlined,
   PersonOutline,
   ComputerOutlined,
+  StarOutline,
 } from '@mui/icons-material';
 
 interface activityProps {
@@ -12,6 +13,10 @@ interface activityProps {
 }
 
 const actionToIcon = [
+  {
+    action: 'יצר/ה את הסטאר',
+    icon: <StarOutline key={Math.random()} className="logIcon" />,
+  },
   {
     action: 'שינת/ה את הסטטוס',
     icon: <CheckCircleOutlined key={Math.random()} className="logIcon" />,

@@ -15,7 +15,12 @@ import {
   Grid,
   Fab,
 } from '@mui/material';
-import { SaveOutlined, EditOutlined } from '@mui/icons-material';
+import {
+  SaveOutlined,
+  EditOutlined,
+  VisibilityOutlined,
+  VisibilityOffOutlined,
+} from '@mui/icons-material';
 import {
   activityInfoArray,
   severityColors,
@@ -33,13 +38,15 @@ interface starProps {
   userRole: userRole;
   star: IStar;
   updateStar: (starId: string, formData: IStar) => void;
-  saveActivity: (activityData: IActivity) => void
+  saveActivity: (starId: string, activityData: IActivity) => void
 }
 
 const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isWatch, setIsWatch] = useState<boolean>(false);
+
   const activityAttrs = [
     'status',
     'assignee',
@@ -68,7 +75,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const handleSave = (formData: IStar) => {
     // if the star is closing, remove its priority and alert the user
     if (formData.status === STATUSES.CLOSED
-        && star.status !== formData.status) {
+      && star.status !== formData.status) {
       formData.priority = 0;
       setCloseAlert(true);
     }
@@ -83,7 +90,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
       const info = activityInfoArray
         .find((i) => i.name === attr);
       if (info) {
-        saveActivity({
+        saveActivity(star._id, {
           _id: '0',
           starId: star._id,
           publisher: localStorage.getItem('userDisplay') || 'אנונימי',
@@ -125,22 +132,35 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
             errors={errors}
           />
         </h1>
-        <Typography variant="caption">{`בלוק ${star.version}`}</Typography>
-        {(userRole !== 'viewer')
-          && (
-            <Fab
-              size="small"
-              color="secondary"
-              sx={{
-                background: isEdit ? 'blue' : 'goldenrod',
-                color: 'white',
-              }}
-            >
-              {isEdit
-                ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
-                : <EditOutlined onClick={() => setIsEdit(true)} />}
-            </Fab>
-          )}
+        <div className="starFabs">
+          {(userRole !== 'viewer')
+            && (
+              <Fab
+                size="small"
+                color="secondary"
+                sx={{
+                  background: isEdit ? 'blue' : 'goldenrod',
+                  color: 'white',
+                }}
+              >
+                {isEdit
+                  ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
+                  : <EditOutlined onClick={() => setIsEdit(true)} />}
+              </Fab>
+            )}
+          <Fab
+            size="small"
+            color="secondary"
+            sx={{
+              background: isWatch ? 'blue' : 'gray',
+              color: 'white',
+            }}
+          >
+            {isWatch
+              ? (<VisibilityOutlined onClick={() => setIsWatch(false)} />)
+              : <VisibilityOffOutlined onClick={() => setIsWatch(true)} />}
+          </Fab>
+        </div>
       </div>
       <div className="starData">
         <Grid item xs={12} sx={{ marginLeft: '3%' }}>
