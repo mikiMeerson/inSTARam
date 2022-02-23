@@ -24,7 +24,7 @@
 }
 
 .userDetails > * {
-    margin: 10px 0 0 10px;
+    margin-left: 10px !important;
     width: 250px;
     height: 75px;
 }
@@ -32,4 +32,23 @@
 .buttonText {
     font-size: 17px;
     margin-right: 5px;
+}
+
+.profileWindows {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 57%;
+}
+
+.newActivityWindow {
+    background-color: aquamarine;
+    width: 50%;
+    padding: 5px;
+}
+
+.watchWindow {
+    background-color: bisque;
+    width: 50%;
+    padding: 5px;
 }

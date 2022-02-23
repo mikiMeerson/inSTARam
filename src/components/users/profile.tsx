@@ -5,6 +5,8 @@ import {
 } from '@mui/icons-material';
 import { Avatar, Typography, Button } from '@mui/material';
 import './styles/profile.css';
+import NewActivity from './newActivity';
+import UserWatch from './userWatch';
 
 const Profile = () => (
   <>
@@ -37,11 +39,9 @@ const Profile = () => (
         </div>
       </div>
     </div>
-    <div>
-      הפעילות שלך
-    </div>
-    <div>
-      דפים שאתה צופה בהם
+    <div className="profileWindows">
+      <UserWatch />
+      <NewActivity />
     </div>
   </>
 );
