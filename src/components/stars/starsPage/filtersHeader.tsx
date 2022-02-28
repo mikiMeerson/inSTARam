@@ -25,7 +25,7 @@ import {
   COMPUTERS,
   RESOURCES,
   VERSIONS,
-} from '../../../assets/utils';
+} from '../../../assets';
 
 interface filterProps {
   unprioritized: boolean;

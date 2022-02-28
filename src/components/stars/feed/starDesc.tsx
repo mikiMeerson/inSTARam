@@ -1,8 +1,10 @@
+/* eslint-disable curly */
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import _ from 'lodash';
+import { StatusCodes } from 'http-status-codes';
 import {
   Typography,
   FormControl,
@@ -29,10 +31,11 @@ import {
   VERSIONS,
   COMPUTERS,
   RESOURCES,
-} from '../../../assets/utils';
+} from '../../../assets';
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
+import { EditUser } from '../../../services/user-service';
 
 interface starProps {
   userRole: userRole;
@@ -45,7 +48,9 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [isWatch, setIsWatch] = useState<boolean>(false);
+  const [isWatch, setIsWatch] = useState<boolean>(
+    JSON.parse(localStorage.getItem('user')!).watchList.includes(star._id),
+  );
 
   const activityAttrs = [
     'status',
@@ -105,6 +110,28 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
     updateStar(star._id, formData);
   };
 
+  // !Not working properly
+  const handleUpdateWatch = async (watch: boolean) => {
+    setIsWatch(watch);
+    const currUserStr = localStorage.getItem('user');
+    if (currUserStr) {
+      const currUser: IUser = JSON.parse(currUserStr);
+      const newUser: IUser = JSON.parse(JSON.stringify(currUser));
+      newUser.watchList = currUser.watchList || [];
+      if (watch) {
+        if (!newUser.watchList.includes(star._id)) {
+          newUser.watchList.push(star._id);
+        }
+      } else {
+        newUser.watchList = newUser.watchList
+          .filter((w: string) => w !== star._id);
+      }
+
+      const { status } = await EditUser(currUser, newUser);
+      if (status !== StatusCodes.OK) console.log('something went wrong');
+    }
+  };
+
   const getDisplayDate = () => {
     const date = star.createdAt ? new Date(star.createdAt) : undefined;
     const displayDate = date
@@ -157,8 +184,16 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
             }}
           >
             {isWatch
-              ? (<VisibilityOutlined onClick={() => setIsWatch(false)} />)
-              : <VisibilityOffOutlined onClick={() => setIsWatch(true)} />}
+              ? (
+                <VisibilityOutlined
+                  onClick={() => handleUpdateWatch(false)}
+                />
+              )
+              : (
+                <VisibilityOffOutlined
+                  onClick={() => handleUpdateWatch(true)}
+                />
+              )}
           </Fab>
         </div>
       </div>

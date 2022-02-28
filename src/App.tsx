@@ -12,8 +12,7 @@ import Events from './layouts/Events';
 import Profile from './components/users/profile';
 
 const App = () => {
-  const [userRole, setUserRole] = useState<userRole>('viewer');
-  const user = localStorage.getItem('user');
+  const [userRole, setUserRole] = useState<userRole | 'guest'>('guest');
 
   const getUserRole = useCallback(async (): Promise<void> => {
     const res = await authorizeUser();
@@ -21,12 +20,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
     if (user) {
       getUserRole();
     }
-  }, [getUserRole, user]);
+  }, [userRole]);
 
-  if (user) {
+  if (userRole !== 'guest') {
     return (
       <div className="App" dir="rtl">
         <HashRouter>

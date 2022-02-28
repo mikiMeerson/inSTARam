@@ -54,7 +54,15 @@ const Register = () => {
       name, unit, username, password,
     } = data;
     const { status } = await
-    signUp({ _id: '0', username, password, name, unit, role: 'viewer' });
+    signUp({
+      _id: '0',
+      username,
+      password,
+      name,
+      unit,
+      role: 'viewer',
+      watchList: [],
+    });
     if (status !== StatusCodes.CREATED) {
       console.log('Error! user not saved');
     }

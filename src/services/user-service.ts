@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { StatusCodes } from 'http-status-codes';
 import { baseUrl } from '../globals';
 
 export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
@@ -28,14 +29,10 @@ export const getUserById = async (
 export const login = async (username: string, password: string) => {
   try {
     const credentials = { username, password };
-    const userFound = await axios
-      .post(`${baseUrl}/login`, credentials);
+    const userFound = await axios.post(`${baseUrl}/login`, credentials);
 
     if (userFound.data.success) {
-      localStorage.setItem(
-        'user',
-        JSON.stringify(userFound.data),
-      );
+      localStorage.setItem('user', JSON.stringify(userFound.data.message));
       localStorage.setItem(
         'userDisplay',
         `${userFound.data.message.name} - ${userFound.data.message.unit}`,
@@ -56,12 +53,10 @@ export const signUp = async (formData: IUser) => {
       name: formData.name,
       unit: formData.unit,
       role: 'viewer',
+      watchList: [],
     };
 
-    const saveUser = await axios.post(
-      `${baseUrl}/register`,
-      user,
-    );
+    const saveUser = await axios.post(`${baseUrl}/register`, user);
     if (saveUser.data.success) {
       await login(formData.username, formData.password);
     }
@@ -84,6 +79,11 @@ export const EditUser = async (
       `${baseUrl}/users/${user._id}`,
       newUser,
     );
+
+    if (updatedUser.status === StatusCodes.OK && updatedUser.data.user) {
+      localStorage.setItem('user', JSON.stringify(updatedUser.data.user));
+    }
+
     return updatedUser;
   } catch (error) {
     throw new Error(error as string);
@@ -92,9 +92,9 @@ export const EditUser = async (
 
 export const deleteUser = async (
   _id: string,
-): Promise<AxiosResponse<any>> => {
+): Promise<AxiosResponse<ApiUsersType>> => {
   try {
-    const deletedUser: AxiosResponse<any> = await axios.delete(
+    const deletedUser: AxiosResponse<ApiUsersType> = await axios.delete(
       `${baseUrl}/users/${_id}`,
     );
     return deletedUser;
@@ -106,10 +106,9 @@ export const deleteUser = async (
 export const authorizeUser = async (): Promise<userRole> => {
   const loggedUser = localStorage.getItem('user');
   if (loggedUser) {
-    const userId = JSON.parse(loggedUser).message._id;
+    const userId = JSON.parse(loggedUser)._id;
     const { data } = await getUserById(userId);
     const userRole = data.user ? data.user.role : 'viewer';
-    console.log(userRole);
     return userRole;
   }
   return 'viewer';

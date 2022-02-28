@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-import { STATUSES } from '../assets/utils';
+import { StatusCodes } from 'http-status-codes';
+import { activityInfoArray, STATUSES } from '../assets';
 import { baseUrl } from '../globals';
+import { addActivity, deleteActivity, getActivities } from './activity-service';
+import { deleteNotes, getNotes } from './note-service';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
   try {
@@ -34,6 +37,15 @@ export const addStar = async (
       `${baseUrl}/stars`,
       star,
     );
+
+    if (saveStar.status === StatusCodes.CREATED) {
+      await addActivity({
+        _id: '0',
+        starId: formData._id,
+        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+        action: activityInfoArray.find((i) => i.name === 'star')!.action,
+      });
+    }
     return saveStar;
   } catch (error) {
     throw new Error(error as string);
@@ -100,13 +112,27 @@ export const updatePriorities = async (
   }
 };
 
-export const deleteSingleStar = async (
+// !In the DB, move notes and activities to be inside the star object
+// !(instead of the StarId attr). This way their deletion will be automatic
+export const deleteStar = async (
   _id: string,
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const deletedStar: AxiosResponse<ApiStarsType> = await axios.delete(
       `${baseUrl}/stars/${_id}`,
     );
+
+    const { data: notesData } = await getNotes(_id);
+    notesData.notes.forEach((n) => {
+      deleteNotes(n._id, notesData.notes);
+    });
+
+    const { data: activityData } = await getActivities(_id);
+
+    activityData.activities.forEach((a) => {
+      deleteActivity(a._id);
+    });
+
     return deletedStar;
   } catch (error) {
     throw new Error(error as string);

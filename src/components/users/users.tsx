@@ -61,7 +61,7 @@ const Users = () => {
 
   useEffect(() => {
     fetchUsers();
-  });
+  }, []);
 
   const columns = [
     { field: 'id', headerName: 'ID', flex: 1 },

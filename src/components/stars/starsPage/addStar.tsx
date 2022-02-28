@@ -16,7 +16,7 @@ import {
   SEVERITIES,
   VERSIONS,
   COMPUTERS,
-} from '../../../assets/utils';
+} from '../../../assets';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';

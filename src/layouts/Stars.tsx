@@ -6,19 +6,16 @@ import StarFeed from '../components/stars/feed/starFeed';
 import StarsPage from '../components/stars/starsPage/starsPage';
 import {
   addStar,
-  deleteSingleStar,
+  deleteStar,
   getStars,
   updatePriorities,
   updateStar,
 } from '../services/star-service';
-import { deleteNotes, getNotes } from '../services/note-service';
 import {
   addActivity,
-  deleteActivity,
-  getActivities,
 } from '../services/activity-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
-import { activityInfoArray, STATUSES } from '../assets/utils';
+import { STATUSES } from '../assets';
 
 interface starProps {
   userRole: userRole;
@@ -72,15 +69,7 @@ const Stars = ({ userRole }: starProps) => {
 
   const handleAddStar = async (formData: any): Promise<void> => {
     formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
-    const { status, data } = await addStar(formData);
-    if (status === StatusCodes.CREATED && data.star) {
-      handleAddActivity(data.star._id, {
-        _id: '0',
-        starId: data.star._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: activityInfoArray.find((i) => i.name === 'star')!.action,
-      });
-    }
+    const { status } = await addStar(formData);
     handleAlert(
       status === StatusCodes.CREATED,
       status === StatusCodes.CREATED
@@ -91,24 +80,12 @@ const Stars = ({ userRole }: starProps) => {
 
   const handleDeleteStar = async (_id: string): Promise<void> => {
     try {
-      const { status } = await deleteSingleStar(_id);
+      const { status } = await deleteStar(_id);
       handleAlert(
         status === StatusCodes.OK,
         status === StatusCodes.OK
           ? 'הסטאר נמחק בהצלחה!' : 'שגיאה! לא הצלחנו למחוק את הסטאר',
       );
-
-      const { data: notesData } = await getNotes(_id);
-      notesData.notes.forEach((n) => {
-        deleteNotes(n._id, notesData.notes);
-      });
-
-      const { data: activityData } = await getActivities(_id);
-
-      activityData.activities.forEach((a) => {
-        deleteActivity(a._id);
-      });
-
       fetchStars();
     } catch (error) {
       handleAlert(false, error as string);
