@@ -7,7 +7,6 @@ import UserNavbar from './userNavbar';
 
 const pages: linkDisplayType[] = [
   { display: 'סטארים', link: '/stars', role: 'viewer' },
-  { display: 'גיחות', link: '/events', role: 'viewer' },
   { display: 'משתמשים', link: '/users', role: 'admin' },
 ];
 

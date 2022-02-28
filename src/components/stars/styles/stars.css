@@ -127,6 +127,10 @@
     padding: 15px;
 }
 
+.severityIcon * {
+    font-size: 20px !important;
+}
+
 /* Collapse */
 
 .collapseOpen {

@@ -43,8 +43,6 @@ export enum COMPUTERS {
   DDD = 'DDD',
 }
 
-export const severityColors = ['red', 'orange', 'yellow', 'green'];
-
 export interface filterDataType {
   tabName: string;
   filter: string[];

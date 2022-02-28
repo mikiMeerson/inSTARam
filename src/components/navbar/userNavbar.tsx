@@ -52,15 +52,6 @@ const UserNavbar = ({ setAnchorElNav }: NavbarProps) => {
           open={Boolean(anchorElUser)}
           onClose={() => setAnchorElUser(undefined)}
         >
-          <Link to="/profile">
-            <MenuItem onClick={() => {
-              setAnchorElNav(undefined);
-              setAnchorElUser(undefined);
-            }}
-            >
-              <Typography textAlign="center">Profile</Typography>
-            </MenuItem>
-          </Link>
           <MenuItem onClick={() => {
             setAnchorElNav(undefined);
             setAnchorElUser(undefined);

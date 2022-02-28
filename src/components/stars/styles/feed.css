@@ -23,6 +23,8 @@
     font-weight: 400;
     margin:0;
     width: 85%;
+    display: flex;
+    align-items: baseline;
 }
 
 .header > h1 > div > div {

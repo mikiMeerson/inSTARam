@@ -36,7 +36,6 @@ const App = () => {
           <Routes>
             <Route path="users" element={<Users />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="/" element={<Home />} />
           </Routes>
         </HashRouter>
       </div>
