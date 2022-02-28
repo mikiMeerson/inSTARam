@@ -1,6 +1,7 @@
 export enum STATUSES {
   CLOSED = 'סגור',
   IN_PROGRESS = 'בעבודה',
+  TESTING = 'ממתין לבדיקה',
   OPEN = 'פתוח'
 }
 

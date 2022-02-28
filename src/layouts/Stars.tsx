@@ -137,6 +137,19 @@ const Stars = ({ userRole }: starProps) => {
         </Box>
       )}
       <Routes>
+        <Route
+          path="/"
+          element={stars && (
+            <StarsPage
+              userRole={userRole}
+              stars={stars}
+              addStar={handleAddStar}
+              removeStar={handleDeleteStar}
+              setFeed={setFeedToDisplay}
+              changePriority={changePriority}
+            />
+          )}
+        />
         <Route path="stars/*">
           <Route
             index
