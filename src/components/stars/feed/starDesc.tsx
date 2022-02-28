@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import _ from 'lodash';
+import Icon from '@mui/material/Icon';
 import {
   Typography,
   FormControl,
@@ -15,16 +16,22 @@ import {
   Grid,
   Fab,
 } from '@mui/material';
-import { SaveOutlined, EditOutlined } from '@mui/icons-material';
+import {
+  SaveOutlined,
+  EditOutlined,
+  RemoveCircle,
+  PriorityHigh,
+  KeyboardDoubleArrowUp,
+  KeyboardDoubleArrowDown,
+} from '@mui/icons-material';
 import {
   activityInfoArray,
-  severityColors,
   STATUSES,
   ASSIGNEES,
   VERSIONS,
   COMPUTERS,
   RESOURCES,
-} from '../../../assets/utils';
+} from '../../../assets';
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
@@ -33,13 +40,21 @@ interface starProps {
   userRole: userRole;
   star: IStar;
   updateStar: (starId: string, formData: IStar) => void;
-  saveActivity: (activityData: IActivity) => void
+  saveActivity: (starId: string, activityData: IActivity) => void
 }
 
 const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const severityIcons = [
+    <RemoveCircle fontSize="large" color="error" />,
+    <PriorityHigh color="warning" />,
+    <KeyboardDoubleArrowUp color="info" />,
+    <KeyboardDoubleArrowDown color="disabled" />,
+  ];
+
   const activityAttrs = [
     'status',
     'assignee',
@@ -68,7 +83,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
   const handleSave = (formData: IStar) => {
     // if the star is closing, remove its priority and alert the user
     if (formData.status === STATUSES.CLOSED
-        && star.status !== formData.status) {
+      && star.status !== formData.status) {
       formData.priority = 0;
       setCloseAlert(true);
     }
@@ -83,7 +98,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
       const info = activityInfoArray
         .find((i) => i.name === attr);
       if (info) {
-        saveActivity({
+        saveActivity(star._id, {
           _id: '0',
           starId: star._id,
           publisher: localStorage.getItem('userDisplay') || 'אנונימי',
@@ -109,14 +124,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
     <div className="starDesc">
       <div className="header">
         <h1>
-          <span
-            id="priority"
-            style={{
-              color: severityColors[star.severity],
-            }}
-          >
-            {star.priority > 0 ? star.priority : ''}
-          </span>
+          {severityIcons[star.severity - 1]}
           <InputField
             field="name"
             disabled={!isEdit}
@@ -125,22 +133,23 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
             errors={errors}
           />
         </h1>
-        <Typography variant="caption">{`בלוק ${star.version}`}</Typography>
-        {(userRole !== 'viewer')
-          && (
-            <Fab
-              size="small"
-              color="secondary"
-              sx={{
-                background: isEdit ? 'blue' : 'goldenrod',
-                color: 'white',
-              }}
-            >
-              {isEdit
-                ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
-                : <EditOutlined onClick={() => setIsEdit(true)} />}
-            </Fab>
-          )}
+        <div className="starFabs">
+          {(userRole !== 'viewer')
+            && (
+              <Fab
+                size="small"
+                color="secondary"
+                sx={{
+                  background: isEdit ? 'blue' : 'goldenrod',
+                  color: 'white',
+                }}
+              >
+                {isEdit
+                  ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
+                  : <EditOutlined onClick={() => setIsEdit(true)} />}
+              </Fab>
+            )}
+        </div>
       </div>
       <div className="starData">
         <Grid item xs={12} sx={{ marginLeft: '3%' }}>

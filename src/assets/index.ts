@@ -1,6 +1,7 @@
 export enum STATUSES {
   CLOSED = 'סגור',
   IN_PROGRESS = 'בעבודה',
+  TESTING = 'ממתין לבדיקה',
   OPEN = 'פתוח'
 }
 
@@ -42,8 +43,6 @@ export enum COMPUTERS {
   CCC = 'CCC',
   DDD = 'DDD',
 }
-
-export const severityColors = ['red', 'orange', 'yellow', 'green'];
 
 export interface filterDataType {
   tabName: string;
@@ -115,6 +114,11 @@ export const starKeyDisplay: starKeyDisplayType[] = [
 ];
 
 export const activityInfoArray = [
+  {
+    name: 'star',
+    action: 'יצר/ה את הסטאר',
+    isValue: false,
+  },
   {
     name: 'status',
     action: 'שינת/ה את הסטטוס',

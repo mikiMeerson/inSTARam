@@ -8,15 +8,21 @@ import StarNotes from './starNotes';
 import '../styles/feed.css';
 import { getStarById } from '../../../services/star-service';
 import { addNote, deleteNotes, getNotes } from '../../../services/note-service';
-import { addActivity, getActivities } from '../../../services/activity-service';
+import { getActivities } from '../../../services/activity-service';
 
 interface starProps {
   userRole: userRole;
   starId: string | undefined;
   updateStar: (starId: string, formData: IStar) => void;
+  saveActivity: (starId: string, activityData: IActivity) => void;
 }
 
-const StarFeed = ({ userRole, starId, updateStar }: starProps) => {
+const StarFeed = ({
+  userRole,
+  starId,
+  updateStar,
+  saveActivity,
+}: starProps) => {
   const [star, setStar] = useState<IStar>();
   const [notes, setNotes] = useState<INote[]>([]);
   const [activity, setActivity] = useState<IActivity[]>([]);
@@ -69,15 +75,6 @@ const StarFeed = ({ userRole, starId, updateStar }: starProps) => {
     );
   }
 
-  const handleAddActivity = async (activityData: IActivity): Promise<void> => {
-    activityData.starId = star._id;
-    const { status } = await addActivity(activityData);
-    if (status !== StatusCodes.CREATED) {
-      console.log('activity failed to saved');
-    }
-    fetchActivity(star._id);
-  };
-
   const handleAddNote = async (noteData: INote): Promise<void> => {
     setLoading(true);
     noteData.starId = star._id;
@@ -86,7 +83,7 @@ const StarFeed = ({ userRole, starId, updateStar }: starProps) => {
       console.log('note failed to save');
     }
     fetchNotes(star._id);
-    handleAddActivity({
+    saveActivity(star._id, {
       _id: '0',
       starId: star._id,
       publisher: noteData.publisher,
@@ -120,7 +117,7 @@ const StarFeed = ({ userRole, starId, updateStar }: starProps) => {
           userRole={userRole}
           star={star}
           updateStar={updateStar}
-          saveActivity={handleAddActivity}
+          saveActivity={saveActivity}
         />
         <div className="starDetails">
           <StarNotes

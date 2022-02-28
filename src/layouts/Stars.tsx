@@ -6,15 +6,16 @@ import StarFeed from '../components/stars/feed/starFeed';
 import StarsPage from '../components/stars/starsPage/starsPage';
 import {
   addStar,
-  deleteSingleStar,
+  deleteStar,
   getStars,
   updatePriorities,
   updateStar,
 } from '../services/star-service';
-import { deleteNotes, getNotes } from '../services/note-service';
-import { deleteActivity, getActivities } from '../services/activity-service';
+import {
+  addActivity,
+} from '../services/activity-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
-import { STATUSES } from '../assets/utils';
+import { STATUSES } from '../assets';
 
 interface starProps {
   userRole: userRole;
@@ -55,6 +56,17 @@ const Stars = ({ userRole }: starProps) => {
     fetchStars();
   }, []);
 
+  const handleAddActivity = async (
+    starId: string,
+    activityData: IActivity,
+  ): Promise<void> => {
+    activityData.starId = starId;
+    const { status } = await addActivity(activityData);
+    if (status !== StatusCodes.CREATED) {
+      console.log('activity failed to saved');
+    }
+  };
+
   const handleAddStar = async (formData: any): Promise<void> => {
     formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
     const { status } = await addStar(formData);
@@ -68,24 +80,12 @@ const Stars = ({ userRole }: starProps) => {
 
   const handleDeleteStar = async (_id: string): Promise<void> => {
     try {
-      const { status } = await deleteSingleStar(_id);
+      const { status } = await deleteStar(_id);
       handleAlert(
         status === StatusCodes.OK,
         status === StatusCodes.OK
           ? 'הסטאר נמחק בהצלחה!' : 'שגיאה! לא הצלחנו למחוק את הסטאר',
       );
-
-      const { data: notesData } = await getNotes(_id);
-      notesData.notes.forEach((n) => {
-        deleteNotes(n._id, notesData.notes);
-      });
-
-      const { data: activityData } = await getActivities(_id);
-
-      activityData.activities.forEach((a) => {
-        deleteActivity(a._id);
-      });
-
       fetchStars();
     } catch (error) {
       handleAlert(false, error as string);
@@ -137,6 +137,19 @@ const Stars = ({ userRole }: starProps) => {
         </Box>
       )}
       <Routes>
+        <Route
+          path="/"
+          element={stars && (
+            <StarsPage
+              userRole={userRole}
+              stars={stars}
+              addStar={handleAddStar}
+              removeStar={handleDeleteStar}
+              setFeed={setFeedToDisplay}
+              changePriority={changePriority}
+            />
+          )}
+        />
         <Route path="stars/*">
           <Route
             index
@@ -159,6 +172,7 @@ const Stars = ({ userRole }: starProps) => {
                   userRole={userRole}
                   starId={feedToDisplay}
                   updateStar={handleUpdateStar}
+                  saveActivity={handleAddActivity}
                 />
                 <Outlet />
               </>

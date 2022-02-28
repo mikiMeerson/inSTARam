@@ -1,5 +1,6 @@
 import { useState, BaseSyntheticEvent } from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
   Typography,
   Tooltip,
@@ -13,7 +14,7 @@ import { AccountCircle } from '@mui/icons-material';
 import { logout } from '../../services/user-service';
 
 interface NavbarProps {
-    setAnchorElNav: (param: any) => void;
+  setAnchorElNav: (param: any) => void;
 }
 
 const UserNavbar = ({ setAnchorElNav }: NavbarProps) => {
@@ -29,7 +30,7 @@ const UserNavbar = ({ setAnchorElNav }: NavbarProps) => {
         <Tooltip title="Open settings">
           <IconButton
             onClick={
-                (e: BaseSyntheticEvent) => setAnchorElUser(e.currentTarget)
+              (e: BaseSyntheticEvent) => setAnchorElUser(e.currentTarget)
             }
             sx={{ p: 0 }}
           >
@@ -51,11 +52,9 @@ const UserNavbar = ({ setAnchorElNav }: NavbarProps) => {
           open={Boolean(anchorElUser)}
           onClose={() => setAnchorElUser(undefined)}
         >
-          <MenuItem onClick={() => setAnchorElNav(undefined)}>
-            <Typography textAlign="center">Profile</Typography>
-          </MenuItem>
           <MenuItem onClick={() => {
             setAnchorElNav(undefined);
+            setAnchorElUser(undefined);
             logout();
             navigate('/login');
             window.location.reload();

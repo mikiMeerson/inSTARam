@@ -1,5 +1,5 @@
 import { TableRow, TableCell, Button } from '@mui/material';
-import { STATUSES } from '../../../assets/utils';
+import { STATUSES } from '../../../assets';
 
 interface rowType {
     row: IStar;

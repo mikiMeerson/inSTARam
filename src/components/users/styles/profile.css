@@ -1,0 +1,54 @@
+.profileHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+    height: 25%;
+}
+
+.profileHeader > * {
+    margin-left: 15px;
+}
+
+.userInfo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.userDetails {
+    margin-top: 10px;
+    width: 95%;
+    height: 100%;
+}
+
+.userDetails > * {
+    margin-left: 10px !important;
+    width: 250px;
+    height: 75px;
+}
+
+.buttonText {
+    font-size: 17px;
+    margin-right: 5px;
+}
+
+.profileWindows {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 57%;
+}
+
+.newActivityWindow {
+    background-color: aquamarine;
+    width: 50%;
+    padding: 5px;
+}
+
+.watchWindow {
+    background-color: bisque;
+    width: 50%;
+    padding: 5px;
+}

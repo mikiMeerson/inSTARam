@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { AppBar, Toolbar, Container } from '@mui/material';
 import './styles/navbar.css';
-import FullWidthNavbar from './fullWidthNavbar';
-import HalfWidthNavbar from './halfWidthNavbar';
+import FullWidthNavbar from './halfWidthNavbar';
+import HalfWidthNavbar from './fullWidthNavbar';
 import UserNavbar from './userNavbar';
 
 const pages: linkDisplayType[] = [
   { display: 'סטארים', link: '/stars', role: 'viewer' },
-  { display: 'גיחות', link: '/events', role: 'viewer' },
   { display: 'משתמשים', link: '/users', role: 'admin' },
 ];
 

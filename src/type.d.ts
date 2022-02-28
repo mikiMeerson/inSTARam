@@ -56,6 +56,7 @@ interface IUser {
     name: string;
     unit: string;
     role: userRole;
+    watchList?: string[];
     createdAt?: string;
     updatedAt?: string;
 }

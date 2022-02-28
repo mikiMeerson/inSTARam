@@ -8,8 +8,13 @@ import {
   Collapse,
   TableBody,
 } from '@mui/material';
+import {
+  KeyboardDoubleArrowDown,
+  KeyboardDoubleArrowUp,
+  PriorityHigh,
+  RemoveCircle,
+} from '@mui/icons-material';
 import StarExpand from './starExpand';
-import { severityColors } from '../../../assets/utils';
 
 interface starProps {
   userRole: userRole;
@@ -30,6 +35,13 @@ const StarRow = ({
   setDragged,
 }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
+
+  const severityIcons = [
+    <RemoveCircle color="error" />,
+    <PriorityHigh color="warning" />,
+    <KeyboardDoubleArrowUp color="info" />,
+    <KeyboardDoubleArrowDown color="disabled" />,
+  ];
 
   const getCreationTime = () => {
     const date = star.createdAt ? new Date(star.createdAt) : undefined;
@@ -82,14 +94,9 @@ const StarRow = ({
             onDrop={handleDrop}
           >
             <TableCell align="center" width="40px">
-              <div
-                id="priority"
-                style={{
-                  color: severityColors[star.severity],
-                }}
-              >
-                {star.priority > 0 ? star.priority : '?'}
-              </div>
+              <span className="severityIcon">
+                {severityIcons[star.severity - 1]}
+              </span>
             </TableCell>
             <TableCell width="105px" align="center">{star.name}</TableCell>
             <TableCell width="70px" align="center">{star.status}</TableCell>
