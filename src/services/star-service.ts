@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { StatusCodes } from 'http-status-codes';
 import { activityInfoArray, STATUSES } from '../assets';
 import { baseUrl } from '../globals';
 
@@ -49,7 +48,8 @@ export const addStar = async (
   }
 };
 
-export const EditStar = async (
+// !bug here deleted the notes and activity of the edited star
+export const editStar = async (
   starId: string,
   newStar: IStar,
 ): Promise<AxiosResponse<ApiStarsType>> => {

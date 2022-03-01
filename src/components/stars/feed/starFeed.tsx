@@ -6,7 +6,7 @@ import StarActivity from './starActivity';
 import StarDesc from './starDesc';
 import StarNotes from './starNotes';
 import '../styles/feed.css';
-import { addNote, EditStar, getStarById } from '../../../services/star-service';
+import { addNote, editStar, getStarById } from '../../../services/star-service';
 
 interface starProps {
   userRole: userRole;
@@ -64,7 +64,7 @@ const StarFeed = ({
     setLoading(true);
     const newStar = JSON.parse(JSON.stringify(star));
     newStar.notes = newStar.notes.filter((note: INote) => note._id !== noteId);
-    const { status } = await EditStar(star._id, newStar);
+    const { status } = await editStar(star._id, newStar);
     if (status !== StatusCodes.OK) console.log('Failed to remove note');
     setLoading(false);
   };

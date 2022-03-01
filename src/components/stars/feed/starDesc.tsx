@@ -78,7 +78,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: star,
+    defaultValues: inputStar,
   });
 
   const handleSave = async (formData: IStar) => {
@@ -89,7 +89,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
       setCloseAlert(true);
     }
     // for each attribute that has been edited and should generate an activity
-    activityAttrs.filter(
+    await activityAttrs.filter(
       (attr) => !(attr === 'resources'
         && formData[attr].every((item) => star[attr].includes(item))
         && star[attr].every((item) => formData[attr].includes(item))
@@ -109,7 +109,8 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
         });
         if (status !== StatusCodes.CREATED) {
           console.log('Could not add activity');
-        } else if (data.star) setStar(data.star);
+        }
+        setStar(data.stars.find((s) => s._id === star._id)!);
       }
     });
     setIsEdit(false);
