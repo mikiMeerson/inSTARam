@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import _ from 'lodash';
-import Icon from '@mui/material/Icon';
+import { StatusCodes } from 'http-status-codes';
 import {
   Typography,
   FormControl,
@@ -19,10 +19,10 @@ import {
 import {
   SaveOutlined,
   EditOutlined,
-  RemoveCircle,
-  PriorityHigh,
-  KeyboardDoubleArrowUp,
-  KeyboardDoubleArrowDown,
+  ErrorOutline,
+  SyncProblem,
+  WarningAmber,
+  ArrowDownward,
 } from '@mui/icons-material';
 import {
   activityInfoArray,
@@ -35,24 +35,25 @@ import {
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
+import { addActivity } from '../../../services/star-service';
 
 interface starProps {
   userRole: userRole;
-  star: IStar;
+  inputStar: IStar;
   updateStar: (starId: string, formData: IStar) => void;
-  saveActivity: (starId: string, activityData: IActivity) => void
 }
 
-const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
+const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
+  const [star, setStar] = useState<IStar>(inputStar);
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const severityIcons = [
-    <RemoveCircle fontSize="large" color="error" />,
-    <PriorityHigh color="warning" />,
-    <KeyboardDoubleArrowUp color="info" />,
-    <KeyboardDoubleArrowDown color="disabled" />,
+    <ErrorOutline fontSize="large" color="error" />,
+    <SyncProblem fontSize="large" color="warning" />,
+    <WarningAmber fontSize="large" htmlColor="yellow" />,
+    <ArrowDownward fontSize="large" color="disabled" />,
   ];
 
   const activityAttrs = [
@@ -80,7 +81,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
     defaultValues: star,
   });
 
-  const handleSave = (formData: IStar) => {
+  const handleSave = async (formData: IStar) => {
     // if the star is closing, remove its priority and alert the user
     if (formData.status === STATUSES.CLOSED
       && star.status !== formData.status) {
@@ -93,20 +94,22 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
         && formData[attr].every((item) => star[attr].includes(item))
         && star[attr].every((item) => formData[attr].includes(item))
       ) && formData[attr as keyof IStar] !== star[attr as keyof IStar],
-    ).forEach((attr) => {
+    ).forEach(async (attr) => {
       // get the attribute's activity info and use it to generate a new one
       const info = activityInfoArray
         .find((i) => i.name === attr);
       if (info) {
-        saveActivity(star._id, {
+        const { status, data } = await addActivity(star._id, {
           _id: '0',
-          starId: star._id,
           publisher: localStorage.getItem('userDisplay') || 'אנונימי',
           action: info.action,
           value: info.isValue
             ? formData[attr as keyof IStar] as string
             : undefined,
         });
+        if (status !== StatusCodes.CREATED) {
+          console.log('Could not add activity');
+        } else if (data.star) setStar(data.star);
       }
     });
     setIsEdit(false);

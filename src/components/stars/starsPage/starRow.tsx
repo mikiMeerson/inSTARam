@@ -9,10 +9,10 @@ import {
   TableBody,
 } from '@mui/material';
 import {
-  KeyboardDoubleArrowDown,
-  KeyboardDoubleArrowUp,
-  PriorityHigh,
-  RemoveCircle,
+  ArrowDownward,
+  ErrorOutline,
+  SyncProblem,
+  WarningAmber,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
 
@@ -37,10 +37,10 @@ const StarRow = ({
   const [openDesc, setOpenDesc] = useState(false);
 
   const severityIcons = [
-    <RemoveCircle color="error" />,
-    <PriorityHigh color="warning" />,
-    <KeyboardDoubleArrowUp color="info" />,
-    <KeyboardDoubleArrowDown color="disabled" />,
+    <ErrorOutline color="error" />,
+    <SyncProblem color="warning" />,
+    <WarningAmber htmlColor="yellow" />,
+    <ArrowDownward color="disabled" />,
   ];
 
   const getCreationTime = () => {
