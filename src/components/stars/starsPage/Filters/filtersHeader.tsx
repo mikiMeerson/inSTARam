@@ -82,15 +82,6 @@ const FiltersHeader = ({
     return 0;
   };
 
-  const getOptions = () => {
-    const newOptions = options.filter((o) => {
-      const currentFilter = filtersData.find((f) => f.tabName === lastTab);
-      if (currentFilter) return !currentFilter.filter.includes(o);
-      return true;
-    });
-    return newOptions;
-  };
-
   interface filterField {
     isPrimary: boolean;
     name: string;
@@ -234,6 +225,7 @@ const FiltersHeader = ({
         <DateRangePicker
           isDatePick={isDatePick}
           setIsDatePick={setIsDatePick}
+          filtersData={filtersData}
         />
         {displayOptions && (
         <FilterOptions

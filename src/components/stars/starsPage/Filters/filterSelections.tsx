@@ -22,7 +22,8 @@ const FilterSelections = ({
       marginTop: isMargin ? '50px' : 0,
     }}
   >
-    {filtersData.map((category) => (
+    {// !display date in a better format, and upon deleting - empty the array
+    filtersData.map((category) => (
       category.filter.map((selected) => (
         <Chip
           key={selected}
@@ -37,7 +38,8 @@ const FilterSelections = ({
           }}
         />
       ))
-    ))}
+    ))
+    }
   </TableRow>
 );
 

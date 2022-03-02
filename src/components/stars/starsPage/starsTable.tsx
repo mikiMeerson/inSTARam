@@ -47,6 +47,9 @@ const StarsTable = ({
   const [computerFilter, setComputerFilter] = useState<string[]>(
     getExistingFilters('computer'),
   );
+  const [dateFilter, setDateFilter] = useState<string[]>(
+    getExistingFilters('date'),
+  );
   const [nameFilter, setNameFilter] = useState<string>('');
 
   const filtersData: filterDataType[] = [
@@ -80,6 +83,12 @@ const StarsTable = ({
       func: setComputerFilter,
       chipColor: 'info',
     },
+    {
+      tabName: 'date',
+      filter: dateFilter,
+      func: setDateFilter,
+      chipColor: 'default',
+    },
   ];
 
   const getFilteredStars = () => {
@@ -97,7 +106,10 @@ const StarsTable = ({
           || resourceFilter.some((element) => s.resources.includes(element))
         )
         && (computerFilter.length === 0
-          || (s.computer && computerFilter.includes(s.computer)))) {
+          || (s.computer && computerFilter.includes(s.computer)))
+        && (dateFilter.length === 0 || (s.createdAt
+          && new Date(s.createdAt) > new Date(dateFilter[0])
+          && new Date(s.createdAt) < new Date(dateFilter[1])))) {
         filteredStars.push(s);
       }
     });
