@@ -2,7 +2,7 @@ import { BaseSyntheticEvent, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
 import { filterDataType } from '../../../assets';
-import FiltersHeader from './filtersHeader';
+import FiltersHeader from './Filters/filtersHeader';
 
 interface starProps {
   userRole: userRole;

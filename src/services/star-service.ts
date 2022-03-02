@@ -48,7 +48,7 @@ export const addStar = async (
   }
 };
 
-// !bug here deleted the notes and activity of the edited star
+// !consider adding the activity from inside the server like notes
 export const editStar = async (
   starId: string,
   newStar: IStar,

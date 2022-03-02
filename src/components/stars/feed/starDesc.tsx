@@ -78,7 +78,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: inputStar,
+    defaultValues: star,
   });
 
   const handleSave = async (formData: IStar) => {
