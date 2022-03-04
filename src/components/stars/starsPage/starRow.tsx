@@ -95,7 +95,7 @@ const StarRow = ({
           >
             <TableCell align="center" width="40px">
               <span className="severityIcon">
-                {severityIcons[star.severity - 1]}
+                {severityIcons[star.severity]}
               </span>
             </TableCell>
             <TableCell width="105px" align="center">{star.name}</TableCell>

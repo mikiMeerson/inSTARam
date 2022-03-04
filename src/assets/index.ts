@@ -9,7 +9,7 @@ export enum ASSIGNEES {
   AMLH = 'אמלח',
   LZD = 'לצד',
   MNT = 'מנט',
-  INT = 'אינטרציה',
+  INT = 'אינטגרציה',
   MAAV = 'מאב',
 }
 

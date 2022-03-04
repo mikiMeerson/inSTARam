@@ -128,7 +128,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
     <div className="starDesc">
       <div className="header">
         <h1>
-          {severityIcons[star.severity - 1]}
+          {severityIcons[star.severity]}
           <InputField
             field="name"
             disabled={!isEdit}
