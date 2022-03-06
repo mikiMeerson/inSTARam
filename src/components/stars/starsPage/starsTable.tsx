@@ -75,7 +75,7 @@ const StarsTable = ({
       tabName: 'resource',
       filter: resourceFilter,
       func: setResourceFilter,
-      chipColor: 'error',
+      chipColor: 'default',
     },
     {
       tabName: 'computer',
@@ -87,7 +87,7 @@ const StarsTable = ({
       tabName: 'date',
       filter: dateFilter,
       func: setDateFilter,
-      chipColor: 'default',
+      chipColor: 'error',
     },
   ];
 

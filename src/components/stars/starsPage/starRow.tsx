@@ -11,7 +11,7 @@ import {
 import {
   ArrowDownward,
   ErrorOutline,
-  SyncProblem,
+  PriorityHigh,
   WarningAmber,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
@@ -37,8 +37,8 @@ const StarRow = ({
   const [openDesc, setOpenDesc] = useState(false);
 
   const severityIcons = [
-    <ErrorOutline color="error" />,
-    <SyncProblem color="warning" />,
+    <PriorityHigh color="error" />,
+    <ErrorOutline color="warning" />,
     <WarningAmber htmlColor="yellow" />,
     <ArrowDownward color="disabled" />,
   ];

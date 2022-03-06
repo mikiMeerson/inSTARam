@@ -37,9 +37,9 @@ const FilterSelections = ({
               <Chip
                 size="medium"
                 color={category.chipColor}
-                label={`${getDisplayDate(new Date(category.filter[0]))}
-              ${' '}
-              ${getDisplayDate(new Date(category.filter[1]))}`}
+                label={`${getDisplayDate(new Date(category.filter[1]))}
+              ${' - '}
+              ${getDisplayDate(new Date(category.filter[0]))}`}
                 sx={{
                   marginRight: '15px',
                 }}

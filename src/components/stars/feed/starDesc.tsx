@@ -20,9 +20,9 @@ import {
   SaveOutlined,
   EditOutlined,
   ErrorOutline,
-  SyncProblem,
   WarningAmber,
   ArrowDownward,
+  PriorityHigh,
 } from '@mui/icons-material';
 import {
   activityInfoArray,
@@ -50,8 +50,8 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const severityIcons = [
-    <ErrorOutline fontSize="large" color="error" />,
-    <SyncProblem fontSize="large" color="warning" />,
+    <PriorityHigh fontSize="large" color="error" />,
+    <ErrorOutline fontSize="large" color="warning" />,
     <WarningAmber fontSize="large" htmlColor="yellow" />,
     <ArrowDownward fontSize="large" color="disabled" />,
   ];
