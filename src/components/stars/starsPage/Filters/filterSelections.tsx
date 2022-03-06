@@ -50,7 +50,7 @@ const FilterSelections = ({
                 }}
               />
             );
-          } setFilter(category.tabName, category.filter[0], 'remove');
+          }
         }
         return (
           category.filter.map((selected) => (

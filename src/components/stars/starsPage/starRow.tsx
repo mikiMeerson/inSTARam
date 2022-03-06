@@ -104,7 +104,11 @@ const StarRow = ({
             <TableCell width="45px" align="center">
               {getCreationTime()}
             </TableCell>
-            <TableCell width="60px" align="center">{star.version}</TableCell>
+            <TableCell width="60px" align="center">
+              {star.platform}
+              {' '}
+              {star.block}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

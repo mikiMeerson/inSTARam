@@ -23,7 +23,7 @@ const headCells: starKeyDisplayType[] = [
     display: 'אירוע',
   },
   {
-    key: 'version',
+    key: 'block',
     display: 'בלוק',
   },
 ];

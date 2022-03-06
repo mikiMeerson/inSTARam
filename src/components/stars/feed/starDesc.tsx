@@ -28,7 +28,8 @@ import {
   activityInfoArray,
   STATUSES,
   ASSIGNEES,
-  VERSIONS,
+  PLATFORMS,
+  BLOCKS,
   COMPUTERS,
   RESOURCES,
 } from '../../../assets';
@@ -163,7 +164,8 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
               sx={{ padding: '7px', marginBottom: '10px' }}
             >
               {`הועלה על ידי ${star.publisher} מתוך ${star.event}
-               בתאריך ${getDisplayDate()}`}
+               בתאריך ${getDisplayDate()},
+                ${star.platform} בלוק ${star.block}`}
             </Typography>
           </Grid>
           <Grid container spacing={2}>
@@ -189,11 +191,11 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
             </Grid>
             <Grid item xs={4}>
               <SelectField
-                field="version"
-                defaultValue={star.version}
+                field="block"
+                defaultValue={star.block}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={VERSIONS}
+                fieldValues={BLOCKS}
                 errors={errors}
               />
             </Grid>

@@ -20,13 +20,16 @@ export enum SEVERITIES {
   SLIGHT = 'קל (99)',
 }
 
-export enum VERSIONS {
-  RAAM_D = 'ד רעם',
-  RAAM_E = 'ה רעם',
-  RAAM_F = 'ו רעם',
-  BAZ_E = 'ה בז',
-  BAZ_F = 'ו בז',
-  BAZ_G = 'ז בז'
+export enum PLATFORMS {
+  BAZ = 'בז',
+  RAAM = 'רעם'
+}
+
+export enum BLOCKS {
+  D = 'ד',
+  E = 'ה',
+  F = 'ו',
+  G = 'ז'
 }
 
 export enum RESOURCES {
@@ -96,7 +99,11 @@ export const starKeyDisplay: starKeyDisplayType[] = [
     display: 'משאבים נדרשים',
   },
   {
-    key: 'version',
+    key: 'platform',
+    display: 'פלטפורמה',
+  },
+  {
+    key: 'block',
     display: 'בלוק',
   },
   {

@@ -22,7 +22,7 @@ import {
   ASSIGNEES,
   COMPUTERS,
   RESOURCES,
-  VERSIONS,
+  BLOCKS,
 } from '../../../../assets';
 import SearchBar from './searchBar';
 import DateRangePicker from './dateRangePicker';
@@ -128,10 +128,10 @@ const FiltersHeader = ({
     },
     {
       isPrimary: true,
-      name: 'version',
+      name: 'block',
       width: '60px',
       activation: 'options',
-      options: Object.values(VERSIONS),
+      options: Object.values(BLOCKS),
       displayName: 'בלוק',
       icon: <Flight className="dropdownIcon" style={{ fontSize: '17px' }} />,
     },

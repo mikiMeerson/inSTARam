@@ -31,51 +31,52 @@ interface IActivity {
 }
 
 interface IStar {
-    _id: string;
-    priority: number;
-    severity: SEVERITIES;
-    name: string;
-    status: STATUSES;
-    assignee: ASSIGNEES;
-    version: VERSIONS;
-    publisher: string;
-    event: string;
-    resources: string[];
-    desc: string;
-    computer: string;
-    notes: INote[];
-    activity: IActivity[];
-    createdAt?: string;
-    updatedAt?: string;
+  _id: string;
+  priority: number;
+  severity: SEVERITIES;
+  name: string;
+  status: STATUSES;
+  assignee: ASSIGNEES;
+  platform: PLATFORMS;
+  block: BLOCKS;
+  publisher: string;
+  event: string;
+  resources: string[];
+  desc: string;
+  computer: string;
+  notes: INote[];
+  activity: IActivity[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface IUser {
-    _id: string;
-    username: string;
-    password: string;
-    name: string;
-    unit: string;
-    role: userRole;
-    watchList?: string[];
-    createdAt?: string;
-    updatedAt?: string;
+  _id: string;
+  username: string;
+  password: string;
+  name: string;
+  unit: string;
+  role: userRole;
+  watchList?: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface IEvent {
-    _id: string;
-    name: string;
-    type: 'flight' | 'integration' | 'industry';
-    version: string;
-    date: string;
-    publisher: string;
-    description: string;
-    configuration: {
-      aaaa: string;
-      bbbb: string;
-      cccc: string;
-      dddd: string;
-    }
-    findings: string[];
+  _id: string;
+  name: string;
+  type: "flight" | "integration" | "industry";
+  block: string;
+  date: string;
+  publisher: string;
+  description: string;
+  configuration: {
+    aaaa: string;
+    bbbb: string;
+    cccc: string;
+    dddd: string;
+  };
+  findings: string[];
 }
 
 type ApiStarsType = {
