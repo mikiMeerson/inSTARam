@@ -153,6 +153,7 @@ const FiltersHeader = ({
     },
   ];
 
+  // !Fix the expandable filters - row is too wide
   return (
     <Table
       className="tableHeader"
@@ -162,7 +163,7 @@ const FiltersHeader = ({
     >
       <TableBody>
         <TableRow>
-          <TableCell width="20px" sx={{ textAlign: 'center' }}>
+          <TableCell sx={{ textAlign: 'center' }}>
             <Button sx={{ textAlign: 'center' }}>
               <MoreVert
                 fontSize="small"
@@ -174,51 +175,89 @@ const FiltersHeader = ({
               />
             </Button>
           </TableCell>
-          {filterFields.map((field: filterField) => {
-            if (field.isPrimary || displayMore) {
-              return (
-                <TableCell
-                  key={field.name}
-                  width={field.width}
-                  sx={{ textAlign: 'center' }}
-                >
-                  <Button
-                    sx={{
-                      color: 'Gray',
-                      fontWeight: 'bold',
-                      textAlign: 'center',
-                      background:
+          {filterFields
+            .filter((f) => f.isPrimary)
+            .map((field: filterField) => (
+              <TableCell
+                key={field.name}
+                width={field.width}
+                sx={{ textAlign: 'center' }}
+              >
+                <Button
+                  sx={{
+                    color: 'Gray',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    background:
                     lastTab === field.name && (displayOptions || search)
                       ? 'whitesmoke'
                       : '',
-                    }}
-                    onClick={() => {
-                      if (field.activation === 'search') {
-                        setSearch(lastTab === 'name' ? !search : true);
-                        setDisplayOptions(false);
-                      } else if (field.activation === 'options') {
-                        setDisplayOptions(
-                          lastTab === field.name ? !displayOptions : true,
-                        );
-                        if (field.options) setOptions(field.options);
-                        setSearch(false);
-                        setLastTab(field.name);
-                      } else if (field.activation === 'calender') {
-                        setIsDatePick(!isDatePick);
-                        console.log(isDatePick);
-                      }
+                  }}
+                  onClick={() => {
+                    if (field.activation === 'search') {
+                      setSearch(lastTab === 'name' ? !search : true);
+                      setDisplayOptions(false);
+                    } else if (field.activation === 'options') {
+                      setDisplayOptions(
+                        lastTab === field.name ? !displayOptions : true,
+                      );
+                      if (field.options) setOptions(field.options);
+                      setSearch(false);
                       setLastTab(field.name);
-                    }}
-                  >
-                    {field.displayName}
-                    {field.icon}
-                  </Button>
-                </TableCell>
-              );
-            }
-            return null;
-          })}
+                    } else if (field.activation === 'calender') {
+                      setIsDatePick(!isDatePick);
+                      console.log(isDatePick);
+                    }
+                    setLastTab(field.name);
+                  }}
+                >
+                  {field.displayName}
+                  {field.icon}
+                </Button>
+              </TableCell>
+            ))}
         </TableRow>
+        {displayMore && (
+        <TableRow>
+          {filterFields
+            .filter((f) => !f.isPrimary)
+            .map((field: filterField) => (
+              <TableCell
+                key={field.name}
+                sx={{ textAlign: 'center' }}
+              >
+                <Button
+                  sx={{
+                    color: 'Gray',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    background:
+                    lastTab === field.name && (displayOptions || search)
+                      ? 'whitesmoke'
+                      : '',
+                  }}
+                  onClick={() => {
+                    if (field.activation === 'search') {
+                      setSearch(lastTab === 'name' ? !search : true);
+                      setDisplayOptions(false);
+                    } else if (field.activation === 'options') {
+                      setDisplayOptions(
+                        lastTab === field.name ? !displayOptions : true,
+                      );
+                      if (field.options) setOptions(field.options);
+                      setSearch(false);
+                      setLastTab(field.name);
+                    }
+                    setLastTab(field.name);
+                  }}
+                >
+                  {field.displayName}
+                  {field.icon}
+                </Button>
+              </TableCell>
+            ))}
+        </TableRow>
+        )}
         {search && (
           <SearchBar nameFilter={nameFilter} setNameFilter={setNameFilter} />
         )}

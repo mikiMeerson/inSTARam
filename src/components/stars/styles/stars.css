@@ -29,7 +29,6 @@
 .starsTable, .noPriority {
     margin: 3% 3% 0 3%;
     padding: 0 1% 0 1%;
-    overflow-y: scroll;
     overflow-x: hidden;
 }
 
@@ -38,6 +37,7 @@
     padding-top: 0;
     margin: 0;
     background-color: whitesmoke;
+    overflow-y: hidden;
 }
 
 .noPrioirityHeader {
@@ -55,6 +55,7 @@
 .starsTable {
     height: 80%;
     flex-grow: 1;
+    overflow-y: scroll;
 }
 .tableHeader {
     align-self: center !important;
