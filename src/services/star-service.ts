@@ -1,9 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { StatusCodes } from 'http-status-codes';
 import { activityInfoArray, STATUSES } from '../assets';
 import { baseUrl } from '../globals';
-import { addActivity, deleteActivity, getActivities } from './activity-service';
-import { deleteNotes, getNotes } from './note-service';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
   try {
@@ -20,39 +17,40 @@ export const addStar = async (
   formData: IStar,
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
+    const newActivity: IActivity = {
+      _id: '0',
+      publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+      action: activityInfoArray.find((i) => i.name === 'star')!.action,
+    };
+
     const star: Omit<IStar, '_id'> = {
       priority: 0,
       severity: formData.severity,
       name: formData.name,
       status: STATUSES.OPEN,
       assignee: formData.assignee,
-      version: formData.version,
+      platform: formData.platform,
+      block: formData.block,
       publisher: formData.publisher,
       event: formData.event,
       resources: [],
       desc: formData.desc,
       computer: formData.computer,
+      notes: [],
+      activity: [newActivity],
     };
     const saveStar: AxiosResponse<ApiStarsType> = await axios.post(
       `${baseUrl}/stars`,
       star,
     );
-
-    if (saveStar.status === StatusCodes.CREATED) {
-      await addActivity({
-        _id: '0',
-        starId: formData._id,
-        publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-        action: activityInfoArray.find((i) => i.name === 'star')!.action,
-      });
-    }
     return saveStar;
   } catch (error) {
     throw new Error(error as string);
   }
 };
 
-export const updateStar = async (
+// !consider adding the activity from inside the server like notes
+export const editStar = async (
   starId: string,
   newStar: IStar,
 ): Promise<AxiosResponse<ApiStarsType>> => {
@@ -112,8 +110,6 @@ export const updatePriorities = async (
   }
 };
 
-// !In the DB, move notes and activities to be inside the star object
-// !(instead of the StarId attr). This way their deletion will be automatic
 export const deleteStar = async (
   _id: string,
 ): Promise<AxiosResponse<ApiStarsType>> => {
@@ -121,18 +117,6 @@ export const deleteStar = async (
     const deletedStar: AxiosResponse<ApiStarsType> = await axios.delete(
       `${baseUrl}/stars/${_id}`,
     );
-
-    const { data: notesData } = await getNotes(_id);
-    notesData.notes.forEach((n) => {
-      deleteNotes(n._id, notesData.notes);
-    });
-
-    const { data: activityData } = await getActivities(_id);
-
-    activityData.activities.forEach((a) => {
-      deleteActivity(a._id);
-    });
-
     return deletedStar;
   } catch (error) {
     throw new Error(error as string);
@@ -147,6 +131,51 @@ export const getStarById = async (
       `${baseUrl}/stars/${_id}`,
     );
     return star;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const addActivity = async (
+  starId: string,
+  newActivity: IActivity,
+): Promise<AxiosResponse<ApiStarsType>> => {
+  try {
+    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
+      `${baseUrl}/add-activity/${starId}`,
+      newActivity,
+    );
+    return updatedStar;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const addNote = async (
+  starId: string,
+  newNote: INote,
+): Promise<AxiosResponse<ApiStarsType>> => {
+  try {
+    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
+      `${baseUrl}/add-note/${starId}`,
+      newNote,
+    );
+    return updatedStar;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const removeNote = async (
+  starId: string,
+  noteId: string,
+): Promise<AxiosResponse<ApiStarsType>> => {
+  try {
+    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
+      `${baseUrl}/remove-note/${starId}`,
+      noteId,
+    );
+    return updatedStar;
   } catch (error) {
     throw new Error(error as string);
   }

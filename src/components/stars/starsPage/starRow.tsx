@@ -9,10 +9,10 @@ import {
   TableBody,
 } from '@mui/material';
 import {
-  KeyboardDoubleArrowDown,
-  KeyboardDoubleArrowUp,
+  ArrowDownward,
+  ErrorOutline,
   PriorityHigh,
-  RemoveCircle,
+  WarningAmber,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
 
@@ -37,10 +37,10 @@ const StarRow = ({
   const [openDesc, setOpenDesc] = useState(false);
 
   const severityIcons = [
-    <RemoveCircle color="error" />,
-    <PriorityHigh color="warning" />,
-    <KeyboardDoubleArrowUp color="info" />,
-    <KeyboardDoubleArrowDown color="disabled" />,
+    <PriorityHigh color="error" />,
+    <ErrorOutline color="warning" />,
+    <WarningAmber htmlColor="yellow" />,
+    <ArrowDownward color="disabled" />,
   ];
 
   const getCreationTime = () => {
@@ -95,7 +95,7 @@ const StarRow = ({
           >
             <TableCell align="center" width="40px">
               <span className="severityIcon">
-                {severityIcons[star.severity - 1]}
+                {severityIcons[star.severity]}
               </span>
             </TableCell>
             <TableCell width="105px" align="center">{star.name}</TableCell>
@@ -104,7 +104,11 @@ const StarRow = ({
             <TableCell width="45px" align="center">
               {getCreationTime()}
             </TableCell>
-            <TableCell width="60px" align="center">{star.version}</TableCell>
+            <TableCell width="60px" align="center">
+              {star.platform}
+              {' '}
+              {star.block}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

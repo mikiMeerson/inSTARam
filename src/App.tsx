@@ -34,6 +34,7 @@ const App = () => {
           <Stars userRole={userRole} />
           <Events />
           <Routes>
+            <Route path="/" element={<Home userRole={userRole} />} />
             <Route path="users" element={<Users />} />
             <Route path="profile" element={<Profile />} />
           </Routes>

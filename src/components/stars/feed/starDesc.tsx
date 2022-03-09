@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import _ from 'lodash';
-import Icon from '@mui/material/Icon';
+import { StatusCodes } from 'http-status-codes';
 import {
   Typography,
   FormControl,
@@ -19,40 +19,42 @@ import {
 import {
   SaveOutlined,
   EditOutlined,
-  RemoveCircle,
+  ErrorOutline,
+  WarningAmber,
+  ArrowDownward,
   PriorityHigh,
-  KeyboardDoubleArrowUp,
-  KeyboardDoubleArrowDown,
 } from '@mui/icons-material';
 import {
   activityInfoArray,
   STATUSES,
   ASSIGNEES,
-  VERSIONS,
+  PLATFORMS,
+  BLOCKS,
   COMPUTERS,
   RESOURCES,
 } from '../../../assets';
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
+import { addActivity } from '../../../services/star-service';
 
 interface starProps {
   userRole: userRole;
-  star: IStar;
+  inputStar: IStar;
   updateStar: (starId: string, formData: IStar) => void;
-  saveActivity: (starId: string, activityData: IActivity) => void
 }
 
-const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
+const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
+  const [star, setStar] = useState<IStar>(inputStar);
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const severityIcons = [
-    <RemoveCircle fontSize="large" color="error" />,
-    <PriorityHigh color="warning" />,
-    <KeyboardDoubleArrowUp color="info" />,
-    <KeyboardDoubleArrowDown color="disabled" />,
+    <PriorityHigh fontSize="large" color="error" />,
+    <ErrorOutline fontSize="large" color="warning" />,
+    <WarningAmber fontSize="large" htmlColor="yellow" />,
+    <ArrowDownward fontSize="large" color="disabled" />,
   ];
 
   const activityAttrs = [
@@ -80,7 +82,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
     defaultValues: star,
   });
 
-  const handleSave = (formData: IStar) => {
+  const handleSave = async (formData: IStar) => {
     // if the star is closing, remove its priority and alert the user
     if (formData.status === STATUSES.CLOSED
       && star.status !== formData.status) {
@@ -88,25 +90,28 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
       setCloseAlert(true);
     }
     // for each attribute that has been edited and should generate an activity
-    activityAttrs.filter(
+    await activityAttrs.filter(
       (attr) => !(attr === 'resources'
         && formData[attr].every((item) => star[attr].includes(item))
         && star[attr].every((item) => formData[attr].includes(item))
       ) && formData[attr as keyof IStar] !== star[attr as keyof IStar],
-    ).forEach((attr) => {
+    ).forEach(async (attr) => {
       // get the attribute's activity info and use it to generate a new one
       const info = activityInfoArray
         .find((i) => i.name === attr);
       if (info) {
-        saveActivity(star._id, {
+        const { status, data } = await addActivity(star._id, {
           _id: '0',
-          starId: star._id,
           publisher: localStorage.getItem('userDisplay') || 'אנונימי',
           action: info.action,
           value: info.isValue
             ? formData[attr as keyof IStar] as string
             : undefined,
         });
+        if (status !== StatusCodes.CREATED) {
+          console.log('Could not add activity');
+        }
+        setStar(data.stars.find((s) => s._id === star._id)!);
       }
     });
     setIsEdit(false);
@@ -124,7 +129,7 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
     <div className="starDesc">
       <div className="header">
         <h1>
-          {severityIcons[star.severity - 1]}
+          {severityIcons[star.severity]}
           <InputField
             field="name"
             disabled={!isEdit}
@@ -159,7 +164,8 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
               sx={{ padding: '7px', marginBottom: '10px' }}
             >
               {`הועלה על ידי ${star.publisher} מתוך ${star.event}
-               בתאריך ${getDisplayDate()}`}
+               בתאריך ${getDisplayDate()},
+                ${star.platform} בלוק ${star.block}`}
             </Typography>
           </Grid>
           <Grid container spacing={2}>
@@ -185,11 +191,11 @@ const StarDesc = ({ userRole, star, updateStar, saveActivity }: starProps) => {
             </Grid>
             <Grid item xs={4}>
               <SelectField
-                field="version"
-                defaultValue={star.version}
+                field="block"
+                defaultValue={star.block}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={VERSIONS}
+                fieldValues={BLOCKS}
                 errors={errors}
               />
             </Grid>

@@ -4,11 +4,7 @@ import './styles/navbar.css';
 import FullWidthNavbar from './halfWidthNavbar';
 import HalfWidthNavbar from './fullWidthNavbar';
 import UserNavbar from './userNavbar';
-
-const pages: linkDisplayType[] = [
-  { display: 'סטארים', link: '/stars', role: 'viewer' },
-  { display: 'משתמשים', link: '/users', role: 'admin' },
-];
+import { pages } from '../../assets';
 
 interface NavbarProps {
   userRole: userRole;

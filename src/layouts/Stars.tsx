@@ -7,13 +7,10 @@ import StarsPage from '../components/stars/starsPage/starsPage';
 import {
   addStar,
   deleteStar,
+  editStar,
   getStars,
   updatePriorities,
-  updateStar,
 } from '../services/star-service';
-import {
-  addActivity,
-} from '../services/activity-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
 import { STATUSES } from '../assets';
 
@@ -55,17 +52,6 @@ const Stars = ({ userRole }: starProps) => {
   useEffect(() => {
     fetchStars();
   }, []);
-
-  const handleAddActivity = async (
-    starId: string,
-    activityData: IActivity,
-  ): Promise<void> => {
-    activityData.starId = starId;
-    const { status } = await addActivity(activityData);
-    if (status !== StatusCodes.CREATED) {
-      console.log('activity failed to saved');
-    }
-  };
 
   const handleAddStar = async (formData: any): Promise<void> => {
     formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
@@ -109,7 +95,7 @@ const Stars = ({ userRole }: starProps) => {
     starId: string,
     formData: IStar,
   ): Promise<void> => {
-    const { status, data } = await updateStar(starId, formData);
+    const { status, data } = await editStar(starId, formData);
     handleAlert(
       status === StatusCodes.OK,
       status === StatusCodes.OK
@@ -137,19 +123,6 @@ const Stars = ({ userRole }: starProps) => {
         </Box>
       )}
       <Routes>
-        <Route
-          path="/"
-          element={stars && (
-            <StarsPage
-              userRole={userRole}
-              stars={stars}
-              addStar={handleAddStar}
-              removeStar={handleDeleteStar}
-              setFeed={setFeedToDisplay}
-              changePriority={changePriority}
-            />
-          )}
-        />
         <Route path="stars/*">
           <Route
             index
@@ -172,7 +145,6 @@ const Stars = ({ userRole }: starProps) => {
                   userRole={userRole}
                   starId={feedToDisplay}
                   updateStar={handleUpdateStar}
-                  saveActivity={handleAddActivity}
                 />
                 <Outlet />
               </>

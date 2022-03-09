@@ -8,7 +8,7 @@ interface rowType {
 }
 
 const Row = ({ row, updateStar, userRole }: rowType) => {
-  const { name, event, createdAt, assignee, status, version } = row;
+  const { name, event, createdAt, assignee, status, block } = row;
 
   const getDisplayDate = (time: Date) => {
     const displayDate = `${time.getFullYear()} 
@@ -44,7 +44,7 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
         {createdAt && getDisplayDate(new Date(createdAt))}
       </TableCell>
       <TableCell align="center">{event}</TableCell>
-      <TableCell align="center">{version}</TableCell>
+      <TableCell align="center">{block}</TableCell>
     </TableRow>
   );
 };

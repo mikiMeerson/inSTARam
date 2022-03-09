@@ -14,8 +14,9 @@ import {
 import {
   ASSIGNEES,
   SEVERITIES,
-  VERSIONS,
+  BLOCKS,
   COMPUTERS,
+  PLATFORMS,
 } from '../../../assets';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
@@ -34,7 +35,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
       .max(40, 'שם הסטאר לא יעלה על 40 תווים'),
     severity: Yup.string().required('נא למלא חומרה'),
     assignee: Yup.string().required('נא למלא אחראי'),
-    version: Yup.string().required('נא למלא בלוק'),
+    block: Yup.string().required('נא למלא בלוק'),
     event: Yup.string().required('נא למלא שם אירוע/גיחה'),
     desc: Yup.string()
       .required('נא למלא תיאור')
@@ -64,7 +65,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
       type: 'input',
     },
     {
-      field: 'version',
+      field: 'block',
       type: 'select',
     },
     {
@@ -118,7 +119,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <InputField
                 fullWidth
                 field="event"
@@ -126,10 +127,18 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <SelectField
-                field="version"
-                fieldValues={VERSIONS}
+                field="platform"
+                fieldValues={PLATFORMS}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <SelectField
+                field="block"
+                fieldValues={BLOCKS}
                 register={register}
                 errors={errors}
               />

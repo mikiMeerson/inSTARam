@@ -2,7 +2,7 @@ import { BaseSyntheticEvent, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
 import { filterDataType } from '../../../assets';
-import FiltersHeader from './filtersHeader';
+import FiltersHeader from './Filters/filtersHeader';
 
 interface starProps {
   userRole: userRole;
@@ -38,14 +38,17 @@ const StarsTable = ({
   const [assigneeFilter, setAssigneeFilter] = useState<string[]>(
     getExistingFilters('assignee'),
   );
-  const [versionFilter, setVersionFilter] = useState<string[]>(
-    getExistingFilters('version'),
+  const [blockFilter, setBlockFilter] = useState<string[]>(
+    getExistingFilters('block'),
   );
   const [resourceFilter, setResourceFilter] = useState<string[]>(
     getExistingFilters('resource'),
   );
   const [computerFilter, setComputerFilter] = useState<string[]>(
     getExistingFilters('computer'),
+  );
+  const [dateFilter, setDateFilter] = useState<string[]>(
+    getExistingFilters('date'),
   );
   const [nameFilter, setNameFilter] = useState<string>('');
 
@@ -63,22 +66,28 @@ const StarsTable = ({
       chipColor: 'secondary',
     },
     {
-      tabName: 'version',
-      filter: versionFilter,
-      func: setVersionFilter,
+      tabName: 'block',
+      filter: blockFilter,
+      func: setBlockFilter,
       chipColor: 'warning',
     },
     {
       tabName: 'resource',
       filter: resourceFilter,
       func: setResourceFilter,
-      chipColor: 'error',
+      chipColor: 'default',
     },
     {
       tabName: 'computer',
       filter: computerFilter,
       func: setComputerFilter,
       chipColor: 'info',
+    },
+    {
+      tabName: 'date',
+      filter: dateFilter,
+      func: setDateFilter,
+      chipColor: 'error',
     },
   ];
 
@@ -91,13 +100,16 @@ const StarsTable = ({
     stars.forEach((s) => {
       if ((nameFilter === '' || s.name.includes(nameFilter))
         && (statusFilter.length === 0 || statusFilter.includes(s.status))
-        && (versionFilter.length === 0 || versionFilter.includes(s.version))
+        && (blockFilter.length === 0 || blockFilter.includes(s.block))
         && (assigneeFilter.length === 0 || assigneeFilter.includes(s.assignee))
         && (resourceFilter.length === 0
           || resourceFilter.some((element) => s.resources.includes(element))
         )
         && (computerFilter.length === 0
-          || (s.computer && computerFilter.includes(s.computer)))) {
+          || (s.computer && computerFilter.includes(s.computer)))
+        && (dateFilter.length === 0 || (s.createdAt
+          && new Date(s.createdAt) > new Date(dateFilter[0])
+          && new Date(s.createdAt) < new Date(dateFilter[1])))) {
         filteredStars.push(s);
       }
     });

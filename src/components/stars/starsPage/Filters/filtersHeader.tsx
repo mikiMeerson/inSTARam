@@ -1,11 +1,10 @@
+import { ReactElement, useState } from 'react';
 import {
   Table,
   TableRow,
   TableCell,
   TableBody,
   Button,
-  Chip,
-  TextField,
 } from '@mui/material';
 import {
   CheckCircleOutline,
@@ -17,15 +16,18 @@ import {
   FlashOn,
   Computer,
 } from '@material-ui/icons';
-import { ReactElement, useState } from 'react';
 import {
   filterDataType,
   STATUSES,
   ASSIGNEES,
   COMPUTERS,
   RESOURCES,
-  VERSIONS,
-} from '../../../assets';
+  BLOCKS,
+} from '../../../../assets';
+import SearchBar from './searchBar';
+import DateRangePicker from './dateRangePicker';
+import FilterOptions from './filterOptions';
+import FilterSelections from './filterSelections';
 
 interface filterProps {
   unprioritized: boolean;
@@ -40,11 +42,12 @@ const FiltersHeader = ({
   setNameFilter,
   filtersData,
 }: filterProps) => {
-  const [displayOptions, setDisplayOptions] = useState(false);
-  const [search, setSearch] = useState(false);
+  const [displayOptions, setDisplayOptions] = useState<boolean>(false);
+  const [search, setSearch] = useState<boolean>(false);
   const [options, setOptions] = useState<string[]>([]);
-  const [lastTab, setLastTab] = useState('');
-  const [displayMore, setDisplayMore] = useState(false);
+  const [lastTab, setLastTab] = useState<string>('');
+  const [displayMore, setDisplayMore] = useState<boolean>(false);
+  const [isDatePick, setIsDatePick] = useState<boolean>(false);
 
   const filterEmpty = filtersData.every((sf) => sf.filter.length === 0)
     && nameFilter === '';
@@ -79,16 +82,8 @@ const FiltersHeader = ({
     return 0;
   };
 
-  const getOptions = () => {
-    const newOptions = options.filter((o) => {
-      const currentFilter = filtersData.find((f) => f.tabName === lastTab);
-      if (currentFilter) return !currentFilter.filter.includes(o);
-      return true;
-    });
-    return newOptions;
-  };
-
   interface filterField {
+    isPrimary: boolean;
     name: string;
     activation: string;
     displayName: string;
@@ -96,8 +91,9 @@ const FiltersHeader = ({
     width?: string;
     options?: string[];
   }
-  const primaryFilterFields: filterField[] = [
+  const filterFields: filterField[] = [
     {
+      isPrimary: true,
       name: 'name',
       width: '120px',
       activation: 'search',
@@ -105,6 +101,7 @@ const FiltersHeader = ({
       icon: <Search className="dropDownIcon" />,
     },
     {
+      isPrimary: true,
       name: 'status',
       width: '40px',
       activation: 'options',
@@ -113,6 +110,7 @@ const FiltersHeader = ({
       icon: <CheckCircleOutline className="dropDownIcon" />,
     },
     {
+      isPrimary: true,
       name: 'assignee',
       width: '100px',
       activation: 'options',
@@ -121,24 +119,24 @@ const FiltersHeader = ({
       icon: <PersonOutline className="dropDownIcon" />,
     },
     {
+      isPrimary: true,
       name: 'date',
       width: '80px',
-      activation: 'none',
+      activation: 'calender',
       displayName: 'תאריך',
       icon: <DateRange className="dropDownIcon" />,
     },
     {
-      name: 'version',
+      isPrimary: true,
+      name: 'block',
       width: '60px',
       activation: 'options',
-      options: Object.values(VERSIONS),
+      options: Object.values(BLOCKS),
       displayName: 'בלוק',
       icon: <Flight className="dropdownIcon" style={{ fontSize: '17px' }} />,
     },
-  ];
-
-  const secondaryFilterFields: filterField[] = [
     {
+      isPrimary: false,
       name: 'resource',
       activation: 'options',
       options: Object.values(RESOURCES),
@@ -146,6 +144,7 @@ const FiltersHeader = ({
       icon: <FlashOn className="dropDownIcon" />,
     },
     {
+      isPrimary: false,
       name: 'computer',
       activation: 'options',
       options: Object.values(COMPUTERS),
@@ -154,6 +153,7 @@ const FiltersHeader = ({
     },
   ];
 
+  // !Fix the expandable filters - row is too wide
   return (
     <Table
       className="tableHeader"
@@ -163,7 +163,7 @@ const FiltersHeader = ({
     >
       <TableBody>
         <TableRow>
-          <TableCell width="20px" sx={{ textAlign: 'center' }}>
+          <TableCell sx={{ textAlign: 'center' }}>
             <Button sx={{ textAlign: 'center' }}>
               <MoreVert
                 fontSize="small"
@@ -175,67 +175,39 @@ const FiltersHeader = ({
               />
             </Button>
           </TableCell>
-          {primaryFilterFields.map((field: filterField) => (
-            <TableCell
-              key={field.name}
-              width={field.width}
-              sx={{ textAlign: 'center' }}
-            >
-              <Button
-                sx={{
-                  color: 'Gray',
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  background:
-                    lastTab === field.name && (displayOptions || search)
-                      ? 'whitesmoke'
-                      : '',
-                }}
-                onClick={() => {
-                  if (field.activation === 'search') {
-                    setSearch(lastTab === 'name' ? !search : true);
-                    setDisplayOptions(false);
-                  } else if (field.activation === 'options') {
-                    setDisplayOptions(
-                      lastTab === field.name ? !displayOptions : true,
-                    );
-                    if (field.options) setOptions(field.options);
-                    setSearch(false);
-                    setLastTab(field.name);
-                  }
-                  setLastTab(field.name);
-                }}
+          {filterFields
+            .filter((f) => f.isPrimary)
+            .map((field: filterField) => (
+              <TableCell
+                key={field.name}
+                width={field.width}
+                sx={{ textAlign: 'center' }}
               >
-                {field.displayName}
-                {field.icon}
-              </Button>
-            </TableCell>
-          ))}
-        </TableRow>
-
-        {displayMore && (
-          <TableRow>
-            <TableCell width="60px" />
-
-            {secondaryFilterFields.map((field: filterField) => (
-              <TableCell key={field.name} sx={{ textAlign: 'center' }}>
                 <Button
                   sx={{
                     color: 'Gray',
                     fontWeight: 'bold',
                     textAlign: 'center',
-                    paddingLeft: 0,
                     background:
-                      lastTab === field.name && (displayOptions || search)
-                        ? 'whitesmoke'
-                        : '',
+                    lastTab === field.name && (displayOptions || search)
+                      ? 'whitesmoke'
+                      : '',
                   }}
                   onClick={() => {
-                    setDisplayOptions(
-                      lastTab === field.name ? !displayOptions : true,
-                    );
-                    if (field.options) setOptions(field.options);
-                    setSearch(false);
+                    if (field.activation === 'search') {
+                      setSearch(lastTab === 'name' ? !search : true);
+                      setDisplayOptions(false);
+                    } else if (field.activation === 'options') {
+                      setDisplayOptions(
+                        lastTab === field.name ? !displayOptions : true,
+                      );
+                      if (field.options) setOptions(field.options);
+                      setSearch(false);
+                      setLastTab(field.name);
+                    } else if (field.activation === 'calender') {
+                      setIsDatePick(!isDatePick);
+                      console.log(isDatePick);
+                    }
                     setLastTab(field.name);
                   }}
                 >
@@ -244,66 +216,70 @@ const FiltersHeader = ({
                 </Button>
               </TableCell>
             ))}
-          </TableRow>
-        )}
-
-        {search && (
-          <TableRow
-            className="searchSection"
-            sx={{
-              display: 'flex',
-            }}
-          >
-            <TextField
-              fullWidth
-              autoFocus
-              variant="standard"
-              label="חפש לפי שם הסטאר"
-              onChange={(e) => setNameFilter(e.target.value)}
-            />
-          </TableRow>
-        )}
-        {displayOptions && (
-          <TableRow
-            className="optionSection"
-            sx={{ display: 'flex' }}
-          >
-            {getOptions().map((o: string) => (
-              <Chip
-                size="medium"
-                sx={{ marginRight: '15px' }}
-                label={o}
-                key={o}
-                onClick={() => { setFilter(lastTab, o, 'add'); }}
-              />
-            ))}
-          </TableRow>
-        )}
-        {!filterEmpty && (
-          <TableRow
-            className="filterSection"
-            sx={{
-              display: 'flex',
-              marginTop: displayOptions || search ? '50px' : 0,
-            }}
-          >
-            {filtersData.map((category) => (
-              category.filter.map((selected) => (
-                <Chip
-                  key={selected}
-                  size="medium"
-                  color={category.chipColor}
-                  label={selected}
+        </TableRow>
+        {displayMore && (
+        <TableRow>
+          {filterFields
+            .filter((f) => !f.isPrimary)
+            .map((field: filterField) => (
+              <TableCell
+                key={field.name}
+                sx={{ textAlign: 'center' }}
+              >
+                <Button
                   sx={{
-                    marginRight: '15px',
+                    color: 'Gray',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    background:
+                    lastTab === field.name && (displayOptions || search)
+                      ? 'whitesmoke'
+                      : '',
                   }}
                   onClick={() => {
-                    setFilter(category.tabName, selected, 'remove');
+                    if (field.activation === 'search') {
+                      setSearch(lastTab === 'name' ? !search : true);
+                      setDisplayOptions(false);
+                    } else if (field.activation === 'options') {
+                      setDisplayOptions(
+                        lastTab === field.name ? !displayOptions : true,
+                      );
+                      if (field.options) setOptions(field.options);
+                      setSearch(false);
+                      setLastTab(field.name);
+                    }
+                    setLastTab(field.name);
                   }}
-                />
-              ))
+                >
+                  {field.displayName}
+                  {field.icon}
+                </Button>
+              </TableCell>
             ))}
-          </TableRow>
+        </TableRow>
+        )}
+        {search && (
+          <SearchBar nameFilter={nameFilter} setNameFilter={setNameFilter} />
+        )}
+        <DateRangePicker
+          isDatePick={isDatePick}
+          setIsDatePick={setIsDatePick}
+          filtersData={filtersData}
+        />
+        {displayOptions && (
+        <FilterOptions
+          lastTab={lastTab}
+          options={options}
+          filtersData={filtersData}
+          setFilter={setFilter}
+        />
+        )}
+        {!filterEmpty && (
+          <FilterSelections
+            isMargin={displayOptions || search}
+            filtersData={filtersData}
+            setFilter={setFilter}
+          />
         )}
       </TableBody>
     </Table>
