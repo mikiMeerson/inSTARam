@@ -1,0 +1,19 @@
+.events {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.createEvent {
+    width: 80%;
+}
+.createEvent, .addFinding {
+    border: 1px solid silver;
+    border-radius: 2px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.addFinding > div {
+    display: flex;
+}

@@ -127,7 +127,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
 
   return (
     <div className="starDesc">
-      <div className="header">
+      <div className="starHeader">
         <h1>
           {severityIcons[star.severity]}
           <InputField

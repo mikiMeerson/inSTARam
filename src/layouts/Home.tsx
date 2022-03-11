@@ -10,7 +10,7 @@ const pageToIcon = [
     icon: <Star className="pageIcon" />,
   },
   {
-    link: '/flights',
+    link: '/events',
     icon: <Flight className="pageIcon" />,
   },
   {

@@ -155,6 +155,6 @@ export const activityInfoArray = [
 
 export const pages: linkDisplayType[] = [
   { display: 'סטארים', link: '/stars', role: 'viewer' },
-  { display: 'גיחות', link: '/flights', role: 'viewer' },
+  { display: 'אירועים', link: '/events', role: 'viewer' },
   { display: 'משתמשים', link: '/users', role: 'admin' },
 ];

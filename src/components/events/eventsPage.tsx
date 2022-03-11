@@ -1,5 +1,10 @@
+import CreateEvent from './createEvent';
+import './styles/event.css';
+
 const EventsPage = () => (
-  <h1>This is the main events page</h1>
+  <div className="events">
+    <CreateEvent />
+  </div>
 );
 
 export default EventsPage;

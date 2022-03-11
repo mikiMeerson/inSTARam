@@ -26,6 +26,10 @@ const headCells: starKeyDisplayType[] = [
     key: 'block',
     display: 'בלוק',
   },
+  {
+    key: 'platform',
+    display: 'פלטפורמה',
+  },
 ];
 
 interface EnhancedTableProps {
