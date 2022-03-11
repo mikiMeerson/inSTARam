@@ -7,11 +7,21 @@
 .createEvent {
     width: 80%;
 }
-.createEvent, .addFinding {
+.eventVersions, .weapons, .versions, .findings, .addFinding {
     border: 1px solid silver;
     border-radius: 2px;
     padding: 20px;
     margin: 10px;
+}
+
+.versionTables {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weapons, .versions {
+    width: 95%;
 }
 
 .addFinding > div {
