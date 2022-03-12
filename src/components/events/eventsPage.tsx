@@ -1,4 +1,4 @@
-import CreateEvent from './createEvent';
+import CreateEvent from './createEvent/createEvent';
 import './styles/event.css';
 
 const EventsPage = () => (

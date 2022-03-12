@@ -40,7 +40,6 @@ const DateRangePicker = ({
         editableDateInputs
         onChange={
         (item) => {
-          console.log(item);
           if (item.selection.startDate
             && item.selection.endDate
             && dateFilter) {

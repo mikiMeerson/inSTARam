@@ -7,11 +7,15 @@
 .createEvent {
     width: 80%;
 }
-.eventVersions, .weapons, .versions, .findings, .addFinding {
+.eventDetails, .eventVersions, .weapons, .versions, .findings, .addFinding {
     border: 1px solid silver;
     border-radius: 2px;
     padding: 20px;
     margin: 10px;
+}
+
+.eventDetails > * {
+    margin-bottom: 15px !important;
 }
 
 .versionTables {

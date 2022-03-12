@@ -65,16 +65,31 @@ interface IUser {
 interface IEvent {
   _id: string;
   name: string;
-  type: "flight" | "integration" | "industry";
-  block: string;
-  date: string;
+  type: 'flight' | 'integration' | 'industry';
+  assignee: string;
+  block: BLOCKS;
+  platform: PLATFORMS;
+  dates: Date[];
   publisher: string;
   description: string;
   configuration: {
-    aaaa: string;
-    bbbb: string;
-    cccc: string;
-    dddd: string;
+    weapons: {
+      sta2: string;
+      r1: string;
+      r2: string;
+      r3: string;
+      sta5: string;
+      l1: string;
+      l2: string;
+      l3: string;
+      sta8: string;
+    },
+    versions: {
+      aaaa: string;
+      bbbb: string;
+      cccc: string;
+      dddd: string;
+    }
   };
   findings: string[];
 }

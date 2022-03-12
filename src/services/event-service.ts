@@ -19,8 +19,10 @@ export const addEvent = async (
     const event: Omit<IEvent, '_id'> = {
       name: formData.name,
       type: formData.type,
+      assignee: formData.assignee,
       block: formData.block,
-      date: formData.block,
+      platform: formData.platform,
+      dates: formData.dates,
       publisher: formData.publisher,
       description: formData.description,
       configuration: formData.configuration,
