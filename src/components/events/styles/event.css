@@ -16,6 +16,12 @@
 
 .eventDetails > * {
     margin-bottom: 15px !important;
+    padding: 5px;
+}
+
+.moreDetails {
+    display: flex;
+    flex-direction: row;
 }
 
 .versionTables {

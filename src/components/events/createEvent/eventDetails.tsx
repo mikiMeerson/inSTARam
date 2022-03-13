@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import {
+  Button,
   FormControl,
   InputLabel,
-  Input,
   MenuItem,
   Select,
   Typography,
   Grid,
   TextField,
+  OutlinedInput,
 } from '@mui/material';
+import { ChevronLeft, ExpandMore, MoreHoriz } from '@mui/icons-material';
 import _ from 'lodash';
 import DateRangePicker from './dateRangePicker';
 import { BLOCKS, PLATFORMS } from '../../../assets';
@@ -26,6 +28,7 @@ const ASSIGNEES = [
 const EventDetails = () => {
   const [isDatePick, setIsDatePick] = useState<boolean>(false);
   const [currDates, setCurrDates] = useState<Date[]>([]);
+  const [displayMore, setDisplayMore] = useState<boolean>(false);
 
   const getDisplayDate = (date: Date) => `
   ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}
@@ -34,17 +37,16 @@ const EventDetails = () => {
   return (
     <div className="eventDetails">
       <Typography variant="h5">פרטי האירוע</Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
+      <Grid container>
+        <Grid item xs={12}>
           <TextField variant="standard" fullWidth label="שם האירוע" />
         </Grid>
+      </Grid>
+      <Grid container spacing={4}>
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel>פלטפורמה</InputLabel>
-            <Select
-              variant="outlined"
-              input={<Input />}
-            >
+            <Select input={<OutlinedInput />}>
               {_.map(PLATFORMS, (platform) => (
                 <MenuItem key={platform} value={platform}>
                   {platform}
@@ -56,10 +58,7 @@ const EventDetails = () => {
         <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
             <InputLabel>בלוק</InputLabel>
-            <Select
-              variant="outlined"
-              input={<Input />}
-            >
+            <Select input={<OutlinedInput />}>
               {_.map(BLOCKS, (block) => (
                 <MenuItem key={block} value={block}>
                   {block}
@@ -68,15 +67,27 @@ const EventDetails = () => {
             </Select>
           </FormControl>
         </Grid>
-      </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <FormControl sx={{ width: '100%' }}>
+            <InputLabel>סוג האירוע</InputLabel>
+            <Select input={<OutlinedInput />}>
+              {EVENTS.map((event) => (
+                <MenuItem key={event} value={event}>
+                  {event}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={3}>
+          <TextField fullWidth variant="outlined" label="מטס" />
+        </Grid>
+      </Grid>
+      <Grid container spacing={4}>
+        <Grid item xs={4}>
+          <FormControl variant="filled" sx={{ width: '100%' }}>
             <InputLabel>גוף מבצע</InputLabel>
-            <Select
-              variant="outlined"
-              input={<Input />}
-            >
+            <Select input={<OutlinedInput />}>
               {ASSIGNEES.map((assignee) => (
                 <MenuItem key={assignee} value={assignee}>
                   {assignee}
@@ -86,24 +97,11 @@ const EventDetails = () => {
           </FormControl>
         </Grid>
         <Grid item xs={4}>
-          <FormControl sx={{ width: '100%' }}>
-            <InputLabel>סוג האירוע</InputLabel>
-            <Select
-              variant="outlined"
-              input={<Input />}
-            >
-              {EVENTS.map((event) => (
-                <MenuItem key={event} value={event}>
-                  {event}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <TextField fullWidth label="צוות" />
         </Grid>
         <Grid item xs={4}>
           <TextField
             label="תאריכים"
-            variant="standard"
             sx={{ width: '100%' }}
             onClick={() => setIsDatePick(!isDatePick)}
             value={
@@ -116,6 +114,24 @@ const EventDetails = () => {
           />
         </Grid>
       </Grid>
+      <div className="moreDetails">
+        <Button color="info" onClick={() => setDisplayMore(!displayMore)}>
+          { displayMore ? <ExpandMore /> : <ChevronLeft /> }
+        </Button>
+        {displayMore && (
+          <Grid container spacing={4}>
+            <Grid item xs={4}>
+              <TextField fullWidth label="אוק" />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField fullWidth label="אזורים" />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField fullWidth label="משך" />
+            </Grid>
+          </Grid>
+        )}
+      </div>
       <ListGenerator header="כללי" />
       <ListGenerator header="מטרות" />
       <ListGenerator header="אמצעי איסוף נתונים" />

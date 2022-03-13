@@ -21,6 +21,7 @@ const ListGenerator = ({ header }: ListProps) => {
 
   const handleAddItem = () => {
     setCurrList([...currList, newItem]);
+    setNewItem('');
   };
 
   const handleDeleteItem = (deletedItem: string) => {
