@@ -18,15 +18,25 @@ export const addEvent = async (
   try {
     const event: Omit<IEvent, '_id'> = {
       name: formData.name,
+      publisher: localStorage.getItem('userDisplay') || 'אנונימי',
       type: formData.type,
       assignee: formData.assignee,
       block: formData.block,
       platform: formData.platform,
+      reason: formData.reason,
+      team: formData.team,
       dates: formData.dates,
-      publisher: formData.publisher,
-      description: formData.description,
+      callSign: formData.callSign,
+      areas: formData.areas,
+      duration: formData.duration,
+      generalSummary: formData.generalSummary,
+      goals: formData.goals,
+      dataSources: formData.dataSources,
       configuration: formData.configuration,
+      description: formData.description,
       findings: formData.findings,
+      notes: formData.notes,
+      conclusions: formData.conclusions,
     };
 
     const saveEvent: AxiosResponse<ApiEventsType> = await axios.post(

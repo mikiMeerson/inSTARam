@@ -1,6 +1,6 @@
 import { TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
-import { starKeyDisplay } from '../../assets';
+import { eventKeyDisplay, starKeyDisplay } from '../../assets';
 
 interface fieldProps {
   field: keyof IStar;
@@ -12,6 +12,7 @@ interface fieldProps {
   multiline?: boolean;
   variant?: 'standard' | 'outlined';
   sx?: any;
+  element?: 'star' | 'event';
 }
 
 const InputField = ({
@@ -23,6 +24,7 @@ const InputField = ({
   multiline,
   variant,
   sx,
+  element,
 }: fieldProps) => (
   <>
     <TextField
@@ -32,7 +34,9 @@ const InputField = ({
       variant={variant}
       sx={sx}
       defaultValue={defaultValue}
-      label={starKeyDisplay.find((k) => k.key === field)?.display}
+      label={element === 'star'
+        ? starKeyDisplay.find((k) => k.key === field)?.display
+        : eventKeyDisplay.find((k) => k.key === field)?.display}
       {...register(field)}
       error={errors[field]}
     />
@@ -51,4 +55,5 @@ InputField.defaultProps = {
   multiline: false,
   variant: 'standard',
   sx: undefined,
+  element: 'star',
 };

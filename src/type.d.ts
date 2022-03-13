@@ -65,13 +65,20 @@ interface IUser {
 interface IEvent {
   _id: string;
   name: string;
-  type: 'flight' | 'integration' | 'industry';
+  publisher: string;
+  type: EVENT_TYPES;
   assignee: string;
   block: BLOCKS;
   platform: PLATFORMS;
+  reason?: string;
+  team?: string;
   dates: Date[];
-  publisher: string;
-  description: string;
+  callSign?: string;
+  areas?: string;
+  duration?: string;
+  generalSummary: string[];
+  goals?: string[];
+  dataSources?: string[];
   configuration: {
     weapons: {
       sta2: string;
@@ -91,7 +98,10 @@ interface IEvent {
       dddd: string;
     }
   };
+  description: string[];
   findings: string[];
+  notes?: string[];
+  conclusions?: string[];
 }
 
 type ApiStarsType = {

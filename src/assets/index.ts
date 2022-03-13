@@ -47,6 +47,13 @@ export enum COMPUTERS {
   DDD = 'DDD',
 }
 
+export enum EVENT_TYPES {
+  REG_FLIGHT = 'גיחת טייסת',
+  MANAT_FLIGHT = 'גיחת מנט',
+  INT_TEST = 'בדיקת אינטגרציה',
+  DEV_TEST = 'בדיקת פיתוח',
+}
+
 export interface filterDataType {
   tabName: string;
   filter: string[];
@@ -117,6 +124,94 @@ export const starKeyDisplay: starKeyDisplayType[] = [
   {
     key: 'createdAt',
     display: 'זמן יצירה',
+  },
+];
+
+export interface eventKeyDisplayType {
+  key: keyof IEvent;
+  display: string;
+}
+
+export const eventKeyDisplay: eventKeyDisplayType[] = [
+  {
+    key: 'name',
+    display: 'שם האירוע',
+  },
+  {
+    key: 'type',
+    display: 'סוג האירוע',
+  },
+  {
+    key: 'assignee',
+    display: 'אחראי',
+  },
+  {
+    key: 'publisher',
+    display: 'הועלה על ידי',
+  },
+  {
+    key: 'platform',
+    display: 'פלטפורמה',
+  },
+  {
+    key: 'block',
+    display: 'בלוק',
+  },
+  {
+    key: 'reason',
+    display: 'מטס',
+  },
+  {
+    key: 'team',
+    display: 'צוות',
+  },
+  {
+    key: 'dates',
+    display: 'תאריכים',
+  },
+  {
+    key: 'callSign',
+    display: 'אות קריאה',
+  },
+  {
+    key: 'areas',
+    display: 'אזורים',
+  },
+  {
+    key: 'duration',
+    display: 'משך',
+  },
+  {
+    key: 'generalSummary',
+    display: 'תיאור כללי',
+  },
+  {
+    key: 'goals',
+    display: 'מטרות',
+  },
+  {
+    key: 'dataSources',
+    display: 'אמצעי איסוף נתונים',
+  },
+  {
+    key: 'configuration',
+    display: 'תצורה',
+  },
+  {
+    key: 'description',
+    display: 'מהלך הניסוי',
+  },
+  {
+    key: 'findings',
+    display: 'ממצאים',
+  },
+  {
+    key: 'notes',
+    display: 'הערות',
+  },
+  {
+    key: 'conclusions',
+    display: 'מסקנות, המלצות ומטלות',
   },
 ];
 

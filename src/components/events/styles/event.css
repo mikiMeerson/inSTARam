@@ -19,6 +19,10 @@
     padding: 5px;
 }
 
+#eventName {
+    font-size: 35px;
+}
+
 .moreDetails {
     display: flex;
     flex-direction: row;
