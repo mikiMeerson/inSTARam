@@ -7,7 +7,7 @@
 .createEvent {
     width: 80%;
 }
-.eventDetails, .eventVersions, .weapons, .versions, .findings, .addFinding {
+.eventDetails, .eventVersions, .weapons, .versions {
     border: 1px solid silver;
     border-radius: 2px;
     padding: 20px;

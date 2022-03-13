@@ -10,7 +10,7 @@ import {
   TextField,
 } from '@mui/material';
 
-const STATIONS = [2, 'L1', 'L2', 'L3', 5, 'R1', 'R2', 'R3', 8];
+const STATIONS = ['2L', '2', '2R', 'LCFT', '5', 'RCFT', '8L', '8', '8R'];
 const WEAPONS = ['ללא', 'AA', 'BB', 'CC', 'DD', 'SS', 'PP'];
 const COMPUTERS = ['AAAA', 'BBBB', 'CCCC', 'DDDD'];
 

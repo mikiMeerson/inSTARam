@@ -12,6 +12,7 @@ import {
 import _ from 'lodash';
 import DateRangePicker from './dateRangePicker';
 import { BLOCKS, PLATFORMS } from '../../../assets';
+import ListGenerator from '../../general/listGenerator';
 
 const EVENTS = ['גיחת טייסת', 'גיחת מנט', 'בדיקת אינטגרציה', 'בדיקת פיתוח'];
 const ASSIGNEES = [
@@ -115,12 +116,9 @@ const EventDetails = () => {
           />
         </Grid>
       </Grid>
-      <TextField
-        variant="outlined"
-        label="תיאור האירוע"
-        multiline
-        sx={{ margin: '30px 0 30px 0', width: '100%' }}
-      />
+      <ListGenerator header="כללי" />
+      <ListGenerator header="מטרות" />
+      <ListGenerator header="אמצעי איסוף נתונים" />
       <DateRangePicker
         isDatePick={isDatePick}
         setIsDatePick={setIsDatePick}
