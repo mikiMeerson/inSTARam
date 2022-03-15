@@ -98,7 +98,7 @@ const BasicDetails = ({
         <Grid item xs={4}>
           <TextField
             label="תאריכים"
-            sx={{ width: '100%' }}
+            sx={{ width: '100%', paddingLeft: 0, marginLeft: '15px' }}
             onClick={() => setIsDatePick(!isDatePick)}
             value={
               currDates.length > 0

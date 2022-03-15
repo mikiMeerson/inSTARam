@@ -11,9 +11,16 @@ import MoreDetails from './moreDetails';
 interface DetailsProps {
   register: UseFormRegister<FieldValues>;
   errors: any;
+  event: IEvent;
+  setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
-const EventDetails = ({ register, errors }: DetailsProps) => {
+const EventDetails = ({
+  register,
+  errors,
+  event,
+  setAttr,
+}: DetailsProps) => {
   const [isDatePick, setIsDatePick] = useState<boolean>(false);
   const [currDates, setCurrDates] = useState<Date[]>([]);
 
@@ -34,9 +41,24 @@ const EventDetails = ({ register, errors }: DetailsProps) => {
         setCurrDates={setCurrDates}
       />
       <MoreDetails />
-      <ListGenerator header="כללי" />
-      <ListGenerator header="מטרות" />
-      <ListGenerator header="אמצעי איסוף נתונים" />
+      <ListGenerator
+        header="כללי"
+        currList={event.generalSummary ? event.generalSummary : []}
+        setCurrList={setAttr}
+        attr="generalSummary"
+      />
+      <ListGenerator
+        header="מטרות"
+        attr="goals"
+        currList={event.goals ? event.goals : []}
+        setCurrList={setAttr}
+      />
+      <ListGenerator
+        header="אמצעי איסוף נתונים"
+        attr="dataSources"
+        currList={event.dataSources ? event.dataSources : []}
+        setCurrList={setAttr}
+      />
     </div>
   );
 };

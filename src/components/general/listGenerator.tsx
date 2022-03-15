@@ -13,19 +13,24 @@ import './styles/general.css';
 
 interface ListProps {
     header: string;
+    currList: string[];
+    setCurrList: (attr: any, value: any) => void;
+    attr: keyof IStar | keyof IEvent;
 }
 
-const ListGenerator = ({ header }: ListProps) => {
-  const [currList, setCurrList] = useState<string[]>([]);
+const ListGenerator = ({ header, currList, setCurrList, attr }: ListProps) => {
   const [newItem, setNewItem] = useState<string>('');
 
   const handleAddItem = () => {
-    setCurrList([...currList, newItem]);
+    currList.push(newItem);
+    setCurrList(attr, currList);
     setNewItem('');
   };
 
+  // !not working
   const handleDeleteItem = (deletedItem: string) => {
-    setCurrList(currList.filter((f) => deletedItem !== f));
+    currList = currList.filter((f) => f !== deletedItem);
+    setCurrList(attr, currList);
   };
 
   return (
@@ -33,12 +38,9 @@ const ListGenerator = ({ header }: ListProps) => {
       <Typography variant="h6">{header}</Typography>
       <List>
         {currList.map((f, index) => (
-          <ListItem sx={{ textAlign: 'start' }}>
-            <IconButton edge="end">
-              <DeleteOutlined
-                color="error"
-                onClick={() => handleDeleteItem(f)}
-              />
+          <ListItem key={index} sx={{ textAlign: 'start' }}>
+            <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
+              <DeleteOutlined color="error" />
             </IconButton>
             <ListItemText primary={`${index + 1}. ${f}`} />
           </ListItem>

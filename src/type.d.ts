@@ -12,6 +12,25 @@ type linkDisplayType = {
     role: userRole;
 }
 
+interface weaponConfig {
+  '2L': WEAPONS;
+  '2': WEAPONS;
+  '2R': WEAPONS;
+  'LCFT': WEAPONS;
+  '5': WEAPONS;
+  'RCFT': WEAPONS;
+  '8L': WEAPONS;
+  '8': WEAPONS;
+  '8R': WEAPONS;
+}
+
+interface versionConfig {
+  AAA: string;
+  BBB: string;
+  CCC: string;
+  DDD: string;
+}
+
 interface INote {
     _id: string;
     note: string;
@@ -70,36 +89,21 @@ interface IEvent {
   assignee: string;
   block: BLOCKS;
   platform: PLATFORMS;
+  dates: Date[];
   reason?: string;
   team?: string;
-  dates: Date[];
   callSign?: string;
   areas?: string;
   duration?: string;
-  generalSummary: string[];
+  generalSummary?: string[];
   goals?: string[];
   dataSources?: string[];
-  configuration: {
-    weapons: {
-      sta2: string;
-      r1: string;
-      r2: string;
-      r3: string;
-      sta5: string;
-      l1: string;
-      l2: string;
-      l3: string;
-      sta8: string;
-    },
-    versions: {
-      aaaa: string;
-      bbbb: string;
-      cccc: string;
-      dddd: string;
-    }
+  configuration?: {
+    weapons: weaponConfig;
+    versions: versionConfig;
   };
-  description: string[];
-  findings: string[];
+  description?: string[];
+  findings?: string[];
   notes?: string[];
   conclusions?: string[];
 }

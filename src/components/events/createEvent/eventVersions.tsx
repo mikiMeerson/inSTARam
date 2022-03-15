@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import { UseFormRegister } from 'react-hook-form';
 import {
   Typography,
   Table,
@@ -9,37 +11,67 @@ import {
   Input,
   TextField,
 } from '@mui/material';
+import {
+  COMPUTERS,
+  WEAPONS,
+} from '../../../assets';
 
-const STATIONS = ['2L', '2', '2R', 'LCFT', '5', 'RCFT', '8L', '8', '8R'];
-const WEAPONS = ['ללא', 'AA', 'BB', 'CC', 'DD', 'SS', 'PP'];
-const COMPUTERS = ['AAAA', 'BBBB', 'CCCC', 'DDDD'];
+interface VersionsProps {
+  register: UseFormRegister<any>;
+  errors: {[x: string]: any};
+  event: IEvent;
+  setAttr: (attr: keyof IEvent, value: any) => void;
+}
 
-const EventVersions = () => (
-  <div className="eventVersions">
-    <Typography variant="h5">תצורה</Typography>
-    <div className="versionTables">
-      <div className="weapons">
-        <Typography variant="h6">חימושים</Typography>
-        <Table>
-          <TableRow sx={{ background: 'whitesmoke' }}>
-            <TableCell align="center">תחנה</TableCell>
-            {STATIONS.reverse().map((sta) => (
-              <TableCell align="center">{sta}</TableCell>
-            ))}
-          </TableRow>
-          <TableRow>
-            <TableCell sx={{ background: 'whitesmoke' }} align="center">
-              חימוש
-            </TableCell>
-            {
-              STATIONS.reverse().map((sta) => (
+const EventVersions = ({
+  register,
+  errors,
+  event,
+  setAttr,
+}: VersionsProps) => {
+  const handleWeaponSelect = (sta: keyof weaponConfig, wpn: WEAPONS) => {
+    const tempConfig = event.configuration!;
+    tempConfig.weapons[sta] = wpn;
+    setAttr('configuration', tempConfig);
+  };
+
+  const handleVersionInput = (comp: keyof versionConfig, version: string) => {
+    const tempConfig = event.configuration!;
+    tempConfig.versions[comp] = version;
+    setAttr('configuration', tempConfig);
+  };
+
+  return (
+    <div className="eventVersions">
+      <Typography variant="h5">תצורה</Typography>
+      <div className="versionTables">
+        <div className="weapons">
+          <Typography variant="h6">חימושים</Typography>
+          <Table>
+            <TableRow sx={{ background: 'whitesmoke' }}>
+              <TableCell align="center">תחנה</TableCell>
+              {_.map(Object.keys(event.configuration!.weapons), (sta) => (
+                <TableCell align="center">{sta}</TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell sx={{ background: 'whitesmoke' }} align="center">
+                חימוש
+              </TableCell>
+              {
+              _.map(Object.keys(event.configuration!.weapons), (sta) => (
                 <TableCell>
                   <FormControl sx={{ width: '100%' }}>
                     <Select
                       variant="outlined"
                       input={<Input />}
+                      defaultValue="ללא"
+                      onChange={(e) => handleWeaponSelect(
+                        sta as keyof weaponConfig,
+                        e.target.value as WEAPONS,
+                      )}
                     >
-                      {WEAPONS.map((wpn) => (
+                      {_.map(WEAPONS, (wpn) => (
                         <MenuItem key={wpn} value={wpn}>
                           {wpn}
                         </MenuItem>
@@ -49,32 +81,44 @@ const EventVersions = () => (
                 </TableCell>
               ))
             }
-          </TableRow>
-        </Table>
-      </div>
-      <div className="versions">
-        <Typography variant="h6">גרסאות</Typography>
-        <Table>
-          <TableRow sx={{ background: 'whitesmoke' }}>
-            <TableCell align="center">מחשבים</TableCell>
-            {COMPUTERS.map((com) => (
-              <TableCell align="center">{com}</TableCell>
-            ))}
-          </TableRow>
-          <TableRow>
-            <TableCell sx={{ background: 'whitesmoke' }} align="center">
-              גרסה
-            </TableCell>
-            {COMPUTERS.map((com) => (
-              <TableCell align="center">
-                <TextField variant="standard" sx={{ width: '50%' }} />
+            </TableRow>
+          </Table>
+        </div>
+        <div className="versions">
+          <Typography variant="h6">גרסאות</Typography>
+          <Table>
+            <TableRow sx={{ background: 'whitesmoke' }}>
+              <TableCell align="center">מחשבים</TableCell>
+              {_.map(COMPUTERS, (com) => (
+                <TableCell align="center">{com}</TableCell>
+              ))}
+            </TableRow>
+            <TableRow>
+              <TableCell sx={{ background: 'whitesmoke' }} align="center">
+                גרסה
               </TableCell>
-            ))}
-          </TableRow>
-        </Table>
+              {_.map(COMPUTERS, (com) => (
+                <TableCell align="center">
+                  <TextField
+                    variant="standard"
+                    sx={{ width: '50%' }}
+                    {...register('configuration')}
+                    onChange={(e) => handleVersionInput(
+                      com as keyof versionConfig,
+                      e.target.value,
+                    )}
+                  />
+                  <Typography variant="inherit" color="error">
+                    {errors.configuration?.message}
+                  </Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </Table>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default EventVersions;

@@ -54,6 +54,16 @@ export enum EVENT_TYPES {
   DEV_TEST = 'בדיקת פיתוח',
 }
 
+export enum WEAPONS {
+  NONE = 'ללא',
+  AA = 'AA',
+  BB = 'BB',
+  CC = 'CC',
+  DD = 'DD',
+  SS = 'SS',
+  PP = 'PP',
+}
+
 export interface filterDataType {
   tabName: string;
   filter: string[];
@@ -66,6 +76,49 @@ export interface filterDataType {
   | 'success'
   | 'warning',
 }
+
+
+export const defaultEvent: IEvent = {
+  _id: '0',
+  name: '',
+  assignee: '',
+  block: '',
+  platform: '',
+  dates: [],
+  publisher: '',
+  type: '',
+  areas: '',
+  callSign: '',
+  conclusions: [],
+  configuration: {
+    weapons: {
+      '2L': WEAPONS.NONE,
+      2: WEAPONS.NONE,
+      '2R': WEAPONS.NONE,
+      LCFT: WEAPONS.NONE,
+      5: WEAPONS.NONE,
+      RCFT: WEAPONS.NONE,
+      '8L': WEAPONS.NONE,
+      8: WEAPONS.NONE,
+      '8R': WEAPONS.NONE,
+    },
+    versions: {
+      AAA: '',
+      BBB: '',
+      CCC: '',
+      DDD: '',
+    },
+  },
+  dataSources: [],
+  description: [],
+  duration: '',
+  findings: [],
+  generalSummary: [],
+  goals: [],
+  notes: [],
+  reason: '',
+  team: '',
+};
 
 export interface starKeyDisplayType {
   key: keyof IStar;
