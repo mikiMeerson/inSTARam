@@ -1,43 +1,68 @@
 .events {
+    width: 100%;
+    display: inline-table;
+    background: whitesmoke;
+    height: 89%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.eventsHeader {
+    margin: 0;
+    width: 100%;
+    height: 17%;
+    background: purple;
+    color: white;
+    padding: 15px 50px 15px 0;
+}
+
+.eventsList {
+    background: transparent;
+    position: absolute;
+    top: 20%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+}
+
+.cardContainer {
+    margin: 30px !important;
+}
+
+.eventCard {
+    height: 100%;
+    text-align: start;
+}
+
+.eventCard > button {
+    height: 100%;
+}
+
+#addEvent { 
+    background: linear-gradient(white, rgb(194, 194, 194));
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.createEvent {
-    width: 80%;
-}
-.eventDetails, .eventVersions, .weapons, .versions {
-    border: 1px solid silver;
-    border-radius: 2px;
-    padding: 20px;
-    margin: 10px;
+#addEvent > button {
+    text-align: center;
 }
 
-.eventDetails > * {
-    margin-bottom: 15px !important;
-    padding: 5px;
-}
-
-#eventName {
-    font-size: 35px;
-}
-
-.moreDetails {
+.cardHeader {
     display: flex;
     flex-direction: row;
+    padding: 15px;
 }
 
-.versionTables {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+ .cardHeader > div {
+    margin-top: 5px !important;
+    margin-left: 20px !important;
+    height: fit-content !important;
+    line-height: 50px !important;
 }
 
-.weapons, .versions {
-    width: 95%;
-}
-
-.addFinding > div {
-    display: flex;
+.cardHeader > button {
+    position: absolute;
+    top: 0;
+    left: 0;
 }

@@ -1,0 +1,43 @@
+.eventsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.createEvent {
+    width: 80%;
+}
+.eventDetails, .eventVersions, .weapons, .versions {
+    border: 1px solid silver;
+    border-radius: 2px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.eventDetails > * {
+    margin-bottom: 15px !important;
+    padding: 5px;
+}
+
+#eventName {
+    font-size: 35px;
+}
+
+.moreDetails {
+    display: flex;
+    flex-direction: row;
+}
+
+.versionTables {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weapons, .versions {
+    width: 95%;
+}
+
+.addFinding > div {
+    display: flex;
+}

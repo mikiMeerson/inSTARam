@@ -18,7 +18,7 @@ export const addEvent = async (
   try {
     const event: Omit<IEvent, '_id'> = {
       name: formData.name,
-      publisher: localStorage.getItem('userDisplay') || 'אנונימי',
+      publisher: formData.publisher,
       type: formData.type,
       assignee: formData.assignee,
       block: formData.block,

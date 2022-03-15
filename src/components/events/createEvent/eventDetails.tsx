@@ -13,6 +13,8 @@ interface DetailsProps {
   errors: any;
   event: IEvent;
   setAttr: (attr: keyof IEvent, value: any) => void;
+  currDates: Date[];
+  setCurrDates: (param: Date[]) => void;
 }
 
 const EventDetails = ({
@@ -20,9 +22,10 @@ const EventDetails = ({
   errors,
   event,
   setAttr,
+  currDates,
+  setCurrDates,
 }: DetailsProps) => {
   const [isDatePick, setIsDatePick] = useState<boolean>(false);
-  const [currDates, setCurrDates] = useState<Date[]>([]);
 
   return (
     <div className="eventDetails">

@@ -2,14 +2,14 @@
     height: 85%;
 }
 
-.pageHeader {
+.starsHeader {
     display: flex;
     justify-content: space-between;
     width: 95%;
     margin-top: 5px;
 }
 
-.pageHeader > h1 {
+.starsHeader > h1 {
     margin: 0% 4% 0 0;
     font-weight: 500;
     font-size: 350%;

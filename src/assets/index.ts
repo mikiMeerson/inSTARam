@@ -77,7 +77,6 @@ export interface filterDataType {
   | 'warning',
 }
 
-
 export const defaultEvent: IEvent = {
   _id: '0',
   name: '',

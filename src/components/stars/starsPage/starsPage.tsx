@@ -27,7 +27,7 @@ const StarsPage = ({
 
   return (
     <div className="Page">
-      <div className="pageHeader">
+      <div className="starsHeader">
         <h1>ניהול סטארים</h1>
         <Link to="history">
           <Button>לטבלת הסטארים המלאה</Button>
