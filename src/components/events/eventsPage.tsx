@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -9,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
-import { getEvents } from '../../services/event-service';
+import { deleteEvent, getEvents } from '../../services/event-service';
 import EventCard from './eventCard';
 import './styles/event.css';
 
@@ -22,6 +23,12 @@ const EventsPage = () => {
     const { data } = await getEvents();
     setEvents(data.events);
     setLoading(false);
+  };
+
+  const handleDeleteEvent = async (event: IEvent) => {
+    const { status } = await deleteEvent(event._id);
+    if (status !== StatusCodes.OK) console.log('could not delete event');
+    else fetchEvents();
   };
 
   useEffect(() => {
@@ -57,7 +64,11 @@ const EventsPage = () => {
           {
           events.map((e) => (
             <Grid className="cardContainer" item xs={3}>
-              <EventCard key={e._id} event={e} />
+              <EventCard
+                key={e._id}
+                event={e}
+                handleDeleteEvent={handleDeleteEvent}
+              />
             </Grid>
           ))
         }

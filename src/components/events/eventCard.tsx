@@ -6,15 +6,17 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { Computer, FlightTakeoff, MoreVert } from '@mui/icons-material';
+import { Computer, DeleteOutlined, FlightTakeoff } from '@mui/icons-material';
 import { EVENT_TYPES } from '../../assets';
+import DialogAlert from '../general/dialogAlert';
 
 interface CardProps {
     event: IEvent;
+    handleDeleteEvent: (event: IEvent) => void;
 }
 
-const EventCard = ({ event }: CardProps) => {
-  const [displayActions, setDisplayActions] = useState<boolean>(false);
+const EventCard = ({ event, handleDeleteEvent }: CardProps) => {
+  const [isEventDelete, setIsEventDelete] = useState<boolean>(false);
 
   const getDisplayDate = (date: Date) => {
     date = new Date(date);
@@ -70,10 +72,18 @@ const EventCard = ({ event }: CardProps) => {
           <IconButton
             id="moreButton"
             color="primary"
-            onClick={() => setDisplayActions(!displayActions)}
+            onClick={() => setIsEventDelete(!isEventDelete)}
           >
-            <MoreVert />
+            <DeleteOutlined color="error" />
           </IconButton>
+          <DialogAlert
+            header="למחוק את האירוע?"
+            content="כל פרטי האירוע יימחקו לצמיתות"
+            isOpen={isEventDelete}
+            setIsOpen={setIsEventDelete}
+            activateResponse={handleDeleteEvent}
+            param={event}
+          />
         </CardContent>
       </CardActionArea>
     </Card>
