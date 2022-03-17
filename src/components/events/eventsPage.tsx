@@ -43,24 +43,26 @@ const EventsPage = () => {
           אירועים
         </Typography>
       </div>
-      <Grid container className="eventsList">
-        <Grid className="cardContainer" item xs={3}>
-          <Link to="create">
-            <Card className="eventCard" id="addEvent">
-              <CardActionArea>
-                <AddCircleOutline sx={{ fontSize: '40px' }} />
-              </CardActionArea>
-            </Card>
-          </Link>
-        </Grid>
-        {
+      <div className="eventsCotainer">
+        <Grid container className="eventsList">
+          <Grid className="cardContainer" item xs={3}>
+            <Link to="create">
+              <Card className="eventCard" id="addEvent">
+                <CardActionArea>
+                  <AddCircleOutline sx={{ fontSize: '40px' }} />
+                </CardActionArea>
+              </Card>
+            </Link>
+          </Grid>
+          {
           events.map((e) => (
             <Grid className="cardContainer" item xs={3}>
               <EventCard key={e._id} event={e} />
             </Grid>
           ))
         }
-      </Grid>
+        </Grid>
+      </div>
     </div>
   );
 };
