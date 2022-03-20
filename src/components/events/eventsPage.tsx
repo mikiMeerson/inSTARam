@@ -14,7 +14,12 @@ import { deleteEvent, getEvents } from '../../services/event-service';
 import EventCard from './eventCard';
 import './styles/event.css';
 
-const EventsPage = () => {
+interface eventProps {
+  userRole: userRole;
+  setEventToDisplay: (param: string) => void;
+}
+
+const EventsPage = ({ userRole, setEventToDisplay }: eventProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
 
@@ -68,6 +73,8 @@ const EventsPage = () => {
                 key={e._id}
                 event={e}
                 handleDeleteEvent={handleDeleteEvent}
+                setEventToDisplay={setEventToDisplay}
+                userRole={userRole}
               />
             </Grid>
           ))

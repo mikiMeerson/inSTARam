@@ -32,7 +32,7 @@ const App = () => {
         <HashRouter>
           <Navbar userRole={userRole} />
           <Stars userRole={userRole} />
-          <Events />
+          <Events userRole={userRole} />
           <Routes>
             <Route path="/" element={<Home userRole={userRole} />} />
             <Route path="users" element={<Users />} />

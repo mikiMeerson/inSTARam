@@ -6,7 +6,11 @@ import {
 } from '@mui/material';
 import { ChevronLeft, ExpandMore } from '@mui/icons-material';
 
-const MoreDetails = () => {
+interface DetailsProps {
+  setAttr: (attr: keyof IEvent, value: any) => void;
+}
+
+const MoreDetails = ({ setAttr }: DetailsProps) => {
   const [displayMore, setDisplayMore] = useState<boolean>(false);
 
   return (
@@ -24,13 +28,25 @@ const MoreDetails = () => {
       {displayMore && (
         <Grid container spacing={4}>
           <Grid item xs={4}>
-            <TextField fullWidth label="אוק" />
+            <TextField
+              fullWidth
+              label="אוק"
+              onChange={(e) => setAttr('callSign', e.target.value)}
+            />
           </Grid>
           <Grid item xs={4}>
-            <TextField fullWidth label="אזורים" />
+            <TextField
+              fullWidth
+              label="אזורים"
+              onChange={(e) => setAttr('areas', e.target.value)}
+            />
           </Grid>
           <Grid item xs={4}>
-            <TextField fullWidth label="משך" />
+            <TextField
+              fullWidth
+              label="משך"
+              onChange={(e) => setAttr('duration', e.target.value)}
+            />
           </Grid>
         </Grid>
       )}

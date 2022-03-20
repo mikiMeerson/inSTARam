@@ -94,3 +94,16 @@ export const deleteEvent = async (
     throw new Error(error as string);
   }
 };
+
+export const getEventById = async (
+  _id: string,
+): Promise<AxiosResponse<ApiEventsType>> => {
+  try {
+    const event: AxiosResponse<ApiEventsType> = await axios.get(
+      `${baseUrl}/events/${_id}`,
+    );
+    return event;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};

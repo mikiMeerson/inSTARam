@@ -36,6 +36,7 @@ const EventDetails = ({
         currDates={currDates}
         register={register}
         errors={errors}
+        setAttr={setAttr}
       />
       <DateRangePicker
         isDatePick={isDatePick}
@@ -43,7 +44,9 @@ const EventDetails = ({
         currDates={currDates}
         setCurrDates={setCurrDates}
       />
-      <MoreDetails />
+      <MoreDetails
+        setAttr={setAttr}
+      />
       <ListGenerator
         header="כללי"
         currList={event.generalSummary ? event.generalSummary : []}

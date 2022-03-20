@@ -14,6 +14,7 @@ interface DetailsProps {
     currDates: Date[];
     register: UseFormRegister<FieldValues>;
     errors: any;
+    setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
 const BasicDetails = ({
@@ -22,6 +23,7 @@ const BasicDetails = ({
   currDates,
   register,
   errors,
+  setAttr,
 }: DetailsProps) => {
   const getDisplayDate = (date: Date) => `
   ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}
@@ -77,7 +79,12 @@ const BasicDetails = ({
           />
         </Grid>
         <Grid item xs={3}>
-          <TextField fullWidth variant="outlined" label="מטס" />
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="מטס"
+            onChange={(e) => setAttr('reason', e.target.value)}
+          />
         </Grid>
       </Grid>
       <Grid container spacing={4}>
@@ -93,7 +100,11 @@ const BasicDetails = ({
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <TextField fullWidth label="צוות" />
+          <TextField
+            fullWidth
+            label="צוות"
+            onChange={(e) => setAttr('team', e.target.value)}
+          />
         </Grid>
         <Grid item xs={4}>
           <TextField

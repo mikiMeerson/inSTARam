@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   Card,
   CardActionArea,
@@ -13,9 +14,16 @@ import DialogAlert from '../general/dialogAlert';
 interface CardProps {
     event: IEvent;
     handleDeleteEvent: (event: IEvent) => void;
+    setEventToDisplay: (param: string) => void;
+    userRole: userRole;
 }
 
-const EventCard = ({ event, handleDeleteEvent }: CardProps) => {
+const EventCard = ({
+  event,
+  handleDeleteEvent,
+  setEventToDisplay,
+  userRole,
+}: CardProps) => {
   const [isEventDelete, setIsEventDelete] = useState<boolean>(false);
 
   const getDisplayDate = (date: Date) => {
@@ -45,46 +53,50 @@ const EventCard = ({ event, handleDeleteEvent }: CardProps) => {
   return (
     <Card className="eventCard">
       <CardActionArea>
-        <div className="cardHeader">
-          <IconButton disabled>
-            {typeToIcon.find((element) => element.type === event.type)?.icon}
-          </IconButton>
-          <Typography gutterBottom variant="h5" component="div">
-            {event.name}
-          </Typography>
-        </div>
-        <hr />
-        <CardContent>
-          <Typography color="text.secondary">
-            {event.type}
-            {' '}
-            {getDisplayDate(event.dates[1])}
-            {' - '}
-            {getDisplayDate(event.dates[0])}
-          </Typography>
-          <Typography color="text.secondary">
-            {event.platform}
-            {' '}
-            בלוק
-            {' '}
-            {event.block}
-          </Typography>
-          <IconButton
-            id="moreButton"
-            color="primary"
-            onClick={() => setIsEventDelete(!isEventDelete)}
-          >
-            <DeleteOutlined color="error" />
-          </IconButton>
-          <DialogAlert
-            header="למחוק את האירוע?"
-            content="כל פרטי האירוע יימחקו לצמיתות"
-            isOpen={isEventDelete}
-            setIsOpen={setIsEventDelete}
-            activateResponse={handleDeleteEvent}
-            param={event}
-          />
-        </CardContent>
+        <NavLink to="event" onClick={() => setEventToDisplay(event._id)}>
+          <div className="cardHeader">
+            <IconButton disabled>
+              {typeToIcon.find((element) => element.type === event.type)?.icon}
+            </IconButton>
+            <Typography gutterBottom variant="h5" component="div">
+              {event.name}
+            </Typography>
+          </div>
+          <hr />
+          <CardContent>
+            <Typography color="text.secondary">
+              {event.type}
+              {' '}
+              {getDisplayDate(event.dates[1])}
+              {' - '}
+              {getDisplayDate(event.dates[0])}
+            </Typography>
+            <Typography color="text.secondary">
+              {event.platform}
+              {' '}
+              בלוק
+              {' '}
+              {event.block}
+            </Typography>
+          </CardContent>
+        </NavLink>
+        {(userRole !== 'viewer') && (
+        <IconButton
+          id="moreButton"
+          color="primary"
+          onClick={() => setIsEventDelete(!isEventDelete)}
+        >
+          <DeleteOutlined color="error" />
+        </IconButton>
+        )}
+        <DialogAlert
+          header="למחוק את האירוע?"
+          content="כל פרטי האירוע יימחקו לצמיתות"
+          isOpen={isEventDelete}
+          setIsOpen={setIsEventDelete}
+          activateResponse={handleDeleteEvent}
+          param={event}
+        />
       </CardActionArea>
     </Card>
   );

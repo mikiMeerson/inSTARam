@@ -195,7 +195,7 @@ export const eventKeyDisplay: eventKeyDisplayType[] = [
   },
   {
     key: 'assignee',
-    display: 'אחראי',
+    display: 'גוף מבצע',
   },
   {
     key: 'publisher',
