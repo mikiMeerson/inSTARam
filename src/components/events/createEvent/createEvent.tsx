@@ -25,6 +25,7 @@ const CreateEvent = () => {
     block: Yup.string().required('נא למלא בלוק'),
     assignee: Yup.string().required('נא למלא גוף מבצע'),
     dates: Yup.string().required('נא למלא תאריכים'),
+    configuration: Yup.string().required('נא למלא תצורה'),
   });
 
   const {
@@ -37,6 +38,7 @@ const CreateEvent = () => {
 
   const setAttr = (attr: keyof IEvent, value: any) => {
     setNewEvent(Object.assign(newEvent, { [attr]: value }));
+    console.log(newEvent[attr]);
   };
 
   const handleAddEvent = async (data: any) => {
@@ -80,25 +82,25 @@ const CreateEvent = () => {
         <ListGenerator
           header="מהלך הניסוי"
           attr="description"
-          currList={newEvent.description ? newEvent.description : []}
+          event={newEvent}
           setCurrList={setAttr}
         />
         <ListGenerator
           header="ממצאים"
           attr="findings"
-          currList={newEvent.findings ? newEvent.findings : []}
+          event={newEvent}
           setCurrList={setAttr}
         />
         <ListGenerator
           header="הערות"
           attr="notes"
-          currList={newEvent.notes ? newEvent.notes : []}
+          event={newEvent}
           setCurrList={setAttr}
         />
         <ListGenerator
           header="מסקנות, המלצות ומטלות"
           attr="conclusions"
-          currList={newEvent.conclusions ? newEvent.conclusions : []}
+          event={newEvent}
           setCurrList={setAttr}
         />
         <div style={{ display: 'flex', justifyContent: 'center' }}>

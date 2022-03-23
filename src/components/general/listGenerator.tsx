@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   List,
   IconButton,
@@ -13,32 +13,36 @@ import './styles/general.css';
 
 interface ListProps {
     header: string;
-    currList: string[];
+    event: IEvent;
     setCurrList: (attr: any, value: any) => void;
-    attr: keyof IStar | keyof IEvent;
+    attr: keyof IEvent;
 }
 
-const ListGenerator = ({ header, currList, setCurrList, attr }: ListProps) => {
+const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
   const [newItem, setNewItem] = useState<string>('');
+  const [list, setList] = useState<string[]>([]);
+
+  useEffect(() => {
+    setList(event[attr]);
+  }, [event, attr]);
 
   const handleAddItem = () => {
-    currList.push(newItem);
-    setCurrList(attr, currList);
+    setCurrList(attr, [...event[attr], newItem]);
+    setList(event[attr]);
     setNewItem('');
   };
 
-  // !not working
   const handleDeleteItem = (deletedItem: string) => {
-    currList = currList.filter((f) => f !== deletedItem);
-    setCurrList(attr, currList);
+    setCurrList(attr, event[attr].filter((f: string) => f !== deletedItem));
+    setList(event[attr]);
   };
 
   return (
     <div className="list">
       <Typography variant="h6">{header}</Typography>
       <List>
-        {currList.map((f, index) => (
-          <ListItem key={index} sx={{ textAlign: 'start' }}>
+        {list.map((f: string, index: number) => (
+          <ListItem key={f} sx={{ textAlign: 'start' }}>
             <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
               <DeleteOutlined color="error" />
             </IconButton>
@@ -48,7 +52,7 @@ const ListGenerator = ({ header, currList, setCurrList, attr }: ListProps) => {
       </List>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <span>
-          {currList.length + 1}
+          {list.length + 1}
           .
           {' '}
         </span>

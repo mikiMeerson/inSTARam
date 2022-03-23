@@ -49,20 +49,20 @@ const EventDetails = ({
       />
       <ListGenerator
         header="כללי"
-        currList={event.generalSummary ? event.generalSummary : []}
+        event={event}
         setCurrList={setAttr}
         attr="generalSummary"
       />
       <ListGenerator
         header="מטרות"
         attr="goals"
-        currList={event.goals ? event.goals : []}
+        event={event}
         setCurrList={setAttr}
       />
       <ListGenerator
         header="אמצעי איסוף נתונים"
         attr="dataSources"
-        currList={event.dataSources ? event.dataSources : []}
+        event={event}
         setCurrList={setAttr}
       />
     </div>

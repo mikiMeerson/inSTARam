@@ -60,7 +60,7 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
             sx={{
               position: 'absolute',
               left: '75px',
-              top: '100px',
+              top: '105px',
             }}
             ariaLabel="SpeedDial controlled open example"
             icon={<SpeedDialIcon openIcon={<FlightTakeoffOutlined />} />}
