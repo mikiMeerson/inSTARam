@@ -19,7 +19,7 @@ interface eventProps {
   setEventToDisplay: (param: string) => void;
 }
 
-const EventsPage = ({ userRole, setEventToDisplay }: eventProps) => {
+const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
 
@@ -85,4 +85,4 @@ const EventsPage = ({ userRole, setEventToDisplay }: eventProps) => {
   );
 };
 
-export default EventsPage;
+export default EventsMain;

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { StatusCodes } from 'http-status-codes';
 import { Alert, CircularProgress, Box } from '@mui/material';
 import StarFeed from '../components/stars/feed/starFeed';
-import StarsPage from '../components/stars/starsPage/starsPage';
+import StarsMain from '../components/stars/starsPage/starsMain';
 import {
   addStar,
   deleteStar,
@@ -127,7 +127,7 @@ const Stars = ({ userRole }: starProps) => {
           <Route
             index
             element={stars && (
-              <StarsPage
+              <StarsMain
                 userRole={userRole}
                 stars={stars}
                 addStar={handleAddStar}
