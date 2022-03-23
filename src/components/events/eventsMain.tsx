@@ -6,10 +6,11 @@ import {
   CircularProgress,
   Grid,
   Card,
-  CardActionArea,
+  SpeedDial,
   Typography,
+  SpeedDialIcon,
 } from '@mui/material';
-import { AddCircleOutline } from '@mui/icons-material';
+import { AddCircleOutline, FlightTakeoffOutlined } from '@mui/icons-material';
 import { deleteEvent, getEvents } from '../../services/event-service';
 import EventCard from './eventCard';
 import './styles/event.css';
@@ -54,18 +55,20 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
         <Typography variant="h2">
           אירועים
         </Typography>
+        <Link to="create">
+          <SpeedDial
+            sx={{
+              position: 'absolute',
+              left: '75px',
+              top: '100px',
+            }}
+            ariaLabel="SpeedDial controlled open example"
+            icon={<SpeedDialIcon openIcon={<FlightTakeoffOutlined />} />}
+          />
+        </Link>
       </div>
       <div className="eventsCotainer">
         <Grid container className="eventsList">
-          <Grid className="cardContainer" item xs={3}>
-            <Link to="create">
-              <Card className="eventCard" id="addEvent">
-                <CardActionArea>
-                  <AddCircleOutline sx={{ fontSize: '40px' }} />
-                </CardActionArea>
-              </Card>
-            </Link>
-          </Grid>
           {
           events.map((e) => (
             <Grid className="cardContainer" item xs={3}>
