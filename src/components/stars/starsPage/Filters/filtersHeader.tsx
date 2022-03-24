@@ -163,7 +163,7 @@ const FiltersHeader = ({
     >
       <TableBody>
         <TableRow>
-          <TableCell sx={{ textAlign: 'center' }}>
+          <TableCell sx={{ width: '20px', textAlign: 'center' }}>
             <Button sx={{ textAlign: 'center' }}>
               <MoreVert
                 fontSize="small"
