@@ -145,18 +145,31 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
         <div className="starFabs">
           {(userRole !== 'viewer')
             && (
-              <Fab
-                size="small"
-                color="secondary"
-                sx={{
-                  background: isEdit ? 'blue' : 'goldenrod',
-                  color: 'white',
-                }}
-              >
-                {isEdit
-                  ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
-                  : <EditOutlined onClick={() => setIsEdit(true)} />}
-              </Fab>
+              isEdit ? (
+                <Fab
+                  size="small"
+                  color="secondary"
+                  sx={{
+                    background: 'blue',
+                    color: 'white',
+                  }}
+                  onClick={handleSubmit(handleSave)}
+                >
+                  <SaveOutlined />
+                </Fab>
+              ) : (
+                <Fab
+                  size="small"
+                  color="secondary"
+                  sx={{
+                    background: 'goldenrod',
+                    color: 'white',
+                  }}
+                  onClick={() => setIsEdit(true)}
+                >
+                  <EditOutlined />
+                </Fab>
+              )
             )}
         </div>
       </div>
