@@ -6,7 +6,7 @@ import {
   TableRow,
   TableCell,
 } from '@mui/material';
-import { COMPUTERS } from '../../../assets';
+import { COMPUTERS, STATIONS } from '../../../assets';
 
 interface EventProps {
     event: IEvent
@@ -20,7 +20,7 @@ const EventVersions = ({ event }: EventProps) => (
       <Table>
         <TableRow sx={{ background: 'whitesmoke' }}>
           <TableCell align="center">תחנה</TableCell>
-          {_.map(Object.keys(event.configuration!.weapons), (sta) => (
+          {_.map((STATIONS), (sta) => (
             <TableCell align="center">{sta}</TableCell>
           ))}
         </TableRow>
@@ -28,7 +28,7 @@ const EventVersions = ({ event }: EventProps) => (
           <TableCell sx={{ background: 'whitesmoke' }} align="center">
             חימוש
           </TableCell>
-          {_.map(Object.keys(event.configuration!.weapons), (sta) => (
+          {_.map((STATIONS), (sta) => (
             <TableCell>
               <TextField
                 disabled

@@ -1,8 +1,8 @@
 export enum STATUSES {
-  CLOSED = 'סגור',
+  OPEN = 'פתוח',
   IN_PROGRESS = 'בעבודה',
   TESTING = 'ממתין לבדיקה',
-  OPEN = 'פתוח'
+  CLOSED = 'סגור',
 }
 
 export enum ASSIGNEES {
@@ -54,6 +54,17 @@ export enum EVENT_TYPES {
   DEV_TEST = 'בדיקת פיתוח',
 }
 
+export enum STATIONS {
+  '8R' = '8R',
+  STA8 = '8',
+  '8L' = '8L',
+  RCFT = 'RCFT',
+  STA5 = '5',
+  LCFT = 'LCFT',
+  '2R' = '2R',
+  STA2 = '2',
+  '2L' = '2L',
+}
 export enum WEAPONS {
   NONE = 'ללא',
   AA = 'AA',
