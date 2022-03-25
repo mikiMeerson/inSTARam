@@ -1,12 +1,8 @@
 .eventsContainer {
-    display: flex;
+    width: 100%;
     flex-direction: column;
-    align-items: center;
 }
 
-.createEvent {
-    width: 80%;
-}
 .eventDetails, .eventVersions, .weapons, .versions {
     border: 1px solid silver;
     border-radius: 2px;

@@ -67,9 +67,15 @@ const EventCard = ({
             <Typography color="text.secondary">
               {event.type}
               {' '}
-              {getDisplayDate(event.dates[1])}
-              {' - '}
-              {getDisplayDate(event.dates[0])}
+              {
+              event.dates[1] === event.dates[0]
+                ? getDisplayDate(event.dates[1])
+                : `${getDisplayDate(
+                  event.dates[1],
+                )} - ${getDisplayDate(
+                  event.dates[0],
+                )}`
+              }
             </Typography>
             <Typography color="text.secondary">
               {event.platform}

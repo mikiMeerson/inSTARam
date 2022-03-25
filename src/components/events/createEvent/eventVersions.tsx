@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import {
   COMPUTERS,
+  STATIONS,
   WEAPONS,
 } from '../../../assets';
 
@@ -35,7 +36,7 @@ const EventVersions = ({
     setAttr('configuration', tempConfig);
   };
 
-  const handleVersionInput = (comp: keyof versionConfig, version: string) => {
+  const handleVersionInput = (comp: COMPUTERS, version: string) => {
     const tempConfig = event.configuration!;
     tempConfig.versions[comp] = version;
     setAttr('configuration', tempConfig);
@@ -50,7 +51,7 @@ const EventVersions = ({
           <Table>
             <TableRow sx={{ background: 'whitesmoke' }}>
               <TableCell align="center">תחנה</TableCell>
-              {_.map(Object.keys(event.configuration!.weapons), (sta) => (
+              {_.map((STATIONS), (sta) => (
                 <TableCell align="center">{sta}</TableCell>
               ))}
             </TableRow>
@@ -59,7 +60,7 @@ const EventVersions = ({
                 חימוש
               </TableCell>
               {
-              _.map(Object.keys(event.configuration!.weapons), (sta) => (
+              _.map((STATIONS), (sta) => (
                 <TableCell>
                   <FormControl sx={{ width: '100%' }}>
                     <Select
@@ -104,7 +105,7 @@ const EventVersions = ({
                     sx={{ width: '50%' }}
                     {...register('configuration')}
                     onChange={(e) => handleVersionInput(
-                      com as keyof versionConfig,
+                      com,
                       e.target.value,
                     )}
                   />

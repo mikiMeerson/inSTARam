@@ -98,7 +98,7 @@ interface IEvent {
   generalSummary?: string[];
   goals?: string[];
   dataSources?: string[];
-  configuration?: {
+  configuration: {
     weapons: weaponConfig;
     versions: versionConfig;
   };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -18,6 +18,10 @@ const CreateEvent = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setNewEvent(defaultEvent);
+  }, [newEvent]);
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('נא למלא את שם האירוע'),
     type: Yup.string().required('נא למלא סוג אירוע'),
@@ -25,6 +29,7 @@ const CreateEvent = () => {
     block: Yup.string().required('נא למלא בלוק'),
     assignee: Yup.string().required('נא למלא גוף מבצע'),
     dates: Yup.string().required('נא למלא תאריכים'),
+    configuration: Yup.string().required('נא למלא תצורה'),
   });
 
   const {
@@ -37,6 +42,7 @@ const CreateEvent = () => {
 
   const setAttr = (attr: keyof IEvent, value: any) => {
     setNewEvent(Object.assign(newEvent, { [attr]: value }));
+    console.log(newEvent[attr]);
   };
 
   const handleAddEvent = async (data: any) => {
@@ -56,63 +62,65 @@ const CreateEvent = () => {
 
   return (
     <div className="eventsContainer">
-      <div className="createEvent">
-        <Typography
-          variant="h3"
-          sx={{ margin: '20px' }}
-        >
-          הוספת אירוע
-        </Typography>
-        <EventDetails
-          register={register}
-          errors={errors}
-          event={newEvent}
-          setAttr={setAttr}
-          currDates={currDates}
-          setCurrDates={setCurrDates}
-        />
-        <EventVersions
-          register={register}
-          errors={errors}
-          event={newEvent}
-          setAttr={setAttr}
-        />
-        <ListGenerator
-          header="מהלך הניסוי"
-          attr="description"
-          currList={newEvent.description ? newEvent.description : []}
-          setCurrList={setAttr}
-        />
-        <ListGenerator
-          header="ממצאים"
-          attr="findings"
-          currList={newEvent.findings ? newEvent.findings : []}
-          setCurrList={setAttr}
-        />
-        <ListGenerator
-          header="הערות"
-          attr="notes"
-          currList={newEvent.notes ? newEvent.notes : []}
-          setCurrList={setAttr}
-        />
-        <ListGenerator
-          header="מסקנות, המלצות ומטלות"
-          attr="conclusions"
-          currList={newEvent.conclusions ? newEvent.conclusions : []}
-          setCurrList={setAttr}
-        />
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant="contained"
-            size="large"
-            sx={{
-              fontSize: '150%',
-              margin: '15px',
-            }}
-            onClick={handleSubmit(handleAddEvent)}
+      <div style={{ background: 'whitesmoke' }}>
+        <div className="createEvent">
+          <Typography
+            variant="h3"
+            sx={{ margin: '0 20px 20px 20px' }}
           >
-            פרסם אירוע
-          </Button>
+            הוספת אירוע
+          </Typography>
+          <EventDetails
+            register={register}
+            errors={errors}
+            event={newEvent}
+            setAttr={setAttr}
+            currDates={currDates}
+            setCurrDates={setCurrDates}
+          />
+          <EventVersions
+            register={register}
+            errors={errors}
+            event={newEvent}
+            setAttr={setAttr}
+          />
+          <ListGenerator
+            header="מהלך הניסוי"
+            attr="description"
+            event={newEvent}
+            setCurrList={setAttr}
+          />
+          <ListGenerator
+            header="ממצאים"
+            attr="findings"
+            event={newEvent}
+            setCurrList={setAttr}
+          />
+          <ListGenerator
+            header="הערות"
+            attr="notes"
+            event={newEvent}
+            setCurrList={setAttr}
+          />
+          <ListGenerator
+            header="מסקנות, המלצות ומטלות"
+            attr="conclusions"
+            event={newEvent}
+            setCurrList={setAttr}
+          />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant="contained"
+              size="large"
+              sx={{
+                fontSize: '150%',
+                margin: '15px',
+              }}
+              onClick={handleSubmit(handleAddEvent)}
+            >
+              פרסם אירוע
+            </Button>
+          </div>
         </div>
       </div>
     </div>

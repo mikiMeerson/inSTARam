@@ -1,6 +1,6 @@
 import { Route, Routes, Outlet } from 'react-router';
 import { useState } from 'react';
-import EventsPage from '../components/events/eventsPage';
+import EventsMain from '../components/events/eventsMain';
 import CreateEvent from '../components/events/createEvent/createEvent';
 import Event from '../components/events/eventFeed/eventFeed';
 
@@ -16,7 +16,7 @@ const Events = ({ userRole }: eventProps) => {
         <Route
           index
           element={(
-            <EventsPage
+            <EventsMain
               userRole={userRole}
               setEventToDisplay={setEventToDisplay}
             />

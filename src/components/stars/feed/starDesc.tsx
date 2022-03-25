@@ -28,10 +28,10 @@ import {
   activityInfoArray,
   STATUSES,
   ASSIGNEES,
-  PLATFORMS,
   BLOCKS,
   COMPUTERS,
   RESOURCES,
+  SEVERITIES,
 } from '../../../assets';
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
@@ -114,6 +114,10 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
         setStar(data.stars.find((s) => s._id === star._id)!);
       }
     });
+
+    formData.severity = Object.values(SEVERITIES)
+      .indexOf(formData.severity);
+
     setIsEdit(false);
     updateStar(star._id, formData);
   };
@@ -141,18 +145,31 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
         <div className="starFabs">
           {(userRole !== 'viewer')
             && (
-              <Fab
-                size="small"
-                color="secondary"
-                sx={{
-                  background: isEdit ? 'blue' : 'goldenrod',
-                  color: 'white',
-                }}
-              >
-                {isEdit
-                  ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
-                  : <EditOutlined onClick={() => setIsEdit(true)} />}
-              </Fab>
+              isEdit ? (
+                <Fab
+                  size="small"
+                  color="secondary"
+                  sx={{
+                    background: 'blue',
+                    color: 'white',
+                  }}
+                  onClick={handleSubmit(handleSave)}
+                >
+                  <SaveOutlined />
+                </Fab>
+              ) : (
+                <Fab
+                  size="small"
+                  color="secondary"
+                  sx={{
+                    background: 'goldenrod',
+                    color: 'white',
+                  }}
+                  onClick={() => setIsEdit(true)}
+                >
+                  <EditOutlined />
+                </Fab>
+              )
             )}
         </div>
       </div>
@@ -169,7 +186,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
             </Typography>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <SelectField
                 field="assignee"
                 defaultValue={star.assignee}
@@ -179,7 +196,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <SelectField
                 field="status"
                 defaultValue={star.status}
@@ -189,7 +206,17 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item sm={3}>
+              <SelectField
+                field="severity"
+                defaultValue={star.severity}
+                disabled={!isEdit}
+                fieldValues={SEVERITIES}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item xs={3}>
               <SelectField
                 field="block"
                 defaultValue={star.block}

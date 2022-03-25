@@ -36,7 +36,7 @@ const DialogAlert = ({
         {content}
       </DialogContentText>
     </DialogContent>
-    <DialogActions>
+    <DialogActions sx={{ display: 'flex', justifyContent: 'start' }}>
       <Button
         color="error"
         variant="contained"

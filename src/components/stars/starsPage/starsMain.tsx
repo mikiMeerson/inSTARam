@@ -14,7 +14,7 @@ interface starProps {
   setFeed: (id: string) => void;
   changePriority: (star: IStar, newPri: number) => void;
 }
-const StarsPage = ({
+const StarsMain = ({
   userRole,
   stars,
   addStar,
@@ -64,4 +64,4 @@ const StarsPage = ({
   );
 };
 
-export default StarsPage;
+export default StarsMain;

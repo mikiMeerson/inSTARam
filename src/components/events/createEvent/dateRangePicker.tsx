@@ -1,4 +1,4 @@
-import { Dialog } from '@mui/material';
+import { Dialog, DialogActions, Button } from '@mui/material';
 import { DateRange } from 'react-date-range';
 
 interface dateProps {
@@ -34,6 +34,15 @@ const DateRangePicker = ({
         key: 'selection',
       }]}
     />
+    <DialogActions>
+      <Button
+        variant="contained"
+        fullWidth
+        onClick={() => setIsDatePick(false)}
+      >
+        אישור
+      </Button>
+    </DialogActions>
   </Dialog>
 );
 
