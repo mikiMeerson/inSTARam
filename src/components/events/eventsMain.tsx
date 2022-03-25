@@ -36,6 +36,25 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
     else fetchEvents();
   };
 
+  const getTime = (date: Date) => {
+    try {
+      console.log(`YAY ${date}`);
+      return date != null ? date.getTime() : 0;
+    } catch {
+      console.log(date);
+      return 0;
+    }
+  };
+
+  const sortByDate = (events: IEvent[]) => events
+    .sort((a: IEvent, b: IEvent) => {
+      if (a.dates[0] < b.dates[0]) return 1;
+      if (a.dates[0] > b.dates[0]) return -1;
+      if (a.dates[1] < b.dates[1]) return 1;
+      if (a.dates[1] > b.dates[1]) return -1;
+      return 0;
+    });
+
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -54,6 +73,7 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
         <Typography variant="h2">
           אירועים
         </Typography>
+        { userRole !== 'viewer' && (
         <Link to="create">
           <SpeedDial
             sx={{
@@ -65,14 +85,14 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
             icon={<SpeedDialIcon openIcon={<FlightTakeoffOutlined />} />}
           />
         </Link>
+        )}
       </div>
       <div className="eventsContainer">
         <Grid container className="eventsList">
           {
-          events.map((e) => (
-            <Grid className="cardContainer" item xs={3}>
+          sortByDate(events).map((e) => (
+            <Grid key={e._id} className="cardContainer" item xs={3}>
               <EventCard
-                key={e._id}
                 event={e}
                 handleDeleteEvent={handleDeleteEvent}
                 setEventToDisplay={setEventToDisplay}

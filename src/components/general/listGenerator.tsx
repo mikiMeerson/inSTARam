@@ -23,6 +23,7 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
   const [list, setList] = useState<string[]>([]);
 
   useEffect(() => {
+    console.log(event.generalSummary);
     setList(event[attr]);
   }, [event, attr]);
 
