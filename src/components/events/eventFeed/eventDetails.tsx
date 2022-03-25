@@ -18,7 +18,7 @@ const EventDetails = ({ event }: EventProps) => (
         'reason',
       ].map((attr) => (
         event[attr as keyof IEvent] && (
-        <Grid item xs={4}>
+        <Grid key={attr} item xs={4}>
           <TextField
             fullWidth
             disabled

@@ -35,7 +35,7 @@ const EventVersions = ({
 
   const handleVersionInput = (comp: COMPUTERS, version: string) => {
     const tempConfig = event.configuration;
-    tempConfig.versions[comp] = version;
+    tempConfig.versions.find((v) => v.comp === comp)!.version = version;
     setAttr('configuration', tempConfig);
   };
 

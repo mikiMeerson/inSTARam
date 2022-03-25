@@ -59,7 +59,8 @@ const EventVersions = ({ event }: EventProps) => (
               <TextField
                 disabled
                 variant="standard"
-                value={event.configuration.versions[computer]}
+                value={event.configuration.versions
+                  .find((v) => v.comp === computer)?.version}
                 sx={{ width: '50%' }}
               />
             </TableCell>

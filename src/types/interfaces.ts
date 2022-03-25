@@ -16,10 +16,8 @@ export interface weaponConfig {
 }
 
 export interface versionConfig {
-  AAA: string;
-  BBB: string;
-  CCC: string;
-  DDD: string;
+  comp: string;
+  version: string;
 }
 
 export interface INote {
@@ -91,7 +89,7 @@ export interface IEvent {
   dataSources?: string[];
   configuration: {
     weapons: weaponConfig[];
-    versions: versionConfig;
+    versions: versionConfig[];
   };
   description?: string[];
   findings?: string[];
@@ -156,12 +154,24 @@ export const defaultEvent: IEvent = {
         weapon: WEAPONS.NONE,
       },
     ],
-    versions: {
-      AAA: '',
-      BBB: '',
-      CCC: '',
-      DDD: '',
-    },
+    versions: [
+      {
+        comp: 'AAA',
+        version: '',
+      },
+      {
+        comp: 'BBB',
+        version: '',
+      },
+      {
+        comp: 'CCC',
+        version: '',
+      },
+      {
+        comp: 'DDD',
+        version: '',
+      },
+    ],
   },
   dataSources: [],
   description: [],
