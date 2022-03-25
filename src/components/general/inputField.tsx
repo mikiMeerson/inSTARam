@@ -1,6 +1,7 @@
 import { TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
-import { eventKeyDisplay, starKeyDisplay } from '../../assets';
+import { eventKeyDisplay, starKeyDisplay } from '../../types/configurations';
+import { IStar } from '../../types/interfaces';
 
 interface fieldProps {
   field: keyof IStar;

@@ -24,19 +24,21 @@ import {
   ArrowDownward,
   PriorityHigh,
 } from '@mui/icons-material';
+import DialogAlert from '../../general/dialogAlert';
+import InputField from '../../general/inputField';
+import SelectField from '../../general/selectField';
+import { addActivity } from '../../../services/star-service';
 import {
-  activityInfoArray,
-  STATUSES,
   ASSIGNEES,
   BLOCKS,
   COMPUTERS,
   RESOURCES,
   SEVERITIES,
-} from '../../../assets';
-import DialogAlert from '../../general/dialogAlert';
-import InputField from '../../general/inputField';
-import SelectField from '../../general/selectField';
-import { addActivity } from '../../../services/star-service';
+  STATUSES,
+} from '../../../types/enums';
+import { IStar } from '../../../types/interfaces';
+import { userRole } from '../../../types/string-types';
+import { activityInfoArray } from '../../../types/configurations';
 
 interface starProps {
   userRole: userRole;
@@ -51,10 +53,22 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const severityIcons = [
-    <PriorityHigh fontSize="large" color="error" />,
-    <ErrorOutline fontSize="large" color="warning" />,
-    <WarningAmber fontSize="large" htmlColor="yellow" />,
-    <ArrowDownward fontSize="large" color="disabled" />,
+    {
+      severity: SEVERITIES.VERY_SERIOUS,
+      icon: <PriorityHigh fontSize="large" color="error" />,
+    },
+    {
+      severity: SEVERITIES.SERIOUS,
+      icon: <ErrorOutline fontSize="large" color="warning" />,
+    },
+    {
+      severity: SEVERITIES.MEDIUM,
+      icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
+    },
+    {
+      severity: SEVERITIES.SLIGHT,
+      icon: <ArrowDownward fontSize="large" color="disabled" />,
+    },
   ];
 
   const activityAttrs = [
@@ -115,9 +129,6 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
       }
     });
 
-    formData.severity = Object.values(SEVERITIES)
-      .indexOf(formData.severity);
-
     setIsEdit(false);
     updateStar(star._id, formData);
   };
@@ -133,7 +144,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
     <div className="starDesc">
       <div className="starHeader">
         <h1>
-          {severityIcons[star.severity]}
+          {severityIcons.find((i) => i.severity === star.severity)?.icon}
           <InputField
             field="name"
             disabled={!isEdit}

@@ -2,6 +2,8 @@ import { BaseSyntheticEvent, useState } from 'react';
 import { Collapse, SpeedDial, SpeedDialIcon, Button } from '@mui/material';
 import { StarBorder, ChevronRight, MenuOpenSharp } from '@material-ui/icons';
 import StarsTable from './starsTable';
+import { IStar } from '../../../types/interfaces';
+import { userRole } from '../../../types/string-types';
 
 interface tableProps {
   userRole: userRole;

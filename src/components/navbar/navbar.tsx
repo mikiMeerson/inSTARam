@@ -4,7 +4,8 @@ import './styles/navbar.css';
 import FullWidthNavbar from './halfWidthNavbar';
 import HalfWidthNavbar from './fullWidthNavbar';
 import UserNavbar from './userNavbar';
-import { pages } from '../../assets';
+import { userRole } from '../../types/string-types';
+import { pages } from '../../types/configurations';
 
 interface NavbarProps {
   userRole: userRole;

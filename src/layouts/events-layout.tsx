@@ -3,6 +3,7 @@ import { useState } from 'react';
 import EventsMain from '../components/events/eventsMain';
 import CreateEvent from '../components/events/createEvent/createEvent';
 import Event from '../components/events/eventFeed/eventFeed';
+import { userRole } from '../types/string-types';
 
 interface eventProps {
   userRole: userRole;

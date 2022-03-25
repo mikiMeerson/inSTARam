@@ -1,5 +1,7 @@
 import { TableRow, TableCell, Button } from '@mui/material';
-import { STATUSES } from '../../../assets';
+import { STATUSES } from '../../../types/enums';
+import { IStar } from '../../../types/interfaces';
+import { userRole } from '../../../types/string-types';
 
 interface rowType {
     row: IStar;

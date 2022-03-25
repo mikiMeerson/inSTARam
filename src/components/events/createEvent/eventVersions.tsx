@@ -11,11 +11,8 @@ import {
   Input,
   TextField,
 } from '@mui/material';
-import {
-  COMPUTERS,
-  STATIONS,
-  WEAPONS,
-} from '../../../assets';
+import { IEvent } from '../../../types/interfaces';
+import { COMPUTERS, STATIONS, WEAPONS } from '../../../types/enums';
 
 interface VersionsProps {
   register: UseFormRegister<any>;
@@ -30,14 +27,14 @@ const EventVersions = ({
   event,
   setAttr,
 }: VersionsProps) => {
-  const handleWeaponSelect = (sta: keyof weaponConfig, wpn: WEAPONS) => {
-    const tempConfig = event.configuration!;
-    tempConfig.weapons[sta] = wpn;
+  const handleWeaponSelect = (sta: STATIONS, wpn: WEAPONS) => {
+    const tempConfig = event.configuration;
+    tempConfig.weapons.find((w) => w.sta === sta)!.weapon = wpn;
     setAttr('configuration', tempConfig);
   };
 
   const handleVersionInput = (comp: COMPUTERS, version: string) => {
-    const tempConfig = event.configuration!;
+    const tempConfig = event.configuration;
     tempConfig.versions[comp] = version;
     setAttr('configuration', tempConfig);
   };
@@ -68,7 +65,7 @@ const EventVersions = ({
                       input={<Input />}
                       defaultValue="ללא"
                       onChange={(e) => handleWeaponSelect(
-                        sta as keyof weaponConfig,
+                        sta,
                         e.target.value as WEAPONS,
                       )}
                     >

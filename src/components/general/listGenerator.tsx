@@ -10,11 +10,12 @@ import {
 } from '@mui/material';
 import { DeleteOutlined } from '@mui/icons-material';
 import './styles/general.css';
+import { IEvent } from '../../types/interfaces';
 
 interface ListProps {
     header: string;
     event: IEvent;
-    setCurrList: (attr: any, value: any) => void;
+    setCurrList: (attr: keyof IEvent, value: any) => void;
     attr: keyof IEvent;
 }
 
@@ -23,19 +24,19 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
   const [list, setList] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log(event.generalSummary);
-    setList(event[attr]);
+    setList(event[attr] as string[]);
   }, [event, attr]);
 
   const handleAddItem = () => {
-    setCurrList(attr, [...event[attr], newItem]);
-    setList(event[attr]);
+    setCurrList(attr, [...(event[attr] as string[]), newItem]);
+    setList(event[attr] as string[]);
     setNewItem('');
   };
 
   const handleDeleteItem = (deletedItem: string) => {
-    setCurrList(attr, event[attr].filter((f: string) => f !== deletedItem));
-    setList(event[attr]);
+    setCurrList(attr, (event[attr] as string[])
+      .filter((f: string) => f !== deletedItem));
+    setList(event[attr] as string[]);
   };
 
   return (
@@ -62,7 +63,7 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
           value={newItem}
           multiline
           sx={{ width: '100%', margin: '10px' }}
-          onChange={(e: any) => setNewItem(e.target.value)}
+          onChange={(e) => setNewItem(e.target.value)}
         />
       </div>
       <Button

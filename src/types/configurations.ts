@@ -1,139 +1,10 @@
-export enum STATUSES {
-  OPEN = 'פתוח',
-  IN_PROGRESS = 'בעבודה',
-  TESTING = 'ממתין לבדיקה',
-  CLOSED = 'סגור',
-}
-
-export enum ASSIGNEES {
-  AMLH = 'אמלח',
-  LZD = 'לצד',
-  MNT = 'מנט',
-  INT = 'אינטגרציה',
-  MAAV = 'מאב',
-}
-
-export enum SEVERITIES {
-  VERY_SERIOUS = 'חמור מאוד (1)',
-  SERIOUS = 'חמור (2)',
-  MEDIUM = 'בינוני (3)',
-  SLIGHT = 'קל (99)',
-}
-
-export enum PLATFORMS {
-  BAZ = 'בז',
-  RAAM = 'רעם'
-}
-
-export enum BLOCKS {
-  D = 'ד',
-  E = 'ה',
-  F = 'ו',
-  G = 'ז'
-}
-
-export enum RESOURCES {
-  STF = 'STF',
-  AIF = 'AIF',
-  UWI_MODEL = 'מודל UWI',
-  ASB_MODEL = 'מודל ASB',
-  REAL_WEAPON = 'חימוש אמיתי',
-}
-
-export enum COMPUTERS {
-  AAA = 'AAA',
-  BBB = 'BBB',
-  CCC = 'CCC',
-  DDD = 'DDD',
-}
-
-export enum EVENT_TYPES {
-  REG_FLIGHT = 'גיחת טייסת',
-  MANAT_FLIGHT = 'גיחת מנט',
-  INT_TEST = 'בדיקת אינטגרציה',
-  DEV_TEST = 'בדיקת פיתוח',
-}
-
-export enum STATIONS {
-  '8R' = '8R',
-  STA8 = '8',
-  '8L' = '8L',
-  RCFT = 'RCFT',
-  STA5 = '5',
-  LCFT = 'LCFT',
-  '2R' = '2R',
-  STA2 = '2',
-  '2L' = '2L',
-}
-export enum WEAPONS {
-  NONE = 'ללא',
-  AA = 'AA',
-  BB = 'BB',
-  CC = 'CC',
-  DD = 'DD',
-  SS = 'SS',
-  PP = 'PP',
-}
-
-export interface filterDataType {
-  tabName: string;
-  filter: string[];
-  func: (param: string[]) => void;
-  chipColor: 'default'
-  | 'secondary'
-  | 'primary'
-  | 'error'
-  | 'info'
-  | 'success'
-  | 'warning',
-}
-
-export const defaultEvent: IEvent = {
-  _id: '0',
-  name: '',
-  assignee: '',
-  block: '',
-  platform: '',
-  dates: [],
-  publisher: '',
-  type: '',
-  areas: '',
-  callSign: '',
-  conclusions: [],
-  configuration: {
-    weapons: {
-      '2L': WEAPONS.NONE,
-      2: WEAPONS.NONE,
-      '2R': WEAPONS.NONE,
-      LCFT: WEAPONS.NONE,
-      5: WEAPONS.NONE,
-      RCFT: WEAPONS.NONE,
-      '8L': WEAPONS.NONE,
-      8: WEAPONS.NONE,
-      '8R': WEAPONS.NONE,
-    },
-    versions: {
-      AAA: '',
-      BBB: '',
-      CCC: '',
-      DDD: '',
-    },
-  },
-  dataSources: [],
-  description: [],
-  duration: '',
-  findings: [],
-  generalSummary: [],
-  goals: [],
-  notes: [],
-  reason: '',
-  team: '',
-};
+import { IEvent, IStar } from './interfaces';
+import { userRole } from './string-types';
 
 export interface starKeyDisplayType {
-  key: keyof IStar;
-  display: string;
-}
+    key: keyof IStar;
+    display: string;
+  }
 
 export const starKeyDisplay: starKeyDisplayType[] = [
   {
@@ -191,9 +62,9 @@ export const starKeyDisplay: starKeyDisplayType[] = [
 ];
 
 export interface eventKeyDisplayType {
-  key: keyof IEvent;
-  display: string;
-}
+    key: keyof IEvent;
+    display: string;
+  }
 
 export const eventKeyDisplay: eventKeyDisplayType[] = [
   {
@@ -311,8 +182,27 @@ export const activityInfoArray = [
   },
 ];
 
+export type linkDisplayType = {
+    display: string;
+    link: string;
+    role: userRole;
+  }
+
 export const pages: linkDisplayType[] = [
   { display: 'סטארים', link: '/stars', role: 'viewer' },
   { display: 'אירועים', link: '/events', role: 'viewer' },
   { display: 'משתמשים', link: '/users', role: 'admin' },
 ];
+
+export interface filterDataType {
+    tabName: string;
+    filter: string[];
+    func: (param: string[]) => void;
+    chipColor: 'default'
+    | 'secondary'
+    | 'primary'
+    | 'error'
+    | 'info'
+    | 'success'
+    | 'warning',
+  }

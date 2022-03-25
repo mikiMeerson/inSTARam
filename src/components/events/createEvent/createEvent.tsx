@@ -8,9 +8,9 @@ import { Typography, Button } from '@mui/material';
 import EventDetails from './eventDetails';
 import EventVersions from './eventVersions';
 import ListGenerator from '../../general/listGenerator';
-import { defaultEvent } from '../../../assets';
 import { addEvent } from '../../../services/event-service';
 import '../styles/createEvent.css';
+import { defaultEvent, IEvent } from '../../../types/interfaces';
 
 const CreateEvent = () => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultEvent);
@@ -42,7 +42,6 @@ const CreateEvent = () => {
 
   const setAttr = (attr: keyof IEvent, value: any) => {
     setNewEvent(Object.assign(newEvent, { [attr]: value }));
-    console.log(newEvent[attr]);
   };
 
   const handleAddEvent = async (data: any) => {

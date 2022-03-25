@@ -1,8 +1,9 @@
 import { Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { Star, Flight, Person } from '@mui/icons-material';
-import { pages } from '../assets';
 import '../components/home/home.css';
+import { userRole } from '../types/string-types';
+import { linkDisplayType, pages } from '../types/configurations';
 
 const pageToIcon = [
   {

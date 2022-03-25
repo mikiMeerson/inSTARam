@@ -2,7 +2,8 @@ import {
   TextField,
   Grid,
 } from '@mui/material';
-import { eventKeyDisplay } from '../../../assets';
+import { eventKeyDisplay } from '../../../types/configurations';
+import { IEvent } from '../../../types/interfaces';
 
 interface EventProps {
     event: IEvent;

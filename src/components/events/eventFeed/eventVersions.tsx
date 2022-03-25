@@ -6,10 +6,11 @@ import {
   TableRow,
   TableCell,
 } from '@mui/material';
-import { COMPUTERS, STATIONS } from '../../../assets';
+import { IEvent } from '../../../types/interfaces';
+import { COMPUTERS, STATIONS } from '../../../types/enums';
 
 interface EventProps {
-    event: IEvent
+    event: IEvent;
 }
 
 const EventVersions = ({ event }: EventProps) => (
@@ -32,7 +33,8 @@ const EventVersions = ({ event }: EventProps) => (
             <TableCell>
               <TextField
                 disabled
-                value={event.configuration!.weapons[sta as keyof weaponConfig]}
+                value={event.configuration.weapons
+                  .find((w) => w.sta === sta)?.weapon}
               />
             </TableCell>
           ))}
@@ -57,7 +59,7 @@ const EventVersions = ({ event }: EventProps) => (
               <TextField
                 disabled
                 variant="standard"
-                value={event.configuration!.versions[computer]}
+                value={event.configuration.versions[computer]}
                 sx={{ width: '50%' }}
               />
             </TableCell>

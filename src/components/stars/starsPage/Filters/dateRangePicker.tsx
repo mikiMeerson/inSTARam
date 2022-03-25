@@ -3,7 +3,7 @@ import { Dialog, DialogActions, Button } from '@mui/material';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { useEffect, useState } from 'react';
-import { filterDataType } from '../../../../assets';
+import { filterDataType } from '../../../../types/configurations';
 
 interface FilterProps {
     isDatePick: boolean;

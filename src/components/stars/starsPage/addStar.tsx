@@ -11,16 +11,16 @@ import {
   Button,
   Divider,
 } from '@mui/material';
-import {
-  ASSIGNEES,
-  SEVERITIES,
-  BLOCKS,
-  COMPUTERS,
-  PLATFORMS,
-} from '../../../assets';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
+import {
+  ASSIGNEES,
+  BLOCKS,
+  COMPUTERS,
+  PLATFORMS,
+  SEVERITIES,
+} from '../../../types/enums';
 
 interface starProps {
   isOpen: boolean;
@@ -84,7 +84,6 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
 
   const handleAddStar = (data: any) => {
     toggleModal(false);
-    data.severity = Object.values(SEVERITIES).indexOf(data.severity);
     addStar(data);
     fields.map((f) => resetField(f.field));
   };

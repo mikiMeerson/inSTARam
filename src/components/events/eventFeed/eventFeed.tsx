@@ -10,6 +10,7 @@ import EventVersions from './eventVersions';
 import EventDetails from './eventDetails';
 import EventHeader from './eventHeader';
 import EventLists from './eventLists';
+import { IEvent } from '../../../types/interfaces';
 
 interface eventProps {
     eventId: string | undefined;

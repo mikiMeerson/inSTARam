@@ -4,9 +4,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import _ from 'lodash';
-import { BLOCKS, EVENT_TYPES, PLATFORMS } from '../../../assets';
 import SelectField from '../../general/selectField';
+import { BLOCKS, EVENT_TYPES, PLATFORMS } from '../../../types/enums';
+import { IEvent } from '../../../types/interfaces';
 
 interface DetailsProps {
     isDatePick: boolean;

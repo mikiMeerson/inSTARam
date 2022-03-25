@@ -5,6 +5,8 @@ import StarsTable from './starsTable';
 import '../styles/stars.css';
 import AddStar from './addStar';
 import NoPriority from './noPriority';
+import { IStar } from '../../../types/interfaces';
+import { userRole } from '../../../types/string-types';
 
 interface starProps {
   userRole: userRole;

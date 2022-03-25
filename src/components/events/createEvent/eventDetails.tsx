@@ -7,6 +7,7 @@ import DateRangePicker from './dateRangePicker';
 import ListGenerator from '../../general/listGenerator';
 import BasicDetails from './basicDetails';
 import MoreDetails from './moreDetails';
+import { IEvent } from '../../../types/interfaces';
 
 interface DetailsProps {
   register: UseFormRegister<FieldValues>;

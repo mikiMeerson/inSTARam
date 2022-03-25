@@ -12,7 +12,9 @@ import {
   updatePriorities,
 } from '../services/star-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
-import { STATUSES } from '../assets';
+import { userRole } from '../types/string-types';
+import { IAlert, IStar } from '../types/interfaces';
+import { STATUSES } from '../types/enums';
 
 interface starProps {
   userRole: userRole;

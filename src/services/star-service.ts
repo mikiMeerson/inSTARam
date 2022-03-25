@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-import { activityInfoArray, STATUSES } from '../assets';
+import { activityInfoArray } from '../types/configurations';
 import { baseUrl } from '../globals';
+import { ApiStarsType } from '../types/api-types';
+import { STATUSES } from '../types/enums';
+import { IActivity, INote, IStar } from '../types/interfaces';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
   try {

@@ -1,8 +1,10 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
-import { filterDataType } from '../../../assets';
 import FiltersHeader from './Filters/filtersHeader';
+import { IStar } from '../../../types/interfaces';
+import { userRole } from '../../../types/string-types';
+import { filterDataType } from '../../../types/configurations';
 
 interface starProps {
   userRole: userRole;

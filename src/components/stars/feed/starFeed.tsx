@@ -7,6 +7,8 @@ import StarDesc from './starDesc';
 import StarNotes from './starNotes';
 import '../styles/feed.css';
 import { addNote, editStar, getStarById } from '../../../services/star-service';
+import { userRole } from '../../../types/string-types';
+import { IStar, INote } from '../../../types/interfaces';
 
 interface starProps {
   userRole: userRole;

@@ -9,14 +9,15 @@ import {
 } from '@mui/material';
 import _ from 'lodash';
 import { UseFormRegister } from 'react-hook-form';
-import { eventKeyDisplay, starKeyDisplay } from '../../assets';
+import { eventKeyDisplay, starKeyDisplay } from '../../types/configurations';
+import { IEvent, IStar } from '../../types/interfaces';
 
 interface fieldProps {
   field: keyof IStar | keyof IEvent;
   fieldValues: any;
   register: UseFormRegister<any>;
   errors: {[x: string]: any};
-  defaultValue?: string;
+  defaultValue?: any;
   disabled?: boolean;
   element?: 'star' | 'event';
   variant?: 'outlined' | 'standard';

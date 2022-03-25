@@ -10,6 +10,8 @@ import {
 import { getStars } from '../../../services/star-service';
 import EnhancedTableHead from './tableHead';
 import Row from './tableRow';
+import { orderType, userRole } from '../../../types/string-types';
+import { IStar } from '../../../types/interfaces';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

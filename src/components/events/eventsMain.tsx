@@ -13,6 +13,8 @@ import { FlightTakeoffOutlined } from '@mui/icons-material';
 import { deleteEvent, getEvents } from '../../services/event-service';
 import EventCard from './eventCard';
 import './styles/event.css';
+import { IEvent } from '../../types/interfaces';
+import { userRole } from '../../types/string-types';
 
 interface eventProps {
   userRole: userRole;
@@ -34,16 +36,6 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
     const { status } = await deleteEvent(event._id);
     if (status !== StatusCodes.OK) console.log('could not delete event');
     else fetchEvents();
-  };
-
-  const getTime = (date: Date) => {
-    try {
-      console.log(`YAY ${date}`);
-      return date != null ? date.getTime() : 0;
-    } catch {
-      console.log(date);
-      return 0;
-    }
   };
 
   const sortByDate = (events: IEvent[]) => events

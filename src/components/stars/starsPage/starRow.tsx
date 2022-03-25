@@ -15,6 +15,9 @@ import {
   WarningAmber,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
+import { userRole } from '../../../types/string-types';
+import { IStar } from '../../../types/interfaces';
+import { SEVERITIES } from '../../../types/enums';
 
 interface starProps {
   userRole: userRole;
@@ -37,10 +40,22 @@ const StarRow = ({
   const [openDesc, setOpenDesc] = useState(false);
 
   const severityIcons = [
-    <PriorityHigh color="error" />,
-    <ErrorOutline color="warning" />,
-    <WarningAmber htmlColor="yellow" />,
-    <ArrowDownward color="disabled" />,
+    {
+      severity: SEVERITIES.VERY_SERIOUS,
+      icon: <PriorityHigh fontSize="large" color="error" />,
+    },
+    {
+      severity: SEVERITIES.SERIOUS,
+      icon: <ErrorOutline fontSize="large" color="warning" />,
+    },
+    {
+      severity: SEVERITIES.MEDIUM,
+      icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
+    },
+    {
+      severity: SEVERITIES.SLIGHT,
+      icon: <ArrowDownward fontSize="large" color="disabled" />,
+    },
   ];
 
   const getCreationTime = () => {
@@ -95,7 +110,7 @@ const StarRow = ({
           >
             <TableCell align="center" width="40px">
               <span className="severityIcon">
-                {severityIcons[star.severity]}
+                {severityIcons.find((i) => i.severity === star.severity)?.icon}
               </span>
             </TableCell>
             <TableCell width="105px" align="center">{star.name}</TableCell>

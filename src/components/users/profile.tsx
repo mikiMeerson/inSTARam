@@ -21,6 +21,7 @@ import './styles/profile.css';
 import NewActivity from './newActivity';
 import UserWatch from './userWatch';
 import { getStars } from '../../services/star-service';
+import { IStar } from '../../types/interfaces';
 
 const Profile = () => {
   const [viewWatchList, setViewWatchList] = useState<boolean>(false);

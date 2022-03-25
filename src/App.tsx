@@ -10,6 +10,7 @@ import Users from './components/users/users';
 import Home from './layouts/home-layout';
 import Events from './layouts/events-layout';
 import Profile from './components/users/profile';
+import { userRole } from './types/string-types';
 
 const App = () => {
   const [userRole, setUserRole] = useState<userRole | 'guest'>('guest');

@@ -8,8 +8,10 @@ import {
   Typography,
 } from '@mui/material';
 import { Computer, DeleteOutlined, FlightTakeoff } from '@mui/icons-material';
-import { EVENT_TYPES } from '../../assets';
 import DialogAlert from '../general/dialogAlert';
+import { IEvent } from '../../types/interfaces';
+import { userRole } from '../../types/string-types';
+import { EVENT_TYPES } from '../../types/enums';
 
 interface CardProps {
     event: IEvent;

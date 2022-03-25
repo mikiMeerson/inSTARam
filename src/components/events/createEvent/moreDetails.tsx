@@ -5,6 +5,7 @@ import {
   TextField,
 } from '@mui/material';
 import { ChevronLeft, ExpandMore } from '@mui/icons-material';
+import { IEvent } from '../../../types/interfaces';
 
 interface DetailsProps {
   setAttr: (attr: keyof IEvent, value: any) => void;

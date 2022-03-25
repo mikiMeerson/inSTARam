@@ -16,18 +16,18 @@ import {
   FlashOn,
   Computer,
 } from '@material-ui/icons';
-import {
-  filterDataType,
-  STATUSES,
-  ASSIGNEES,
-  COMPUTERS,
-  RESOURCES,
-  BLOCKS,
-} from '../../../../assets';
 import SearchBar from './searchBar';
 import DateRangePicker from './dateRangePicker';
 import FilterOptions from './filterOptions';
 import FilterSelections from './filterSelections';
+import { filterDataType } from '../../../../types/configurations';
+import {
+  ASSIGNEES,
+  BLOCKS,
+  COMPUTERS,
+  RESOURCES,
+  STATUSES,
+} from '../../../../types/enums';
 
 interface filterProps {
   unprioritized: boolean;
@@ -206,7 +206,6 @@ const FiltersHeader = ({
                       setLastTab(field.name);
                     } else if (field.activation === 'calender') {
                       setIsDatePick(!isDatePick);
-                      console.log(isDatePick);
                     }
                     setLastTab(field.name);
                   }}
