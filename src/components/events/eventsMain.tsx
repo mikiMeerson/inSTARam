@@ -5,12 +5,11 @@ import {
   Box,
   CircularProgress,
   Grid,
-  Card,
   SpeedDial,
   Typography,
   SpeedDialIcon,
 } from '@mui/material';
-import { AddCircleOutline, FlightTakeoffOutlined } from '@mui/icons-material';
+import { FlightTakeoffOutlined } from '@mui/icons-material';
 import { deleteEvent, getEvents } from '../../services/event-service';
 import EventCard from './eventCard';
 import './styles/event.css';
@@ -67,7 +66,7 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
           />
         </Link>
       </div>
-      <div className="eventsCotainer">
+      <div className="eventsContainer">
         <Grid container className="eventsList">
           {
           events.map((e) => (
