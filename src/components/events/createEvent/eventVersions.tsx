@@ -102,15 +102,12 @@ const EventVersions = ({
                   <TextField
                     variant="standard"
                     sx={{ width: '50%' }}
-                    {...register(com)}
+                    defaultValue="ללא"
                     onChange={(e) => handleVersionInput(
                       com,
                       e.target.value,
                     )}
                   />
-                  <Typography variant="inherit" color="error">
-                    {errors.configuration?.message}
-                  </Typography>
                 </TableCell>
               ))}
             </TableRow>

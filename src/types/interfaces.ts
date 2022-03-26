@@ -160,19 +160,19 @@ export const defaultRAAMEvent: IEvent = {
     versions: [
       {
         comp: RAAM_COMPUTERS.AAA,
-        version: '',
+        version: 'ללא',
       },
       {
         comp: RAAM_COMPUTERS.BBB,
-        version: '',
+        version: 'ללא',
       },
       {
         comp: RAAM_COMPUTERS.CCC,
-        version: '',
+        version: 'ללא',
       },
       {
         comp: RAAM_COMPUTERS.DDD,
-        version: '',
+        version: 'ללא',
       },
     ],
   },
@@ -229,15 +229,15 @@ export const defaultBAZEvent: IEvent = {
     versions: [
       {
         comp: BAZ_COMPUTERS.EEE,
-        version: '',
+        version: 'ללא',
       },
       {
         comp: BAZ_COMPUTERS.FFF,
-        version: '',
+        version: 'ללא',
       },
       {
         comp: BAZ_COMPUTERS.GGG,
-        version: '',
+        version: 'ללא',
       },
     ],
   },
