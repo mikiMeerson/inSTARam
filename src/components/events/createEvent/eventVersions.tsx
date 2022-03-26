@@ -12,10 +12,7 @@ import {
   TextField,
 } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
-import {
-  COMPUTERS,
-  WEAPONS,
-} from '../../../types/enums';
+import { WEAPONS } from '../../../types/enums';
 
 interface VersionsProps {
   register: UseFormRegister<any>;
@@ -23,6 +20,7 @@ interface VersionsProps {
   event: IEvent;
   setAttr: (attr: keyof IEvent, value: any) => void;
   stations: string[];
+  computers: string[];
 }
 
 const EventVersions = ({
@@ -31,6 +29,7 @@ const EventVersions = ({
   event,
   setAttr,
   stations,
+  computers,
 }: VersionsProps) => {
   const handleWeaponSelect = (sta: string, wpn: WEAPONS) => {
     const tempConfig = event.configuration;
@@ -38,7 +37,7 @@ const EventVersions = ({
     setAttr('configuration', tempConfig);
   };
 
-  const handleVersionInput = (comp: COMPUTERS, version: string) => {
+  const handleVersionInput = (comp: string, version: string) => {
     const tempConfig = event.configuration;
     tempConfig.versions.find((v) => v.comp === comp)!.version = version;
     setAttr('configuration', tempConfig);
@@ -90,7 +89,7 @@ const EventVersions = ({
           <Table>
             <TableRow sx={{ background: 'whitesmoke' }}>
               <TableCell align="center">מחשבים</TableCell>
-              {_.map(COMPUTERS, (com) => (
+              {computers.map((com) => (
                 <TableCell key={com} align="center">{com}</TableCell>
               ))}
             </TableRow>
@@ -98,7 +97,7 @@ const EventVersions = ({
               <TableCell sx={{ background: 'whitesmoke' }} align="center">
                 גרסה
               </TableCell>
-              {_.map(COMPUTERS, (com) => (
+              {computers.map((com) => (
                 <TableCell key={com} align="center">
                   <TextField
                     variant="standard"

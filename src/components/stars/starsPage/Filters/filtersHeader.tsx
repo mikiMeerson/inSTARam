@@ -23,8 +23,9 @@ import FilterSelections from './filterSelections';
 import { filterDataType } from '../../../../types/configurations';
 import {
   ASSIGNEES,
+  BAZ_COMPUTERS,
   BLOCKS,
-  COMPUTERS,
+  RAAM_COMPUTERS,
   RESOURCES,
   STATUSES,
 } from '../../../../types/enums';
@@ -147,7 +148,8 @@ const FiltersHeader = ({
       isPrimary: false,
       name: 'computer',
       activation: 'options',
-      options: Object.values(COMPUTERS),
+      options: (Object.values(RAAM_COMPUTERS) as string[])
+        .concat((Object.values(BAZ_COMPUTERS) as string[])),
       displayName: 'מחשב',
       icon: <Computer className="dropDownIcon" />,
     },

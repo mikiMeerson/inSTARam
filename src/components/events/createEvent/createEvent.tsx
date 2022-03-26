@@ -24,7 +24,13 @@ import {
   defaultRAAMEvent,
   IEvent,
 } from '../../../types/interfaces';
-import { BAZ_STATIONS, PLATFORMS, RAAM_STATIONS } from '../../../types/enums';
+import {
+  BAZ_COMPUTERS,
+  BAZ_STATIONS,
+  PLATFORMS,
+  RAAM_COMPUTERS,
+  RAAM_STATIONS,
+} from '../../../types/enums';
 
 const CreateEvent = () => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
@@ -32,6 +38,9 @@ const CreateEvent = () => {
   const [stations, setStations] = useState<RAAM_STATIONS[] | BAZ_STATIONS[]>(
     Object.values(RAAM_STATIONS),
   );
+  const [computers, setComputers] = useState<
+    RAAM_COMPUTERS[] | BAZ_COMPUTERS[]
+  >(Object.values(RAAM_COMPUTERS));
 
   const navigate = useNavigate();
 
@@ -78,12 +87,12 @@ const CreateEvent = () => {
   const handlePlatformChange = (e: any) => {
     if (e.target.value === PLATFORMS.RAAM) {
       setStations(Object.values(RAAM_STATIONS));
+      setComputers(Object.values(RAAM_COMPUTERS));
       setNewEvent(defaultRAAMEvent);
-      console.log(newEvent);
     } else {
       setStations(Object.values(BAZ_STATIONS));
       setNewEvent(defaultBAZEvent);
-      console.log(newEvent);
+      setComputers(Object.values(BAZ_COMPUTERS));
     }
   };
 
@@ -138,6 +147,7 @@ const CreateEvent = () => {
             event={newEvent}
             setAttr={setAttr}
             stations={stations}
+            computers={computers}
           />
           <ListGenerator
             header="מהלך הניסוי"

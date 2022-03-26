@@ -11,7 +11,13 @@ import EventDetails from './eventDetails';
 import EventHeader from './eventHeader';
 import EventLists from './eventLists';
 import { IEvent } from '../../../types/interfaces';
-import { BAZ_STATIONS, PLATFORMS, RAAM_STATIONS } from '../../../types/enums';
+import {
+  BAZ_COMPUTERS,
+  BAZ_STATIONS,
+  PLATFORMS,
+  RAAM_COMPUTERS,
+  RAAM_STATIONS,
+} from '../../../types/enums';
 
 interface eventProps {
     eventId: string | undefined;
@@ -70,6 +76,9 @@ const Event = ({ eventId }: eventProps) => {
           stations={event.platform === PLATFORMS.RAAM
             ? Object.values(RAAM_STATIONS)
             : Object.values(BAZ_STATIONS)}
+          computers={event.platform === PLATFORMS.RAAM
+            ? Object.values(RAAM_COMPUTERS)
+            : Object.values(BAZ_COMPUTERS)}
         />
         <EventLists event={event} />
       </div>

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   TextField,
   Typography,
@@ -7,14 +6,14 @@ import {
   TableCell,
 } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
-import { COMPUTERS } from '../../../types/enums';
 
 interface EventProps {
     event: IEvent;
-    stations: string[]
+    stations: string[];
+    computers: string[];
 }
 
-const EventVersions = ({ event, stations }: EventProps) => (
+const EventVersions = ({ event, stations, computers }: EventProps) => (
   <div className="eventVersions">
     <Typography variant="h5">תצורה</Typography>
     <div className="weapons">
@@ -47,7 +46,7 @@ const EventVersions = ({ event, stations }: EventProps) => (
       <Table>
         <TableRow sx={{ background: 'whitesmoke' }}>
           <TableCell align="center">מחשבים</TableCell>
-          {_.map(COMPUTERS, (computer) => (
+          {computers.map((computer) => (
             <TableCell key={computer} align="center">{computer}</TableCell>
           ))}
         </TableRow>
@@ -55,7 +54,7 @@ const EventVersions = ({ event, stations }: EventProps) => (
           <TableCell sx={{ background: 'whitesmoke' }} align="center">
             גרסה
           </TableCell>
-          {_.map(COMPUTERS, (computer) => (
+          {computers.map((computer) => (
             <TableCell key={computer} align="center">
               <TextField
                 disabled

@@ -30,8 +30,10 @@ import SelectField from '../../general/selectField';
 import { addActivity } from '../../../services/star-service';
 import {
   ASSIGNEES,
+  BAZ_COMPUTERS,
   BLOCKS,
-  COMPUTERS,
+  PLATFORMS,
+  RAAM_COMPUTERS,
   RESOURCES,
   SEVERITIES,
   STATUSES,
@@ -280,7 +282,9 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
                 defaultValue={star.computer}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={COMPUTERS}
+                fieldValues={star.platform === PLATFORMS.RAAM
+                  ? RAAM_COMPUTERS
+                  : BAZ_COMPUTERS}
                 errors={errors}
               />
             </Grid>

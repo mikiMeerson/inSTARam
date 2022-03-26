@@ -40,12 +40,18 @@ export enum RESOURCES {
     REAL_WEAPON = 'חימוש אמיתי',
   }
 
-export enum COMPUTERS {
-    AAA = 'AAA',
-    BBB = 'BBB',
-    CCC = 'CCC',
-    DDD = 'DDD',
-  }
+export enum RAAM_COMPUTERS {
+  AAA = 'AAA',
+  BBB = 'BBB',
+  CCC = 'CCC',
+  DDD = 'DDD',
+}
+
+export enum BAZ_COMPUTERS {
+  EEE = 'EEE',
+  FFF = 'FFF',
+  GGG = 'GGG',
+}
 
 export enum EVENT_TYPES {
     REG_FLIGHT = 'גיחת טייסת',

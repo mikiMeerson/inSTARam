@@ -2,12 +2,14 @@ import {
   ASSIGNEES,
   BAZ_STATIONS,
   BLOCKS,
+  RAAM_COMPUTERS,
   EVENT_TYPES,
   PLATFORMS,
   RAAM_STATIONS,
   SEVERITIES,
   STATUSES,
   WEAPONS,
+  BAZ_COMPUTERS,
 } from './enums';
 import { userRole } from './string-types';
 
@@ -17,7 +19,7 @@ export interface weaponConfig {
 }
 
 export interface versionConfig {
-  comp: string;
+  comp: RAAM_COMPUTERS | BAZ_COMPUTERS;
   version: string;
 }
 
@@ -157,19 +159,19 @@ export const defaultRAAMEvent: IEvent = {
     ],
     versions: [
       {
-        comp: 'AAA',
+        comp: RAAM_COMPUTERS.AAA,
         version: '',
       },
       {
-        comp: 'BBB',
+        comp: RAAM_COMPUTERS.BBB,
         version: '',
       },
       {
-        comp: 'CCC',
+        comp: RAAM_COMPUTERS.CCC,
         version: '',
       },
       {
-        comp: 'DDD',
+        comp: RAAM_COMPUTERS.DDD,
         version: '',
       },
     ],
@@ -226,19 +228,15 @@ export const defaultBAZEvent: IEvent = {
     ],
     versions: [
       {
-        comp: 'AAA',
+        comp: BAZ_COMPUTERS.EEE,
         version: '',
       },
       {
-        comp: 'BBB',
+        comp: BAZ_COMPUTERS.FFF,
         version: '',
       },
       {
-        comp: 'CCC',
-        version: '',
-      },
-      {
-        comp: 'DDD',
+        comp: BAZ_COMPUTERS.GGG,
         version: '',
       },
     ],

@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import _ from 'lodash';
 import {
   Grid,
   Dialog,
@@ -10,15 +12,22 @@ import {
   DialogContentText,
   Button,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
+  Input,
 } from '@mui/material';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
 import {
   ASSIGNEES,
+  BAZ_COMPUTERS,
   BLOCKS,
-  COMPUTERS,
   PLATFORMS,
+  RAAM_COMPUTERS,
   SEVERITIES,
 } from '../../../types/enums';
 
@@ -29,6 +38,10 @@ interface starProps {
 }
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
+  const [computers, setComputers] = useState<
+    RAAM_COMPUTERS[] | BAZ_COMPUTERS[]
+  >(Object.values(RAAM_COMPUTERS));
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required('נא למלא את שם הסטאר')
@@ -88,6 +101,14 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     fields.map((f) => resetField(f.field));
   };
 
+  const handlePlatformChange = (e: any) => {
+    if (e.target.value === PLATFORMS.RAAM) {
+      setComputers(Object.values(RAAM_COMPUTERS));
+    } else {
+      setComputers(Object.values(BAZ_COMPUTERS));
+    }
+  };
+
   return (
     <Dialog
       className="addStar"
@@ -95,7 +116,34 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
       open={isOpen}
       onClose={() => toggleModal(false)}
     >
-      <DialogTitle>הוסף סטאר חדש</DialogTitle>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        width: '100%',
+        justifyContent: 'space-between' }}
+      >
+        <DialogTitle sx={{ flexGrow: 1 }}>הוסף סטאר חדש</DialogTitle>
+        <FormControl sx={{ width: '20%', margin: '10px' }}>
+          <InputLabel>פלטפורמה</InputLabel>
+          <Select
+            variant="standard"
+            input={<Input />}
+            defaultValue={PLATFORMS.RAAM}
+            {...register('platform')}
+            onChange={handlePlatformChange}
+            error={errors.platform?.message}
+          >
+            {_.map(PLATFORMS, (value) => (
+              <MenuItem key={value} value={value}>
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Typography variant="inherit" color="textSecondary">
+          {errors.platform?.message}
+        </Typography>
+      </div>
       <Divider />
       <DialogContent>
         <DialogContentText>
@@ -118,7 +166,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6}>
               <InputField
                 fullWidth
                 field="event"
@@ -126,15 +174,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <SelectField
-                field="platform"
-                fieldValues={PLATFORMS}
-                register={register}
-                errors={errors}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6}>
               <SelectField
                 field="block"
                 fieldValues={BLOCKS}
@@ -163,7 +203,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
             <Grid item xs={12} sm={6}>
               <SelectField
                 field="computer"
-                fieldValues={COMPUTERS}
+                fieldValues={computers}
                 register={register}
                 errors={errors}
               />
