@@ -4,23 +4,36 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StatusCodes } from 'http-status-codes';
-import { Typography, Button } from '@mui/material';
+import _ from 'lodash';
+import {
+  Typography,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  OutlinedInput,
+} from '@mui/material';
 import EventDetails from './eventDetails';
 import EventVersions from './eventVersions';
 import ListGenerator from '../../general/listGenerator';
 import { addEvent } from '../../../services/event-service';
 import '../styles/createEvent.css';
-import { defaultEvent, IEvent } from '../../../types/interfaces';
+import {
+  defaultBAZEvent,
+  defaultRAAMEvent,
+  IEvent,
+} from '../../../types/interfaces';
+import { BAZ_STATIONS, PLATFORMS, RAAM_STATIONS } from '../../../types/enums';
 
 const CreateEvent = () => {
-  const [newEvent, setNewEvent] = useState<IEvent>(defaultEvent);
+  const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
   const [currDates, setCurrDates] = useState<Date[]>([]);
+  const [stations, setStations] = useState<RAAM_STATIONS[] | BAZ_STATIONS[]>(
+    Object.values(RAAM_STATIONS),
+  );
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setNewEvent(defaultEvent);
-  }, [newEvent]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('נא למלא את שם האירוע'),
@@ -62,16 +75,55 @@ const CreateEvent = () => {
     navigate('/events');
   };
 
+  const handlePlatformChange = (e: any) => {
+    if (e.target.value === PLATFORMS.RAAM) {
+      setStations(Object.values(RAAM_STATIONS));
+      setNewEvent(defaultRAAMEvent);
+      console.log(newEvent);
+    } else {
+      setStations(Object.values(BAZ_STATIONS));
+      setNewEvent(defaultBAZEvent);
+      console.log(newEvent);
+    }
+  };
+
   return (
     <div className="eventsContainer">
       <div style={{ background: 'whitesmoke' }}>
         <div className="createEvent">
-          <Typography
-            variant="h3"
-            sx={{ margin: '0 20px 20px 20px' }}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%' }}
           >
-            הוספת אירוע
-          </Typography>
+            <Typography
+              variant="h3"
+              sx={{ margin: '20px', flexGrow: 1 }}
+            >
+              הוספת אירוע
+            </Typography>
+            <FormControl sx={{ width: '10%', margin: '20px' }}>
+              <InputLabel>פלטפורמה</InputLabel>
+              <Select
+                variant="outlined"
+                input={<OutlinedInput />}
+                defaultValue={defaultRAAMEvent.platform}
+                {...register('platform')}
+                onChange={handlePlatformChange}
+                error={errors.platform?.message}
+              >
+                {_.map(PLATFORMS, (value) => (
+                  <MenuItem key={value} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography variant="inherit" color="textSecondary">
+              {errors.platform?.message}
+            </Typography>
+          </div>
           <EventDetails
             register={register}
             errors={errors}
@@ -85,6 +137,7 @@ const CreateEvent = () => {
             errors={errors}
             event={newEvent}
             setAttr={setAttr}
+            stations={stations}
           />
           <ListGenerator
             header="מהלך הניסוי"

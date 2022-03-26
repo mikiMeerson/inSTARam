@@ -64,14 +64,23 @@ export enum WEAPONS {
     PP = 'PP',
   }
 
-export enum STATIONS {
-    '8R' = '8R',
-    STA8 = '8',
-    '8L' = '8L',
-    RCFT = 'RCFT',
-    STA5 = '5',
-    LCFT = 'LCFT',
-    '2R' = '2R',
-    STA2 = '2',
-    '2L' = '2L',
-  }
+export enum RAAM_STATIONS {
+  '8R' = '8R',
+  STA8 = '8',
+  '8L' = '8L',
+  RCFT = 'RCFT',
+  STA5 = '5',
+  LCFT = 'LCFT',
+  '2R' = '2R',
+  STA2 = '2',
+  '2L' = '2L',
+}
+
+export enum BAZ_STATIONS {
+  STA1 = '1',
+  STA2 = '2',
+  STA3 = '3',
+  STA4 = '4',
+  STA5 = '5',
+  STA6 = '6',
+}

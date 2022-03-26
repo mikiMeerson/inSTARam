@@ -7,13 +7,14 @@ import {
   TableCell,
 } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
-import { COMPUTERS, STATIONS } from '../../../types/enums';
+import { COMPUTERS } from '../../../types/enums';
 
 interface EventProps {
     event: IEvent;
+    stations: string[]
 }
 
-const EventVersions = ({ event }: EventProps) => (
+const EventVersions = ({ event, stations }: EventProps) => (
   <div className="eventVersions">
     <Typography variant="h5">תצורה</Typography>
     <div className="weapons">
@@ -21,16 +22,16 @@ const EventVersions = ({ event }: EventProps) => (
       <Table>
         <TableRow sx={{ background: 'whitesmoke' }}>
           <TableCell align="center">תחנה</TableCell>
-          {_.map((STATIONS), (sta) => (
-            <TableCell align="center">{sta}</TableCell>
+          {stations.map((sta) => (
+            <TableCell key={sta} align="center">{sta}</TableCell>
           ))}
         </TableRow>
         <TableRow>
           <TableCell sx={{ background: 'whitesmoke' }} align="center">
             חימוש
           </TableCell>
-          {_.map((STATIONS), (sta) => (
-            <TableCell>
+          {stations.map((sta) => (
+            <TableCell key={sta}>
               <TextField
                 disabled
                 value={event.configuration.weapons
@@ -47,7 +48,7 @@ const EventVersions = ({ event }: EventProps) => (
         <TableRow sx={{ background: 'whitesmoke' }}>
           <TableCell align="center">מחשבים</TableCell>
           {_.map(COMPUTERS, (computer) => (
-            <TableCell align="center">{computer}</TableCell>
+            <TableCell key={computer} align="center">{computer}</TableCell>
           ))}
         </TableRow>
         <TableRow>
@@ -55,7 +56,7 @@ const EventVersions = ({ event }: EventProps) => (
             גרסה
           </TableCell>
           {_.map(COMPUTERS, (computer) => (
-            <TableCell align="center">
+            <TableCell key={computer} align="center">
               <TextField
                 disabled
                 variant="standard"

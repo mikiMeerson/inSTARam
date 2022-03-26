@@ -11,6 +11,7 @@ import EventDetails from './eventDetails';
 import EventHeader from './eventHeader';
 import EventLists from './eventLists';
 import { IEvent } from '../../../types/interfaces';
+import { BAZ_STATIONS, PLATFORMS, RAAM_STATIONS } from '../../../types/enums';
 
 interface eventProps {
     eventId: string | undefined;
@@ -64,7 +65,12 @@ const Event = ({ eventId }: eventProps) => {
       <div className="eventFeed">
         <EventHeader event={event} />
         <EventDetails event={event} />
-        <EventVersions event={event} />
+        <EventVersions
+          event={event}
+          stations={event.platform === PLATFORMS.RAAM
+            ? Object.values(RAAM_STATIONS)
+            : Object.values(BAZ_STATIONS)}
+        />
         <EventLists event={event} />
       </div>
     </>

@@ -81,8 +81,7 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
       </div>
       <div className="eventsContainer">
         <Grid container className="eventsList">
-          {
-          sortByDate(events).map((e) => (
+          {sortByDate(events).map((e) => (
             <Grid key={e._id} className="cardContainer" item xs={3}>
               <EventCard
                 event={e}
@@ -91,8 +90,7 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
                 userRole={userRole}
               />
             </Grid>
-          ))
-        }
+          ))}
         </Grid>
       </div>
     </div>

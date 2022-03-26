@@ -48,17 +48,7 @@ const BasicDetails = ({
         </Grid>
       </Grid>
       <Grid container spacing={4}>
-        <Grid item xs={3}>
-          <SelectField
-            element="event"
-            field="platform"
-            variant="outlined"
-            fieldValues={PLATFORMS}
-            register={register}
-            errors={errors}
-          />
-        </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <SelectField
             element="event"
             field="block"
@@ -68,7 +58,7 @@ const BasicDetails = ({
             errors={errors}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <SelectField
             element="event"
             field="type"
@@ -78,7 +68,7 @@ const BasicDetails = ({
             errors={errors}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <TextField
             fullWidth
             variant="outlined"
