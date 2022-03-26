@@ -124,8 +124,10 @@ const StarsTable = ({
   };
 
   const handleDragOver = (e: BaseSyntheticEvent) => {
-    e.preventDefault();
-    e.currentTarget.style.borderTop = '2px solid blue';
+    if (!(unprioritized && dragged?.priority === 0)) {
+      e.preventDefault();
+      e.currentTarget.style.borderTop = '2px solid blue';
+    }
   };
 
   const handleDrop = (e: BaseSyntheticEvent) => {

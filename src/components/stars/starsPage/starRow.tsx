@@ -72,9 +72,12 @@ const StarRow = ({
   const handleStartDrag = () => {
     setDragged(star);
   };
+
   const handleDragOver = (e: BaseSyntheticEvent) => {
-    e.preventDefault();
-    e.currentTarget.style.borderTop = '2px solid blue';
+    if (!(star.priority === 0 && dragged?.priority === 0)) {
+      e.preventDefault();
+      e.currentTarget.style.borderTop = '2px solid blue';
+    }
   };
 
   const handleDrop = (e: BaseSyntheticEvent) => {
