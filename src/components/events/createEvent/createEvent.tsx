@@ -29,7 +29,10 @@ const CreateEvent = () => {
     block: Yup.string().required('נא למלא בלוק'),
     assignee: Yup.string().required('נא למלא גוף מבצע'),
     dates: Yup.string().required('נא למלא תאריכים'),
-    configuration: Yup.string().required('נא למלא תצורה'),
+    AAA: Yup.string().required('נא למלא תצורה'),
+    BBB: Yup.string().required('נא למלא תצורה'),
+    CCC: Yup.string().required('נא למלא תצורה'),
+    DDD: Yup.string().required('נא למלא תצורה'),
   });
 
   const {

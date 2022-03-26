@@ -100,7 +100,7 @@ const EventVersions = ({
                   <TextField
                     variant="standard"
                     sx={{ width: '50%' }}
-                    {...register('configuration')}
+                    {...register(com)}
                     onChange={(e) => handleVersionInput(
                       com,
                       e.target.value,
