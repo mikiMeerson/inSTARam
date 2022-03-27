@@ -111,11 +111,10 @@ const StarsTable = ({
           || (s.computer && computerFilter.includes(s.computer)))
         && (dateFilter.length === 0 || (s.createdAt
           && new Date(s.createdAt) >= new Date(dateFilter[0])
-          // On the range's upper boundry, add a day so it will be included
           && new Date(s.createdAt) <= new Date(
             new Date(dateFilter[1]).getFullYear(),
             new Date(dateFilter[1]).getMonth(),
-            new Date(dateFilter[1]).getDay() + 1,
+            new Date(dateFilter[1]).getDate() + 1,
           )))) {
         filteredStars.push(s);
       }
