@@ -1,5 +1,5 @@
 import { EditOutlined, SaveOutlined } from '@mui/icons-material';
-import { Fab, TextField, Typography } from '@mui/material';
+import { Fab, Typography } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 
@@ -8,12 +8,24 @@ interface EventProps {
     event: IEvent;
     isEdit: boolean;
     setIsEdit: (param: boolean) => void;
+    handleUpdateEvent: () => void;
 }
 
-const EventHeader = ({ userRole, event, isEdit, setIsEdit }: EventProps) => {
+const EventHeader = ({
+  userRole,
+  event,
+  isEdit,
+  setIsEdit,
+  handleUpdateEvent,
+}: EventProps) => {
   const getDisplayDate = (date: Date) => {
     date = new Date(date);
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  };
+
+  const handleSave = () => {
+    setIsEdit(false);
+    handleUpdateEvent();
   };
 
   return (
@@ -56,7 +68,7 @@ const EventHeader = ({ userRole, event, isEdit, setIsEdit }: EventProps) => {
                     width: '50px',
                     height: '50px',
                   }}
-                  onClick={() => setIsEdit(false)}
+                  onClick={() => handleSave()}
                 >
                   <SaveOutlined />
                 </Fab>

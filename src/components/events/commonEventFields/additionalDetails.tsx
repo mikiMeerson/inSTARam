@@ -10,8 +10,8 @@ interface DetailsProps {
   toggle: boolean;
   setToggle: (param: boolean) => void;
   toggleLabel: string;
-  event?: IEvent;
-  setAttr?: (attr: keyof IEvent, value: any) => void;
+  setAttr: (attr: keyof IEvent, value: any) => void;
+  event: IEvent;
 }
 
 const AdditionalDetails = ({
@@ -36,14 +36,13 @@ const AdditionalDetails = ({
     {toggle && (
     <Grid container spacing={4}>
       {details.map((attr) => (
-        <Grid item xs={4}>
+        <Grid key={attr} item xs={4}>
           <TextField
             fullWidth
             disabled={disabled}
             label={eventKeyDisplay.find((k) => k.key === attr)!.display}
-            defaultValue={(isValue && event) ? event[attr as keyof IEvent] : ''}
-            onChange={(e) => setAttr
-            && setAttr(attr as keyof IEvent, e.target.value)}
+            defaultValue={isValue ? event[attr as keyof IEvent] : ''}
+            onChange={(e) => setAttr(attr as keyof IEvent, e.target.value)}
           />
         </Grid>
       ))}
@@ -53,8 +52,3 @@ const AdditionalDetails = ({
 );
 
 export default AdditionalDetails;
-
-AdditionalDetails.defaultProps = {
-  event: undefined,
-  setAttr: undefined,
-};

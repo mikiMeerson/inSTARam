@@ -134,7 +134,12 @@ const CreateEvent = () => {
             currDates={currDates}
             setCurrDates={setCurrDates}
           />
-          <EventDetails isValue={false} disabled={false} setAttr={setAttr} />
+          <EventDetails
+            isValue={false}
+            disabled={false}
+            setAttr={setAttr}
+            event={newEvent}
+          />
           <EventVersions
             isEditable
             stations={stations}

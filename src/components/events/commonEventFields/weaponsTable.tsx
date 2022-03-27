@@ -16,7 +16,7 @@ interface WeaponsProps {
     isEditable: boolean;
     stations: string[];
     event: IEvent;
-    setAttr?: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
 const WeaponsTable = ({
@@ -82,7 +82,3 @@ const WeaponsTable = ({
 };
 
 export default WeaponsTable;
-
-WeaponsTable.defaultProps = {
-  setAttr: undefined,
-};

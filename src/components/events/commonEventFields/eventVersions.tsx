@@ -8,7 +8,7 @@ interface VersionsProps {
     stations: string[];
     computers: string[];
     event: IEvent;
-    setAttr?: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
 const EventVersions = ({
@@ -44,7 +44,3 @@ const EventVersions = ({
 );
 
 export default EventVersions;
-
-EventVersions.defaultProps = {
-  setAttr: undefined,
-};

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   Table,
   TableRow,
@@ -11,7 +10,7 @@ interface VersionsProps {
     isEditable: boolean;
     computers: string[];
     event: IEvent;
-    setAttr?: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
 const VersionsTable = ({
@@ -21,11 +20,9 @@ const VersionsTable = ({
   setAttr,
 }: VersionsProps) => {
   const handleVersionInput = (comp: string, version: string) => {
-    if (event && setAttr) {
-      const tempConfig = event.configuration;
-      tempConfig.versions.find((v) => v.comp === comp)!.version = version;
-      setAttr('configuration', tempConfig);
-    }
+    const tempConfig = event.configuration;
+    tempConfig.versions.find((v) => v.comp === comp)!.version = version;
+    setAttr('configuration', tempConfig);
   };
 
   return (
@@ -72,7 +69,3 @@ const VersionsTable = ({
 };
 
 export default VersionsTable;
-
-VersionsTable.defaultProps = {
-  setAttr: undefined,
-};

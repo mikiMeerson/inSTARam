@@ -1,11 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { StatusCodes } from 'http-status-codes';
-import {
-  Box,
-  CircularProgress,
-} from '@mui/material';
-import { getEventById } from '../../../services/event-service';
+import { Box, CircularProgress } from '@mui/material';
+import { getEventById, updateEvent } from '../../../services/event-service';
 import EventVersions from '../commonEventFields/eventVersions';
 import EventDetails from '../commonEventFields/eventDetails';
 import EventHeader from './eventHeader';
@@ -48,7 +45,7 @@ const Event = ({ eventId, userRole }: eventProps) => {
     setLoading(true);
     fetchEvent();
     setLoading(false);
-  }, [fetchEvent, event]);
+  }, []);
 
   if (!event) {
     return (
@@ -60,6 +57,15 @@ const Event = ({ eventId, userRole }: eventProps) => {
       </Box>
     );
   }
+
+  const setAttr = (attr: keyof IEvent, value: any) => {
+    setEvent(Object.assign(event, { [attr]: value }));
+  };
+
+  const handleUpdateEvent = async (): Promise<void> => {
+    const { status } = await updateEvent(event._id, event);
+    if (status !== StatusCodes.OK) console.log('Could not update event');
+  };
 
   return (
     <>
@@ -77,8 +83,14 @@ const Event = ({ eventId, userRole }: eventProps) => {
           event={event}
           isEdit={isEdit}
           setIsEdit={setIsEdit}
+          handleUpdateEvent={handleUpdateEvent}
         />
-        <EventDetails event={event} disabled={!isEdit} isValue />
+        <EventDetails
+          event={event}
+          setAttr={setAttr}
+          disabled={!isEdit}
+          isValue
+        />
         <EventVersions
           isEditable={isEdit}
           event={event}
@@ -88,8 +100,9 @@ const Event = ({ eventId, userRole }: eventProps) => {
           computers={event.platform === PLATFORMS.RAAM
             ? Object.values(RAAM_COMPUTERS)
             : Object.values(BAZ_COMPUTERS)}
+          setAttr={setAttr}
         />
-        <EventLists event={event} editable={isEdit} />
+        <EventLists event={event} editable={isEdit} setAttr={setAttr} />
       </div>
     </>
   );

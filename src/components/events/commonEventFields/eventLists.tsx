@@ -7,7 +7,7 @@ import List from '../../general/list';
 interface ListsProps {
     event: IEvent;
     editable: boolean;
-    setAttr?: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
 const EventLists = ({ event, setAttr, editable }: ListsProps) => (
@@ -40,7 +40,3 @@ const EventLists = ({ event, setAttr, editable }: ListsProps) => (
 );
 
 export default EventLists;
-
-EventLists.defaultProps = {
-  setAttr: undefined,
-};

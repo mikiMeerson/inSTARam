@@ -9,8 +9,8 @@ import AdditionalDetails from './additionalDetails';
 interface EventProps {
     disabled: boolean;
     isValue: boolean;
-    event?: IEvent;
-    setAttr?: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: any) => void;
+    event: IEvent;
 }
 
 const EventDetails = ({ disabled, isValue, event, setAttr }: EventProps) => {
@@ -44,8 +44,3 @@ const EventDetails = ({ disabled, isValue, event, setAttr }: EventProps) => {
 };
 
 export default EventDetails;
-
-EventDetails.defaultProps = {
-  event: undefined,
-  setAttr: undefined,
-};
