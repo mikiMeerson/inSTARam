@@ -3,15 +3,13 @@ import { FieldValues, UseFormRegister } from 'react-hook-form';
 import { Typography, Button } from '@mui/material';
 import { ChevronLeft, ExpandMore } from '@mui/icons-material';
 import DateRangePicker from './dateRangePicker';
-import ListGenerator from '../../general/listGenerator';
 import BasicDetails from './basicDetails';
 import { IEvent } from '../../../types/interfaces';
-import AdditionalDetails from '../additionalDetails';
+import AdditionalDetails from '../commonEventFields/additionalDetails';
 
 interface DetailsProps {
   register: UseFormRegister<FieldValues>;
   errors: any;
-  event: IEvent;
   setAttr: (attr: keyof IEvent, value: any) => void;
   currDates: Date[];
   setCurrDates: (param: Date[]) => void;
@@ -20,7 +18,6 @@ interface DetailsProps {
 const EventDetails = ({
   register,
   errors,
-  event,
   setAttr,
   currDates,
   setCurrDates,
@@ -38,12 +35,6 @@ const EventDetails = ({
         register={register}
         errors={errors}
         setAttr={setAttr}
-      />
-      <DateRangePicker
-        isDatePick={isDatePick}
-        setIsDatePick={setIsDatePick}
-        currDates={currDates}
-        setCurrDates={setCurrDates}
       />
       <div className="moreDetails">
         <Button color="info" onClick={() => setDisplayMore(!displayMore)}>
@@ -64,23 +55,11 @@ const EventDetails = ({
           />
         )}
       </div>
-      <ListGenerator
-        header="כללי"
-        event={event}
-        setCurrList={setAttr}
-        attr="generalSummary"
-      />
-      <ListGenerator
-        header="מטרות"
-        attr="goals"
-        event={event}
-        setCurrList={setAttr}
-      />
-      <ListGenerator
-        header="אמצעי איסוף נתונים"
-        attr="dataSources"
-        event={event}
-        setCurrList={setAttr}
+      <DateRangePicker
+        isDatePick={isDatePick}
+        setIsDatePick={setIsDatePick}
+        currDates={currDates}
+        setCurrDates={setCurrDates}
       />
     </div>
   );

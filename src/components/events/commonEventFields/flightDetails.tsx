@@ -2,8 +2,8 @@ import { Grid, TextField } from '@mui/material';
 import {
   eventFlightDetails,
   eventKeyDisplay,
-} from '../../types/configurations';
-import { IEvent } from '../../types/interfaces';
+} from '../../../types/configurations';
+import { IEvent } from '../../../types/interfaces';
 
 interface DetailsProps {
     isValue: boolean;

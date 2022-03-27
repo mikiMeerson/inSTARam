@@ -1,15 +1,15 @@
 import { Grid, TextField } from '@mui/material';
-import { IEvent } from '../../types/interfaces';
+import { IEvent } from '../../../types/interfaces';
 import {
   additionalEventDetails,
   eventKeyDisplay,
-} from '../../types/configurations';
+} from '../../../types/configurations';
 
 interface DetailsProps {
-    disabled: boolean;
-    isValue: boolean;
-    event?: IEvent;
-    setAttr?: (attr: keyof IEvent, value: any) => void;
+  disabled: boolean;
+  isValue: boolean;
+  event?: IEvent;
+  setAttr?: (attr: keyof IEvent, value: any) => void;
 }
 
 const AdditionalDetails = ({

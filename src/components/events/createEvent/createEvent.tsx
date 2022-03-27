@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import EventDetails from './eventDetails';
 import EventVersions from './eventVersions';
-import ListGenerator from '../../general/listGenerator';
 import { addEvent } from '../../../services/event-service';
 import '../styles/createEvent.css';
 import {
@@ -31,6 +30,7 @@ import {
   RAAM_COMPUTERS,
   RAAM_STATIONS,
 } from '../../../types/enums';
+import EventLists from '../commonEventFields/eventLists';
 
 const CreateEvent = () => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
@@ -130,7 +130,6 @@ const CreateEvent = () => {
           <EventDetails
             register={register}
             errors={errors}
-            event={newEvent}
             setAttr={setAttr}
             currDates={currDates}
             setCurrDates={setCurrDates}
@@ -143,30 +142,7 @@ const CreateEvent = () => {
             stations={stations}
             computers={computers}
           />
-          <ListGenerator
-            header="מהלך הניסוי"
-            attr="description"
-            event={newEvent}
-            setCurrList={setAttr}
-          />
-          <ListGenerator
-            header="ממצאים"
-            attr="findings"
-            event={newEvent}
-            setCurrList={setAttr}
-          />
-          <ListGenerator
-            header="הערות"
-            attr="notes"
-            event={newEvent}
-            setCurrList={setAttr}
-          />
-          <ListGenerator
-            header="מסקנות, המלצות ומטלות"
-            attr="conclusions"
-            event={newEvent}
-            setCurrList={setAttr}
-          />
+          <EventLists event={newEvent} setAttr={setAttr} editable />
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               variant="contained"

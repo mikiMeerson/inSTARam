@@ -1,6 +1,6 @@
 import { IEvent } from '../../../types/interfaces';
-import AdditionalDetails from '../additionalDetails';
-import FlightDetails from '../flightDetails';
+import AdditionalDetails from '../commonEventFields/additionalDetails';
+import FlightDetails from '../commonEventFields/flightDetails';
 
 interface EventProps {
     event: IEvent;

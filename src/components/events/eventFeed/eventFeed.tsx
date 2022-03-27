@@ -9,7 +9,7 @@ import { getEventById } from '../../../services/event-service';
 import EventVersions from './eventVersions';
 import EventDetails from './eventDetails';
 import EventHeader from './eventHeader';
-import EventLists from './eventLists';
+import EventLists from '../commonEventFields/eventLists';
 import { IEvent } from '../../../types/interfaces';
 import {
   BAZ_COMPUTERS,
@@ -88,7 +88,7 @@ const Event = ({ eventId, userRole }: eventProps) => {
             ? Object.values(RAAM_COMPUTERS)
             : Object.values(BAZ_COMPUTERS)}
         />
-        <EventLists event={event} />
+        <EventLists event={event} editable={false} />
       </div>
     </>
   );

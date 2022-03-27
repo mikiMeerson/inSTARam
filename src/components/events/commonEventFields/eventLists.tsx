@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
-import { eventKeyDisplay, eventLists } from '../../types/configurations';
-import { IEvent } from '../../types/interfaces';
-import ListGenerator from '../general/listGenerator';
-import List from '../general/list';
+import { eventKeyDisplay, eventLists } from '../../../types/configurations';
+import { IEvent } from '../../../types/interfaces';
+import ListGenerator from '../../general/listGenerator';
+import List from '../../general/list';
 
 interface ListsProps {
     event: IEvent;

@@ -7,7 +7,7 @@ import {
 import SelectField from '../../general/selectField';
 import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
 import { IEvent } from '../../../types/interfaces';
-import FlightDetails from '../flightDetails';
+import FlightDetails from '../commonEventFields/flightDetails';
 
 interface DetailsProps {
     isDatePick: boolean;
