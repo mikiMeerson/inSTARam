@@ -18,14 +18,17 @@ import {
   RAAM_COMPUTERS,
   RAAM_STATIONS,
 } from '../../../types/enums';
+import { userRole } from '../../../types/string-types';
 
 interface eventProps {
     eventId: string | undefined;
+    userRole: userRole;
 }
 
-const Event = ({ eventId }: eventProps) => {
+const Event = ({ eventId, userRole }: eventProps) => {
   const [event, setEvent] = useState<IEvent>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   if (!eventId) {
     const navigate = useNavigate();
@@ -69,7 +72,12 @@ const Event = ({ eventId }: eventProps) => {
         </Box>
       )}
       <div className="eventFeed">
-        <EventHeader event={event} />
+        <EventHeader
+          userRole={userRole}
+          event={event}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+        />
         <EventDetails event={event} />
         <EventVersions
           event={event}

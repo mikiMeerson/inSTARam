@@ -27,7 +27,7 @@ const Events = ({ userRole }: eventProps) => {
           path="event"
           element={(
             <>
-              <Event eventId={eventToDisplay} />
+              <Event eventId={eventToDisplay} userRole={userRole} />
               <Outlet />
             </>
         )}

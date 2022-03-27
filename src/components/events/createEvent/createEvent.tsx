@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -113,7 +113,7 @@ const CreateEvent = () => {
               <Select
                 variant="outlined"
                 input={<OutlinedInput />}
-                defaultValue={defaultRAAMEvent.platform}
+                defaultValue={newEvent.platform}
                 {...register('platform')}
                 onChange={handlePlatformChange}
                 error={errors.platform?.message}

@@ -5,7 +5,7 @@ import {
   Typography,
 } from '@mui/material';
 import SelectField from '../../general/selectField';
-import { BLOCKS, EVENT_TYPES, PLATFORMS } from '../../../types/enums';
+import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
 import { IEvent } from '../../../types/interfaces';
 
 interface DetailsProps {
