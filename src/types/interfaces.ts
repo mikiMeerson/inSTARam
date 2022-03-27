@@ -78,7 +78,7 @@ export interface IEvent {
   name: string;
   publisher: string;
   type: EVENT_TYPES;
-  assignee: string;
+  assignee?: string;
   block: BLOCKS;
   platform: PLATFORMS;
   dates: Date[];

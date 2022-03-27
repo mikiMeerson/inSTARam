@@ -7,6 +7,7 @@ import {
 import SelectField from '../../general/selectField';
 import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
 import { IEvent } from '../../../types/interfaces';
+import FlightDetails from '../flightDetails';
 
 interface DetailsProps {
     isDatePick: boolean;
@@ -70,34 +71,6 @@ const BasicDetails = ({
         </Grid>
         <Grid item xs={4}>
           <TextField
-            fullWidth
-            variant="outlined"
-            label="מטס"
-            onChange={(e) => setAttr('reason', e.target.value)}
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={4}>
-        <Grid item xs={4}>
-          <TextField
-            fullWidth
-            label="גוף מבצע"
-            {...register('assignee')}
-            error={errors.assignee}
-          />
-          <Typography color="textSecondary">
-            {errors.assignee?.message}
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
-            fullWidth
-            label="צוות"
-            onChange={(e) => setAttr('team', e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField
             label="תאריכים"
             sx={{ width: '100%', paddingLeft: 0, marginLeft: '15px' }}
             onClick={() => setIsDatePick(!isDatePick)}
@@ -116,6 +89,7 @@ const BasicDetails = ({
           </Typography>
         </Grid>
       </Grid>
+      <FlightDetails isValue={false} disabled={false} setAttr={setAttr} />
     </>
   );
 };

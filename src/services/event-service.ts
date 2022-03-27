@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { baseUrl } from '../globals';
+import { ApiEventsType } from '../types/api-types';
+import { IEvent } from '../types/interfaces';
 
 export const getEvents = async (): Promise<AxiosResponse<ApiEventsType>> => {
   try {

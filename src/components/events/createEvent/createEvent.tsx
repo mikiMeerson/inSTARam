@@ -49,7 +49,6 @@ const CreateEvent = () => {
     type: Yup.string().required('נא למלא סוג אירוע'),
     platform: Yup.string().required('נא למלא פלטפורמה'),
     block: Yup.string().required('נא למלא בלוק'),
-    assignee: Yup.string().required('נא למלא גוף מבצע'),
     dates: Yup.string().required('נא למלא תאריכים'),
   });
 
@@ -70,7 +69,6 @@ const CreateEvent = () => {
     setAttr('type', data.type);
     setAttr('platform', data.platform);
     setAttr('block', data.block);
-    setAttr('assignee', data.assignee);
     setAttr('dates', currDates);
     setAttr('publisher', localStorage.getItem('userDisplay') || 'אנונימי');
     const { status } = await addEvent(newEvent);

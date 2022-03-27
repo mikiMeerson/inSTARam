@@ -206,3 +206,25 @@ export interface filterDataType {
     | 'success'
     | 'warning',
   }
+
+export const eventLists = [
+  'generalSummary',
+  'goals',
+  'dataSources',
+  'description',
+  'findings',
+  'notes',
+  'conclusions',
+];
+
+export const eventFlightDetails = [
+  'assignee',
+  'team',
+  'reason',
+];
+
+export const additionalEventDetails = [
+  'callSign',
+  'areas',
+  'duration',
+];
