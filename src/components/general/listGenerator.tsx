@@ -33,6 +33,10 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
     setNewItem('');
   };
 
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter' && newItem.trim().length > 0) handleAddItem();
+  };
+
   const handleDeleteItem = (deletedItem: string) => {
     setCurrList(attr, (event[attr] as string[])
       .filter((f: string) => f !== deletedItem));
@@ -44,7 +48,7 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
       <Typography variant="h6">{header}</Typography>
       <List>
         {list.map((f: string, index: number) => (
-          <ListItem key={f} sx={{ textAlign: 'start' }}>
+          <ListItem key={index} sx={{ textAlign: 'start' }}>
             <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
               <DeleteOutlined color="error" />
             </IconButton>
@@ -53,23 +57,17 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
         ))}
       </List>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <span>
-          {list.length + 1}
-          .
-          {' '}
-        </span>
+        <span>{`${list.length + 1}. `}</span>
         <TextField
           variant="outlined"
           value={newItem}
           multiline
           sx={{ width: '100%', margin: '10px' }}
           onChange={(e) => setNewItem(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
       </div>
-      <Button
-        disabled={newItem === ''}
-        onClick={() => handleAddItem()}
-      >
+      <Button disabled={newItem === ''} onClick={() => handleAddItem()}>
         הוסף
       </Button>
     </div>
