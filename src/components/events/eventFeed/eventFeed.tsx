@@ -78,9 +78,9 @@ const Event = ({ eventId, userRole }: eventProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
         />
-        <EventDetails event={event} disabled isValue />
+        <EventDetails event={event} disabled={!isEdit} isValue />
         <EventVersions
-          isEditable={false}
+          isEditable={isEdit}
           event={event}
           stations={event.platform === PLATFORMS.RAAM
             ? Object.values(RAAM_STATIONS)
@@ -89,7 +89,7 @@ const Event = ({ eventId, userRole }: eventProps) => {
             ? Object.values(RAAM_COMPUTERS)
             : Object.values(BAZ_COMPUTERS)}
         />
-        <EventLists event={event} editable={false} />
+        <EventLists event={event} editable={isEdit} />
       </div>
     </>
   );
