@@ -47,7 +47,7 @@ const Stars = ({ userRole }: starProps) => {
   const fetchStars = async (): Promise<void> => {
     setLoading(true);
     const { data } = await getStars();
-    setStars(data.stars.filter((s) => s.status !== STATUSES.CLOSED));
+    setStars(data.stars);
     setLoading(false);
   };
 
@@ -131,7 +131,7 @@ const Stars = ({ userRole }: starProps) => {
             element={stars && (
               <StarsMain
                 userRole={userRole}
-                stars={stars}
+                stars={stars.filter((s) => s.status !== STATUSES.CLOSED)}
                 addStar={handleAddStar}
                 removeStar={handleDeleteStar}
                 setFeed={setFeedToDisplay}
@@ -157,6 +157,7 @@ const Stars = ({ userRole }: starProps) => {
             element={(
               <>
                 <StarsHistory
+                  stars={stars}
                   userRole={userRole}
                   updateStar={handleUpdateStar}
                 />
