@@ -6,7 +6,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { getEventById } from '../../../services/event-service';
-import EventVersions from './eventVersions';
+import EventVersions from '../commonEventFields/eventVersions';
 import EventDetails from '../commonEventFields/eventDetails';
 import EventHeader from './eventHeader';
 import EventLists from '../commonEventFields/eventLists';
@@ -80,6 +80,7 @@ const Event = ({ eventId, userRole }: eventProps) => {
         />
         <EventDetails event={event} disabled isValue />
         <EventVersions
+          isEditable={false}
           event={event}
           stations={event.platform === PLATFORMS.RAAM
             ? Object.values(RAAM_STATIONS)

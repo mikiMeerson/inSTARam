@@ -15,7 +15,7 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import EventDetails from '../commonEventFields/eventDetails';
-import EventVersions from './eventVersions';
+import EventVersions from '../commonEventFields/eventVersions';
 import { addEvent } from '../../../services/event-service';
 import '../styles/createEvent.css';
 import {
@@ -136,12 +136,11 @@ const CreateEvent = () => {
           />
           <EventDetails isValue={false} disabled={false} setAttr={setAttr} />
           <EventVersions
-            register={register}
-            errors={errors}
-            event={newEvent}
-            setAttr={setAttr}
+            isEditable
             stations={stations}
             computers={computers}
+            event={newEvent}
+            setAttr={setAttr}
           />
           <EventLists event={newEvent} setAttr={setAttr} editable />
           <div style={{ display: 'flex', justifyContent: 'center' }}>
