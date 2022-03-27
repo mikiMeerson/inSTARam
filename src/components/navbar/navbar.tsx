@@ -1,33 +1,49 @@
 import { useState } from 'react';
 import { AppBar, Toolbar, Container } from '@mui/material';
 import './styles/navbar.css';
-import FullWidthNavbar from './halfWidthNavbar';
-import HalfWidthNavbar from './fullWidthNavbar';
+import HalfWidthNavbar from './halfWidthNavbar';
+import FullWidthNavbar from './fullWidthNavbar';
 import UserNavbar from './userNavbar';
-import { userRole } from '../../types/string-types';
+import { mainComponents, userRole } from '../../types/string-types';
 import { pages } from '../../types/configurations';
 
 interface NavbarProps {
   userRole: userRole;
+  currNavbar: mainComponents;
+  setCurrNavbar: (param: mainComponents) => void;
 }
 
-const Navbar = ({ userRole }: NavbarProps) => {
+const Navbar = ({ userRole, currNavbar, setCurrNavbar }: NavbarProps) => {
   const [anchorElNav, setAnchorElNav] = useState();
 
+  const navbarColors = {
+    stars: 'goldenrod',
+    events: 'purple',
+    users: 'blue',
+    home: 'transparent',
+  };
+
   return (
-    <AppBar position="static" sx={{ background: 'goldenrod' }}>
+    <AppBar
+      sx={{
+        background: navbarColors[currNavbar],
+        position: currNavbar === 'home' ? 'fixed' : 'static',
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <FullWidthNavbar
+          <HalfWidthNavbar
             pages={pages}
             anchorElNav={anchorElNav}
             setAnchorElNav={setAnchorElNav}
             userRole={userRole}
+            setCurrNavbar={setCurrNavbar}
           />
-          <HalfWidthNavbar
+          <FullWidthNavbar
             pages={pages}
             setAnchorElNav={setAnchorElNav}
             userRole={userRole}
+            setCurrNavbar={setCurrNavbar}
           />
           <UserNavbar setAnchorElNav={setAnchorElNav} />
         </Toolbar>

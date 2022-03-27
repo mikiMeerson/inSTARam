@@ -3,12 +3,15 @@ import { StarOutline } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Typography, Box, MenuItem, Menu } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
+import { linkDisplayType } from '../../types/configurations';
+import { mainComponents, userRole } from '../../types/string-types';
 
 interface NavbarProps {
   pages: linkDisplayType[];
   setAnchorElNav: (param: any) => void;
   anchorElNav: any;
   userRole: userRole;
+  setCurrNavbar: (param: mainComponents) => void;
 }
 
 const HalfWidthNavBar = ({
@@ -16,9 +19,10 @@ const HalfWidthNavBar = ({
   anchorElNav,
   setAnchorElNav,
   userRole,
+  setCurrNavbar,
 }: NavbarProps) => (
   <>
-    <Link to="/">
+    <Link to="/" onClick={() => setCurrNavbar('home')}>
       <Typography
         variant="h6"
         noWrap
@@ -63,7 +67,13 @@ const HalfWidthNavBar = ({
           .filter((p) => p.role === 'viewer'
             || userRole === p.role || userRole === 'admin')
           .map((page: linkDisplayType, index) => (
-            <NavLink to={page.link} key={index}>
+            <NavLink
+              to={page.link}
+              key={index}
+              onClick={() => setCurrNavbar(
+                page.link.substring(1) as mainComponents,
+              )}
+            >
               <MenuItem
                 key={page.display}
                 onClick={() => setAnchorElNav(undefined)}

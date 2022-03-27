@@ -1,20 +1,24 @@
 import { StarOutline } from '@mui/icons-material';
 import { Typography, Box, Button } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
+import { linkDisplayType } from '../../types/configurations';
+import { userRole, mainComponents } from '../../types/string-types';
 
 interface NavbarProps {
   pages: linkDisplayType[];
   setAnchorElNav: (param: any) => void;
   userRole: userRole;
+  setCurrNavbar: (param: mainComponents) => void;
 }
 
 const FullWidthNavbar = ({
   pages,
   setAnchorElNav,
   userRole,
+  setCurrNavbar,
 }: NavbarProps) => (
   <>
-    <Link to="/">
+    <Link to="/" onClick={() => setCurrNavbar('home')}>
       <Typography
         variant="h6"
         noWrap
@@ -29,7 +33,13 @@ const FullWidthNavbar = ({
         .filter((p) => p.role === 'viewer'
         || userRole === p.role || userRole === 'admin')
         .map((page: linkDisplayType) => (
-          <NavLink to={page.link} key={page.link}>
+          <NavLink
+            to={page.link}
+            key={page.link}
+            onClick={() => setCurrNavbar(
+              page.link.substring(1) as mainComponents,
+            )}
+          >
             <Button
               key={page.display}
               onClick={() => setAnchorElNav(undefined)}

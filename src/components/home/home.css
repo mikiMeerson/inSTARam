@@ -1,19 +1,5 @@
-/* .home {
-    height:89%;
-    overflow: hidden;
-    background:
-      linear-gradient(to bottom right,transparent 49.5%,whitesmoke 50%) bottom right,
-      linear-gradient(to bottom left ,transparent 49.5%,whitesmoke  50%) bottom left ,
-      url('../../assets/sky.jpg');
-    background-size:100% 70%;
-    background-repeat:no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-} */
 .home {
-  height:89%;
+  height: 100%;
   width: 100%;
   overflow: hidden;
   display: flex;
