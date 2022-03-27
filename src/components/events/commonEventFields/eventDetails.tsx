@@ -17,7 +17,12 @@ const EventDetails = ({ disabled, isValue, event, setAttr }: EventProps) => {
 
   return (
     <div className="eventDetails">
-      <FlightDetails event={event} disabled={disabled} isValue={isValue} />
+      <FlightDetails
+        event={event}
+        disabled={disabled}
+        isValue={isValue}
+        setAttr={setAttr}
+      />
       <div className="moreDetails">
         <Button color="info" onClick={() => setDisplayMore(!displayMore)}>
           { displayMore ? (
@@ -30,11 +35,12 @@ const EventDetails = ({ disabled, isValue, event, setAttr }: EventProps) => {
           ) }
         </Button>
         {displayMore && (
-          <AdditionalDetails
-            event={event}
-            disabled={disabled}
-            isValue={isValue}
-          />
+        <AdditionalDetails
+          event={event}
+          disabled={disabled}
+          isValue={isValue}
+          setAttr={setAttr}
+        />
         )}
       </div>
     </div>

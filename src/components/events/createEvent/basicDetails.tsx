@@ -29,7 +29,8 @@ const BasicDetails = ({
   `;
 
   return (
-    <>
+    <div className="eventDetails">
+      <Typography variant="h5">פרטי האירוע</Typography>
       <Grid container>
         <Grid item xs={8}>
           <TextField
@@ -93,7 +94,7 @@ const BasicDetails = ({
         currDates={currDates}
         setCurrDates={setCurrDates}
       />
-    </>
+    </div>
   );
 };
 
