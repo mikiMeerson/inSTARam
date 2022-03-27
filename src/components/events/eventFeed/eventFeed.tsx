@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { getEventById } from '../../../services/event-service';
 import EventVersions from './eventVersions';
-import EventDetails from './eventDetails';
+import EventDetails from '../commonEventFields/eventDetails';
 import EventHeader from './eventHeader';
 import EventLists from '../commonEventFields/eventLists';
 import { IEvent } from '../../../types/interfaces';
@@ -78,7 +78,7 @@ const Event = ({ eventId, userRole }: eventProps) => {
           isEdit={isEdit}
           setIsEdit={setIsEdit}
         />
-        <EventDetails event={event} />
+        <EventDetails event={event} disabled isValue />
         <EventVersions
           event={event}
           stations={event.platform === PLATFORMS.RAAM

@@ -14,7 +14,7 @@ import {
   MenuItem,
   OutlinedInput,
 } from '@mui/material';
-import EventDetails from './eventDetails';
+import EventDetails from '../commonEventFields/eventDetails';
 import EventVersions from './eventVersions';
 import { addEvent } from '../../../services/event-service';
 import '../styles/createEvent.css';
@@ -31,6 +31,7 @@ import {
   RAAM_STATIONS,
 } from '../../../types/enums';
 import EventLists from '../commonEventFields/eventLists';
+import BasicDetails from './basicDetails';
 
 const CreateEvent = () => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
@@ -127,13 +128,13 @@ const CreateEvent = () => {
               {errors.platform?.message}
             </Typography>
           </div>
-          <EventDetails
+          <BasicDetails
             register={register}
             errors={errors}
-            setAttr={setAttr}
             currDates={currDates}
             setCurrDates={setCurrDates}
           />
+          <EventDetails isValue={false} disabled={false} setAttr={setAttr} />
           <EventVersions
             register={register}
             errors={errors}

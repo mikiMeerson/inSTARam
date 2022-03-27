@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import {
   Grid,
@@ -5,27 +6,24 @@ import {
   Typography,
 } from '@mui/material';
 import SelectField from '../../general/selectField';
+import DateRangePicker from './dateRangePicker';
 import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
-import { IEvent } from '../../../types/interfaces';
-import FlightDetails from '../commonEventFields/flightDetails';
 
 interface DetailsProps {
-    isDatePick: boolean;
-    setIsDatePick: (param: boolean) => void;
     currDates: Date[];
+    setCurrDates: (param: Date[]) => void;
     register: UseFormRegister<FieldValues>;
     errors: any;
-    setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
 const BasicDetails = ({
-  isDatePick,
-  setIsDatePick,
   currDates,
+  setCurrDates,
   register,
   errors,
-  setAttr,
 }: DetailsProps) => {
+  const [isDatePick, setIsDatePick] = useState<boolean>(false);
+
   const getDisplayDate = (date: Date) => `
   ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}
   `;
@@ -89,7 +87,12 @@ const BasicDetails = ({
           </Typography>
         </Grid>
       </Grid>
-      <FlightDetails isValue={false} disabled={false} setAttr={setAttr} />
+      <DateRangePicker
+        isDatePick={isDatePick}
+        setIsDatePick={setIsDatePick}
+        currDates={currDates}
+        setCurrDates={setCurrDates}
+      />
     </>
   );
 };
