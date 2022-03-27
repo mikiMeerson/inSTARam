@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Button } from '@mui/material';
-import { ChevronLeft, ExpandMore } from '@mui/icons-material';
 import { IEvent } from '../../../types/interfaces';
+import {
+  additionalEventDetails,
+  eventFlightDetails,
+} from '../../../types/configurations';
 import AdditionalDetails from './additionalDetails';
-import FlightDetails from './flightDetails';
 
 interface EventProps {
     disabled: boolean;
@@ -13,36 +14,31 @@ interface EventProps {
 }
 
 const EventDetails = ({ disabled, isValue, event, setAttr }: EventProps) => {
+  const [displayFlight, setDisplayFlight] = useState<boolean>(false);
   const [displayMore, setDisplayMore] = useState<boolean>(false);
 
   return (
     <div className="eventDetails">
-      <FlightDetails
+      <AdditionalDetails
+        details={eventFlightDetails}
         event={event}
         disabled={disabled}
         isValue={isValue}
         setAttr={setAttr}
+        toggle={displayFlight}
+        setToggle={setDisplayFlight}
+        toggleLabel="נתוני טיסה"
       />
-      <div className="moreDetails">
-        <Button color="info" onClick={() => setDisplayMore(!displayMore)}>
-          { displayMore ? (
-            <ExpandMore />
-          ) : (
-            <>
-              <span>פרטים נוספים</span>
-              <ChevronLeft />
-            </>
-          ) }
-        </Button>
-        {displayMore && (
-        <AdditionalDetails
-          event={event}
-          disabled={disabled}
-          isValue={isValue}
-          setAttr={setAttr}
-        />
-        )}
-      </div>
+      <AdditionalDetails
+        details={additionalEventDetails}
+        event={event}
+        disabled={disabled}
+        isValue={isValue}
+        setAttr={setAttr}
+        toggle={displayMore}
+        setToggle={setDisplayMore}
+        toggleLabel="פרטים נוספים"
+      />
     </div>
   );
 };

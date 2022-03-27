@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@mui/material';
 import SelectField from '../../general/selectField';
-import DateRangePicker from './dateRangePicker';
+import DateRangePicker from '../commonEventFields/dateRangePicker';
 import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
 
 interface DetailsProps {
