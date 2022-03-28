@@ -42,7 +42,7 @@ const BasicDetails = ({
             {...register('name')}
             error={errors.name}
           />
-          <Typography color="textSecondary">
+          <Typography variant="inherit" color="textSecondary">
             {errors.name?.message}
           </Typography>
         </Grid>
@@ -83,7 +83,7 @@ const BasicDetails = ({
             {...register('dates')}
             error={errors.dates}
           />
-          <Typography color="textSecondary">
+          <Typography variant="inherit" color="textSecondary">
             {errors.dates?.message}
           </Typography>
         </Grid>
