@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { baseUrl } from '../globals';
+import { ApiUsersType } from '../types/api-types';
+import { IUser } from '../types/interfaces';
+import { userRole } from '../types/string-types';
 
 export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
   try {

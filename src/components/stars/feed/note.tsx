@@ -7,6 +7,7 @@ import {
   Divider,
 } from '@mui/material';
 import { useState } from 'react';
+import { INote } from '../../../types/interfaces';
 import DialogAlert from '../../general/dialogAlert';
 
 interface noteProps {

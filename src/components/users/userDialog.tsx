@@ -24,6 +24,7 @@ import {
   getUserById,
   logout,
 } from '../../services/user-service';
+import { userRole } from '../../types/string-types';
 
 interface userRowType {
   id: string;

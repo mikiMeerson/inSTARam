@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import { IActivity } from '../../../types/interfaces';
 import ActivityItem from './activityItem';
 
 interface activityProps {

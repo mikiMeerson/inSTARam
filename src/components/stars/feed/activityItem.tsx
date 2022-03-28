@@ -7,6 +7,7 @@ import {
   ComputerOutlined,
   StarOutline,
 } from '@mui/icons-material';
+import { IActivity } from '../../../types/interfaces';
 
 interface activityProps {
   log: IActivity;

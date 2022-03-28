@@ -4,6 +4,8 @@ import { Button } from '@mui/material';
 import { DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { getUsers } from '../../services/user-service';
 import UserDialog from './userDialog';
+import { IUser } from '../../types/interfaces';
+import { userRole } from '../../types/string-types';
 
 interface userRowType {
   id: string;

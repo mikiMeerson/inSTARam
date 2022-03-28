@@ -9,6 +9,8 @@ import '../styles/expand.css';
 import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
 import DialogAlert from '../../general/dialogAlert';
+import { IStar } from '../../../types/interfaces';
+import { userRole } from '../../../types/string-types';
 
 interface starProps {
   userRole: userRole;

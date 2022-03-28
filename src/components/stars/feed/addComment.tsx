@@ -1,6 +1,7 @@
 import { AccountCircle } from '@mui/icons-material';
 import { TextField, Avatar, Button } from '@mui/material';
 import { BaseSyntheticEvent, useState } from 'react';
+import { INote } from '../../../types/interfaces';
 
 interface commentProps {
   replyTo: INote | undefined;
