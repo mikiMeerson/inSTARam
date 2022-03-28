@@ -16,26 +16,26 @@ import {
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
 import { userRole } from '../../../types/string-types';
-import { IStar } from '../../../types/interfaces';
+import { IEvent, IStar } from '../../../types/interfaces';
 import { SEVERITIES } from '../../../types/enums';
 
 interface starProps {
   userRole: userRole;
   star: IStar;
-  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;
   setDragged: (star: IStar | undefined) => void;
+  event: IEvent | undefined;
 }
 const StarRow = ({
   userRole,
   star,
-  setFeed,
   removeStar,
   changePriority,
   dragged,
   setDragged,
+  event,
 }: starProps) => {
   const [openDesc, setOpenDesc] = useState(false);
 
@@ -134,8 +134,8 @@ const StarRow = ({
         <StarExpand
           userRole={userRole}
           star={star}
-          setFeed={setFeed}
           removeStar={deleteStar}
+          event={event}
         />
       </Collapse>
     </TableContainer>

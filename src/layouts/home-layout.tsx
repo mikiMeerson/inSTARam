@@ -38,10 +38,9 @@ const Home = ({ userRole, setCurrNavbar }: HomeProps) => (
         .filter((p) => p.role === 'viewer'
             || userRole === p.role || userRole === 'admin')
         .map((page: linkDisplayType, index) => (
-          <div className="linkDisplay">
+          <div key={index} className="linkDisplay">
             <NavLink
               to={page.link}
-              key={index}
               onClick={() => setCurrNavbar(
                 page.link.substring(1) as mainComponents,
               )}

@@ -2,7 +2,7 @@ import { BaseSyntheticEvent, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
 import FiltersHeader from './Filters/filtersHeader';
-import { IStar } from '../../../types/interfaces';
+import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import { filterDataType } from '../../../types/configurations';
 
@@ -10,22 +10,22 @@ interface starProps {
   userRole: userRole;
   unprioritized: boolean;
   stars: IStar[];
-  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;
   setDragged: (star: IStar | undefined) => void;
+  events: IEvent[];
 }
 
 const StarsTable = ({
   userRole,
   unprioritized,
   stars,
-  setFeed,
   removeStar,
   changePriority,
   dragged,
   setDragged,
+  events,
 }: starProps) => {
   const getExistingFilters = (filterName: string) => {
     const existingFilter = unprioritized
@@ -174,11 +174,11 @@ const StarsTable = ({
               userRole={userRole}
               key={star._id}
               star={star}
-              setFeed={setFeed}
               removeStar={removeStar}
               changePriority={changePriority}
               dragged={dragged}
               setDragged={setDragged}
+              event={events.find((e) => e._id === star.event)}
             />
           ))}
         <div

@@ -22,7 +22,6 @@ interface starProps {
 
 const Stars = ({ userRole }: starProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [feedToDisplay, setFeedToDisplay] = useState<string>();
   const [stars, setStars] = useState<IStar[]>([]);
   const [alert, setAlert] = useState<IAlert>({
     isAlert: false,
@@ -134,7 +133,6 @@ const Stars = ({ userRole }: starProps) => {
                 stars={stars.filter((s) => s.status !== STATUSES.CLOSED)}
                 addStar={handleAddStar}
                 removeStar={handleDeleteStar}
-                setFeed={setFeedToDisplay}
                 changePriority={changePriority}
               />
             )}
@@ -145,7 +143,6 @@ const Stars = ({ userRole }: starProps) => {
               <>
                 <StarFeed
                   userRole={userRole}
-                  starId={feedToDisplay}
                   updateStar={handleUpdateStar}
                 />
                 <Outlet />

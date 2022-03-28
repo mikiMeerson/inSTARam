@@ -18,10 +18,9 @@ import { userRole } from '../../types/string-types';
 
 interface eventProps {
   userRole: userRole;
-  setEventToDisplay: (param: string) => void;
 }
 
-const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
+const EventsMain = ({ userRole }: eventProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
 
@@ -86,7 +85,6 @@ const EventsMain = ({ userRole, setEventToDisplay }: eventProps) => {
               <EventCard
                 event={e}
                 handleDeleteEvent={handleDeleteEvent}
-                setEventToDisplay={setEventToDisplay}
                 userRole={userRole}
               />
             </Grid>

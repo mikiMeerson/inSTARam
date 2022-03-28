@@ -16,14 +16,12 @@ import { EVENT_TYPES } from '../../types/enums';
 interface CardProps {
     event: IEvent;
     handleDeleteEvent: (event: IEvent) => void;
-    setEventToDisplay: (param: string) => void;
     userRole: userRole;
 }
 
 const EventCard = ({
   event,
   handleDeleteEvent,
-  setEventToDisplay,
   userRole,
 }: CardProps) => {
   const [isEventDelete, setIsEventDelete] = useState<boolean>(false);
@@ -55,7 +53,7 @@ const EventCard = ({
   return (
     <Card className="eventCard">
       <CardActionArea>
-        <NavLink to="event" onClick={() => setEventToDisplay(event._id)}>
+        <NavLink to={`/events/${event._id}`}>
           <div className="cardHeader">
             <IconButton disabled>
               {typeToIcon.find((element) => element.type === event.type)?.icon}

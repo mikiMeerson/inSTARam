@@ -6,20 +6,20 @@ import {
   Typography,
 } from '@mui/material';
 import '../styles/expand.css';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
 import DialogAlert from '../../general/dialogAlert';
-import { IStar } from '../../../types/interfaces';
+import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 
 interface starProps {
   userRole: userRole;
   star: IStar;
-  setFeed: (id: string) => void;
   removeStar: (star: IStar) => void;
+  event: IEvent | undefined;
 }
 
-const starExpand = ({ userRole, star, setFeed, removeStar }: starProps) => {
+const starExpand = ({ userRole, star, removeStar, event }: starProps) => {
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
 
   return (
@@ -30,11 +30,14 @@ const starExpand = ({ userRole, star, setFeed, removeStar }: starProps) => {
             הועלה על ידי
             {' '}
             <span style={{ color: 'crimson' }}>{star.publisher}</span>
-            {' '}
-            מתוך
-            {' '}
-            <span style={{ color: 'cornflowerblue' }}>{star.event}</span>
-            {' '}
+            {event && (
+              <>
+                <span> מתוך </span>
+                <Link to={`/events/${event._id}`} style={{ color: 'blue' }}>
+                  {event.name}
+                </Link>
+              </>
+            )}
           </Typography>
         </Grid>
         <Grid
@@ -60,7 +63,7 @@ const starExpand = ({ userRole, star, setFeed, removeStar }: starProps) => {
           </Typography>
         </Grid>
         <div className="starActions">
-          <NavLink to={`/stars/${star._id}`} onClick={() => setFeed(star._id)}>
+          <NavLink to={`/stars/${star._id}`}>
             <Button variant="contained" sx={{ background: 'goldenrod' }}>
               עבור לעמוד הסטאר
             </Button>

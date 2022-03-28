@@ -2,29 +2,29 @@ import { BaseSyntheticEvent, useState } from 'react';
 import { Collapse, SpeedDial, SpeedDialIcon, Button } from '@mui/material';
 import { StarBorder, ChevronRight, MenuOpenSharp } from '@material-ui/icons';
 import StarsTable from './starsTable';
-import { IStar } from '../../../types/interfaces';
+import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 
 interface tableProps {
   userRole: userRole;
   stars: IStar[];
   toggleAddStar: (param: boolean) => void;
-  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;
   setDragged: (param: IStar | undefined) => void;
+  events: IEvent[];
 }
 
 const NoPriority = ({
   userRole,
   stars,
   toggleAddStar,
-  setFeed,
   removeStar,
   changePriority,
   dragged,
   setDragged,
+  events,
 }: tableProps) => {
   const [hideNoPriority, toggleHideNoPriority] = useState<boolean>(false);
 
@@ -72,12 +72,12 @@ const NoPriority = ({
           <StarsTable
             userRole={userRole}
             unprioritized
-            setFeed={setFeed}
             stars={stars}
             removeStar={removeStar}
             changePriority={changePriority}
             dragged={dragged}
             setDragged={setDragged}
+            events={events}
           />
         </div>
       </Collapse>

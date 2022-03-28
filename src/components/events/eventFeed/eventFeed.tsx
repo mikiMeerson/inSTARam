@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { StatusCodes } from 'http-status-codes';
 import { Box, CircularProgress } from '@mui/material';
 import { getEventById, updateEvent } from '../../../services/event-service';
@@ -18,33 +18,28 @@ import {
 import { userRole } from '../../../types/string-types';
 
 interface eventProps {
-    eventId: string | undefined;
     userRole: userRole;
 }
 
-const Event = ({ eventId, userRole }: eventProps) => {
+const Event = ({ userRole }: eventProps) => {
   const [event, setEvent] = useState<IEvent>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
-  if (!eventId) {
-    const navigate = useNavigate();
-    navigate('/events');
-    return null;
-  }
+  const { id } = useParams();
 
   const fetchEvent = useCallback(async (): Promise<void> => {
-    const { status, data } = await getEventById(eventId);
-    if (status !== StatusCodes.OK) {
-      throw new Error('Error! Event not found');
+    if (id) {
+      const { status, data } = await getEventById(id);
+      if (status !== StatusCodes.OK) {
+        throw new Error('Error! Event not found');
+      }
+      setEvent(data.event);
+      setLoading(false);
     }
-    setEvent(data.event);
-  }, [eventId]);
+  }, []);
 
   useEffect(() => {
-    setLoading(true);
     fetchEvent();
-    setLoading(false);
   }, []);
 
   if (!event) {

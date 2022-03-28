@@ -49,6 +49,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
   const [chosenBlock, setChosenBlock] = useState<BLOCKS>();
   const [events, setEvents] = useState<IEvent[]>([]);
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
+  const [chosenEvent, setChosenEvent] = useState<string>();
 
   const getEventsOptions = (platform: PLATFORMS, block?: BLOCKS) => {
     block ? setEventsOptions(events.filter((e) => e.platform === platform
@@ -74,7 +75,6 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     assignee: Yup.string().required('נא למלא אחראי'),
     block: Yup.string().required('נא למלא בלוק'),
     platform: Yup.string().required('נא למלא פלטפורמה'),
-    event: Yup.string().required('נא למלא שם אירוע/גיחה'),
     desc: Yup.string()
       .required('נא למלא תיאור')
       .max(100, 'תיאור הסטאר לא יכול לעלות על 100 תווים'),
@@ -122,6 +122,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
 
   const handleAddStar = (data: any) => {
     toggleModal(false);
+    data.event = chosenEvent;
     addStar(data);
     fields.map((f) => resetField(f.field));
   };
@@ -205,6 +206,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
                 <Select
                   variant="outlined"
                   input={<Input />}
+                  onChange={(e) => setChosenEvent(e.target.value as string)}
                 >
                   {eventsOptions.map((event) => (
                     <MenuItem key={event._id} value={event._id}>

@@ -51,12 +51,12 @@ export interface IStar {
   platform: PLATFORMS;
   block: BLOCKS;
   publisher: string;
-  event: string;
   resources: string[];
   desc: string;
   computer: string;
   notes: INote[];
   activity: IActivity[];
+  event?: string;
   createdAt?: string;
   updatedAt?: string;
 }

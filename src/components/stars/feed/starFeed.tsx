@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 import { Box, CircularProgress } from '@mui/material';
 import { StatusCodes } from 'http-status-codes';
 import StarActivity from './starActivity';
@@ -12,31 +12,26 @@ import { IStar, INote } from '../../../types/interfaces';
 
 interface starProps {
   userRole: userRole;
-  starId: string | undefined;
   updateStar: (starId: string, formData: IStar) => void;
 }
 
 const StarFeed = ({
   userRole,
-  starId,
   updateStar,
 }: starProps) => {
   const [star, setStar] = useState<IStar>();
   const [loading, setLoading] = useState<boolean>(false);
-
-  if (!starId) {
-    const navigate = useNavigate();
-    navigate('/stars');
-    return null;
-  }
+  const { id } = useParams();
 
   const fetchStar = useCallback(async (): Promise<void> => {
-    const { status, data } = await getStarById(starId);
-    if (status !== StatusCodes.OK) {
-      throw new Error('Error! Star not found');
+    if (id) {
+      const { status, data } = await getStarById(id);
+      if (status !== StatusCodes.OK) {
+        throw new Error('Error! Star not found');
+      }
+      setStar(data.star);
     }
-    setStar(data.star);
-  }, [starId]);
+  }, [id]);
 
   useEffect(() => {
     setLoading(true);

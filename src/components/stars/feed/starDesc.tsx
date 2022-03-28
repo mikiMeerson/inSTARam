@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import _ from 'lodash';
 import { StatusCodes } from 'http-status-codes';
+import { Link } from 'react-router-dom';
 import {
   Typography,
   FormControl,
@@ -38,9 +39,10 @@ import {
   SEVERITIES,
   STATUSES,
 } from '../../../types/enums';
-import { IStar } from '../../../types/interfaces';
+import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import { activityInfoArray } from '../../../types/configurations';
+import { getEventById } from '../../../services/event-service';
 
 interface starProps {
   userRole: userRole;
@@ -53,6 +55,18 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [event, setEvent] = useState<IEvent>();
+
+  const fetchEvent = async () => {
+    if (star.event) {
+      const { data } = await getEventById(star.event);
+      setEvent(data.event);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvent();
+  }, [star]);
 
   const severityIcons = [
     {
@@ -191,12 +205,22 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
           <Grid container>
             <Typography
               variant="caption"
-              sx={{ padding: '7px', marginBottom: '10px' }}
+              sx={{ padding: '7px' }}
             >
-              {`הועלה על ידי ${star.publisher} מתוך ${star.event}
-               בתאריך ${getDisplayDate()},
-                ${star.platform} בלוק ${star.block}`}
+              {`הועלה על ידי ${star.publisher}
+              בתאריך ${getDisplayDate()},
+              ${star.platform} בלוק ${star.block}`}
             </Typography>
+            {event && (
+              <Link to={`/events/${event._id}`}>
+                <Typography
+                  variant="caption"
+                  sx={{ padding: '7px', marginBottom: '10px', color: 'blue' }}
+                >
+                  {event.name}
+                </Typography>
+              </Link>
+            )}
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={3}>

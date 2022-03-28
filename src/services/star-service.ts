@@ -26,6 +26,8 @@ export const addStar = async (
       action: activityInfoArray.find((i) => i.name === 'star')!.action,
     };
 
+    console.log(formData);
+
     const star: Omit<IStar, '_id'> = {
       priority: 0,
       severity: formData.severity,
