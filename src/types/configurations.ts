@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { IEvent, IStar } from './interfaces';
 import { userRole } from './string-types';
 
@@ -228,3 +229,13 @@ export const additionalEventDetails = [
   'areas',
   'duration',
 ];
+
+export interface filterField {
+  isPrimary: boolean;
+  name: string;
+  activation: string;
+  displayName: string;
+  icon: ReactElement<unknown>;
+  width?: string;
+  options?: string[];
+}

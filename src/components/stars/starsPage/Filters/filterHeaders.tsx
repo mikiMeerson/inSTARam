@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   TableRow,
@@ -20,7 +20,7 @@ import SearchBar from './searchBar';
 import DateRangePicker from './dateRangePicker';
 import FilterOptions from './filterOptions';
 import FilterSelections from './filterSelections';
-import { filterDataType } from '../../../../types/configurations';
+import { filterDataType, filterField } from '../../../../types/configurations';
 import {
   ASSIGNEES,
   BAZ_COMPUTERS,
@@ -29,6 +29,7 @@ import {
   RESOURCES,
   STATUSES,
 } from '../../../../types/enums';
+import FilterTab from './filterTab';
 
 interface filterProps {
   unprioritized: boolean;
@@ -37,7 +38,7 @@ interface filterProps {
   filtersData: filterDataType[];
 }
 
-const FiltersHeader = ({
+const FilterHeaders = ({
   unprioritized,
   nameFilter,
   setNameFilter,
@@ -83,15 +84,6 @@ const FiltersHeader = ({
     return 0;
   };
 
-  interface filterField {
-    isPrimary: boolean;
-    name: string;
-    activation: string;
-    displayName: string;
-    icon: ReactElement<unknown>;
-    width?: string;
-    options?: string[];
-  }
   const filterFields: filterField[] = [
     {
       isPrimary: true,
@@ -155,7 +147,23 @@ const FiltersHeader = ({
     },
   ];
 
-  // !Fix the expandable filters - row is too wide
+  const handleFilterChoice = (field: filterField) => {
+    if (field.activation === 'search') {
+      setSearch(lastTab === 'name' ? !search : true);
+      setDisplayOptions(false);
+    } else if (field.activation === 'options') {
+      setDisplayOptions(
+        lastTab === field.name ? !displayOptions : true,
+      );
+      if (field.options) setOptions(field.options);
+      setSearch(false);
+      setLastTab(field.name);
+    } else if (field.activation === 'calender') {
+      setIsDatePick(!isDatePick);
+    }
+    setLastTab(field.name);
+  };
+
   return (
     <Table
       className="tableHeader"
@@ -177,85 +185,27 @@ const FiltersHeader = ({
               />
             </Button>
           </TableCell>
-          {filterFields
-            .filter((f) => f.isPrimary)
-            .map((field: filterField) => (
-              <TableCell
-                key={field.name}
-                width={field.width}
-                sx={{ textAlign: 'center' }}
-              >
-                <Button
-                  sx={{
-                    color: 'Gray',
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    background:
-                    lastTab === field.name && (displayOptions || search)
-                      ? 'whitesmoke'
-                      : '',
-                  }}
-                  onClick={() => {
-                    if (field.activation === 'search') {
-                      setSearch(lastTab === 'name' ? !search : true);
-                      setDisplayOptions(false);
-                    } else if (field.activation === 'options') {
-                      setDisplayOptions(
-                        lastTab === field.name ? !displayOptions : true,
-                      );
-                      if (field.options) setOptions(field.options);
-                      setSearch(false);
-                      setLastTab(field.name);
-                    } else if (field.activation === 'calender') {
-                      setIsDatePick(!isDatePick);
-                    }
-                    setLastTab(field.name);
-                  }}
-                >
-                  {field.displayName}
-                  {field.icon}
-                </Button>
-              </TableCell>
-            ))}
+          {filterFields.filter((f) => f.isPrimary).map((field: filterField) => (
+            <FilterTab
+              field={field}
+              lastTab={lastTab}
+              handleFilterChoice={handleFilterChoice}
+              displayOptions={displayOptions}
+              search={search}
+            />
+          ))}
         </TableRow>
         {displayMore && (
         <TableRow>
-          {filterFields
-            .filter((f) => !f.isPrimary)
+          {filterFields.filter((f) => !f.isPrimary)
             .map((field: filterField) => (
-              <TableCell
-                key={field.name}
-                sx={{ textAlign: 'center' }}
-              >
-                <Button
-                  sx={{
-                    color: 'Gray',
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    background:
-                    lastTab === field.name && (displayOptions || search)
-                      ? 'whitesmoke'
-                      : '',
-                  }}
-                  onClick={() => {
-                    if (field.activation === 'search') {
-                      setSearch(lastTab === 'name' ? !search : true);
-                      setDisplayOptions(false);
-                    } else if (field.activation === 'options') {
-                      setDisplayOptions(
-                        lastTab === field.name ? !displayOptions : true,
-                      );
-                      if (field.options) setOptions(field.options);
-                      setSearch(false);
-                      setLastTab(field.name);
-                    }
-                    setLastTab(field.name);
-                  }}
-                >
-                  {field.displayName}
-                  {field.icon}
-                </Button>
-              </TableCell>
+              <FilterTab
+                field={field}
+                lastTab={lastTab}
+                handleFilterChoice={handleFilterChoice}
+                displayOptions={displayOptions}
+                search={search}
+              />
             ))}
         </TableRow>
         )}
@@ -287,4 +237,4 @@ const FiltersHeader = ({
   );
 };
 
-export default FiltersHeader;
+export default FilterHeaders;

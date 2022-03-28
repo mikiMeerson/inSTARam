@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
-import FiltersHeader from './Filters/filtersHeader';
+import FilterHeaders from './Filters/filterHeaders';
 import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import { filterDataType } from '../../../types/configurations';
@@ -153,7 +153,7 @@ const StarsTable = ({
         justifyContent: 'center',
       }}
     >
-      <FiltersHeader
+      <FilterHeaders
         unprioritized={unprioritized}
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
