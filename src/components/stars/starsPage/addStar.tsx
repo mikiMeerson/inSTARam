@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -30,6 +30,8 @@ import {
   RAAM_COMPUTERS,
   SEVERITIES,
 } from '../../../types/enums';
+import { IEvent } from '../../../types/interfaces';
+import { getEvents } from '../../../services/event-service';
 
 interface starProps {
   isOpen: boolean;
@@ -41,6 +43,28 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
   const [computers, setComputers] = useState<
     RAAM_COMPUTERS[] | BAZ_COMPUTERS[]
   >(Object.values(RAAM_COMPUTERS));
+  const [chosenPlatform, setChosenPlatform] = useState<PLATFORMS>(
+    PLATFORMS.RAAM,
+  );
+  const [chosenBlock, setChosenBlock] = useState<BLOCKS>();
+  const [events, setEvents] = useState<IEvent[]>([]);
+  const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
+
+  const getEventsOptions = (platform: PLATFORMS, block?: BLOCKS) => {
+    block ? setEventsOptions(events.filter((e) => e.platform === platform
+      && e.block === block))
+      : setEventsOptions(events.filter((e) => e.platform === platform));
+  };
+
+  const fetchEvents = async (): Promise<void> => {
+    const { data } = await getEvents();
+    setEvents(data.events);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+    getEventsOptions(chosenPlatform, chosenBlock);
+  }, [events]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -49,6 +73,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     severity: Yup.string().required('נא למלא חומרה'),
     assignee: Yup.string().required('נא למלא אחראי'),
     block: Yup.string().required('נא למלא בלוק'),
+    platform: Yup.string().required('נא למלא פלטפורמה'),
     event: Yup.string().required('נא למלא שם אירוע/גיחה'),
     desc: Yup.string()
       .required('נא למלא תיאור')
@@ -101,7 +126,15 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     fields.map((f) => resetField(f.field));
   };
 
+  const handleBlockChange = (e: any) => {
+    setChosenBlock(e.target.value);
+    getEventsOptions(chosenPlatform, e.target.value);
+  };
+
   const handlePlatformChange = (e: any) => {
+    setChosenPlatform(e.target.value);
+    getEventsOptions(e.target.value, chosenBlock);
+
     if (e.target.value === PLATFORMS.RAAM) {
       setComputers(Object.values(RAAM_COMPUTERS));
     } else {
@@ -167,20 +200,40 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
             <Grid item xs={12} sm={6}>
-              <InputField
-                fullWidth
-                field="event"
-                register={register}
-                errors={errors}
-              />
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>שם האירוע</InputLabel>
+                <Select
+                  variant="outlined"
+                  input={<Input />}
+                >
+                  {eventsOptions.map((event) => (
+                    <MenuItem key={event._id} value={event._id}>
+                      {event.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <SelectField
-                field="block"
-                fieldValues={BLOCKS}
-                register={register}
-                errors={errors}
-              />
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>בלוק</InputLabel>
+                <Select
+                  variant="standard"
+                  input={<Input />}
+                  {...register('block')}
+                  onChange={handleBlockChange}
+                  error={errors.block?.message}
+                >
+                  {_.map(BLOCKS, (value) => (
+                    <MenuItem key={value} value={value}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography variant="inherit" color="textSecondary">
+                {errors.platform?.message}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container sx={{ marginTop: '15px' }}>
