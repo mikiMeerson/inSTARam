@@ -4,9 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import _ from 'lodash';
 import { StatusCodes } from 'http-status-codes';
-import { Link } from 'react-router-dom';
 import {
-  Typography,
   FormControl,
   InputLabel,
   Select,
@@ -43,6 +41,8 @@ import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import { activityInfoArray } from '../../../types/configurations';
 import { getEventById } from '../../../services/event-service';
+import StarDescLine from '../starDescLine';
+import SaveEditButton from '../../general/saveEditButton';
 
 interface starProps {
   userRole: userRole;
@@ -169,58 +169,17 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
             errors={errors}
           />
         </h1>
-        <div className="starFabs">
-          {(userRole !== 'viewer')
-            && (
-              isEdit ? (
-                <Fab
-                  size="small"
-                  color="secondary"
-                  sx={{
-                    background: 'blue',
-                    color: 'white',
-                  }}
-                  onClick={handleSubmit(handleSave)}
-                >
-                  <SaveOutlined />
-                </Fab>
-              ) : (
-                <Fab
-                  size="small"
-                  color="secondary"
-                  sx={{
-                    background: 'goldenrod',
-                    color: 'white',
-                  }}
-                  onClick={() => setIsEdit(true)}
-                >
-                  <EditOutlined />
-                </Fab>
-              )
-            )}
-        </div>
+        <SaveEditButton
+          userRole={userRole}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          onSave={handleSubmit(handleSave)}
+        />
       </div>
       <div className="starData">
         <Grid item xs={12} sx={{ marginLeft: '3%' }}>
           <Grid container>
-            <Typography
-              variant="caption"
-              sx={{ padding: '7px' }}
-            >
-              {`הועלה על ידי ${star.publisher}
-              בתאריך ${getDisplayDate()},
-              ${star.platform} בלוק ${star.block}`}
-            </Typography>
-            {event && (
-              <Link to={`/events/${event._id}`}>
-                <Typography
-                  variant="caption"
-                  sx={{ padding: '7px', marginBottom: '10px', color: 'blue' }}
-                >
-                  {event.name}
-                </Typography>
-              </Link>
-            )}
+            <StarDescLine star={star} event={event} />
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={3}>

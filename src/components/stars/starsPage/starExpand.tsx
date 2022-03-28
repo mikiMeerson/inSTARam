@@ -6,11 +6,12 @@ import {
   Typography,
 } from '@mui/material';
 import '../styles/expand.css';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
 import DialogAlert from '../../general/dialogAlert';
 import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
+import StarDescLine from '../starDescLine';
 
 interface starProps {
   userRole: userRole;
@@ -26,19 +27,7 @@ const starExpand = ({ userRole, star, removeStar, event }: starProps) => {
     <>
       <div className="starExpand">
         <Grid container>
-          <Typography variant="caption" fontSize="13px">
-            הועלה על ידי
-            {' '}
-            <span style={{ color: 'crimson' }}>{star.publisher}</span>
-            {event && (
-              <>
-                <span> מתוך </span>
-                <Link to={`/events/${event._id}`} style={{ color: 'blue' }}>
-                  {event.name}
-                </Link>
-              </>
-            )}
-          </Typography>
+          <StarDescLine star={star} event={event} />
         </Grid>
         <Grid
           container

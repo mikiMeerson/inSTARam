@@ -2,6 +2,7 @@ import { EditOutlined, SaveOutlined } from '@mui/icons-material';
 import { Fab, Typography } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
+import SaveEditButton from '../../general/saveEditButton';
 
 interface EventProps {
     userRole: userRole;
@@ -56,38 +57,12 @@ const EventHeader = ({
           )}
         </Typography>
       </div>
-      {(userRole !== 'viewer')
-            && (
-              isEdit ? (
-                <Fab
-                  size="small"
-                  color="primary"
-                  sx={{
-                    background: 'blue',
-                    color: 'white',
-                    width: '50px',
-                    height: '50px',
-                  }}
-                  onClick={() => handleSave()}
-                >
-                  <SaveOutlined />
-                </Fab>
-              ) : (
-                <Fab
-                  size="small"
-                  color="primary"
-                  sx={{
-                    background: 'goldenrod',
-                    color: 'white',
-                    width: '50px',
-                    height: '50px',
-                  }}
-                  onClick={() => setIsEdit(true)}
-                >
-                  <EditOutlined />
-                </Fab>
-              )
-            )}
+      <SaveEditButton
+        userRole={userRole}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+        onSave={handleSave}
+      />
     </div>
   );
 };
