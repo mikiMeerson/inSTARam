@@ -1,22 +1,14 @@
 import { useState } from 'react';
-import {
-  Table,
-  TableRow,
-  TableCell,
-  TableBody,
-  Button,
-} from '@mui/material';
+import { Table, TableBody } from '@mui/material';
 import {
   CheckCircleOutline,
   Search,
   PersonOutline,
   DateRange,
   Flight,
-  MoreVert,
   FlashOn,
   Computer,
 } from '@material-ui/icons';
-import SearchBar from './searchBar';
 import DateRangePicker from '../../../general/dateRangePicker';
 import FilterOptions from './filterOptions';
 import FilterSelections from './filterSelections';
@@ -29,7 +21,7 @@ import {
   RESOURCES,
   STATUSES,
 } from '../../../../types/enums';
-import FilterTab from './filterTab';
+import FilterTabs from './filterTabs';
 
 interface filterProps {
   unprioritized: boolean;
@@ -48,7 +40,6 @@ const FilterHeaders = ({
   const [search, setSearch] = useState<boolean>(false);
   const [options, setOptions] = useState<string[]>([]);
   const [lastTab, setLastTab] = useState<string>('');
-  const [displayMore, setDisplayMore] = useState<boolean>(false);
   const [isDatePick, setIsDatePick] = useState<boolean>(false);
 
   const filterEmpty = filtersData.every((sf) => sf.filter.length === 0)
@@ -172,56 +163,22 @@ const FilterHeaders = ({
       }}
     >
       <TableBody>
-        <TableRow>
-          <TableCell sx={{ width: '20px', textAlign: 'center' }}>
-            <Button sx={{ textAlign: 'center' }}>
-              <MoreVert
-                fontSize="small"
-                onClick={() => {
-                  setDisplayMore(!displayMore);
-                  setDisplayOptions(false);
-                  setSearch(false);
-                }}
-              />
-            </Button>
-          </TableCell>
-          {filterFields.filter((f) => f.isPrimary).map((field: filterField) => (
-            <FilterTab
-              field={field}
-              lastTab={lastTab}
-              handleFilterChoice={handleFilterChoice}
-              displayOptions={displayOptions}
-              search={search}
-            />
-          ))}
-        </TableRow>
-        {displayMore && (
-        <TableRow>
-          {filterFields.filter((f) => !f.isPrimary)
-            .map((field: filterField) => (
-              <FilterTab
-                field={field}
-                lastTab={lastTab}
-                handleFilterChoice={handleFilterChoice}
-                displayOptions={displayOptions}
-                search={search}
-              />
-            ))}
-        </TableRow>
-        )}
-        {search && (
-          <SearchBar nameFilter={nameFilter} setNameFilter={setNameFilter} />
-        )}
-        <DateRangePicker
-          isDatePick={isDatePick}
-          setIsDatePick={setIsDatePick}
-          dates={filtersData.find((f) => f.tabName === 'date')?.filter || []}
-          setDates={filtersData.find((f) => f.tabName === 'date')!.func}
+        <FilterTabs
+          filterFields={filterFields}
+          lastTab={lastTab}
+          displayOptions={displayOptions}
+          search={search}
+          handleFilterChoice={handleFilterChoice}
+          setDisplayOptions={setDisplayOptions}
+          setSearch={setSearch}
         />
         {displayOptions && (
         <FilterOptions
           lastTab={lastTab}
           options={options}
+          search={search}
+          nameFilter={nameFilter}
+          setNameFilter={setNameFilter}
           filtersData={filtersData}
           setFilter={setFilter}
         />
@@ -233,6 +190,12 @@ const FilterHeaders = ({
             setFilter={setFilter}
           />
         )}
+        <DateRangePicker
+          isDatePick={isDatePick}
+          setIsDatePick={setIsDatePick}
+          dates={filtersData.find((f) => f.tabName === 'date')?.filter || []}
+          setDates={filtersData.find((f) => f.tabName === 'date')!.func}
+        />
       </TableBody>
     </Table>
   );

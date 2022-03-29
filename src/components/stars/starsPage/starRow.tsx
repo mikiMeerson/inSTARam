@@ -123,9 +123,7 @@ const StarRow = ({
               {getCreationTime()}
             </TableCell>
             <TableCell width="60px" align="center">
-              {star.platform}
-              {' '}
-              {star.block}
+              {`${star.platform} ${star.block}`}
             </TableCell>
           </TableRow>
         </TableBody>
