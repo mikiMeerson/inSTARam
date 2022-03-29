@@ -11,7 +11,6 @@ interface NavbarProps {
   setAnchorElNav: (param: any) => void;
   anchorElNav: any;
   userRole: userRole;
-  setCurrNavbar: (param: mainComponents) => void;
 }
 
 const HalfWidthNavBar = ({
@@ -19,10 +18,9 @@ const HalfWidthNavBar = ({
   anchorElNav,
   setAnchorElNav,
   userRole,
-  setCurrNavbar,
 }: NavbarProps) => (
   <>
-    <Link to="/" onClick={() => setCurrNavbar('home')}>
+    <Link to="/">
       <Typography
         variant="h6"
         noWrap
@@ -67,13 +65,7 @@ const HalfWidthNavBar = ({
           .filter((p) => p.role === 'viewer'
             || userRole === p.role || userRole === 'admin')
           .map((page: linkDisplayType, index) => (
-            <NavLink
-              to={page.link}
-              key={index}
-              onClick={() => setCurrNavbar(
-                page.link.substring(1) as mainComponents,
-              )}
-            >
+            <NavLink to={page.link} key={index}>
               <MenuItem
                 key={page.display}
                 onClick={() => setAnchorElNav(undefined)}

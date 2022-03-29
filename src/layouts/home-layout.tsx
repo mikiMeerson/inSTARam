@@ -22,10 +22,9 @@ const pageToIcon = [
 
 interface HomeProps {
   userRole: userRole;
-  setCurrNavbar: (param: mainComponents) => void;
 }
 
-const Home = ({ userRole, setCurrNavbar }: HomeProps) => (
+const Home = ({ userRole }: HomeProps) => (
   <div className="home">
     <div className="header">
       <Typography variant="h1">INSTARAM</Typography>
@@ -39,12 +38,7 @@ const Home = ({ userRole, setCurrNavbar }: HomeProps) => (
             || userRole === p.role || userRole === 'admin')
         .map((page: linkDisplayType, index) => (
           <div key={index} className="linkDisplay">
-            <NavLink
-              to={page.link}
-              onClick={() => setCurrNavbar(
-                page.link.substring(1) as mainComponents,
-              )}
-            >
+            <NavLink to={page.link}>
               {pageToIcon.find((p) => page.link === p.link)?.icon}
             </NavLink>
             <Typography variant="h6">{page.display}</Typography>

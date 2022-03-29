@@ -14,7 +14,6 @@ import { mainComponents, userRole } from './types/string-types';
 
 const App = () => {
   const [userRole, setUserRole] = useState<userRole | 'guest'>('guest');
-  const [currNavbar, setCurrNavbar] = useState<mainComponents>('home');
 
   const getUserRole = useCallback(async (): Promise<void> => {
     const res = await authorizeUser();
@@ -34,8 +33,6 @@ const App = () => {
         <HashRouter>
           <Navbar
             userRole={userRole}
-            currNavbar={currNavbar}
-            setCurrNavbar={setCurrNavbar}
           />
           <Stars userRole={userRole} />
           <Events userRole={userRole} />
@@ -43,7 +40,7 @@ const App = () => {
             <Route
               path="/"
               element={
-                <Home userRole={userRole} setCurrNavbar={setCurrNavbar} />
+                <Home userRole={userRole} />
             }
             />
             <Route path="users" element={<Users />} />

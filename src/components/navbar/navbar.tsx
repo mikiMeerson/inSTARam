@@ -9,25 +9,16 @@ import { pages } from '../../types/configurations';
 
 interface NavbarProps {
   userRole: userRole;
-  currNavbar: mainComponents;
-  setCurrNavbar: (param: mainComponents) => void;
 }
 
-const Navbar = ({ userRole, currNavbar, setCurrNavbar }: NavbarProps) => {
+const Navbar = ({ userRole }: NavbarProps) => {
   const [anchorElNav, setAnchorElNav] = useState();
-
-  const navbarColors = {
-    stars: 'goldenrod',
-    events: 'purple',
-    users: 'blue',
-    home: 'transparent',
-  };
 
   return (
     <AppBar
       sx={{
-        background: navbarColors[currNavbar],
-        position: currNavbar === 'home' ? 'fixed' : 'static',
+        background: 'goldenrod',
+        position: 'static',
       }}
     >
       <Container maxWidth="xl">
@@ -37,13 +28,11 @@ const Navbar = ({ userRole, currNavbar, setCurrNavbar }: NavbarProps) => {
             anchorElNav={anchorElNav}
             setAnchorElNav={setAnchorElNav}
             userRole={userRole}
-            setCurrNavbar={setCurrNavbar}
           />
           <FullWidthNavbar
             pages={pages}
             setAnchorElNav={setAnchorElNav}
             userRole={userRole}
-            setCurrNavbar={setCurrNavbar}
           />
           <UserNavbar setAnchorElNav={setAnchorElNav} />
         </Toolbar>

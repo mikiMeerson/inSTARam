@@ -8,17 +8,15 @@ interface NavbarProps {
   pages: linkDisplayType[];
   setAnchorElNav: (param: any) => void;
   userRole: userRole;
-  setCurrNavbar: (param: mainComponents) => void;
 }
 
 const FullWidthNavbar = ({
   pages,
   setAnchorElNav,
   userRole,
-  setCurrNavbar,
 }: NavbarProps) => (
   <>
-    <Link to="/" onClick={() => setCurrNavbar('home')}>
+    <Link to="/">
       <Typography
         variant="h6"
         noWrap
@@ -33,13 +31,7 @@ const FullWidthNavbar = ({
         .filter((p) => p.role === 'viewer'
         || userRole === p.role || userRole === 'admin')
         .map((page: linkDisplayType) => (
-          <NavLink
-            to={page.link}
-            key={page.link}
-            onClick={() => setCurrNavbar(
-              page.link.substring(1) as mainComponents,
-            )}
-          >
+          <NavLink to={page.link} key={page.link}>
             <Button
               key={page.display}
               onClick={() => setAnchorElNav(undefined)}
