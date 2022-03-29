@@ -6,12 +6,12 @@ import {
   Typography,
 } from '@mui/material';
 import SelectField from '../../general/selectField';
-import DateRangePicker from '../commonEventFields/dateRangePicker';
+import DateRangePicker from '../../general/dateRangePicker';
 import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
 
 interface DetailsProps {
-    currDates: Date[];
-    setCurrDates: (param: Date[]) => void;
+    currDates: string[];
+    setCurrDates: (param: string[]) => void;
     register: UseFormRegister<FieldValues>;
     errors: any;
 }
@@ -75,8 +75,10 @@ const BasicDetails = ({
             onClick={() => setIsDatePick(!isDatePick)}
             value={
               currDates.length > 0
-                ? `
-                ${getDisplayDate(currDates[1])}-${getDisplayDate(currDates[0])
+                ? `${
+                  getDisplayDate(new Date(currDates[1]))
+                }-${
+                  getDisplayDate(new Date(currDates[0]))
                 }`
                 : ''
               }
@@ -91,8 +93,8 @@ const BasicDetails = ({
       <DateRangePicker
         isDatePick={isDatePick}
         setIsDatePick={setIsDatePick}
-        currDates={currDates}
-        setCurrDates={setCurrDates}
+        dates={currDates}
+        setDates={setCurrDates}
       />
     </div>
   );

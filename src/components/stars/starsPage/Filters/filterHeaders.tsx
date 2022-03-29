@@ -17,7 +17,7 @@ import {
   Computer,
 } from '@material-ui/icons';
 import SearchBar from './searchBar';
-import DateRangePicker from './dateRangePicker';
+import DateRangePicker from '../../../general/dateRangePicker';
 import FilterOptions from './filterOptions';
 import FilterSelections from './filterSelections';
 import { filterDataType, filterField } from '../../../../types/configurations';
@@ -215,7 +215,8 @@ const FilterHeaders = ({
         <DateRangePicker
           isDatePick={isDatePick}
           setIsDatePick={setIsDatePick}
-          filtersData={filtersData}
+          dates={filtersData.find((f) => f.tabName === 'date')?.filter || []}
+          setDates={filtersData.find((f) => f.tabName === 'date')!.func}
         />
         {displayOptions && (
         <FilterOptions

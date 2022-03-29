@@ -35,7 +35,7 @@ import BasicDetails from './basicDetails';
 
 const CreateEvent = () => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
-  const [currDates, setCurrDates] = useState<Date[]>([]);
+  const [currDates, setCurrDates] = useState<string[]>([]);
   const [stations, setStations] = useState<RAAM_STATIONS[] | BAZ_STATIONS[]>(
     Object.values(RAAM_STATIONS),
   );
@@ -70,7 +70,7 @@ const CreateEvent = () => {
     setAttr('type', data.type);
     setAttr('platform', data.platform);
     setAttr('block', data.block);
-    setAttr('dates', currDates);
+    setAttr('dates', [new Date(currDates[0]), new Date(currDates[1])]);
     setAttr('publisher', localStorage.getItem('userDisplay') || 'אנונימי');
     const { status } = await addEvent(newEvent);
     if (status !== StatusCodes.CREATED) {
