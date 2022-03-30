@@ -33,7 +33,11 @@ import {
 import EventLists from '../commonEventFields/eventLists';
 import BasicDetails from './basicDetails';
 
-const CreateEvent = () => {
+interface EventProps {
+  handleAlert: (isSuccess: boolean, content: string) => void;
+}
+
+const CreateEvent = ({ handleAlert }: EventProps) => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
   const [currDates, setCurrDates] = useState<string[]>([]);
   const [stations, setStations] = useState<RAAM_STATIONS[] | BAZ_STATIONS[]>(
@@ -74,7 +78,9 @@ const CreateEvent = () => {
     setAttr('publisher', localStorage.getItem('userDisplay') || 'אנונימי');
     const { status } = await addEvent(newEvent);
     if (status !== StatusCodes.CREATED) {
-      console.log('Error! Could not create event');
+      handleAlert(false, 'לא הצלחנו ליצור את האירוע');
+    } else {
+      handleAlert(true, 'האירוע נוצר בהצלחה');
     }
     navigate('/events');
   };

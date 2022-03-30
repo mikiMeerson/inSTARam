@@ -18,9 +18,10 @@ import { userRole } from '../../types/string-types';
 
 interface eventProps {
   userRole: userRole;
+  handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
-const EventsMain = ({ userRole }: eventProps) => {
+const EventsMain = ({ userRole, handleAlert }: eventProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
 
@@ -33,8 +34,12 @@ const EventsMain = ({ userRole }: eventProps) => {
 
   const handleDeleteEvent = async (event: IEvent) => {
     const { status } = await deleteEvent(event._id);
-    if (status !== StatusCodes.OK) console.log('could not delete event');
-    else fetchEvents();
+    if (status !== StatusCodes.OK) {
+      handleAlert(false, 'לא הצלחנו למחוק את האירוע');
+    } else {
+      handleAlert(true, 'האירוע נמחק בהצלחה');
+      fetchEvents();
+    }
   };
 
   const sortByDate = (events: IEvent[]) => events

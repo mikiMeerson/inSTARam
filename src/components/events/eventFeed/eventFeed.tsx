@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { StatusCodes } from 'http-status-codes';
 import { Box, CircularProgress } from '@mui/material';
 import { getEventById, updateEvent } from '../../../services/event-service';
@@ -19,9 +19,10 @@ import { userRole } from '../../../types/string-types';
 
 interface eventProps {
     userRole: userRole;
+    handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
-const Event = ({ userRole }: eventProps) => {
+const Event = ({ userRole, handleAlert }: eventProps) => {
   const [event, setEvent] = useState<IEvent>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -59,7 +60,11 @@ const Event = ({ userRole }: eventProps) => {
 
   const handleUpdateEvent = async (): Promise<void> => {
     const { status } = await updateEvent(event._id, event);
-    if (status !== StatusCodes.OK) console.log('Could not update event');
+    if (status !== StatusCodes.OK) {
+      handleAlert(false, 'לא הצלחנו לעדכן את האירוע');
+    } else {
+      handleAlert(true, 'האירוע עודכן בהצלחה');
+    }
   };
 
   return (
