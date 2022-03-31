@@ -25,20 +25,13 @@ const EventsMain = ({ userRole, handleAlert }: eventProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
 
-  const fetchEvents = async (): Promise<void> => {
-    setLoading(true);
-    const { data } = await getEvents();
-    setEvents(data.events);
-    setLoading(false);
-  };
-
   const handleDeleteEvent = async (event: IEvent) => {
-    const { status } = await deleteEvent(event._id);
+    const { status, data } = await deleteEvent(event._id);
     if (status !== StatusCodes.OK) {
       handleAlert(false, 'לא הצלחנו למחוק את האירוע');
     } else {
       handleAlert(true, 'האירוע נמחק בהצלחה');
-      fetchEvents();
+      setEvents(data.events);
     }
   };
 
@@ -52,6 +45,13 @@ const EventsMain = ({ userRole, handleAlert }: eventProps) => {
     });
 
   useEffect(() => {
+    const fetchEvents = async (): Promise<void> => {
+      setLoading(true);
+      const { data } = await getEvents();
+      setEvents(data.events);
+      setLoading(false);
+    };
+
     fetchEvents();
   }, []);
 

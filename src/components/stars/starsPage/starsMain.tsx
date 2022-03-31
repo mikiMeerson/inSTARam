@@ -27,12 +27,12 @@ const StarsMain = ({
   const [dragged, setDragged] = useState<IStar | undefined>(undefined);
   const [events, setEvents] = useState<IEvent[]>([]);
 
-  const fetchEvents = async () => {
-    const { data } = await getEvents();
-    setEvents(data.events);
-  };
-
   useEffect(() => {
+    const fetchEvents = async () => {
+      const { data } = await getEvents();
+      setEvents(data.events);
+    };
+
     fetchEvents();
   }, []);
 

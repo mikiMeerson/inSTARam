@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Box, CircularProgress } from '@mui/material';
 import { StatusCodes } from 'http-status-codes';
@@ -23,21 +23,21 @@ const StarFeed = ({
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams();
 
-  const fetchStar = useCallback(async (): Promise<void> => {
-    if (id) {
-      const { status, data } = await getStarById(id);
-      if (status !== StatusCodes.OK) {
-        throw new Error('Error! Star not found');
-      }
-      setStar(data.star);
-    }
-  }, [id]);
-
   useEffect(() => {
+    const fetchStar = async (): Promise<void> => {
+      if (id) {
+        const { status, data } = await getStarById(id);
+        if (status !== StatusCodes.OK) {
+          throw new Error('Error! Star not found');
+        }
+        setStar(data.star);
+      }
+    };
+
     setLoading(true);
     fetchStar();
     setLoading(false);
-  }, [fetchStar, star]);
+  }, []);
 
   if (!star) {
     return (

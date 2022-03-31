@@ -43,37 +43,37 @@ const Stars = ({ userRole }: starProps) => {
     }, 3000);
   };
 
-  const fetchStars = async (): Promise<void> => {
-    setLoading(true);
-    const { data } = await getStars();
-    setStars(data.stars);
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const fetchStars = async (): Promise<void> => {
+      setLoading(true);
+      const { data } = await getStars();
+      setStars(data.stars);
+      setLoading(false);
+    };
+
     fetchStars();
   }, []);
 
   const handleAddStar = async (formData: any): Promise<void> => {
     formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
-    const { status } = await addStar(formData);
+    const { status, data } = await addStar(formData);
     handleAlert(
       status === StatusCodes.CREATED,
       status === StatusCodes.CREATED
         ? 'הסטאר נוצר בהצלחה!' : 'שגיאה! לא הצלחנו ליצור את הסטאר',
     );
-    fetchStars();
+    setStars(data.stars);
   };
 
   const handleDeleteStar = async (_id: string): Promise<void> => {
     try {
-      const { status } = await deleteStar(_id);
+      const { status, data } = await deleteStar(_id);
       handleAlert(
         status === StatusCodes.OK,
         status === StatusCodes.OK
           ? 'הסטאר נמחק בהצלחה!' : 'שגיאה! לא הצלחנו למחוק את הסטאר',
       );
-      fetchStars();
+      setStars(data.stars);
     } catch (error) {
       handleAlert(false, error as string);
     }
@@ -83,13 +83,13 @@ const Stars = ({ userRole }: starProps) => {
     draggedStar: IStar,
     newPri: number,
   ): Promise<void> => {
-    const { status } = await updatePriorities(draggedStar, newPri, stars);
+    const { status, data } = await updatePriorities(draggedStar, newPri, stars);
     handleAlert(
       status === StatusCodes.OK,
       status === StatusCodes.OK
         ? 'הסטאר עודכן בהצלחה!' : 'שגיאה! לא הצלחנו לעדכן את הסטאר',
     );
-    fetchStars();
+    setStars(data.stars);
   };
 
   const handleUpdateStar = async (
