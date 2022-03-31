@@ -76,7 +76,7 @@ export const updateStarField = async (
   newValue: number | string,
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const starUpdate = Object.assign(star, { [field]: newValue });
+    const starUpdate = { ...star, [field]: newValue };
 
     const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
       `${baseUrl}/stars/${star._id}`,

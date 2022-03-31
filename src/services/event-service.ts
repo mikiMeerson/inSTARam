@@ -72,7 +72,7 @@ export const updateEventField = async (
   newValue: number | string,
 ): Promise<AxiosResponse<ApiEventsType>> => {
   try {
-    const eventUpdate = Object.assign(event, { [field]: newValue });
+    const eventUpdate = { ...event, [field]: newValue };
 
     const updatedEvent: AxiosResponse<ApiEventsType> = await axios.put(
       `${baseUrl}/events/${event._id}`,

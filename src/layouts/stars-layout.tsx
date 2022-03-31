@@ -39,7 +39,7 @@ const Stars = ({ userRole }: starProps) => {
       severity: isSuccess ? 'success' : 'error',
     });
     setTimeout(() => {
-      setAlert(Object.assign(alert, { isAlert: false }));
+      setAlert({ ...alert, isAlert: false });
     }, 3000);
   };
 
