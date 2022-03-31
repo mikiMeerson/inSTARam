@@ -14,20 +14,15 @@ const DateRangePicker = ({
   setIsDatePick,
   dates,
   setDates,
-} : dateProps) => {
-  const [sd, ed] = dates.length
-    ? [new Date(dates[0]), new Date(dates[1])]
-    : [new Array(2).fill(new Date())];
-
-  return (
-    <Dialog
-      dir="ltr"
-      open={isDatePick}
-      onClose={() => setIsDatePick(false)}
-    >
-      <DateRange
-        editableDateInputs
-        onChange={
+} : dateProps) => (
+  <Dialog
+    dir="ltr"
+    open={isDatePick}
+    onClose={() => setIsDatePick(false)}
+  >
+    <DateRange
+      editableDateInputs
+      onChange={
           (item) => {
             if (item.selection.startDate && item.selection.endDate) {
               setDates([
@@ -37,24 +32,23 @@ const DateRangePicker = ({
             }
           }
       }
-        moveRangeOnFirstSelection={false}
-        ranges={[{
-          startDate: sd as Date,
-          endDate: ed as Date,
-          key: 'selection',
-        }]}
-      />
-      <DialogActions>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={() => setIsDatePick(false)}
-        >
-          אישור
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
+      moveRangeOnFirstSelection={false}
+      ranges={[{
+        startDate: dates.length > 0 ? new Date(dates[0]) : new Date(),
+        endDate: dates.length > 0 ? new Date(dates[1]) : new Date(),
+        key: 'selection',
+      }]}
+    />
+    <DialogActions>
+      <Button
+        variant="contained"
+        fullWidth
+        onClick={() => setIsDatePick(false)}
+      >
+        אישור
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
 export default DateRangePicker;
