@@ -28,7 +28,7 @@ const Events = ({ userRole }: Props) => {
       severity: isSuccess ? 'success' : 'error',
     });
     setTimeout(() => {
-      setAlert({ ...alert, isAlert: false });
+      setAlert(Object.assign(alert, { isAlert: false }));
     }, 3000);
   };
   return (

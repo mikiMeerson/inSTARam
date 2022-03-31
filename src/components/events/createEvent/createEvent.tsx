@@ -69,7 +69,7 @@ const CreateEvent = ({ handleAlert }: Props) => {
   });
 
   const setAttr = (attr: keyof IEvent, value: any) => {
-    setNewEvent({ ...newEvent, [attr]: value });
+    setNewEvent(Object.assign(newEvent, { [attr]: value }));
   };
 
   const handleAddEvent = async (data: any) => {

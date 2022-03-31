@@ -54,7 +54,7 @@ const Event = ({ userRole, handleAlert }: Props) => {
   }
 
   const setAttr = (attr: keyof IEvent, value: any) => {
-    setEvent({ ...event, [attr]: value });
+    setEvent(Object.assign(event, { [attr]: value }));
   };
 
   const handleUpdateEvent = async (): Promise<void> => {
