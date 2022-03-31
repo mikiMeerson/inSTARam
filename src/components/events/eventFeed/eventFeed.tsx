@@ -8,9 +8,8 @@ import EventDetails from '../commonEventFields/eventDetails';
 import EventHeader from './eventHeader';
 import EventLists from '../commonEventFields/eventLists';
 import { IEvent } from '../../../types/interfaces';
-import { PLATFORMS } from '../../../types/enums';
 import {
-  userRole,
+  UserRole,
   RAAM_STATIONS,
   BAZ_STATIONS,
   RAAM_COMPUTERS,
@@ -18,7 +17,7 @@ import {
 } from '../../../types/string-types';
 
 interface Props {
-    userRole: userRole;
+  userRole: UserRole;
     handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
@@ -94,10 +93,10 @@ const Event = ({ userRole, handleAlert }: Props) => {
         <EventVersions
           isEditable={isEdit}
           event={event}
-          stations={event.platform === PLATFORMS.RAAM
+          stations={event.platform === 'רעם'
             ? RAAM_STATIONS
             : BAZ_STATIONS}
-          computers={event.platform === PLATFORMS.RAAM
+          computers={event.platform === 'רעם'
             ? RAAM_COMPUTERS
             : BAZ_COMPUTERS}
           setAttr={setAttr}

@@ -1,9 +1,9 @@
 import { TableRow, Chip } from '@mui/material';
-import { filterDataType } from '../../../../types/configurations';
+import { FilterDataType } from '../../../../types/configurations';
 
 interface Props {
     isMargin: boolean;
-    filtersData: filterDataType[];
+    filtersData: FilterDataType[];
     setFilter: (
         filter: string,
         value: string,

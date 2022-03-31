@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { eventKeyDisplay, eventLists } from '../../../types/configurations';
+import { EVENT_KEY_DISPLAY, EVENT_LISTS } from '../../../types/configurations';
 import { IEvent } from '../../../types/interfaces';
 import ListGenerator from '../../general/listGenerator';
 import List from '../../general/list';
@@ -12,12 +12,12 @@ interface Props {
 
 const EventLists = ({ event, setAttr, editable }: Props) => (
   <>
-    {eventLists.map((list) => (
+    {EVENT_LISTS.map((list) => (
       (editable && setAttr)
         ? (
           <ListGenerator
             header={
-              eventKeyDisplay.find((k) => k.key === list)?.display || 'שגיאה'
+              EVENT_KEY_DISPLAY.find((k) => k.key === list)?.display || 'שגיאה'
             }
             attr={list as keyof IEvent}
             event={event}
@@ -27,7 +27,8 @@ const EventLists = ({ event, setAttr, editable }: Props) => (
         : (
           <div key={list} className="eventDetails">
             <Typography variant="h6">
-              {eventKeyDisplay.find((k) => k.key === list)?.display || 'שגיאה'}
+              {EVENT_KEY_DISPLAY.find((k) => k.key === list)?.display
+               || 'שגיאה'}
             </Typography>
             <List
               list={event[list as keyof IEvent] as string[]}

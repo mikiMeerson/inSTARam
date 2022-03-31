@@ -6,11 +6,11 @@ import '../styles/stars.css';
 import AddStar from './addStar';
 import NoPriority from './noPriority';
 import { IEvent, IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import { UserRole } from '../../../types/string-types';
 import { getEvents } from '../../../services/event-service';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
   stars: IStar[];
   addStar: (formData: any) => void;
   removeStar: (starId: string) => void;

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import _ from 'lodash';
 import {
   Grid,
   Dialog,
@@ -22,19 +21,19 @@ import {
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
-import {
-  ASSIGNEES,
-  BLOCKS,
-  PLATFORMS,
-  SEVERITIES,
-} from '../../../types/enums';
 import { IEvent } from '../../../types/interfaces';
 import { getEvents } from '../../../services/event-service';
 import {
-  BazComputers,
-  RaamComputers,
+  BazComputerType,
+  RaamComputerType,
   BAZ_COMPUTERS,
   RAAM_COMPUTERS,
+  ASSIGNEES,
+  PlatformType,
+  BlockType,
+  PLATFORMS,
+  SEVERITIES,
+  BLOCKS,
 } from '../../../types/string-types';
 
 interface Props {
@@ -44,18 +43,18 @@ interface Props {
 }
 
 const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
-  const [computers, setComputers] = useState<RaamComputers[] | BazComputers[]>(
-    RAAM_COMPUTERS,
+  const [computers, setComputers] = useState<
+    RaamComputerType[] | BazComputerType[]
+  >(RAAM_COMPUTERS);
+  const [chosenPlatform, setChosenPlatform] = useState<PlatformType>(
+    'רעם',
   );
-  const [chosenPlatform, setChosenPlatform] = useState<PLATFORMS>(
-    PLATFORMS.RAAM,
-  );
-  const [chosenBlock, setChosenBlock] = useState<BLOCKS>();
+  const [chosenBlock, setChosenBlock] = useState<BlockType>();
   const [events, setEvents] = useState<IEvent[]>([]);
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
   const [chosenEvent, setChosenEvent] = useState<string>();
 
-  const getEventsOptions = (platform: PLATFORMS, block?: BLOCKS) => {
+  const getEventsOptions = (platform: PlatformType, block?: BlockType) => {
     block ? setEventsOptions(events.filter((e) => e.platform === platform
       && e.block === block))
       : setEventsOptions(events.filter((e) => e.platform === platform));
@@ -140,7 +139,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
     setChosenPlatform(e.target.value);
     getEventsOptions(e.target.value, chosenBlock);
 
-    if (e.target.value === PLATFORMS.RAAM) {
+    if (e.target.value === 'רעם') {
       setComputers(RAAM_COMPUTERS);
     } else {
       setComputers(BAZ_COMPUTERS);
@@ -166,12 +165,12 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
           <Select
             variant="standard"
             input={<Input />}
-            defaultValue={PLATFORMS.RAAM}
+            defaultValue="רעם"
             {...register('platform')}
             onChange={handlePlatformChange}
             error={errors.platform?.message}
           >
-            {_.map(PLATFORMS, (value) => (
+            {PLATFORMS.map((value) => (
               <MenuItem key={value} value={value}>
                 {value}
               </MenuItem>
@@ -230,7 +229,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
                   onChange={handleBlockChange}
                   error={errors.block?.message}
                 >
-                  {_.map(BLOCKS, (value) => (
+                  {BLOCKS.map((value) => (
                     <MenuItem key={value} value={value}>
                       {value}
                     </MenuItem>

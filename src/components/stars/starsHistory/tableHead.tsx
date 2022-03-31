@@ -1,9 +1,9 @@
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
-import { starKeyDisplayType } from '../../../types/configurations';
+import { StarKeyDisplayType } from '../../../types/configurations';
 import { IStar } from '../../../types/interfaces';
-import { orderType } from '../../../types/string-types';
+import { OrderType } from '../../../types/string-types';
 
-const headCells: starKeyDisplayType[] = [
+const headCells: StarKeyDisplayType[] = [
   {
     key: 'name',
     display: 'שם הסטאר',
@@ -35,7 +35,7 @@ const headCells: starKeyDisplayType[] = [
 ];
 
 interface Props {
-  order: orderType;
+  order: OrderType;
   orderBy: keyof IStar;
   onRequestSort: (
     event: React.MouseEvent<unknown>,

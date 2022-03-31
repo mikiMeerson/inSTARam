@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StatusCodes } from 'http-status-codes';
-import _ from 'lodash';
 import {
   Typography,
   Button,
@@ -23,16 +22,16 @@ import {
   defaultRAAMEvent,
   IEvent,
 } from '../../../types/interfaces';
-import { PLATFORMS } from '../../../types/enums';
 import {
-  BazStations,
-  RaamStations,
+  BazStationType,
+  RaamStationType,
   BAZ_STATIONS,
   RAAM_STATIONS,
-  RaamComputers,
-  BazComputers,
+  RaamComputerType,
+  BazComputerType,
   RAAM_COMPUTERS,
   BAZ_COMPUTERS,
+  PLATFORMS,
 } from '../../../types/string-types';
 import EventLists from '../commonEventFields/eventLists';
 import BasicDetails from './basicDetails';
@@ -44,12 +43,12 @@ interface Props {
 const CreateEvent = ({ handleAlert }: Props) => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
   const [currDates, setCurrDates] = useState<string[]>([]);
-  const [stations, setStations] = useState<RaamStations[] | BazStations[]>(
-    RAAM_STATIONS,
-  );
-  const [computers, setComputers] = useState<RaamComputers[] | BazComputers[]>(
-    RAAM_COMPUTERS,
-  );
+  const [stations, setStations] = useState<
+    RaamStationType[] | BazStationType[]
+  >(RAAM_STATIONS);
+  const [computers, setComputers] = useState<
+    RaamComputerType[] | BazComputerType[]
+  >(RAAM_COMPUTERS);
 
   const navigate = useNavigate();
 
@@ -90,7 +89,7 @@ const CreateEvent = ({ handleAlert }: Props) => {
   };
 
   const handlePlatformChange = (e: any) => {
-    if (e.target.value === PLATFORMS.RAAM) {
+    if (e.target.value === 'רעם') {
       setStations(RAAM_STATIONS);
       setComputers(RAAM_COMPUTERS);
       setNewEvent(defaultRAAMEvent);
@@ -127,7 +126,7 @@ const CreateEvent = ({ handleAlert }: Props) => {
                 onChange={handlePlatformChange}
                 error={errors.platform?.message}
               >
-                {_.map(PLATFORMS, (value) => (
+                {PLATFORMS.map((value) => (
                   <MenuItem key={value} value={value}>
                     {value}
                   </MenuItem>

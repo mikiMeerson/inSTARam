@@ -3,11 +3,11 @@ import { Typography } from '@mui/material';
 import StarRow from './starRow';
 import FilterHeaders from './Filters/filterHeaders';
 import { IEvent, IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
-import { filterDataType } from '../../../types/configurations';
+import { UserRole } from '../../../types/string-types';
+import { FilterDataType } from '../../../types/configurations';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
   unprioritized: boolean;
   stars: IStar[];
   removeStar: (starId: string) => void;
@@ -54,7 +54,7 @@ const StarsTable = ({
   );
   const [nameFilter, setNameFilter] = useState<string>('');
 
-  const filtersData: filterDataType[] = [
+  const filtersData: FilterDataType[] = [
     {
       tabName: 'status',
       filter: statusFilter,

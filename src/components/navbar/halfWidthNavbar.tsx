@@ -3,14 +3,14 @@ import { StarOutline } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Typography, Box, MenuItem, Menu } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import { linkDisplayType } from '../../types/configurations';
-import { mainComponents, userRole } from '../../types/string-types';
+import { LinkDisplayType } from '../../types/configurations';
+import { MainComponents, UserRole } from '../../types/string-types';
 
 interface Props {
-  pages: linkDisplayType[];
+  pages: LinkDisplayType[];
   setAnchorElNav: (param: any) => void;
   anchorElNav: any;
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const HalfWidthNavBar = ({
@@ -64,7 +64,7 @@ const HalfWidthNavBar = ({
         {pages
           .filter((p) => p.role === 'viewer'
             || userRole === p.role || userRole === 'admin')
-          .map((page: linkDisplayType, index) => (
+          .map((page: LinkDisplayType, index) => (
             <NavLink to={page.link} key={index}>
               <MenuItem
                 key={page.display}

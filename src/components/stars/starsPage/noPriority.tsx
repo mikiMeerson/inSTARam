@@ -3,10 +3,10 @@ import { Collapse, SpeedDial, SpeedDialIcon, Button } from '@mui/material';
 import { StarBorder, ChevronRight, MenuOpenSharp } from '@material-ui/icons';
 import StarsTable from './starsTable';
 import { IEvent, IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import { UserRole } from '../../../types/string-types';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
   stars: IStar[];
   toggleAddStar: (param: boolean) => void;
   removeStar: (starId: string) => void;

@@ -1,10 +1,10 @@
 import { TableCell, Button } from '@mui/material';
-import { filterField } from '../../../../types/configurations';
+import { FilterField } from '../../../../types/configurations';
 
 interface Props {
-    field: filterField;
+    field: FilterField;
     lastTab: string;
-    handleFilterChoice: (field: filterField) => void;
+    handleFilterChoice: (field: FilterField) => void;
     displayOptions: boolean;
     search: boolean;
 }

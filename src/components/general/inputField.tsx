@@ -1,6 +1,9 @@
 import { TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
-import { eventKeyDisplay, starKeyDisplay } from '../../types/configurations';
+import {
+  EVENT_KEY_DISPLAY,
+  STAR_KEY_DISPLAY,
+} from '../../types/configurations';
 import { IStar } from '../../types/interfaces';
 
 interface Props {
@@ -36,8 +39,8 @@ const InputField = ({
       sx={sx}
       defaultValue={defaultValue}
       label={element === 'star'
-        ? starKeyDisplay.find((k) => k.key === field)?.display
-        : eventKeyDisplay.find((k) => k.key === field)?.display}
+        ? STAR_KEY_DISPLAY.find((k) => k.key === field)?.display
+        : EVENT_KEY_DISPLAY.find((k) => k.key === field)?.display}
       {...register(field)}
       error={errors[field]}
     />

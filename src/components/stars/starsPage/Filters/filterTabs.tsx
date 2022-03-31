@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { TableRow, TableCell, Button } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
-import { filterField } from '../../../../types/configurations';
+import { FilterField } from '../../../../types/configurations';
 import FilterTab from './filterTab';
 
 interface Props {
-    filterFields: filterField[];
+    filterFields: FilterField[];
     lastTab: string;
     displayOptions: boolean;
     search: boolean;
-    handleFilterChoice: (field: filterField) => void;
+    handleFilterChoice: (field: FilterField) => void;
     setDisplayOptions: (param: boolean) => void;
     setSearch: (param: boolean) => void;
 }
@@ -40,8 +40,9 @@ const FilterTabs = ({
             />
           </Button>
         </TableCell>
-        {filterFields.filter((f) => f.isPrimary).map((field: filterField) => (
+        {filterFields.filter((f) => f.isPrimary).map((field: FilterField) => (
           <FilterTab
+            key={field.name}
             field={field}
             lastTab={lastTab}
             handleFilterChoice={handleFilterChoice}
@@ -53,8 +54,9 @@ const FilterTabs = ({
       {displayMore && (
         <TableRow>
           {filterFields.filter((f) => !f.isPrimary)
-            .map((field: filterField) => (
+            .map((field: FilterField) => (
               <FilterTab
+                key={field.name}
                 field={field}
                 lastTab={lastTab}
                 handleFilterChoice={handleFilterChoice}

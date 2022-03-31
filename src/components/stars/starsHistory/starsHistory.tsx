@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import EnhancedTableHead from './tableHead';
 import Row from './tableRow';
-import { orderType, userRole } from '../../../types/string-types';
+import { OrderType, UserRole } from '../../../types/string-types';
 import { IStar } from '../../../types/interfaces';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -21,7 +21,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 }
 
 function getComparator(
-  order: orderType,
+  order: OrderType,
   orderBy: keyof IStar,
 ): (
     a: IStar,
@@ -34,12 +34,12 @@ function getComparator(
 
 interface Props {
   stars: IStar[];
-  userRole: userRole;
+  userRole: UserRole;
   updateStar: (starId: string, newStar: IStar) => void;
 }
 
 const StarsHistory = ({ stars, userRole, updateStar }: Props) => {
-  const [order, setOrder] = useState<orderType>('asc');
+  const [order, setOrder] = useState<OrderType>('asc');
   const [orderBy, setOrderBy] = useState<keyof IStar>('name');
 
   const handleRequestSort = (

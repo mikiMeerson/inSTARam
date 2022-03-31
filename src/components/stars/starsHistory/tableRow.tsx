@@ -1,12 +1,11 @@
 import { TableRow, TableCell, Button } from '@mui/material';
-import { STATUSES } from '../../../types/enums';
 import { IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import { UserRole } from '../../../types/string-types';
 
 interface rowType {
     row: IStar;
     updateStar: (starId: string, newStar: IStar) => void;
-    userRole: userRole;
+  userRole: UserRole;
 }
 
 const Row = ({ row, updateStar, userRole }: rowType) => {
@@ -21,7 +20,7 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
 
   const handleReopen = () => {
     const newStar = JSON.parse(JSON.stringify(row));
-    newStar.status = STATUSES.OPEN;
+    newStar.status = 'פתוח';
     updateStar(row._id, newStar);
   };
 
@@ -30,7 +29,7 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
       <TableCell align="center" component="th" scope="row">{name}</TableCell>
       <TableCell align="center">{assignee}</TableCell>
       <TableCell align="center">
-        {status === STATUSES.CLOSED && userRole !== 'viewer'
+        {status === 'סגור' && userRole !== 'viewer'
           ? (
             <Button
               variant="contained"

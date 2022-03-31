@@ -14,10 +14,10 @@ import { deleteEvent, getEvents } from '../../services/event-service';
 import EventCard from './eventCard';
 import './styles/event.css';
 import { IEvent } from '../../types/interfaces';
-import { userRole } from '../../types/string-types';
+import { UserRole } from '../../types/string-types';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
   handleAlert: (isSuccess: boolean, content: string) => void;
 }
 

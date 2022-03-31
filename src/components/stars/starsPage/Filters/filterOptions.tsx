@@ -1,5 +1,5 @@
 import { TableRow, Chip } from '@mui/material';
-import { filterDataType } from '../../../../types/configurations';
+import { FilterDataType } from '../../../../types/configurations';
 import SearchBar from './searchBar';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
     search: boolean;
     nameFilter: string;
     setNameFilter: (param: string) => void;
-    filtersData: filterDataType[];
+    filtersData: FilterDataType[];
     setFilter: (
         filter: string,
         value: string,

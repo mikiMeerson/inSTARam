@@ -1,13 +1,13 @@
 import { StarOutline } from '@mui/icons-material';
 import { Typography, Box, Button } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import { linkDisplayType } from '../../types/configurations';
-import { userRole, mainComponents } from '../../types/string-types';
+import { LinkDisplayType } from '../../types/configurations';
+import { UserRole, MainComponents } from '../../types/string-types';
 
 interface Props {
-  pages: linkDisplayType[];
+  pages: LinkDisplayType[];
   setAnchorElNav: (param: any) => void;
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const FullWidthNavbar = ({
@@ -30,7 +30,7 @@ const FullWidthNavbar = ({
       {pages
         .filter((p) => p.role === 'viewer'
         || userRole === p.role || userRole === 'admin')
-        .map((page: linkDisplayType) => (
+        .map((page: LinkDisplayType) => (
           <NavLink to={page.link} key={page.link}>
             <Button
               key={page.display}

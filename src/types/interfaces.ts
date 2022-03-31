@@ -1,57 +1,55 @@
 import {
-  ASSIGNEES,
-  BLOCKS,
-  EVENT_TYPES,
-  PLATFORMS,
-  SEVERITIES,
-  STATUSES,
-  WEAPONS,
-} from './enums';
-import {
-  userRole,
-  RaamStations,
-  BazStations,
-  RaamComputers,
-  BazComputers,
+  UserRole,
+  RaamStationType,
+  BazStationType,
+  RaamComputerType,
+  BazComputerType,
+  StatusType,
+  AssigneeType,
+  WeaponType,
+  SeverityType,
+  PlatformType,
+  BlockType,
+  EventTypeType,
 } from './string-types';
 
-export interface weaponConfig {
-  sta: RaamStations | BazStations;
-  weapon: WEAPONS;
+export interface WeaponConfig {
+  sta: RaamStationType | BazStationType;
+  weapon: WeaponType;
 }
 
-export interface versionConfig {
-  comp: RaamComputers | BazComputers;
+export interface VersionConfig {
+  comp: RaamComputerType | BazComputerType;
   version: string;
 }
 
 export interface INote {
-    _id: string;
-    note: string;
-    publisher: string;
-    repliesTo?: string;
-    createdAt?: string;
-    updatedAt?: string;
+  _id: string;
+  note: string;
+  publisher: string;
+  repliesTo?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IActivity {
-    _id: string;
-    publisher: string;
-    action: string;
-    value?: string;
-    createdAt?: string;
-    updatedAt?: string;
+  _id: string;
+  publisher: string;
+  action: string;
+  value?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IStar {
   _id: string;
   priority: number;
-  severity: SEVERITIES;
+  severity: SeverityType;
   name: string;
-  status: STATUSES;
-  assignee: ASSIGNEES;
-  platform: PLATFORMS;
-  block: BLOCKS;
+  status: StatusType;
+  assignee: AssigneeType;
+  platform: PlatformType;
+  block: BlockType;
   publisher: string;
   resources: string[];
   desc: string;
@@ -69,7 +67,7 @@ export interface IUser {
   password: string;
   name: string;
   unit: string;
-  role: userRole;
+  role: UserRole;
   watchList?: string[];
   createdAt?: string;
   updatedAt?: string;
@@ -79,10 +77,10 @@ export interface IEvent {
   _id: string;
   name: string;
   publisher: string;
-  type: EVENT_TYPES;
+  type: EventTypeType;
   assignee?: string;
-  block: BLOCKS;
-  platform: PLATFORMS;
+  block: BlockType;
+  platform: PlatformType;
   dates: Date[];
   reason?: string;
   team?: string;
@@ -93,8 +91,8 @@ export interface IEvent {
   goals?: string[];
   dataSources?: string[];
   configuration: {
-    weapons: weaponConfig[];
-    versions: versionConfig[];
+    weapons: WeaponConfig[];
+    versions: VersionConfig[];
   };
   description?: string[];
   findings?: string[];
@@ -102,21 +100,21 @@ export interface IEvent {
   conclusions?: string[];
 }
 
-export type IAlert = {
-  isAlert: boolean
-  content: string
-  severity: 'success' | 'info' | 'warning' | 'error'
+export interface IAlert {
+  isAlert: boolean;
+  content: string;
+  severity: 'success' | 'info' | 'warning' | 'error';
 }
 
 export const defaultRAAMEvent: IEvent = {
   _id: '0',
   name: '',
   assignee: '',
-  block: BLOCKS.F,
-  platform: PLATFORMS.RAAM,
+  block: 'ו',
+  platform: 'רעם',
   dates: [],
   publisher: '',
-  type: EVENT_TYPES.REG_FLIGHT,
+  type: 'גיחת טייסת',
   areas: '',
   callSign: '',
   conclusions: [],
@@ -124,39 +122,39 @@ export const defaultRAAMEvent: IEvent = {
     weapons: [
       {
         sta: '2L',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '2',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '2R',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: 'LCFT',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '5',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: 'RCFT',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '8L',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '8',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '8R',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
     ],
     versions: [
@@ -193,11 +191,11 @@ export const defaultBAZEvent: IEvent = {
   _id: '0',
   name: '',
   assignee: '',
-  block: BLOCKS.D,
-  platform: PLATFORMS.BAZ,
+  block: 'ו',
+  platform: 'בז',
   dates: [],
   publisher: '',
-  type: EVENT_TYPES.REG_FLIGHT,
+  type: 'גיחת טייסת',
   areas: '',
   callSign: '',
   conclusions: [],
@@ -205,27 +203,27 @@ export const defaultBAZEvent: IEvent = {
     weapons: [
       {
         sta: '1',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '2',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '3',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '4',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '5',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
       {
         sta: '6',
-        weapon: WEAPONS.NONE,
+        weapon: 'ללא',
       },
     ],
     versions: [

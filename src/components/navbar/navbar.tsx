@@ -4,11 +4,11 @@ import './styles/navbar.css';
 import HalfWidthNavbar from './halfWidthNavbar';
 import FullWidthNavbar from './fullWidthNavbar';
 import UserNavbar from './userNavbar';
-import { mainComponents, userRole } from '../../types/string-types';
+import { MainComponents, UserRole } from '../../types/string-types';
 import { pages } from '../../types/configurations';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const Navbar = ({ userRole }: Props) => {

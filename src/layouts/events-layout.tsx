@@ -4,11 +4,11 @@ import { Alert } from '@mui/material';
 import EventsMain from '../components/events/eventsMain';
 import CreateEvent from '../components/events/createEvent/createEvent';
 import Event from '../components/events/eventFeed/eventFeed';
-import { userRole } from '../types/string-types';
+import { UserRole } from '../types/string-types';
 import { IAlert } from '../types/interfaces';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const Events = ({ userRole }: Props) => {

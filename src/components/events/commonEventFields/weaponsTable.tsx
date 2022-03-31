@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   Table,
   TableRow,
@@ -9,8 +8,8 @@ import {
   TextField,
   MenuItem,
 } from '@mui/material';
-import { WEAPONS } from '../../../types/enums';
 import { IEvent } from '../../../types/interfaces';
+import { WEAPONS, WeaponType } from '../../../types/string-types';
 
 interface Props {
     isEditable: boolean;
@@ -25,7 +24,7 @@ const WeaponsTable = ({
   event,
   setAttr,
 }: Props) => {
-  const handleWeaponSelect = (sta: string, wpn: WEAPONS) => {
+  const handleWeaponSelect = (sta: string, wpn: WeaponType) => {
     if (setAttr) {
       const tempConfig = event.configuration;
             tempConfig.weapons.find((w) => w.sta === sta)!.weapon = wpn;
@@ -53,10 +52,10 @@ const WeaponsTable = ({
                   input={<Input />}
                   defaultValue="ללא"
                   onChange={
-                      (e) => handleWeaponSelect(sta, e.target.value as WEAPONS)
+                    (e) => handleWeaponSelect(sta, e.target.value as WeaponType)
                   }
                 >
-                  {_.map(WEAPONS, (wpn) => (
+                  {WEAPONS.map((wpn) => (
                     <MenuItem key={wpn} value={wpn}>
                       {wpn}
                     </MenuItem>

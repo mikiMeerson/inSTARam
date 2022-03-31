@@ -5,14 +5,14 @@ import { DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { getUsers } from '../../services/user-service';
 import UserDialog from './userDialog';
 import { IUser } from '../../types/interfaces';
-import { userRole } from '../../types/string-types';
+import { UserRole } from '../../types/string-types';
 
 interface userRowType {
   id: string;
   name: string;
   unit: string;
   username: string;
-  role: userRole;
+  role: UserRole;
   createdAt: string | null;
 }
 const Users = () => {

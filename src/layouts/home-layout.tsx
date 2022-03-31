@@ -2,8 +2,8 @@ import { Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { Star, Flight, Person } from '@mui/icons-material';
 import '../components/home/home.css';
-import { mainComponents, userRole } from '../types/string-types';
-import { linkDisplayType, pages } from '../types/configurations';
+import { UserRole } from '../types/string-types';
+import { LinkDisplayType, pages } from '../types/configurations';
 
 const pageToIcon = [
   {
@@ -21,7 +21,7 @@ const pageToIcon = [
 ];
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const Home = ({ userRole }: Props) => (
@@ -36,7 +36,7 @@ const Home = ({ userRole }: Props) => (
       {pages
         .filter((p) => p.role === 'viewer'
             || userRole === p.role || userRole === 'admin')
-        .map((page: linkDisplayType, index) => (
+        .map((page: LinkDisplayType, index) => (
           <div key={index} className="linkDisplay">
             <NavLink to={page.link}>
               {pageToIcon.find((p) => page.link === p.link)?.icon}

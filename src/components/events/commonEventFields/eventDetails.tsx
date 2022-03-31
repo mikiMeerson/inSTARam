@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { IEvent } from '../../../types/interfaces';
 import {
-  additionalEventDetails,
-  eventFlightDetails,
+  ADDITIONAL_EVENT_DETAILS,
+  EVENT_FLIGHT_DETAILS,
 } from '../../../types/configurations';
 import AdditionalDetails from './additionalDetails';
 
@@ -20,7 +20,7 @@ const EventDetails = ({ disabled, isValue, event, setAttr }: Props) => {
   return (
     <div className="eventDetails">
       <AdditionalDetails
-        details={eventFlightDetails}
+        details={EVENT_FLIGHT_DETAILS}
         event={event}
         disabled={disabled}
         isValue={isValue}
@@ -30,7 +30,7 @@ const EventDetails = ({ disabled, isValue, event, setAttr }: Props) => {
         toggleLabel="נתוני טיסה"
       />
       <AdditionalDetails
-        details={additionalEventDetails}
+        details={ADDITIONAL_EVENT_DETAILS}
         event={event}
         disabled={disabled}
         isValue={isValue}

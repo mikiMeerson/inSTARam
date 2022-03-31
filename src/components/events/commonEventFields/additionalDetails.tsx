@@ -1,7 +1,7 @@
 import { Grid, TextField, Button } from '@mui/material';
 import { ExpandMore, ChevronLeft } from '@mui/icons-material';
 import { IEvent } from '../../../types/interfaces';
-import { eventKeyDisplay } from '../../../types/configurations';
+import { EVENT_KEY_DISPLAY } from '../../../types/configurations';
 
 interface Props {
   details: string[],
@@ -40,7 +40,7 @@ const AdditionalDetails = ({
           <TextField
             fullWidth
             disabled={disabled}
-            label={eventKeyDisplay.find((k) => k.key === attr)!.display}
+            label={EVENT_KEY_DISPLAY.find((k) => k.key === attr)!.display}
             defaultValue={isValue ? event[attr as keyof IEvent] : ''}
             onChange={(e) => setAttr(attr as keyof IEvent, e.target.value)}
           />

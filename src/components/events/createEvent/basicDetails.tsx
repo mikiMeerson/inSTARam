@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import SelectField from '../../general/selectField';
 import DateRangePicker from '../../general/dateRangePicker';
-import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
+import { BLOCKS, EVENT_TYPES } from '../../../types/string-types';
 
 interface Props {
     currDates: string[];

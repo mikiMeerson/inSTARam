@@ -1,9 +1,9 @@
 import { Fab } from '@mui/material';
 import { SaveOutlined, EditOutlined } from '@mui/icons-material';
-import { userRole } from '../../types/string-types';
+import { UserRole } from '../../types/string-types';
 
 interface Props {
-    userRole: userRole;
+  userRole: UserRole;
     isEdit: boolean;
     setIsEdit: (param: boolean) => void;
     onSave: (param: any) => any;

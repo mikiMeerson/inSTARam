@@ -24,14 +24,14 @@ import {
   getUserById,
   logout,
 } from '../../services/user-service';
-import { userRole } from '../../types/string-types';
+import { UserRole } from '../../types/string-types';
 
 interface userRowType {
   id: string;
   name: string;
   unit: string;
   username: string;
-  role: userRole;
+  role: UserRole;
   createdAt: string | null;
 }
 

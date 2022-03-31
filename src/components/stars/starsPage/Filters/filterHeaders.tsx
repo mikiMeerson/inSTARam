@@ -12,21 +12,22 @@ import {
 import DateRangePicker from '../../../general/dateRangePicker';
 import FilterOptions from './filterOptions';
 import FilterSelections from './filterSelections';
-import { filterDataType, filterField } from '../../../../types/configurations';
+import { FilterDataType, FilterField } from '../../../../types/configurations';
+import FilterTabs from './filterTabs';
 import {
   ASSIGNEES,
+  BAZ_COMPUTERS,
   BLOCKS,
+  RAAM_COMPUTERS,
   RESOURCES,
   STATUSES,
-} from '../../../../types/enums';
-import FilterTabs from './filterTabs';
-import { BAZ_COMPUTERS, RAAM_COMPUTERS } from '../../../../types/string-types';
+} from '../../../../types/string-types';
 
 interface Props {
   unprioritized: boolean;
   nameFilter: string;
   setNameFilter: (param: string) => void;
-  filtersData: filterDataType[];
+  filtersData: FilterDataType[];
 }
 
 const FilterHeaders = ({
@@ -74,7 +75,7 @@ const FilterHeaders = ({
     return 0;
   };
 
-  const filterFields: filterField[] = [
+  const filterFields: FilterField[] = [
     {
       isPrimary: true,
       name: 'name',
@@ -88,7 +89,7 @@ const FilterHeaders = ({
       name: 'status',
       width: '40px',
       activation: 'options',
-      options: Object.values(STATUSES),
+      options: STATUSES,
       displayName: 'סטטוס',
       icon: <CheckCircleOutline className="dropDownIcon" />,
     },
@@ -97,7 +98,7 @@ const FilterHeaders = ({
       name: 'assignee',
       width: '100px',
       activation: 'options',
-      options: Object.values(ASSIGNEES),
+      options: ASSIGNEES,
       displayName: 'אחראי',
       icon: <PersonOutline className="dropDownIcon" />,
     },
@@ -114,7 +115,7 @@ const FilterHeaders = ({
       name: 'block',
       width: '60px',
       activation: 'options',
-      options: Object.values(BLOCKS),
+      options: BLOCKS,
       displayName: 'בלוק',
       icon: <Flight className="dropdownIcon" style={{ fontSize: '17px' }} />,
     },
@@ -122,7 +123,7 @@ const FilterHeaders = ({
       isPrimary: false,
       name: 'resource',
       activation: 'options',
-      options: Object.values(RESOURCES),
+      options: RESOURCES,
       displayName: 'משאבים',
       icon: <FlashOn className="dropDownIcon" />,
     },
@@ -136,7 +137,7 @@ const FilterHeaders = ({
     },
   ];
 
-  const handleFilterChoice = (field: filterField) => {
+  const handleFilterChoice = (field: FilterField) => {
     if (field.activation === 'search') {
       setSearch(lastTab === 'name' ? !search : true);
       setDisplayOptions(false);

@@ -15,12 +15,11 @@ import {
   WarningAmber,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
-import { userRole } from '../../../types/string-types';
+import { UserRole } from '../../../types/string-types';
 import { IEvent, IStar } from '../../../types/interfaces';
-import { SEVERITIES } from '../../../types/enums';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
   star: IStar;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
@@ -41,19 +40,19 @@ const StarRow = ({
 
   const severityIcons = [
     {
-      severity: SEVERITIES.VERY_SERIOUS,
+      severity: 'חמור מאוד (1)',
       icon: <PriorityHigh fontSize="large" color="error" />,
     },
     {
-      severity: SEVERITIES.SERIOUS,
+      severity: 'חמור (2)',
       icon: <ErrorOutline fontSize="large" color="warning" />,
     },
     {
-      severity: SEVERITIES.MEDIUM,
+      severity: 'בינוני (3)',
       icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
     },
     {
-      severity: SEVERITIES.SLIGHT,
+      severity: 'קל (99)',
       icon: <ArrowDownward fontSize="large" color="disabled" />,
     },
   ];

@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import { activityInfoArray } from '../types/configurations';
+import { ACTIVITY_INFO } from '../types/configurations';
 import { baseUrl } from '../globals';
 import { ApiStarsType } from '../types/api-types';
-import { STATUSES } from '../types/enums';
 import { IActivity, INote, IStar } from '../types/interfaces';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
@@ -23,7 +22,7 @@ export const addStar = async (
     const newActivity: IActivity = {
       _id: '0',
       publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-      action: activityInfoArray.find((i) => i.name === 'star')!.action,
+      action: ACTIVITY_INFO.find((i) => i.name === 'star')!.action,
     };
 
     console.log(formData);
@@ -32,7 +31,7 @@ export const addStar = async (
       priority: 0,
       severity: formData.severity,
       name: formData.name,
-      status: STATUSES.OPEN,
+      status: 'פתוח',
       assignee: formData.assignee,
       platform: formData.platform,
       block: formData.block,

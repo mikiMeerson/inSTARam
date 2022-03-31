@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import _ from 'lodash';
 import { StatusCodes } from 'http-status-codes';
 import {
   FormControl,
@@ -24,27 +23,24 @@ import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
 import { addActivity } from '../../../services/star-service';
+import { IEvent, IStar } from '../../../types/interfaces';
 import {
   ASSIGNEES,
+  BAZ_COMPUTERS,
   BLOCKS,
-  PLATFORMS,
+  RAAM_COMPUTERS,
   RESOURCES,
   SEVERITIES,
   STATUSES,
-} from '../../../types/enums';
-import { IEvent, IStar } from '../../../types/interfaces';
-import {
-  BAZ_COMPUTERS,
-  RAAM_COMPUTERS,
-  userRole,
+  UserRole,
 } from '../../../types/string-types';
-import { activityInfoArray } from '../../../types/configurations';
+import { ACTIVITY_INFO } from '../../../types/configurations';
 import { getEventById } from '../../../services/event-service';
 import StarDescLine from '../starDescLine';
 import SaveEditButton from '../../general/saveEditButton';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
   inputStar: IStar;
   updateStar: (starId: string, formData: IStar) => void;
 }
@@ -69,19 +65,19 @@ const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
 
   const severityIcons = [
     {
-      severity: SEVERITIES.VERY_SERIOUS,
+      severity: 'חמור מאוד (1)',
       icon: <PriorityHigh fontSize="large" color="error" />,
     },
     {
-      severity: SEVERITIES.SERIOUS,
+      severity: 'חמור (2)',
       icon: <ErrorOutline fontSize="large" color="warning" />,
     },
     {
-      severity: SEVERITIES.MEDIUM,
+      severity: 'בינוני (3)',
       icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
     },
     {
-      severity: SEVERITIES.SLIGHT,
+      severity: 'קל (99)',
       icon: <ArrowDownward fontSize="large" color="disabled" />,
     },
   ];
@@ -113,7 +109,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
 
   const handleSave = async (formData: IStar) => {
     // if the star is closing, remove its priority and alert the user
-    if (formData.status === STATUSES.CLOSED
+    if (formData.status === 'סגור'
       && star.status !== formData.status) {
       formData.priority = 0;
       setCloseAlert(true);
@@ -126,7 +122,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
       ) && formData[attr as keyof IStar] !== star[attr as keyof IStar],
     ).forEach(async (attr) => {
       // get the attribute's activity info and use it to generate a new one
-      const info = activityInfoArray
+      const info = ACTIVITY_INFO
         .find((i) => i.name === attr);
       if (info) {
         const { status, data } = await addActivity(star._id, {
@@ -243,7 +239,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
                     </div>
                   )}
                 >
-                  {_.map(RESOURCES, (resource: string) => (
+                  {RESOURCES.map((resource) => (
                     <MenuItem key={resource} value={resource}>
                       {resource}
                     </MenuItem>
@@ -257,7 +253,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
                 defaultValue={star.computer}
                 disabled={!isEdit}
                 register={register}
-                fieldValues={star.platform === PLATFORMS.RAAM
+                fieldValues={star.platform === 'רעם'
                   ? RAAM_COMPUTERS
                   : BAZ_COMPUTERS}
                 errors={errors}

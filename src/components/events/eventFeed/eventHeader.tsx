@@ -1,11 +1,11 @@
 import { EditOutlined, SaveOutlined } from '@mui/icons-material';
 import { Fab, Typography } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import { UserRole } from '../../../types/string-types';
 import SaveEditButton from '../../general/saveEditButton';
 
 interface Props {
-    userRole: userRole;
+  userRole: UserRole;
     event: IEvent;
     isEdit: boolean;
     setIsEdit: (param: boolean) => void;

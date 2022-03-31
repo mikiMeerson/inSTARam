@@ -10,11 +10,11 @@ import { NavLink } from 'react-router-dom';
 import { ComputerOutlined, DeleteOutline } from '@material-ui/icons';
 import DialogAlert from '../../general/dialogAlert';
 import { IEvent, IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import { UserRole } from '../../../types/string-types';
 import StarDescLine from '../starDescLine';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
   star: IStar;
   removeStar: (star: IStar) => void;
   event: IEvent | undefined;

@@ -12,12 +12,11 @@ import {
   updatePriorities,
 } from '../services/star-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
-import { userRole } from '../types/string-types';
+import { UserRole } from '../types/string-types';
 import { IAlert, IStar } from '../types/interfaces';
-import { STATUSES } from '../types/enums';
 
 interface Props {
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const Stars = ({ userRole }: Props) => {
@@ -130,7 +129,7 @@ const Stars = ({ userRole }: Props) => {
             element={stars && (
               <StarsMain
                 userRole={userRole}
-                stars={stars.filter((s) => s.status !== STATUSES.CLOSED)}
+                stars={stars.filter((s) => s.status !== 'סגור')}
                 addStar={handleAddStar}
                 removeStar={handleDeleteStar}
                 changePriority={changePriority}
