@@ -27,10 +27,7 @@ interface Props {
 const Home = ({ userRole }: Props) => (
   <div className="home">
     <div className="header">
-      <Typography variant="h1">INSTARAM</Typography>
-      <Typography variant="h6" color="white">
-        המערכת שתעשה לכולנו סדר
-      </Typography>
+      <Typography variant="h1">STAR TRACK</Typography>
     </div>
     <div className="menu">
       {pages

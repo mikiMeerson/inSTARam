@@ -10,7 +10,7 @@
 .header {
   height: 60%;
   width: 100%;
-  background: url('../../assets/sky.jpg');
+  background: url('../../assets/stars.jpg');
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,14 +28,6 @@
     color: transparent;
     -webkit-text-stroke: 1px white; 
     width: min-content;
-}
-
-.header > h4 {
-  font-size: 30px;
-  font-weight: 100;
-  letter-spacing: 1px;
-  position: absolute;
-  top: 45%;
 }
 
 .menu {

@@ -2,7 +2,7 @@ import { StarOutline } from '@mui/icons-material';
 import { Typography, Box, Button } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { LinkDisplayType } from '../../types/configurations';
-import { UserRole, MainComponents } from '../../types/string-types';
+import { UserRole } from '../../types/string-types';
 
 interface Props {
   pages: LinkDisplayType[];
