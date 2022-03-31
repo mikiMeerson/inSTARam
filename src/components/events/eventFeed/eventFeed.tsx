@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { StatusCodes } from 'http-status-codes';
 import { Box, CircularProgress } from '@mui/material';
@@ -8,14 +8,14 @@ import EventDetails from '../commonEventFields/eventDetails';
 import EventHeader from './eventHeader';
 import EventLists from '../commonEventFields/eventLists';
 import { IEvent } from '../../../types/interfaces';
+import { PLATFORMS } from '../../../types/enums';
 import {
-  BAZ_COMPUTERS,
-  BAZ_STATIONS,
-  PLATFORMS,
-  RAAM_COMPUTERS,
+  userRole,
   RAAM_STATIONS,
-} from '../../../types/enums';
-import { userRole } from '../../../types/string-types';
+  BAZ_STATIONS,
+  RAAM_COMPUTERS,
+  BAZ_COMPUTERS,
+} from '../../../types/string-types';
 
 interface eventProps {
     userRole: userRole;
@@ -28,18 +28,18 @@ const Event = ({ userRole, handleAlert }: eventProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const { id } = useParams();
 
-  const fetchEvent = useCallback(async (): Promise<void> => {
-    if (id) {
-      const { status, data } = await getEventById(id);
-      if (status !== StatusCodes.OK) {
-        throw new Error('Error! Event not found');
-      }
-      setEvent(data.event);
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
+    const fetchEvent = async (): Promise<void> => {
+      if (id) {
+        const { status, data } = await getEventById(id);
+        if (status !== StatusCodes.OK) {
+          throw new Error('Error! Event not found');
+        }
+        setEvent(data.event);
+        setLoading(false);
+      }
+    };
+
     fetchEvent();
   }, []);
 
@@ -95,11 +95,11 @@ const Event = ({ userRole, handleAlert }: eventProps) => {
           isEditable={isEdit}
           event={event}
           stations={event.platform === PLATFORMS.RAAM
-            ? Object.values(RAAM_STATIONS)
-            : Object.values(BAZ_STATIONS)}
+            ? RAAM_STATIONS
+            : BAZ_STATIONS}
           computers={event.platform === PLATFORMS.RAAM
-            ? Object.values(RAAM_COMPUTERS)
-            : Object.values(BAZ_COMPUTERS)}
+            ? RAAM_COMPUTERS
+            : BAZ_COMPUTERS}
           setAttr={setAttr}
         />
         <EventLists event={event} editable={isEdit} setAttr={setAttr} />

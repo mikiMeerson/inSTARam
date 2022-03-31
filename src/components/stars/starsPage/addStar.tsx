@@ -24,14 +24,18 @@ import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
 import {
   ASSIGNEES,
-  BAZ_COMPUTERS,
   BLOCKS,
   PLATFORMS,
-  RAAM_COMPUTERS,
   SEVERITIES,
 } from '../../../types/enums';
 import { IEvent } from '../../../types/interfaces';
 import { getEvents } from '../../../services/event-service';
+import {
+  BazComputers,
+  RaamComputers,
+  BAZ_COMPUTERS,
+  RAAM_COMPUTERS,
+} from '../../../types/string-types';
 
 interface starProps {
   isOpen: boolean;
@@ -40,9 +44,9 @@ interface starProps {
 }
 
 const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
-  const [computers, setComputers] = useState<
-    RAAM_COMPUTERS[] | BAZ_COMPUTERS[]
-  >(Object.values(RAAM_COMPUTERS));
+  const [computers, setComputers] = useState<RaamComputers[] | BazComputers[]>(
+    RAAM_COMPUTERS,
+  );
   const [chosenPlatform, setChosenPlatform] = useState<PLATFORMS>(
     PLATFORMS.RAAM,
   );
@@ -57,12 +61,12 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
       : setEventsOptions(events.filter((e) => e.platform === platform));
   };
 
-  const fetchEvents = async (): Promise<void> => {
-    const { data } = await getEvents();
-    setEvents(data.events);
-  };
-
   useEffect(() => {
+    const fetchEvents = async (): Promise<void> => {
+      const { data } = await getEvents();
+      setEvents(data.events);
+    };
+
     fetchEvents();
     getEventsOptions(chosenPlatform, chosenBlock);
   }, [events]);
@@ -137,9 +141,9 @@ const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
     getEventsOptions(e.target.value, chosenBlock);
 
     if (e.target.value === PLATFORMS.RAAM) {
-      setComputers(Object.values(RAAM_COMPUTERS));
+      setComputers(RAAM_COMPUTERS);
     } else {
-      setComputers(Object.values(BAZ_COMPUTERS));
+      setComputers(BAZ_COMPUTERS);
     }
   };
 

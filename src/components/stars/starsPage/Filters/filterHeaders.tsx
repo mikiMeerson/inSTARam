@@ -15,13 +15,12 @@ import FilterSelections from './filterSelections';
 import { filterDataType, filterField } from '../../../../types/configurations';
 import {
   ASSIGNEES,
-  BAZ_COMPUTERS,
   BLOCKS,
-  RAAM_COMPUTERS,
   RESOURCES,
   STATUSES,
 } from '../../../../types/enums';
 import FilterTabs from './filterTabs';
+import { BAZ_COMPUTERS, RAAM_COMPUTERS } from '../../../../types/string-types';
 
 interface filterProps {
   unprioritized: boolean;
@@ -131,8 +130,7 @@ const FilterHeaders = ({
       isPrimary: false,
       name: 'computer',
       activation: 'options',
-      options: (Object.values(RAAM_COMPUTERS) as string[])
-        .concat((Object.values(BAZ_COMPUTERS) as string[])),
+      options: RAAM_COMPUTERS.concat(BAZ_COMPUTERS),
       displayName: 'מחשב',
       icon: <Computer className="dropDownIcon" />,
     },

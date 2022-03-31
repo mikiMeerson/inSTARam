@@ -1,25 +1,27 @@
 import {
   ASSIGNEES,
-  BAZ_STATIONS,
   BLOCKS,
-  RAAM_COMPUTERS,
   EVENT_TYPES,
   PLATFORMS,
-  RAAM_STATIONS,
   SEVERITIES,
   STATUSES,
   WEAPONS,
-  BAZ_COMPUTERS,
 } from './enums';
-import { userRole } from './string-types';
+import {
+  userRole,
+  RaamStations,
+  BazStations,
+  RaamComputers,
+  BazComputers,
+} from './string-types';
 
 export interface weaponConfig {
-  sta: RAAM_STATIONS | BAZ_STATIONS;
+  sta: RaamStations | BazStations;
   weapon: WEAPONS;
 }
 
 export interface versionConfig {
-  comp: RAAM_COMPUTERS | BAZ_COMPUTERS;
+  comp: RaamComputers | BazComputers;
   version: string;
 }
 
@@ -121,57 +123,57 @@ export const defaultRAAMEvent: IEvent = {
   configuration: {
     weapons: [
       {
-        sta: RAAM_STATIONS['2L'],
+        sta: '2L',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS.STA2,
+        sta: '2',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS['2R'],
+        sta: '2R',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS.LCFT,
+        sta: 'LCFT',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS.STA5,
+        sta: '5',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS.RCFT,
+        sta: 'RCFT',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS['8L'],
+        sta: '8L',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS.STA8,
+        sta: '8',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: RAAM_STATIONS['8R'],
+        sta: '8R',
         weapon: WEAPONS.NONE,
       },
     ],
     versions: [
       {
-        comp: RAAM_COMPUTERS.AAA,
+        comp: 'AAA',
         version: 'ללא',
       },
       {
-        comp: RAAM_COMPUTERS.BBB,
+        comp: 'BBB',
         version: 'ללא',
       },
       {
-        comp: RAAM_COMPUTERS.CCC,
+        comp: 'CCC',
         version: 'ללא',
       },
       {
-        comp: RAAM_COMPUTERS.DDD,
+        comp: 'DDD',
         version: 'ללא',
       },
     ],
@@ -202,41 +204,41 @@ export const defaultBAZEvent: IEvent = {
   configuration: {
     weapons: [
       {
-        sta: BAZ_STATIONS.STA1,
+        sta: '1',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: BAZ_STATIONS.STA2,
+        sta: '2',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: BAZ_STATIONS.STA3,
+        sta: '3',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: BAZ_STATIONS.STA4,
+        sta: '4',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: BAZ_STATIONS.STA5,
+        sta: '5',
         weapon: WEAPONS.NONE,
       },
       {
-        sta: BAZ_STATIONS.STA6,
+        sta: '6',
         weapon: WEAPONS.NONE,
       },
     ],
     versions: [
       {
-        comp: BAZ_COMPUTERS.EEE,
+        comp: 'EEE',
         version: 'ללא',
       },
       {
-        comp: BAZ_COMPUTERS.FFF,
+        comp: 'FFF',
         version: 'ללא',
       },
       {
-        comp: BAZ_COMPUTERS.GGG,
+        comp: 'GGG',
         version: 'ללא',
       },
     ],

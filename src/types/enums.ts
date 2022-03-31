@@ -40,19 +40,6 @@ export enum RESOURCES {
     REAL_WEAPON = 'חימוש אמיתי',
   }
 
-export enum RAAM_COMPUTERS {
-  AAA = 'AAA',
-  BBB = 'BBB',
-  CCC = 'CCC',
-  DDD = 'DDD',
-}
-
-export enum BAZ_COMPUTERS {
-  EEE = 'EEE',
-  FFF = 'FFF',
-  GGG = 'GGG',
-}
-
 export enum EVENT_TYPES {
     REG_FLIGHT = 'גיחת טייסת',
     MANAT_FLIGHT = 'גיחת מנט',
@@ -69,24 +56,3 @@ export enum WEAPONS {
     SS = 'SS',
     PP = 'PP',
   }
-
-export enum RAAM_STATIONS {
-  '8R' = '8R',
-  STA8 = '8',
-  '8L' = '8L',
-  RCFT = 'RCFT',
-  STA5 = '5',
-  LCFT = 'LCFT',
-  '2R' = '2R',
-  STA2 = '2',
-  '2L' = '2L',
-}
-
-export enum BAZ_STATIONS {
-  STA1 = '1',
-  STA2 = '2',
-  STA3 = '3',
-  STA4 = '4',
-  STA5 = '5',
-  STA6 = '6',
-}

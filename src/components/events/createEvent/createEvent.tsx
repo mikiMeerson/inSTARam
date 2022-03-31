@@ -23,13 +23,17 @@ import {
   defaultRAAMEvent,
   IEvent,
 } from '../../../types/interfaces';
+import { PLATFORMS } from '../../../types/enums';
 import {
-  BAZ_COMPUTERS,
+  BazStations,
+  RaamStations,
   BAZ_STATIONS,
-  PLATFORMS,
-  RAAM_COMPUTERS,
   RAAM_STATIONS,
-} from '../../../types/enums';
+  RaamComputers,
+  BazComputers,
+  RAAM_COMPUTERS,
+  BAZ_COMPUTERS,
+} from '../../../types/string-types';
 import EventLists from '../commonEventFields/eventLists';
 import BasicDetails from './basicDetails';
 
@@ -40,12 +44,12 @@ interface EventProps {
 const CreateEvent = ({ handleAlert }: EventProps) => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
   const [currDates, setCurrDates] = useState<string[]>([]);
-  const [stations, setStations] = useState<RAAM_STATIONS[] | BAZ_STATIONS[]>(
-    Object.values(RAAM_STATIONS),
+  const [stations, setStations] = useState<RaamStations[] | BazStations[]>(
+    RAAM_STATIONS,
   );
-  const [computers, setComputers] = useState<
-    RAAM_COMPUTERS[] | BAZ_COMPUTERS[]
-  >(Object.values(RAAM_COMPUTERS));
+  const [computers, setComputers] = useState<RaamComputers[] | BazComputers[]>(
+    RAAM_COMPUTERS,
+  );
 
   const navigate = useNavigate();
 
@@ -87,13 +91,13 @@ const CreateEvent = ({ handleAlert }: EventProps) => {
 
   const handlePlatformChange = (e: any) => {
     if (e.target.value === PLATFORMS.RAAM) {
-      setStations(Object.values(RAAM_STATIONS));
-      setComputers(Object.values(RAAM_COMPUTERS));
+      setStations(RAAM_STATIONS);
+      setComputers(RAAM_COMPUTERS);
       setNewEvent(defaultRAAMEvent);
     } else {
-      setStations(Object.values(BAZ_STATIONS));
+      setStations(BAZ_STATIONS);
       setNewEvent(defaultBAZEvent);
-      setComputers(Object.values(BAZ_COMPUTERS));
+      setComputers(BAZ_COMPUTERS);
     }
   };
 

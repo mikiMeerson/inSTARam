@@ -13,11 +13,8 @@ import {
   Input,
   SelectChangeEvent,
   Grid,
-  Fab,
 } from '@mui/material';
 import {
-  SaveOutlined,
-  EditOutlined,
   ErrorOutline,
   WarningAmber,
   ArrowDownward,
@@ -29,16 +26,18 @@ import SelectField from '../../general/selectField';
 import { addActivity } from '../../../services/star-service';
 import {
   ASSIGNEES,
-  BAZ_COMPUTERS,
   BLOCKS,
   PLATFORMS,
-  RAAM_COMPUTERS,
   RESOURCES,
   SEVERITIES,
   STATUSES,
 } from '../../../types/enums';
 import { IEvent, IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import {
+  BAZ_COMPUTERS,
+  RAAM_COMPUTERS,
+  userRole,
+} from '../../../types/string-types';
 import { activityInfoArray } from '../../../types/configurations';
 import { getEventById } from '../../../services/event-service';
 import StarDescLine from '../starDescLine';
@@ -57,14 +56,14 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [event, setEvent] = useState<IEvent>();
 
-  const fetchEvent = async () => {
-    if (star.event) {
-      const { data } = await getEventById(star.event);
-      setEvent(data.event);
-    }
-  };
-
   useEffect(() => {
+    const fetchEvent = async () => {
+      if (star.event) {
+        const { data } = await getEventById(star.event);
+        setEvent(data.event);
+      }
+    };
+
     fetchEvent();
   }, [star]);
 
@@ -147,13 +146,6 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
 
     setIsEdit(false);
     updateStar(star._id, formData);
-  };
-
-  const getDisplayDate = () => {
-    const date = star.createdAt ? new Date(star.createdAt) : undefined;
-    const displayDate = date
-      && `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-    return displayDate || '';
   };
 
   return (
