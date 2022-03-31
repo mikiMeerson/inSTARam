@@ -7,11 +7,11 @@ import UserNavbar from './userNavbar';
 import { mainComponents, userRole } from '../../types/string-types';
 import { pages } from '../../types/configurations';
 
-interface NavbarProps {
+interface Props {
   userRole: userRole;
 }
 
-const Navbar = ({ userRole }: NavbarProps) => {
+const Navbar = ({ userRole }: Props) => {
   const [anchorElNav, setAnchorElNav] = useState();
 
   return (

@@ -3,7 +3,7 @@ import { TextField, Avatar, Button } from '@mui/material';
 import { BaseSyntheticEvent, useState } from 'react';
 import { INote } from '../../../types/interfaces';
 
-interface commentProps {
+interface Props {
   replyTo: INote | undefined;
   setReplyTo: (param: INote | undefined) => void;
   addNote: (note: INote) => void;
@@ -11,7 +11,7 @@ interface commentProps {
 
 const AddComment = ({
   replyTo, setReplyTo, addNote,
-}: commentProps) => {
+}: Props) => {
   const [input, setInput] = useState<string>('');
 
   const addComment = () => {

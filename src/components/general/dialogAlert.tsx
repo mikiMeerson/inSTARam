@@ -7,7 +7,7 @@ import {
   Button,
 } from '@mui/material';
 
-interface AlertProps {
+interface Props {
     header: string;
     content: string;
     isOpen: boolean;
@@ -23,7 +23,7 @@ const DialogAlert = ({
   setIsOpen,
   activateResponse,
   param,
-}: AlertProps) => (
+}: Props) => (
   <Dialog
     open={isOpen}
     onClose={() => setIsOpen(false)}

@@ -9,7 +9,7 @@ import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import { getEvents } from '../../../services/event-service';
 
-interface starProps {
+interface Props {
   userRole: userRole;
   stars: IStar[];
   addStar: (formData: any) => void;
@@ -22,7 +22,7 @@ const StarsMain = ({
   addStar,
   removeStar,
   changePriority,
-}: starProps) => {
+}: Props) => {
   const [openAddStar, toggleOpenAddStar] = useState(false);
   const [dragged, setDragged] = useState<IStar | undefined>(undefined);
   const [events, setEvents] = useState<IEvent[]>([]);

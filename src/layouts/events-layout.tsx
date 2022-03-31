@@ -7,11 +7,11 @@ import Event from '../components/events/eventFeed/eventFeed';
 import { userRole } from '../types/string-types';
 import { IAlert } from '../types/interfaces';
 
-interface eventProps {
+interface Props {
   userRole: userRole;
 }
 
-const Events = ({ userRole }: eventProps) => {
+const Events = ({ userRole }: Props) => {
   const [alert, setAlert] = useState<IAlert>({
     isAlert: false,
     content: '',

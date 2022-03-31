@@ -3,7 +3,7 @@ import { ExpandMore, ChevronLeft } from '@mui/icons-material';
 import { IEvent } from '../../../types/interfaces';
 import { eventKeyDisplay } from '../../../types/configurations';
 
-interface DetailsProps {
+interface Props {
   details: string[],
   disabled: boolean;
   isValue: boolean;
@@ -23,7 +23,7 @@ const AdditionalDetails = ({
   toggleLabel,
   event,
   setAttr,
-}: DetailsProps) => (
+}: Props) => (
   <div className="moreDetails">
     <Button color="info" onClick={() => setToggle(!toggle)}>
       {toggle ? <ExpandMore /> : (

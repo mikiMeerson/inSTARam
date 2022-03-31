@@ -4,13 +4,13 @@ import { IEvent } from '../../../types/interfaces';
 import ListGenerator from '../../general/listGenerator';
 import List from '../../general/list';
 
-interface ListsProps {
+interface Props {
     event: IEvent;
     editable: boolean;
     setAttr: (attr: keyof IEvent, value: any) => void;
 }
 
-const EventLists = ({ event, setAttr, editable }: ListsProps) => (
+const EventLists = ({ event, setAttr, editable }: Props) => (
   <>
     {eventLists.map((list) => (
       (editable && setAttr)

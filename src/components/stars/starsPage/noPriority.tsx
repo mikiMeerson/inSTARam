@@ -5,7 +5,7 @@ import StarsTable from './starsTable';
 import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 
-interface tableProps {
+interface Props {
   userRole: userRole;
   stars: IStar[];
   toggleAddStar: (param: boolean) => void;
@@ -25,7 +25,7 @@ const NoPriority = ({
   dragged,
   setDragged,
   events,
-}: tableProps) => {
+}: Props) => {
   const [hideNoPriority, toggleHideNoPriority] = useState<boolean>(false);
 
   const handleDrop = () => {

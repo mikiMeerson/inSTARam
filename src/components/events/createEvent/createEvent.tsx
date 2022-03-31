@@ -37,11 +37,11 @@ import {
 import EventLists from '../commonEventFields/eventLists';
 import BasicDetails from './basicDetails';
 
-interface EventProps {
+interface Props {
   handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
-const CreateEvent = ({ handleAlert }: EventProps) => {
+const CreateEvent = ({ handleAlert }: Props) => {
   const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
   const [currDates, setCurrDates] = useState<string[]>([]);
   const [stations, setStations] = useState<RaamStations[] | BazStations[]>(

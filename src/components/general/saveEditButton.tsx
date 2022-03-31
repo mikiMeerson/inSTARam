@@ -2,7 +2,7 @@ import { Fab } from '@mui/material';
 import { SaveOutlined, EditOutlined } from '@mui/icons-material';
 import { userRole } from '../../types/string-types';
 
-interface ButtonProps {
+interface Props {
     userRole: userRole;
     isEdit: boolean;
     setIsEdit: (param: boolean) => void;
@@ -14,7 +14,7 @@ const SaveEditButton = ({
   isEdit,
   setIsEdit,
   onSave,
-}: ButtonProps) => (
+}: Props) => (
   <div>
     {(userRole !== 'viewer')
       && (

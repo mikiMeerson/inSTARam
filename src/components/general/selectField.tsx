@@ -12,7 +12,7 @@ import { UseFormRegister } from 'react-hook-form';
 import { eventKeyDisplay, starKeyDisplay } from '../../types/configurations';
 import { IEvent, IStar } from '../../types/interfaces';
 
-interface fieldProps {
+interface Props {
   field: keyof IStar | keyof IEvent;
   fieldValues: any;
   register: UseFormRegister<any>;
@@ -32,7 +32,7 @@ const SelectField = ({
   disabled,
   element,
   variant,
-}: fieldProps) => (
+}: Props) => (
   <>
     <FormControl sx={{ width: '100%' }}>
       <InputLabel>

@@ -6,7 +6,7 @@ import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import { filterDataType } from '../../../types/configurations';
 
-interface starProps {
+interface Props {
   userRole: userRole;
   unprioritized: boolean;
   stars: IStar[];
@@ -26,7 +26,7 @@ const StarsTable = ({
   dragged,
   setDragged,
   events,
-}: starProps) => {
+}: Props) => {
   const getExistingFilters = (filterName: string) => {
     const existingFilter = unprioritized
       ? localStorage.getItem(`${filterName} filter unprioritized`)

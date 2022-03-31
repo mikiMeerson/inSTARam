@@ -12,7 +12,7 @@ import {
 import { WEAPONS } from '../../../types/enums';
 import { IEvent } from '../../../types/interfaces';
 
-interface WeaponsProps {
+interface Props {
     isEditable: boolean;
     stations: string[];
     event: IEvent;
@@ -24,7 +24,7 @@ const WeaponsTable = ({
   stations,
   event,
   setAttr,
-}: WeaponsProps) => {
+}: Props) => {
   const handleWeaponSelect = (sta: string, wpn: WEAPONS) => {
     if (setAttr) {
       const tempConfig = event.configuration;

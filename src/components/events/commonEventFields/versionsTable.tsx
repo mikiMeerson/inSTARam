@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
 
-interface VersionsProps {
+interface Props {
     isEditable: boolean;
     computers: string[];
     event: IEvent;
@@ -18,7 +18,7 @@ const VersionsTable = ({
   computers,
   event,
   setAttr,
-}: VersionsProps) => {
+}: Props) => {
   const handleVersionInput = (comp: string, version: string) => {
     const tempConfig = event.configuration;
     tempConfig.versions.find((v) => v.comp === comp)!.version = version;

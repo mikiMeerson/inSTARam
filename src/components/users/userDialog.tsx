@@ -35,7 +35,7 @@ interface userRowType {
   createdAt: string | null;
 }
 
-interface DialogProps {
+interface Props {
   isOpen: boolean;
   setIsOpen: (param: boolean) => void;
   userAction: 'delete' | 'edit' | undefined;
@@ -51,7 +51,7 @@ const UserDialog = ({
   userAction,
   selectedUser,
   fetchUsers,
-}: DialogProps) => {
+}: Props) => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({

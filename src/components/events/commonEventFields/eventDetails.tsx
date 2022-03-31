@@ -6,14 +6,14 @@ import {
 } from '../../../types/configurations';
 import AdditionalDetails from './additionalDetails';
 
-interface EventProps {
+interface Props {
     disabled: boolean;
     isValue: boolean;
     setAttr: (attr: keyof IEvent, value: any) => void;
     event: IEvent;
 }
 
-const EventDetails = ({ disabled, isValue, event, setAttr }: EventProps) => {
+const EventDetails = ({ disabled, isValue, event, setAttr }: Props) => {
   const [displayFlight, setDisplayFlight] = useState<boolean>(false);
   const [displayMore, setDisplayMore] = useState<boolean>(false);
 

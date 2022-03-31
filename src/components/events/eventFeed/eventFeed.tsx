@@ -17,12 +17,12 @@ import {
   BAZ_COMPUTERS,
 } from '../../../types/string-types';
 
-interface eventProps {
+interface Props {
     userRole: userRole;
     handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
-const Event = ({ userRole, handleAlert }: eventProps) => {
+const Event = ({ userRole, handleAlert }: Props) => {
   const [event, setEvent] = useState<IEvent>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);

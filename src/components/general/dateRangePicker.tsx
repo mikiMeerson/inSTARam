@@ -3,7 +3,7 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-interface dateProps {
+interface Props {
     isDatePick: boolean;
     setIsDatePick: (param: boolean) => void;
     dates: string[];
@@ -14,7 +14,7 @@ const DateRangePicker = ({
   setIsDatePick,
   dates,
   setDates,
-} : dateProps) => (
+}: Props) => (
   <Dialog
     dir="ltr"
     open={isDatePick}

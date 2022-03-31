@@ -16,12 +16,12 @@ import './styles/event.css';
 import { IEvent } from '../../types/interfaces';
 import { userRole } from '../../types/string-types';
 
-interface eventProps {
+interface Props {
   userRole: userRole;
   handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
-const EventsMain = ({ userRole, handleAlert }: eventProps) => {
+const EventsMain = ({ userRole, handleAlert }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
 

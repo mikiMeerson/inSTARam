@@ -3,7 +3,7 @@ import { IEvent } from '../../../types/interfaces';
 import VersionsTable from './versionsTable';
 import WeaponsTable from './weaponsTable';
 
-interface VersionsProps {
+interface Props {
     isEditable: boolean;
     stations: string[];
     computers: string[];
@@ -17,7 +17,7 @@ const EventVersions = ({
   computers,
   event,
   setAttr,
-}: VersionsProps) => (
+}: Props) => (
   <div className="eventVersions">
     <Typography variant="h5">תצורה</Typography>
     <div className="versionTables">

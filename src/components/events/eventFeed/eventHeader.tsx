@@ -4,7 +4,7 @@ import { IEvent } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import SaveEditButton from '../../general/saveEditButton';
 
-interface EventProps {
+interface Props {
     userRole: userRole;
     event: IEvent;
     isEdit: boolean;
@@ -18,7 +18,7 @@ const EventHeader = ({
   isEdit,
   setIsEdit,
   handleUpdateEvent,
-}: EventProps) => {
+}: Props) => {
   const getDisplayDate = (date: Date) => {
     date = new Date(date);
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;

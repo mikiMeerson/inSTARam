@@ -20,11 +20,11 @@ const pageToIcon = [
   },
 ];
 
-interface HomeProps {
+interface Props {
   userRole: userRole;
 }
 
-const Home = ({ userRole }: HomeProps) => (
+const Home = ({ userRole }: Props) => (
   <div className="home">
     <div className="header">
       <Typography variant="h1">INSTARAM</Typography>

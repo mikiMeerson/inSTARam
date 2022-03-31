@@ -4,7 +4,7 @@ import { MoreVert } from '@mui/icons-material';
 import { filterField } from '../../../../types/configurations';
 import FilterTab from './filterTab';
 
-interface FilterProps {
+interface Props {
     filterFields: filterField[];
     lastTab: string;
     displayOptions: boolean;
@@ -22,7 +22,7 @@ const FilterTabs = ({
   handleFilterChoice,
   setDisplayOptions,
   setSearch,
-}: FilterProps) => {
+}: Props) => {
   const [displayMore, setDisplayMore] = useState<boolean>(false);
 
   return (

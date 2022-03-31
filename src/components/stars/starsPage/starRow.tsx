@@ -19,7 +19,7 @@ import { userRole } from '../../../types/string-types';
 import { IEvent, IStar } from '../../../types/interfaces';
 import { SEVERITIES } from '../../../types/enums';
 
-interface starProps {
+interface Props {
   userRole: userRole;
   star: IStar;
   removeStar: (starId: string) => void;
@@ -36,7 +36,7 @@ const StarRow = ({
   dragged,
   setDragged,
   event,
-}: starProps) => {
+}: Props) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   const severityIcons = [

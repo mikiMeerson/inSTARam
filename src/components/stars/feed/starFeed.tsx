@@ -10,7 +10,7 @@ import { addNote, editStar, getStarById } from '../../../services/star-service';
 import { userRole } from '../../../types/string-types';
 import { IStar, INote } from '../../../types/interfaces';
 
-interface starProps {
+interface Props {
   userRole: userRole;
   updateStar: (starId: string, formData: IStar) => void;
 }
@@ -18,7 +18,7 @@ interface starProps {
 const StarFeed = ({
   userRole,
   updateStar,
-}: starProps) => {
+}: Props) => {
   const [star, setStar] = useState<IStar>();
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams();

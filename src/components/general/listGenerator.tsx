@@ -12,14 +12,14 @@ import { DeleteOutlined } from '@mui/icons-material';
 import './styles/general.css';
 import { IEvent } from '../../types/interfaces';
 
-interface ListProps {
+interface Props {
     header: string;
     event: IEvent;
     setCurrList: (attr: keyof IEvent, value: any) => void;
     attr: keyof IEvent;
 }
 
-const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
+const ListGenerator = ({ header, event, setCurrList, attr }: Props) => {
   const [newItem, setNewItem] = useState<string>('');
   const [list, setList] = useState<string[]>([]);
 

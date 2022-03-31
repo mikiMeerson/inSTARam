@@ -13,7 +13,7 @@ import { IEvent } from '../../types/interfaces';
 import { userRole } from '../../types/string-types';
 import { EVENT_TYPES } from '../../types/enums';
 
-interface CardProps {
+interface Props {
     event: IEvent;
     handleDeleteEvent: (event: IEvent) => void;
     userRole: userRole;
@@ -23,7 +23,7 @@ const EventCard = ({
   event,
   handleDeleteEvent,
   userRole,
-}: CardProps) => {
+}: Props) => {
   const [isEventDelete, setIsEventDelete] = useState<boolean>(false);
 
   const getDisplayDate = (date: Date) => {

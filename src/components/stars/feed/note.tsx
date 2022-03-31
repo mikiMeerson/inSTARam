@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { INote } from '../../../types/interfaces';
 import DialogAlert from '../../general/dialogAlert';
 
-interface noteProps {
+interface Props {
   notes: INote[];
   note: INote;
   replies: INote[];
@@ -27,7 +27,7 @@ const Note = ({
   replyTo,
   setReplyTo,
   deleteNote,
-}: noteProps) => {
+}: Props) => {
   const [isReply, setIsReply] = useState<boolean>(false);
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
   const indent = `${(replyBranch + 40).toString()}px`;

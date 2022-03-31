@@ -13,14 +13,14 @@ import { IEvent, IStar } from '../../../types/interfaces';
 import { userRole } from '../../../types/string-types';
 import StarDescLine from '../starDescLine';
 
-interface starProps {
+interface Props {
   userRole: userRole;
   star: IStar;
   removeStar: (star: IStar) => void;
   event: IEvent | undefined;
 }
 
-const starExpand = ({ userRole, star, removeStar, event }: starProps) => {
+const starExpand = ({ userRole, star, removeStar, event }: Props) => {
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
 
   return (

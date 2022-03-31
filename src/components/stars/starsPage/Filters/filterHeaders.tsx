@@ -22,7 +22,7 @@ import {
 import FilterTabs from './filterTabs';
 import { BAZ_COMPUTERS, RAAM_COMPUTERS } from '../../../../types/string-types';
 
-interface filterProps {
+interface Props {
   unprioritized: boolean;
   nameFilter: string;
   setNameFilter: (param: string) => void;
@@ -34,7 +34,7 @@ const FilterHeaders = ({
   nameFilter,
   setNameFilter,
   filtersData,
-}: filterProps) => {
+}: Props) => {
   const [displayOptions, setDisplayOptions] = useState<boolean>(false);
   const [search, setSearch] = useState<boolean>(false);
   const [options, setOptions] = useState<string[]>([]);

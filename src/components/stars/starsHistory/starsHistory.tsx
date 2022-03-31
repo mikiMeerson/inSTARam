@@ -32,13 +32,13 @@ function getComparator(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-interface historyProps {
+interface Props {
   stars: IStar[];
   userRole: userRole;
   updateStar: (starId: string, newStar: IStar) => void;
 }
 
-const StarsHistory = ({ stars, userRole, updateStar }: historyProps) => {
+const StarsHistory = ({ stars, userRole, updateStar }: Props) => {
   const [order, setOrder] = useState<orderType>('asc');
   const [orderBy, setOrderBy] = useState<keyof IStar>('name');
 

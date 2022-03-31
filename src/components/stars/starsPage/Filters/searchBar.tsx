@@ -1,11 +1,11 @@
 import { TextField, TableRow } from '@mui/material';
 
-interface FilterProps {
+interface Props {
     nameFilter: string;
     setNameFilter: (e: any) => void;
 }
 
-const SearchBar = ({ nameFilter, setNameFilter }: FilterProps) => (
+const SearchBar = ({ nameFilter, setNameFilter }: Props) => (
   <TableRow
     className="searchSection"
     sx={{

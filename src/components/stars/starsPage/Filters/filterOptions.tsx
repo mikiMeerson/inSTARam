@@ -2,7 +2,7 @@ import { TableRow, Chip } from '@mui/material';
 import { filterDataType } from '../../../../types/configurations';
 import SearchBar from './searchBar';
 
-interface FilterProps {
+interface Props {
     lastTab: string;
     options: string[];
     search: boolean;
@@ -24,7 +24,7 @@ const FilterOptions = ({
   options,
   filtersData,
   setFilter,
-}: FilterProps) => {
+}: Props) => {
   const getOptions = () => {
     const newOptions = options.filter((o) => {
       const currentFilter = filtersData.find((f) => f.tabName === lastTab);

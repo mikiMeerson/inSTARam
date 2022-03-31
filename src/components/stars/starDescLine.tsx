@@ -2,12 +2,12 @@ import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { IEvent, IStar } from '../../types/interfaces';
 
-interface DescProps {
+interface Props {
   star: IStar;
   event: IEvent | undefined;
 }
 
-const StarDescLine = ({ star, event }: DescProps) => (
+const StarDescLine = ({ star, event }: Props) => (
   <Typography variant="caption" fontSize="13px" marginBottom="10px">
     הועלה על ידי
     {' '}

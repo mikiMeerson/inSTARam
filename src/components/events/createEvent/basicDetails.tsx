@@ -9,7 +9,7 @@ import SelectField from '../../general/selectField';
 import DateRangePicker from '../../general/dateRangePicker';
 import { BLOCKS, EVENT_TYPES } from '../../../types/enums';
 
-interface DetailsProps {
+interface Props {
     currDates: string[];
     setCurrDates: (param: string[]) => void;
     register: UseFormRegister<FieldValues>;
@@ -21,7 +21,7 @@ const BasicDetails = ({
   setCurrDates,
   register,
   errors,
-}: DetailsProps) => {
+}: Props) => {
   const [isDatePick, setIsDatePick] = useState<boolean>(false);
 
   const getDisplayDate = (date: Date) => `

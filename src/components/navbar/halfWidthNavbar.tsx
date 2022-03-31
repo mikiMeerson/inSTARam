@@ -6,7 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { linkDisplayType } from '../../types/configurations';
 import { mainComponents, userRole } from '../../types/string-types';
 
-interface NavbarProps {
+interface Props {
   pages: linkDisplayType[];
   setAnchorElNav: (param: any) => void;
   anchorElNav: any;
@@ -18,7 +18,7 @@ const HalfWidthNavBar = ({
   anchorElNav,
   setAnchorElNav,
   userRole,
-}: NavbarProps) => (
+}: Props) => (
   <>
     <Link to="/">
       <Typography

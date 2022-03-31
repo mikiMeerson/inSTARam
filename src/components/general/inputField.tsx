@@ -3,7 +3,7 @@ import { UseFormRegister } from 'react-hook-form';
 import { eventKeyDisplay, starKeyDisplay } from '../../types/configurations';
 import { IStar } from '../../types/interfaces';
 
-interface fieldProps {
+interface Props {
   field: keyof IStar;
   register: UseFormRegister<any>;
   errors: {[x: string]: any};
@@ -26,7 +26,7 @@ const InputField = ({
   variant,
   sx,
   element,
-}: fieldProps) => (
+}: Props) => (
   <>
     <TextField
       fullWidth={fullWidth}

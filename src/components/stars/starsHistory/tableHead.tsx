@@ -34,7 +34,7 @@ const headCells: starKeyDisplayType[] = [
   },
 ];
 
-interface EnhancedTableProps {
+interface Props {
   order: orderType;
   orderBy: keyof IStar;
   onRequestSort: (
@@ -43,7 +43,7 @@ interface EnhancedTableProps {
   ) => void;
 }
 
-const EnhancedTableHead = (props: EnhancedTableProps) => {
+const EnhancedTableHead = (props: Props) => {
   const {
     order,
     orderBy,

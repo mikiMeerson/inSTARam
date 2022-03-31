@@ -16,11 +16,11 @@ import { userRole } from '../types/string-types';
 import { IAlert, IStar } from '../types/interfaces';
 import { STATUSES } from '../types/enums';
 
-interface starProps {
+interface Props {
   userRole: userRole;
 }
 
-const Stars = ({ userRole }: starProps) => {
+const Stars = ({ userRole }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [stars, setStars] = useState<IStar[]>([]);
   const [alert, setAlert] = useState<IAlert>({

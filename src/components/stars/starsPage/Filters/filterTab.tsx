@@ -1,7 +1,7 @@
 import { TableCell, Button } from '@mui/material';
 import { filterField } from '../../../../types/configurations';
 
-interface TabProps {
+interface Props {
     field: filterField;
     lastTab: string;
     handleFilterChoice: (field: filterField) => void;
@@ -15,7 +15,7 @@ const FilterTab = ({
   handleFilterChoice,
   displayOptions,
   search,
-}: TabProps) => (
+}: Props) => (
   <TableCell
     key={field.name}
     width={field.width}

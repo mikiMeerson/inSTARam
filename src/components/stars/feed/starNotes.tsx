@@ -4,12 +4,12 @@ import Note from './note';
 import AddComment from './addComment';
 import { INote } from '../../../types/interfaces';
 
-interface notesProps {
+interface Props {
   notes: INote[];
   addNote: (note: INote) => void;
   deleteNote: (noteId: string) => void;
 }
-const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
+const StarNotes = ({ notes, addNote, deleteNote }: Props) => {
   const [replyTo, setReplyTo] = useState<INote | undefined>(undefined);
 
   const getNotes = () => notes.filter(

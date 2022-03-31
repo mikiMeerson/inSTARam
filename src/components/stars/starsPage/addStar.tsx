@@ -37,13 +37,13 @@ import {
   RAAM_COMPUTERS,
 } from '../../../types/string-types';
 
-interface starProps {
+interface Props {
   isOpen: boolean;
   toggleModal: (param: boolean) => void;
   addStar: (star: unknown) => void;
 }
 
-const AddStar = ({ isOpen, toggleModal, addStar }: starProps) => {
+const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
   const [computers, setComputers] = useState<RaamComputers[] | BazComputers[]>(
     RAAM_COMPUTERS,
   );

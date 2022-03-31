@@ -43,13 +43,13 @@ import { getEventById } from '../../../services/event-service';
 import StarDescLine from '../starDescLine';
 import SaveEditButton from '../../general/saveEditButton';
 
-interface starProps {
+interface Props {
   userRole: userRole;
   inputStar: IStar;
   updateStar: (starId: string, formData: IStar) => void;
 }
 
-const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
+const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
   const [star, setStar] = useState<IStar>(inputStar);
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
