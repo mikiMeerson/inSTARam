@@ -15,6 +15,8 @@ import EventCard from './eventCard';
 import './styles/event.css';
 import { IEvent } from '../../types/interfaces';
 import { UserRole } from '../../types/string-types';
+import DialogAlert from '../general/dialogAlert';
+import { getStars } from '../../services/star-service';
 
 interface Props {
   userRole: UserRole;
@@ -24,23 +26,35 @@ interface Props {
 const EventsMain = ({ userRole, handleAlert }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
+  const [deleteError, setDeleteError] = useState<boolean>(false);
+
+  const checkAttachedStars = async (event: IEvent) => {
+    const { status, data } = await getStars();
+    if (status !== StatusCodes.OK) return true; // !should be another error
+    const attachedStars = data.stars.filter((s) => s.event === event._id);
+    return attachedStars.length;
+  };
 
   const handleDeleteEvent = async (event: IEvent) => {
-    const { status, data } = await deleteEvent(event._id);
-    if (status !== StatusCodes.OK) {
-      handleAlert(false, 'לא הצלחנו למחוק את האירוע');
+    if (await checkAttachedStars(event)) {
+      setDeleteError(true);
     } else {
-      handleAlert(true, 'האירוע נמחק בהצלחה');
-      setEvents(data.events);
+      const { status, data } = await deleteEvent(event._id);
+      if (status !== StatusCodes.OK) {
+        handleAlert(false, 'לא הצלחנו למחוק את האירוע');
+      } else {
+        handleAlert(true, 'האירוע נמחק בהצלחה');
+        setEvents(data.events);
+      }
     }
   };
 
   const sortByDate = (events: IEvent[]) => events
     .sort((a: IEvent, b: IEvent) => {
-      if (a.dates[0] < b.dates[0]) return 1;
-      if (a.dates[0] > b.dates[0]) return -1;
       if (a.dates[1] < b.dates[1]) return 1;
       if (a.dates[1] > b.dates[1]) return -1;
+      if (a.dates[0] < b.dates[0]) return 1;
+      if (a.dates[0] > b.dates[0]) return -1;
       return 0;
     });
 
@@ -96,6 +110,13 @@ const EventsMain = ({ userRole, handleAlert }: Props) => {
           ))}
         </Grid>
       </div>
+      <DialogAlert
+        header="שגיאה!"
+        content="לא ניתן למחוק אירוע כאשר משויכים אליו סטארים"
+        isOpen={deleteError}
+        setIsOpen={setDeleteError}
+        activateResponse={undefined}
+      />
     </div>
   );
 };
