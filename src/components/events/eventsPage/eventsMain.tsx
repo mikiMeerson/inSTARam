@@ -10,13 +10,14 @@ import {
   SpeedDialIcon,
 } from '@mui/material';
 import { FlightTakeoffOutlined } from '@mui/icons-material';
-import { deleteEvent, getEvents } from '../../services/event-service';
+import { deleteEvent, getEvents } from '../../../services/event-service';
 import EventCard from './eventCard';
-import './styles/event.css';
-import { IEvent } from '../../types/interfaces';
-import { UserRole } from '../../types/string-types';
-import DialogAlert from '../general/dialogAlert';
-import { getStars } from '../../services/star-service';
+import '../styles/event.css';
+import { IEvent } from '../../../types/interfaces';
+import { UserRole } from '../../../types/string-types';
+import DialogAlert from '../../general/dialogAlert';
+import { getStars } from '../../../services/star-service';
+import SearchBar from '../filters/searchBar';
 
 interface Props {
   userRole: UserRole;
@@ -26,7 +27,9 @@ interface Props {
 const EventsMain = ({ userRole, handleAlert }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<IEvent[]>([]);
   const [deleteError, setDeleteError] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>('');
 
   const checkAttachedStars = async (event: IEvent) => {
     const { status, data } = await getStars();
@@ -65,9 +68,11 @@ const EventsMain = ({ userRole, handleAlert }: Props) => {
       setEvents(data.events);
       setLoading(false);
     };
-
-    fetchEvents();
-  }, []);
+    if (events.length === 0) fetchEvents();
+    if (search.length > 0) {
+      setFilteredEvents(events.filter((e) => e.name.includes(search)));
+    } else setFilteredEvents(events);
+  }, [events, search]);
 
   return (
     <div className="events">
@@ -80,26 +85,22 @@ const EventsMain = ({ userRole, handleAlert }: Props) => {
       </Box>
       )}
       <div className="eventsHeader">
-        <Typography variant="h2">
+        <Typography variant="h1">
           אירועים
         </Typography>
         { userRole !== 'viewer' && (
         <Link to="create">
           <SpeedDial
-            sx={{
-              position: 'absolute',
-              left: '75px',
-              top: '105px',
-            }}
             ariaLabel="SpeedDial controlled open example"
             icon={<SpeedDialIcon openIcon={<FlightTakeoffOutlined />} />}
           />
         </Link>
         )}
       </div>
-      <div className="eventsContainer">
+      <SearchBar events={events} setSearch={setSearch} />
+      <div style={{ overflow: 'scroll', height: '500px', width: '90%' }}>
         <Grid container className="eventsList">
-          {sortByDate(events).map((e) => (
+          {sortByDate(filteredEvents).map((e) => (
             <Grid key={e._id} className="cardContainer" item xs={3}>
               <EventCard
                 event={e}

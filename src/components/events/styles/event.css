@@ -1,37 +1,33 @@
 .events {
     width: 100%;
-    display: inline-table;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .eventsHeader {
-    margin-bottom: 0;
-    width: 100%;
-    height: 120px;
-    background: purple;
-    color: white;
-    padding: 30px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    max-width: -webkit-fill-available;
+    width: 95%;
+    margin-top: 5px;
+}
+
+.eventsHeader > h1 {
+    margin: 0% 4% 0 0;
+    font-weight: 500;
+    font-size: 65px;
+    color: black;
 }
 
 .eventsHeader > div > a > div > button {
     background-color: goldenrod !important;
 }
 
-.eventsContainer {
-    height: 100% !important;
-}
-
 .eventsList {
     background: transparent;
-    position: absolute;
-    top: 23%;
     display: flex;
+    justify-content: center;
 }
 
 .cardContainer {

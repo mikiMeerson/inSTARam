@@ -8,9 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { Computer, DeleteOutlined, FlightTakeoff } from '@mui/icons-material';
-import DialogAlert from '../general/dialogAlert';
-import { IEvent } from '../../types/interfaces';
-import { UserRole } from '../../types/string-types';
+import DialogAlert from '../../general/dialogAlert';
+import { IEvent } from '../../../types/interfaces';
+import { UserRole } from '../../../types/string-types';
 
 interface Props {
     event: IEvent;

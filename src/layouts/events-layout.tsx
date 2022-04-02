@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Route, Routes, Outlet } from 'react-router';
 import { Alert } from '@mui/material';
-import EventsMain from '../components/events/eventsMain';
+import EventsMain from '../components/events/eventsPage/eventsMain';
 import CreateEvent from '../components/events/createEvent/createEvent';
 import Event from '../components/events/eventFeed/eventFeed';
 import { UserRole } from '../types/string-types';
@@ -47,7 +47,7 @@ const Events = ({ userRole }: Props) => {
             index
             element={(
               <EventsMain userRole={userRole} handleAlert={handleAlert} />
-              )}
+            )}
           />
           <Route
             path=":id"
