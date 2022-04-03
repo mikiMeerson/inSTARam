@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from 'react';
+import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
 import FilterHeaders from './filters/filterHeaders';
@@ -29,8 +29,8 @@ const StarsTable = ({
 }: Props) => {
   const getExistingFilters = (filterName: string) => {
     const existingFilter = unprioritized
-      ? localStorage.getItem(`${filterName} filter unprioritized`)
-      : localStorage.getItem(`${filterName} filter prioritized`);
+      ? localStorage.getItem(`stars ${filterName} unprioritized`)
+      : localStorage.getItem(`stars ${filterName} `);
     return existingFilter ? JSON.parse(existingFilter) : [];
   };
 
@@ -53,6 +53,7 @@ const StarsTable = ({
     getExistingFilters('date'),
   );
   const [nameFilter, setNameFilter] = useState<string>('');
+  const [filteredStars, setFilteredStars] = useState<IStar[]>([]);
 
   const filtersData: FilterDataType[] = [
     {
@@ -93,22 +94,16 @@ const StarsTable = ({
     },
   ];
 
-  const getFilteredStars = () => {
-    if (filtersData.every((f) => f.filter.length === 0) && nameFilter === '') {
-      return stars;
-    }
-
-    const filteredStars: IStar[] = [];
+  useEffect(() => {
+    const tempFilteredStars: IStar[] = [];
     stars.forEach((s) => {
       if ((nameFilter === '' || s.name.includes(nameFilter))
         && (statusFilter.length === 0 || statusFilter.includes(s.status))
         && (blockFilter.length === 0 || blockFilter.includes(s.block))
         && (assigneeFilter.length === 0 || assigneeFilter.includes(s.assignee))
-        && (resourceFilter.length === 0
-          || resourceFilter.some((element) => s.resources.includes(element))
-        )
-        && (computerFilter.length === 0
-          || (s.computer && computerFilter.includes(s.computer)))
+        && (computerFilter.length === 0 || computerFilter.includes(s.computer))
+        && (resourceFilter.length === 0 || resourceFilter
+          .some((element) => s.resources.includes(element)))
         && (dateFilter.length === 0 || (s.createdAt
           && new Date(s.createdAt) >= new Date(dateFilter[0])
           && new Date(s.createdAt) <= new Date(
@@ -116,11 +111,20 @@ const StarsTable = ({
             new Date(dateFilter[1]).getMonth(),
             new Date(dateFilter[1]).getDate() + 1,
           )))) {
-        filteredStars.push(s);
+        tempFilteredStars.push(s);
       }
     });
-    return filteredStars;
-  };
+    setFilteredStars(tempFilteredStars);
+  }, [
+    stars,
+    assigneeFilter,
+    blockFilter,
+    computerFilter,
+    dateFilter,
+    nameFilter,
+    resourceFilter,
+    statusFilter,
+  ]);
 
   const handleDragOver = (e: BaseSyntheticEvent) => {
     if (!(unprioritized && dragged?.priority === 0)) {
@@ -160,14 +164,14 @@ const StarsTable = ({
         filtersData={filtersData}
       />
       <div className="starsTable">
-        {getFilteredStars().length === 0 && (
+        {filteredStars.length === 0 && (
           <div style={{ textAlign: 'center' }}>
             <Typography variant="caption">
               לא נמצאו סטארים
             </Typography>
           </div>
         )}
-        {getFilteredStars().length > 0 && getFilteredStars()
+        {filteredStars.length > 0 && filteredStars
           .sort((a: IStar, b: IStar) => a.priority - b.priority)
           .map((star: IStar) => (
             <StarRow

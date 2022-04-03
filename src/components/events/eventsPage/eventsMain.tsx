@@ -18,6 +18,8 @@ import { UserRole } from '../../../types/string-types';
 import DialogAlert from '../../general/dialogAlert';
 import { getStars } from '../../../services/star-service';
 import SearchBar from '../filters/searchBar';
+import FilterHeaders from '../filters/filterHeaders';
+import { FilterDataType } from '../../../types/configurations';
 
 interface Props {
   userRole: UserRole;
@@ -25,11 +27,47 @@ interface Props {
 }
 
 const EventsMain = ({ userRole, handleAlert }: Props) => {
+  const getExistingFilters = (filterName: string) => {
+    const existingFilter = localStorage.getItem(`events ${filterName} `);
+    return existingFilter ? JSON.parse(existingFilter) : [];
+  };
+
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<IEvent[]>([]);
   const [deleteError, setDeleteError] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>('');
+  const [nameSearch, setNameSearch] = useState<string>('');
+  const [platformFilter, setPlatformFilter] = useState<string[]>(
+    getExistingFilters('platform'),
+  );
+  const [blockFilter, setBlockFilter] = useState<string[]>(
+    getExistingFilters('block'),
+  );
+  const [assigneeFilter, setAssigneeFilter] = useState<string>('');
+  const [dateFilter, setDateFilter] = useState<string[]>(
+    getExistingFilters('date'),
+  );
+
+  const filtersData: FilterDataType[] = [
+    {
+      tabName: 'platform',
+      filter: platformFilter,
+      func: setPlatformFilter,
+      chipColor: 'primary',
+    },
+    {
+      tabName: 'block',
+      filter: blockFilter,
+      func: setBlockFilter,
+      chipColor: 'secondary',
+    },
+    {
+      tabName: 'date',
+      filter: dateFilter,
+      func: setDateFilter,
+      chipColor: 'warning',
+    },
+  ];
 
   const checkAttachedStars = async (event: IEvent) => {
     const { status, data } = await getStars();
@@ -69,10 +107,26 @@ const EventsMain = ({ userRole, handleAlert }: Props) => {
       setLoading(false);
     };
     if (events.length === 0) fetchEvents();
-    if (search.length > 0) {
-      setFilteredEvents(events.filter((e) => e.name.includes(search)));
-    } else setFilteredEvents(events);
-  }, [events, search]);
+
+    const tempFilteredEvents: IEvent[] = [];
+    events.forEach((e) => {
+      if ((nameSearch === '' || e.name.includes(nameSearch))
+        && (platformFilter.length === 0 || platformFilter.includes(e.platform))
+        && (blockFilter.length === 0 || blockFilter.includes(e.block))
+        && (assigneeFilter === ''
+          || (e.assignee && e.assignee.includes(assigneeFilter)))) {
+        tempFilteredEvents.push(e);
+      }
+    });
+    setFilteredEvents(tempFilteredEvents);
+  }, [
+    assigneeFilter,
+    blockFilter,
+    dateFilter,
+    events,
+    nameSearch,
+    platformFilter,
+  ]);
 
   return (
     <div className="events">
@@ -97,20 +151,23 @@ const EventsMain = ({ userRole, handleAlert }: Props) => {
         </Link>
         )}
       </div>
-      <SearchBar events={events} setSearch={setSearch} />
-      <div style={{ overflow: 'scroll', height: '500px', width: '90%' }}>
-        <Grid container className="eventsList">
-          {sortByDate(filteredEvents).map((e) => (
-            <Grid key={e._id} className="cardContainer" item xs={3}>
-              <EventCard
-                event={e}
-                handleDeleteEvent={handleDeleteEvent}
-                userRole={userRole}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </div>
+      <FilterHeaders
+        filtersData={filtersData}
+        assigneeFilter={assigneeFilter}
+        setAssigneeFilter={setAssigneeFilter}
+      />
+      <SearchBar events={events} setSearch={setNameSearch} />
+      <Grid container className="eventsList">
+        {sortByDate(filteredEvents).map((e) => (
+          <Grid key={e._id} className="cardContainer" item xs={3}>
+            <EventCard
+              event={e}
+              handleDeleteEvent={handleDeleteEvent}
+              userRole={userRole}
+            />
+          </Grid>
+        ))}
+      </Grid>
       <DialogAlert
         header="שגיאה!"
         content="לא ניתן למחוק אירוע כאשר משויכים אליו סטארים"

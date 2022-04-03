@@ -69,12 +69,6 @@
     text-align: center;
 }
 
-.dropDownIcon  {
-    font-size: 17px !important;
-    margin-right: 5px !important;    
-}
-
-
 .noPriority > h3 {
     width: 100%;
     text-align: center;
@@ -120,12 +114,11 @@
     text-align: right !important;
 }
 
-.searchSection, .optionSection, .filterSection {
+.filterSection {
     position: fixed;
     height: 50px;
-}
-.optionSection, .filterSection {
     padding: 15px;
+    display: flex;
 }
 
 .severityIcon * {

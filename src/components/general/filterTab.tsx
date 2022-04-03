@@ -1,20 +1,16 @@
 import { TableCell, Button } from '@mui/material';
-import { FilterField } from '../../../../types/configurations';
+import { FilterField } from '../../types/configurations';
 
 interface Props {
     field: FilterField;
     lastTab: string;
     handleFilterChoice: (field: FilterField) => void;
-    displayOptions: boolean;
-    search: boolean;
 }
 
 const FilterTab = ({
   field,
   lastTab,
   handleFilterChoice,
-  displayOptions,
-  search,
 }: Props) => (
   <TableCell
     key={field.name}
@@ -27,14 +23,14 @@ const FilterTab = ({
         fontWeight: 'bold',
         textAlign: 'center',
         background:
-        lastTab === field.name && (displayOptions || search)
-          ? 'whitesmoke'
-          : '',
+        lastTab === field.name ? 'whitesmoke' : '',
       }}
       onClick={() => handleFilterChoice(field)}
     >
       {field.displayName}
-      {field.icon}
+      <span style={{ margin: '10px 5px 0 0', fontSize: '17px' }}>
+        {field.icon}
+      </span>
     </Button>
   </TableCell>
 );

@@ -1,5 +1,5 @@
 import { TableRow, Chip } from '@mui/material';
-import { FilterDataType } from '../../../../types/configurations';
+import { FilterDataType } from '../../types/configurations';
 
 interface Props {
     isMargin: boolean;

@@ -8,7 +8,7 @@ interface Props {
 
 const SearchBar = ({ events, setSearch }: Props) => (
   <Autocomplete
-    sx={{ marginTop: '30px', width: '80%', textAlign: 'right' }}
+    sx={{ width: '80%' }}
     options={events.map((e) => e.name)}
     onChange={(event, value) => (value ? setSearch(value) : setSearch(''))}
     renderInput={(params) => (

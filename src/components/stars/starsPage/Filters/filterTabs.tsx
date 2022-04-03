@@ -1,11 +1,27 @@
 import { useState } from 'react';
 import { TableRow, TableCell, Button } from '@mui/material';
-import { MoreVert } from '@mui/icons-material';
+import {
+  MoreVert,
+  CheckCircleOutline,
+  Search,
+  PersonOutline,
+  DateRange,
+  Flight,
+  FlashOn,
+  Computer,
+} from '@mui/icons-material';
+import {
+  ASSIGNEES,
+  BAZ_COMPUTERS,
+  BLOCKS,
+  RAAM_COMPUTERS,
+  RESOURCES,
+  STATUSES,
+} from '../../../../types/string-types';
 import { FilterField } from '../../../../types/configurations';
-import FilterTab from './filterTab';
+import FilterTab from '../../../general/filterTab';
 
 interface Props {
-    filterFields: FilterField[];
     lastTab: string;
     displayOptions: boolean;
     search: boolean;
@@ -15,7 +31,6 @@ interface Props {
 }
 
 const FilterTabs = ({
-  filterFields,
   lastTab,
   displayOptions,
   search,
@@ -24,6 +39,68 @@ const FilterTabs = ({
   setSearch,
 }: Props) => {
   const [displayMore, setDisplayMore] = useState<boolean>(false);
+
+  const filterFields: FilterField[] = [
+    {
+      isPrimary: true,
+      name: 'name',
+      width: '120px',
+      activation: 'search',
+      displayName: 'שם',
+      icon: <Search />,
+    },
+    {
+      isPrimary: true,
+      name: 'status',
+      width: '40px',
+      activation: 'options',
+      options: STATUSES,
+      displayName: 'סטטוס',
+      icon: <CheckCircleOutline />,
+    },
+    {
+      isPrimary: true,
+      name: 'assignee',
+      width: '100px',
+      activation: 'options',
+      options: ASSIGNEES,
+      displayName: 'אחראי',
+      icon: <PersonOutline />,
+    },
+    {
+      isPrimary: true,
+      name: 'date',
+      width: '80px',
+      activation: 'calender',
+      displayName: 'תאריך',
+      icon: <DateRange />,
+    },
+    {
+      isPrimary: true,
+      name: 'block',
+      width: '60px',
+      activation: 'options',
+      options: BLOCKS,
+      displayName: 'בלוק',
+      icon: <Flight />,
+    },
+    {
+      isPrimary: false,
+      name: 'resource',
+      activation: 'options',
+      options: RESOURCES,
+      displayName: 'משאבים',
+      icon: <FlashOn />,
+    },
+    {
+      isPrimary: false,
+      name: 'computer',
+      activation: 'options',
+      options: RAAM_COMPUTERS.concat(BAZ_COMPUTERS),
+      displayName: 'מחשב',
+      icon: <Computer />,
+    },
+  ];
 
   return (
     <>
@@ -44,10 +121,8 @@ const FilterTabs = ({
           <FilterTab
             key={field.name}
             field={field}
-            lastTab={lastTab}
+            lastTab={(displayOptions || search) ? lastTab : ''}
             handleFilterChoice={handleFilterChoice}
-            displayOptions={displayOptions}
-            search={search}
           />
         ))}
       </TableRow>
@@ -58,10 +133,8 @@ const FilterTabs = ({
               <FilterTab
                 key={field.name}
                 field={field}
-                lastTab={lastTab}
+                lastTab={(displayOptions || search) ? lastTab : ''}
                 handleFilterChoice={handleFilterChoice}
-                displayOptions={displayOptions}
-                search={search}
               />
             ))}
         </TableRow>
