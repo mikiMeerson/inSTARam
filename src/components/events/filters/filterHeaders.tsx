@@ -49,12 +49,6 @@ const FilterHeaders = ({
       displayName: 'גוף מבצע',
       icon: <PersonOutline />,
     },
-    {
-      name: 'date',
-      activation: 'calender',
-      displayName: 'תאריך',
-      icon: <DateRange />,
-    },
   ];
 
   const handleFilterChoice = (field: FilterField) => {

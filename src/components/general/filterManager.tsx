@@ -76,12 +76,14 @@ const FilterManager = ({
           setFilter={setFilter}
         />
       )}
-      <DateRangePicker
-        isDatePick={isDatePick}
-        setIsDatePick={setIsDatePick}
-        dates={filtersData.find((f) => f.tabName === 'date')?.filter || []}
-        setDates={filtersData.find((f) => f.tabName === 'date')!.func}
-      />
+      {filtersData.find((f) => f.tabName === 'date') && (
+        <DateRangePicker
+          isDatePick={isDatePick}
+          setIsDatePick={setIsDatePick}
+          dates={filtersData.find((f) => f.tabName === 'date')!.filter || []}
+          setDates={filtersData.find((f) => f.tabName === 'date')!.func}
+        />
+      )}
     </>
   );
 };

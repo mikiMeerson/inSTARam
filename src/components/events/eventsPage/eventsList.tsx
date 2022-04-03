@@ -34,9 +34,6 @@ const EventsList = ({ events, setEvents, userRole, handleAlert }: Props) => {
     getExistingFilters('block'),
   );
   const [assigneeFilter, setAssigneeFilter] = useState<string>('');
-  const [dateFilter, setDateFilter] = useState<string[]>(
-    getExistingFilters('date'),
-  );
 
   useEffect(() => {
     const tempFilteredEvents: IEvent[] = [];
@@ -64,12 +61,6 @@ const EventsList = ({ events, setEvents, userRole, handleAlert }: Props) => {
       filter: blockFilter,
       func: setBlockFilter,
       chipColor: 'secondary',
-    },
-    {
-      tabName: 'date',
-      filter: dateFilter,
-      func: setDateFilter,
-      chipColor: 'warning',
     },
   ];
 
