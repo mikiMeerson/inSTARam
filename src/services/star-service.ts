@@ -175,7 +175,7 @@ export const removeNote = async (
   try {
     const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
       `${baseUrl}/remove-note/${starId}`,
-      noteId,
+      { noteId },
     );
     return updatedStar;
   } catch (error) {

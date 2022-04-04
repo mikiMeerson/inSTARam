@@ -6,7 +6,7 @@ import StarActivity from './starActivity';
 import StarDesc from './starDesc';
 import StarNotes from './starNotes';
 import '../styles/feed.css';
-import { addNote, editStar, getStarById } from '../../../services/star-service';
+import { addNote, editStar, getStarById, removeNote } from '../../../services/star-service';
 import { UserRole } from '../../../types/string-types';
 import { IStar, INote } from '../../../types/interfaces';
 
@@ -37,7 +37,7 @@ const StarFeed = ({
     setLoading(true);
     fetchStar();
     setLoading(false);
-  }, []);
+  }, [id]);
 
   if (!star) {
     return (
@@ -52,17 +52,17 @@ const StarFeed = ({
 
   const handleAddNote = async (noteData: INote): Promise<void> => {
     setLoading(true);
-    const { status } = await addNote(star._id, noteData);
+    const { status, data } = await addNote(star._id, noteData);
     if (status !== StatusCodes.CREATED) console.log('Failed to add note');
+    else if (data.star) setStar(data.star);
     setLoading(false);
   };
 
   const handleDeleteNote = async (noteId: string): Promise<void> => {
     setLoading(true);
-    const newStar = JSON.parse(JSON.stringify(star));
-    newStar.notes = newStar.notes.filter((note: INote) => note._id !== noteId);
-    const { status } = await editStar(star._id, newStar);
+    const { status, data } = await removeNote(star._id, noteId);
     if (status !== StatusCodes.OK) console.log('Failed to remove note');
+    else if (data.star) setStar(data.star);
     setLoading(false);
   };
 
