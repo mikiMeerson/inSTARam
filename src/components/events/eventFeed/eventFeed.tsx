@@ -53,7 +53,7 @@ const Event = ({ userRole, handleAlert }: Props) => {
     );
   }
 
-  const setAttr = (attr: keyof IEvent, value: any) => {
+  const setAttr = (attr: keyof IEvent, value: IEvent[keyof IEvent]) => {
     setEvent(Object.assign(event, { [attr]: value }));
   };
 

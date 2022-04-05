@@ -4,13 +4,13 @@ import { IEvent } from '../../../types/interfaces';
 import { EVENT_KEY_DISPLAY } from '../../../types/configurations';
 
 interface Props {
-  details: string[],
+  details: (keyof IEvent)[],
   disabled: boolean;
   isValue: boolean;
   toggle: boolean;
   setToggle: (param: boolean) => void;
   toggleLabel: string;
-  setAttr: (attr: keyof IEvent, value: any) => void;
+  setAttr: (attr: keyof IEvent, value: IEvent[keyof IEvent]) => void;
   event: IEvent;
 }
 
@@ -41,8 +41,8 @@ const AdditionalDetails = ({
             fullWidth
             disabled={disabled}
             label={EVENT_KEY_DISPLAY.find((k) => k.key === attr)!.display}
-            defaultValue={isValue ? event[attr as keyof IEvent] : ''}
-            onChange={(e) => setAttr(attr as keyof IEvent, e.target.value)}
+            defaultValue={isValue ? event[attr] : ''}
+            onChange={(e) => setAttr(attr, e.target.value)}
           />
         </Grid>
       ))}

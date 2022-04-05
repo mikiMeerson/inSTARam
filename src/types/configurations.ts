@@ -209,7 +209,7 @@ export interface FilterDataType {
     | 'warning';
 }
 
-export const EVENT_LISTS = [
+export const EVENT_LISTS: (keyof IEvent)[] = [
   'generalSummary',
   'goals',
   'dataSources',
@@ -219,9 +219,13 @@ export const EVENT_LISTS = [
   'conclusions',
 ];
 
-export const EVENT_FLIGHT_DETAILS = ['assignee', 'team', 'reason'];
+export const EVENT_FLIGHT_DETAILS: (keyof IEvent)[] = [
+  'assignee', 'team', 'reason',
+];
 
-export const ADDITIONAL_EVENT_DETAILS = ['callSign', 'areas', 'duration'];
+export const ADDITIONAL_EVENT_DETAILS: (keyof IEvent)[] = [
+  'callSign', 'areas', 'duration',
+];
 
 export interface FilterField {
   name: string;

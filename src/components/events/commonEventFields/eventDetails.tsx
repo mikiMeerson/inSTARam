@@ -9,7 +9,7 @@ import AdditionalDetails from './additionalDetails';
 interface Props {
     disabled: boolean;
     isValue: boolean;
-    setAttr: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: IEvent[keyof IEvent]) => void;
     event: IEvent;
 }
 

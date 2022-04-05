@@ -7,7 +7,7 @@ import List from '../../general/list';
 interface Props {
     event: IEvent;
     editable: boolean;
-    setAttr: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: IEvent[keyof IEvent]) => void;
 }
 
 const EventLists = ({ event, setAttr, editable }: Props) => (
@@ -19,7 +19,7 @@ const EventLists = ({ event, setAttr, editable }: Props) => (
             header={
               EVENT_KEY_DISPLAY.find((k) => k.key === list)?.display || 'שגיאה'
             }
-            attr={list as keyof IEvent}
+            attr={list}
             event={event}
             setCurrList={setAttr}
           />
@@ -31,7 +31,7 @@ const EventLists = ({ event, setAttr, editable }: Props) => (
                || 'שגיאה'}
             </Typography>
             <List
-              list={event[list as keyof IEvent] as string[]}
+              list={event[list] as string[]}
               deletable={false}
             />
           </div>

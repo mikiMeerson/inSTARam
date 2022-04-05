@@ -68,7 +68,7 @@ const CreateEvent = ({ handleAlert }: Props) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const setAttr = (attr: keyof IEvent, value: any) => {
+  const setAttr = (attr: keyof IEvent, value: IEvent[keyof IEvent]) => {
     setNewEvent(Object.assign(newEvent, { [attr]: value }));
   };
 

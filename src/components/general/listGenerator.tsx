@@ -15,7 +15,7 @@ import { IEvent } from '../../types/interfaces';
 interface Props {
     header: string;
     event: IEvent;
-    setCurrList: (attr: keyof IEvent, value: any) => void;
+    setCurrList: (attr: keyof IEvent, value: IEvent[keyof IEvent]) => void;
     attr: keyof IEvent;
 }
 

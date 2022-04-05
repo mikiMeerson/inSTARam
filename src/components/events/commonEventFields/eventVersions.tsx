@@ -8,7 +8,7 @@ interface Props {
     stations: string[];
     computers: string[];
     event: IEvent;
-    setAttr: (attr: keyof IEvent, value: any) => void;
+    setAttr: (attr: keyof IEvent, value: IEvent[keyof IEvent]) => void;
 }
 
 const EventVersions = ({
@@ -17,30 +17,46 @@ const EventVersions = ({
   computers,
   event,
   setAttr,
-}: Props) => (
-  <div className="eventVersions">
-    <Typography variant="h5">תצורה</Typography>
-    <div className="versionTables">
-      <div className="weapons">
-        <Typography variant="h6">חימושים</Typography>
-        <WeaponsTable
-          isEditable={isEditable}
-          stations={stations}
-          event={event}
-          setAttr={setAttr}
-        />
-      </div>
-      <div className="versions">
-        <Typography variant="h6">גרסאות</Typography>
-        <VersionsTable
-          isEditable={isEditable}
-          computers={computers}
-          event={event}
-          setAttr={setAttr}
-        />
+}: Props) => {
+  const handleConfigSelection = (
+    element: 'weapon' | 'version',
+    selectedItem: string,
+    selectedValue: string,
+  ) => {
+    const tempConfig = event.configuration;
+    if (element === 'weapon') {
+      tempConfig.weapons.find((w) => w.sta === selectedItem)!.weapon = selectedValue;
+    } else {
+      tempConfig.versions.find((v) => v.comp === selectedItem)!.version = selectedValue;
+    }
+    setAttr('configuration', tempConfig);
+  };
+
+  return (
+    <div className="eventVersions">
+      <Typography variant="h5">תצורה</Typography>
+      <div className="versionTables">
+        <div className="weapons">
+          <Typography variant="h6">חימושים</Typography>
+          <WeaponsTable
+            isEditable={isEditable}
+            stations={stations}
+            event={event}
+            handleConfigSelection={handleConfigSelection}
+          />
+        </div>
+        <div className="versions">
+          <Typography variant="h6">גרסאות</Typography>
+          <VersionsTable
+            isEditable={isEditable}
+            computers={computers}
+            event={event}
+            handleConfigSelection={handleConfigSelection}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default EventVersions;
