@@ -6,7 +6,11 @@ import StarActivity from './starActivity';
 import StarDesc from './starDesc';
 import StarNotes from './starNotes';
 import '../styles/feed.css';
-import { addNote, editStar, getStarById, removeNote } from '../../../services/star-service';
+import {
+  addNote,
+  getStarById,
+  removeNote,
+} from '../../../services/star-service';
 import { UserRole } from '../../../types/string-types';
 import { IStar, INote } from '../../../types/interfaces';
 
@@ -79,7 +83,7 @@ const StarFeed = ({
       <div className="starFeed">
         <StarDesc
           userRole={userRole}
-          inputStar={star}
+          star={star}
           updateStar={updateStar}
         />
         <div className="starDetails">

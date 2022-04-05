@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { StatusCodes } from 'http-status-codes';
 import DialogAlert from '../../general/dialogAlert';
 import FilterHeaders from '../filters/filterHeaders';
@@ -102,6 +102,13 @@ const EventsList = ({ events, setEvents, userRole, handleAlert }: Props) => {
         setAssigneeFilter={setAssigneeFilter}
       />
       <SearchBar events={events} setSearch={setNameSearch} />
+      {filteredEvents.length === 0 && (
+      <div style={{ textAlign: 'center' }}>
+        <Typography variant="caption">
+          לא נמצאו אירועים
+        </Typography>
+      </div>
+      )}
       <Grid container className="eventsList">
         {sortByDate(filteredEvents).map((e) => (
           <Grid key={e._id} className="cardContainer" item xs={3}>

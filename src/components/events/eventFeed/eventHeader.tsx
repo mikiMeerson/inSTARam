@@ -1,5 +1,4 @@
-import { EditOutlined, SaveOutlined } from '@mui/icons-material';
-import { Fab, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
 import { UserRole } from '../../../types/string-types';
 import SaveEditButton from '../../general/saveEditButton';

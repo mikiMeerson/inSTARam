@@ -1,4 +1,5 @@
 import { TableRow, TableCell, Button } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import { IStar } from '../../../types/interfaces';
 import { UserRole } from '../../../types/string-types';
 
@@ -44,7 +45,15 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
       <TableCell align="center">
         {createdAt && getDisplayDate(new Date(createdAt))}
       </TableCell>
-      <TableCell align="center">{event}</TableCell>
+      <TableCell align="center">
+        {event
+          ? (
+            <NavLink to={`/events/${event}`}>
+              <span style={{ color: 'blue' }}>{event}</span>
+            </NavLink>
+          )
+          : 'ללא אירוע'}
+      </TableCell>
       <TableCell align="center">{block}</TableCell>
       <TableCell align="center">{platform}</TableCell>
     </TableRow>

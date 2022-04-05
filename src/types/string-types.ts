@@ -21,7 +21,7 @@ export type BazComputerType = typeof RAAM_COMPUTERS[number];
 export const STATUSES = ['פתוח', 'בעבודה', 'ממתין לבדיקה', 'סגור'];
 export type StatusType = typeof STATUSES[number];
 
-export const ASSIGNEES = ['אינטגרציה', 'אמלח', 'לצד', 'מנט', 'מאב'];
+export const ASSIGNEES = ['אינטגרציה', 'אמלח', 'לצד', 'מנט', 'מאב', 'תעשייה'];
 export type AssigneeType = typeof ASSIGNEES[number];
 
 export const SEVERITIES = [

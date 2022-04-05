@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { StatusCodes } from 'http-status-codes';
 import {
   FormControl,
   InputLabel,
@@ -22,7 +21,6 @@ import {
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
-import { addActivity } from '../../../services/star-service';
 import { IEvent, IStar } from '../../../types/interfaces';
 import {
   ASSIGNEES,
@@ -34,19 +32,17 @@ import {
   STATUSES,
   UserRole,
 } from '../../../types/string-types';
-import { ACTIVITY_INFO } from '../../../types/configurations';
 import { getEventById } from '../../../services/event-service';
 import StarDescLine from '../starDescLine';
 import SaveEditButton from '../../general/saveEditButton';
 
 interface Props {
   userRole: UserRole;
-  inputStar: IStar;
+  star: IStar;
   updateStar: (starId: string, formData: IStar) => void;
 }
 
-const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
-  const [star, setStar] = useState<IStar>(inputStar);
+const StarDesc = ({ userRole, star, updateStar }: Props) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -86,13 +82,6 @@ const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
     },
   ];
 
-  const activityAttrs = [
-    'status',
-    'assignee',
-    'resources',
-    'computer',
-  ];
-
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(0, 'נא למלא את שם הסטאר')
@@ -118,32 +107,6 @@ const StarDesc = ({ userRole, inputStar, updateStar }: Props) => {
       formData.priority = 0;
       setCloseAlert(true);
     }
-    // for each attribute that has been edited and should generate an activity
-    await activityAttrs.filter(
-      (attr) => !(attr === 'resources'
-        && formData[attr].every((item) => star[attr].includes(item))
-        && star[attr].every((item) => formData[attr].includes(item))
-      ) && formData[attr as keyof IStar] !== star[attr as keyof IStar],
-    ).forEach(async (attr) => {
-      // get the attribute's activity info and use it to generate a new one
-      const info = ACTIVITY_INFO
-        .find((i) => i.name === attr);
-      if (info) {
-        const { status, data } = await addActivity(star._id, {
-          _id: '0',
-          publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-          action: info.action,
-          value: info.isValue
-            ? formData[attr as keyof IStar] as string
-            : undefined,
-        });
-        if (status !== StatusCodes.CREATED) {
-          console.log('Could not add activity');
-        }
-        setStar(data.stars.find((s) => s._id === star._id)!);
-      }
-    });
-
     setIsEdit(false);
     updateStar(star._id, formData);
   };

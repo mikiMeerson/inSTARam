@@ -7,7 +7,7 @@ import StarsMain from '../components/stars/starsPage/starsMain';
 import {
   addStar,
   deleteStar,
-  editStar,
+  updateStar,
   getStars,
   updatePriorities,
 } from '../services/star-service';
@@ -95,7 +95,7 @@ const Stars = ({ userRole }: Props) => {
     starId: string,
     formData: IStar,
   ): Promise<void> => {
-    const { status, data } = await editStar(starId, formData);
+    const { status, data } = await updateStar(starId, formData);
     handleAlert(
       status === StatusCodes.OK,
       status === StatusCodes.OK

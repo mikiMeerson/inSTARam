@@ -150,39 +150,6 @@ export const EVENT_KEY_DISPLAY: EventKeyDisplayType[] = [
   },
 ];
 
-export const ACTIVITY_INFO = [
-  {
-    name: 'star',
-    action: 'יצר/ה את הסטאר',
-    isValue: false,
-  },
-  {
-    name: 'status',
-    action: 'שינת/ה את הסטטוס',
-    isValue: true,
-  },
-  {
-    name: 'note',
-    action: 'הוסיפ/ה הערה חדשה',
-    isValue: false,
-  },
-  {
-    name: 'assignee',
-    action: 'שינת/ה את האחראי',
-    isValue: true,
-  },
-  {
-    name: 'resources',
-    action: 'עדכנ/ה משאבים נדרשים',
-    isValue: false,
-  },
-  {
-    name: 'computer',
-    action: 'שינת/ה את המערכת',
-    isValue: true,
-  },
-];
-
 export type LinkDisplayType = {
   display: string;
   link: string;

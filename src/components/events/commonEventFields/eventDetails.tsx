@@ -14,8 +14,8 @@ interface Props {
 }
 
 const EventDetails = ({ disabled, isValue, event, setAttr }: Props) => {
-  const [displayFlight, setDisplayFlight] = useState<boolean>(false);
-  const [displayMore, setDisplayMore] = useState<boolean>(false);
+  const [displayFlight, setDisplayFlight] = useState<boolean>(true);
+  const [displayMore, setDisplayMore] = useState<boolean>(true);
 
   return (
     <div className="eventDetails">

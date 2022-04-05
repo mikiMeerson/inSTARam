@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import { ACTIVITY_INFO } from '../types/configurations';
 import { baseUrl } from '../globals';
 import { ApiStarsType } from '../types/api-types';
-import { IActivity, INote, IStar } from '../types/interfaces';
+import { INote, IStar } from '../types/interfaces';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
   try {
@@ -19,12 +18,6 @@ export const addStar = async (
   formData: IStar,
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const newActivity: IActivity = {
-      _id: '0',
-      publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-      action: ACTIVITY_INFO.find((i) => i.name === 'star')!.action,
-    };
-
     const star: Omit<IStar, '_id'> = {
       priority: 0,
       severity: formData.severity,
@@ -39,7 +32,7 @@ export const addStar = async (
       desc: formData.desc,
       computer: formData.computer,
       notes: [],
-      activity: [newActivity],
+      activity: [],
     };
     const saveStar: AxiosResponse<ApiStarsType> = await axios.post(
       `${baseUrl}/stars`,
@@ -51,8 +44,7 @@ export const addStar = async (
   }
 };
 
-// !consider adding the activity from inside the server like notes
-export const editStar = async (
+export const updateStar = async (
   starId: string,
   newStar: IStar,
 ): Promise<AxiosResponse<ApiStarsType>> => {
@@ -133,21 +125,6 @@ export const getStarById = async (
       `${baseUrl}/stars/${_id}`,
     );
     return star;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-};
-
-export const addActivity = async (
-  starId: string,
-  newActivity: IActivity,
-): Promise<AxiosResponse<ApiStarsType>> => {
-  try {
-    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
-      `${baseUrl}/add-activity/${starId}`,
-      newActivity,
-    );
-    return updatedStar;
   } catch (error) {
     throw new Error(error as string);
   }
