@@ -13,6 +13,7 @@ import {
   ErrorOutline,
   PriorityHigh,
   WarningAmber,
+  KeyboardDoubleArrowDown,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
 import { UserRole } from '../../../types/string-types';
@@ -52,7 +53,11 @@ const StarRow = ({
       icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
     },
     {
-      severity: 'קל (99)',
+      severity: 'קל (4)',
+      icon: <KeyboardDoubleArrowDown fontSize="large" color="info" />,
+    },
+    {
+      severity: 'במעקב (99)',
       icon: <ArrowDownward fontSize="large" color="disabled" />,
     },
   ];

@@ -29,7 +29,7 @@ export const SEVERITIES = [
   'חמור (2)',
   'בינוני (3)',
   'קל (4)',
-  'למעקב (99)',
+  'במעקב (99)',
 ];
 export type SeverityType = typeof SEVERITIES[number];
 
