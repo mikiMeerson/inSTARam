@@ -76,6 +76,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
       .max(40, 'שם הסטאר לא יעלה על 40 תווים'),
     severity: Yup.string().required('נא למלא חומרה'),
     assignee: Yup.string().required('נא למלא אחראי'),
+    contact: Yup.string().required('נא למלא איש קשר'),
     block: Yup.string().required('נא למלא בלוק'),
     platform: Yup.string().required('נא למלא פלטפורמה'),
     desc: Yup.string()
@@ -116,6 +117,10 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
     {
       field: 'assignee',
       type: 'select',
+    },
+    {
+      field: 'contact',
+      type: 'input',
     },
     {
       field: 'computer',
@@ -251,7 +256,15 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
             />
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
+              <InputField
+                field="contact"
+                defaultValue={localStorage.getItem('userDisplay') || ''}
+                register={register}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
               <SelectField
                 field="assignee"
                 fieldValues={ASSIGNEES}
@@ -259,7 +272,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <SelectField
                 field="computer"
                 fieldValues={computers}

@@ -25,12 +25,12 @@ export const ASSIGNEES = ['אינטגרציה', 'אמלח', 'לצד', 'מנט', 
 export type AssigneeType = typeof ASSIGNEES[number];
 
 export const SEVERITIES = [
+  'ממתין לסיווג',
   'חמור מאוד (1)',
   'חמור (2)',
   'בינוני (3)',
   'קל (4)',
   'במעקב (99)',
-  'ממתין לסיווג',
 ];
 export type SeverityType = typeof SEVERITIES[number];
 

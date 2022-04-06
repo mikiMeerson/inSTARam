@@ -33,6 +33,10 @@ export const STAR_KEY_DISPLAY: StarKeyDisplayType[] = [
     display: 'הועלה על ידי',
   },
   {
+    key: 'contact',
+    display: 'איש קשר',
+  },
+  {
     key: 'event',
     display: 'אירוע',
   },

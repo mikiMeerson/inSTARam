@@ -51,6 +51,7 @@ export interface IStar {
   platform: PlatformType;
   block: BlockType;
   publisher: string;
+  contact: string;
   resources: string[];
   desc: string;
   computer: string;
