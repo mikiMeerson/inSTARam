@@ -176,16 +176,19 @@ const StarsTable = ({
         {filteredStars.length > 0 && filteredStars
           .sort((a: IStar, b: IStar) => a.priority - b.priority)
           .map((star: IStar) => (
-            <StarRow
-              userRole={userRole}
-              key={star._id}
-              star={star}
-              removeStar={removeStar}
-              changePriority={changePriority}
-              dragged={dragged}
-              setDragged={setDragged}
-              event={events.find((e) => e._id === star.event)}
-            />
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              {!unprioritized && (<div id="priority">{star.priority}</div>)}
+              <StarRow
+                userRole={userRole}
+                key={star._id}
+                star={star}
+                removeStar={removeStar}
+                changePriority={changePriority}
+                dragged={dragged}
+                setDragged={setDragged}
+                event={events.find((e) => e._id === star.event)}
+              />
+            </div>
           ))}
         <div
           style={{ width: '100%', height: '50px' }}
