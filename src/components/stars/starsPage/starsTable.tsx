@@ -52,7 +52,7 @@ const StarsTable = ({
   const [dateFilter, setDateFilter] = useState<string[]>(
     getExistingFilters('date'),
   );
-  const [nameFilter, setNameFilter] = useState<string>('');
+  const [freeTextFilter, setFreeTextFilter] = useState<string>('');
   const [filteredStars, setFilteredStars] = useState<IStar[]>([]);
 
   const filtersData: FilterDataType[] = [
@@ -97,7 +97,9 @@ const StarsTable = ({
   useEffect(() => {
     const tempFilteredStars: IStar[] = [];
     stars.forEach((s) => {
-      if ((nameFilter === '' || s.name.includes(nameFilter))
+      if ((freeTextFilter === ''
+        || s.name.includes(freeTextFilter)
+        || s.desc.includes(freeTextFilter))
         && (statusFilter.length === 0 || statusFilter.includes(s.status))
         && (blockFilter.length === 0 || blockFilter.includes(s.block))
         && (assigneeFilter.length === 0 || assigneeFilter.includes(s.assignee))
@@ -121,7 +123,7 @@ const StarsTable = ({
     blockFilter,
     computerFilter,
     dateFilter,
-    nameFilter,
+    freeTextFilter,
     resourceFilter,
     statusFilter,
   ]);
@@ -159,8 +161,8 @@ const StarsTable = ({
     >
       <FilterHeaders
         unprioritized={unprioritized}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
+        freeTextFilter={freeTextFilter}
+        setFreeTextFilter={setFreeTextFilter}
         filtersData={filtersData}
       />
       <div className="starsTable">

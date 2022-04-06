@@ -1,23 +1,20 @@
 import { useState } from 'react';
 import { Table, TableBody } from '@mui/material';
-import DateRangePicker from '../../../general/dateRangePicker';
-import FilterOptions from '../../../general/filterOptions';
-import FilterSelections from '../../../general/filterSelections';
 import { FilterDataType, FilterField } from '../../../../types/configurations';
 import FilterTabs from './filterTabs';
 import FilterManager from '../../../general/filterManager';
 
 interface Props {
   unprioritized: boolean;
-  nameFilter: string;
-  setNameFilter: (param: string) => void;
+  freeTextFilter: string;
+  setFreeTextFilter: (param: string) => void;
   filtersData: FilterDataType[];
 }
 
 const FilterHeaders = ({
   unprioritized,
-  nameFilter,
-  setNameFilter,
+  freeTextFilter,
+  setFreeTextFilter,
   filtersData,
 }: Props) => {
   const [displayOptions, setDisplayOptions] = useState<boolean>(false);
@@ -27,7 +24,7 @@ const FilterHeaders = ({
   const [isDatePick, setIsDatePick] = useState<boolean>(false);
 
   const filterEmpty = filtersData.every((sf) => sf.filter.length === 0)
-    && nameFilter === '';
+    && freeTextFilter === '';
 
   const getFilterMargin = () => {
     if ((displayOptions && !filterEmpty)
@@ -69,8 +66,8 @@ const FilterHeaders = ({
           displaySearch={displaySearch}
           filtersData={filtersData}
           options={options}
-          searchValue={nameFilter}
-          setSearchValue={setNameFilter}
+          searchValue={freeTextFilter}
+          setSearchValue={setFreeTextFilter}
           isDatePick={isDatePick}
           setIsDatePick={setIsDatePick}
           component="stars"
