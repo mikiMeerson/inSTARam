@@ -1,12 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  Chip,
+  SelectChangeEvent,
+  Input,
+  MenuItem,
+} from '@mui/material';
 import StarsTable from './starsTable';
 import '../styles/stars.css';
 import AddStar from './addStar';
 import NoPriority from './noPriority';
 import { IEvent, IStar } from '../../../types/interfaces';
-import { UserRole } from '../../../types/string-types';
+import { PLATFORMS, PlatformType, UserRole } from '../../../types/string-types';
 import { getEvents } from '../../../services/event-service';
 
 interface Props {
@@ -26,6 +35,9 @@ const StarsMain = ({
   const [openAddStar, toggleOpenAddStar] = useState(false);
   const [dragged, setDragged] = useState<IStar | undefined>(undefined);
   const [events, setEvents] = useState<IEvent[]>([]);
+  const [platformsToShow, setPlatformsToShow] = useState<PlatformType[]>(
+    PLATFORMS,
+  );
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -39,7 +51,39 @@ const StarsMain = ({
   return (
     <div className="Page">
       <div className="starsHeader">
-        <h1>ניהול סטארים</h1>
+        <div>
+          <h1>ניהול סטארים</h1>
+          <FormControl sx={{ width: '20%', marginTop: '25px' }}>
+            <Select
+              labelId="platforms"
+              multiple
+              value={platformsToShow}
+              onChange={(
+                e: SelectChangeEvent<string[]>,
+              ) => {
+                let selectedPlatforms: string[] = [];
+                if (typeof e.target.value.length === 'string') {
+                  selectedPlatforms.push(e.target.value as string);
+                } else selectedPlatforms = e.target.value as string[];
+                setPlatformsToShow(selectedPlatforms);
+              }}
+              input={<Input />}
+              renderValue={(selected: string[]) => (
+                <div>
+                  {selected.map((value: string) => (
+                    <Chip key={value} label={value} />
+                  ))}
+                </div>
+              )}
+            >
+              {PLATFORMS.map((platform) => (
+                <MenuItem key={platform} value={platform}>
+                  {platform}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
         <Link to="history">
           <Button>לטבלת הסטארים המלאה</Button>
         </Link>
@@ -48,7 +92,8 @@ const StarsMain = ({
         <StarsTable
           userRole={userRole}
           unprioritized={false}
-          stars={stars.filter((star) => star.priority > 0)}
+          stars={stars.filter((star) => star.priority > 0
+            && platformsToShow.includes(star.platform))}
           removeStar={removeStar}
           changePriority={changePriority}
           dragged={dragged}
@@ -57,7 +102,8 @@ const StarsMain = ({
         />
         <NoPriority
           userRole={userRole}
-          stars={stars.filter((star) => star.priority === 0)}
+          stars={stars.filter((star) => star.priority === 0
+            && platformsToShow.includes(star.platform))}
           toggleAddStar={toggleOpenAddStar}
           removeStar={removeStar}
           changePriority={changePriority}

@@ -43,9 +43,6 @@ const StarsTable = ({
   const [blockFilter, setBlockFilter] = useState<string[]>(
     getExistingFilters('block'),
   );
-  const [platformFilter, setPlatformFilter] = useState<string[]>(
-    getExistingFilters('platform'),
-  );
   const [resourceFilter, setResourceFilter] = useState<string[]>(
     getExistingFilters('resource'),
   );
@@ -76,12 +73,6 @@ const StarsTable = ({
       filter: blockFilter,
       func: setBlockFilter,
       chipColor: 'warning',
-    },
-    {
-      tabName: 'platform',
-      filter: platformFilter,
-      func: setPlatformFilter,
-      chipColor: 'info',
     },
     {
       tabName: 'resource',

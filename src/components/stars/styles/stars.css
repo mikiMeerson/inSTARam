@@ -9,8 +9,14 @@
     margin-top: 5px;
 }
 
-.starsHeader > h1 {
-    margin: 0% 4% 0 0;
+.starsHeader > div {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.starsHeader > div > h1 {
+    margin: 0% 4% 0 4%;
     font-weight: 500;
     font-size: 55px;
     color: rgb(105, 7, 105);

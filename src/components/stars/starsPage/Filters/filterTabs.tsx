@@ -9,13 +9,11 @@ import {
   Flight,
   FlashOn,
   Computer,
-  ConnectingAirports,
 } from '@mui/icons-material';
 import {
   ASSIGNEES,
   BAZ_COMPUTERS,
   BLOCKS,
-  PLATFORMS,
   RAAM_COMPUTERS,
   RESOURCES,
   STATUSES,
@@ -75,19 +73,11 @@ const FilterTabs = ({
     },
     {
       isPrimary: true,
-      name: 'platform',
-      activation: 'options',
-      options: PLATFORMS,
-      displayName: 'פלטפורמה',
-      icon: <Flight />,
-    },
-    {
-      isPrimary: false,
       name: 'block',
       activation: 'options',
       options: BLOCKS,
       displayName: 'בלוק',
-      icon: <ConnectingAirports />,
+      icon: <Flight />,
     },
     {
       isPrimary: false,
