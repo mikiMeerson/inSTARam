@@ -9,11 +9,13 @@ import {
   Flight,
   FlashOn,
   Computer,
+  ConnectingAirports,
 } from '@mui/icons-material';
 import {
   ASSIGNEES,
   BAZ_COMPUTERS,
   BLOCKS,
+  PLATFORMS,
   RAAM_COMPUTERS,
   RESOURCES,
   STATUSES,
@@ -44,7 +46,6 @@ const FilterTabs = ({
     {
       isPrimary: true,
       name: 'name',
-      width: '120px',
       activation: 'search',
       displayName: 'שם',
       icon: <Search />,
@@ -52,7 +53,6 @@ const FilterTabs = ({
     {
       isPrimary: true,
       name: 'status',
-      width: '40px',
       activation: 'options',
       options: STATUSES,
       displayName: 'סטטוס',
@@ -61,7 +61,6 @@ const FilterTabs = ({
     {
       isPrimary: true,
       name: 'assignee',
-      width: '100px',
       activation: 'options',
       options: ASSIGNEES,
       displayName: 'אחראי',
@@ -70,19 +69,25 @@ const FilterTabs = ({
     {
       isPrimary: true,
       name: 'date',
-      width: '80px',
       activation: 'calender',
       displayName: 'תאריך',
       icon: <DateRange />,
     },
     {
       isPrimary: true,
+      name: 'platform',
+      activation: 'options',
+      options: PLATFORMS,
+      displayName: 'פלטפורמה',
+      icon: <Flight />,
+    },
+    {
+      isPrimary: false,
       name: 'block',
-      width: '60px',
       activation: 'options',
       options: BLOCKS,
       displayName: 'בלוק',
-      icon: <Flight />,
+      icon: <ConnectingAirports />,
     },
     {
       isPrimary: false,

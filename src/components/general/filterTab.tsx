@@ -14,7 +14,6 @@ const FilterTab = ({
 }: Props) => (
   <TableCell
     key={field.name}
-    width={field.width}
     sx={{ textAlign: 'center' }}
   >
     <Button

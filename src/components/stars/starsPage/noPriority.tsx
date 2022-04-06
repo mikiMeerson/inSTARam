@@ -35,11 +35,11 @@ const NoPriority = ({
   };
 
   return (
-    <>
+    <div>
       <Collapse
         orientation="horizontal"
         in={!hideNoPriority}
-        sx={{ overflow: 'hidden', width: 'fit-content', height: '100%' }}
+        sx={{ overflow: 'hidden', width: '100%', height: '100%' }}
         classes={{
           root: hideNoPriority ? 'collapseClosed' : 'collapseOpen',
           wrapperInner: hideNoPriority
@@ -100,7 +100,7 @@ const NoPriority = ({
           ? <ChevronRight fontSize="small" htmlColor="white" />
           : <MenuOpenSharp fontSize="small" htmlColor="white" />}
       </Button>
-    </>
+    </div>
   );
 };
 

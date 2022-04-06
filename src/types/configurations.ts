@@ -200,6 +200,5 @@ export interface FilterField {
   displayName: string;
   icon: ReactElement<unknown>;
   isPrimary?: boolean;
-  width?: string;
   options?: string[];
 }
