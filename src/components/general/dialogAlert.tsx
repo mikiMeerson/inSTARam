@@ -12,7 +12,7 @@ interface Props {
     content: string;
     isOpen: boolean;
     setIsOpen: (param: boolean) => void;
-    activateResponse?: (param:any) => any;
+    activateResponse?: (param: any) => any;
     param?: any;
 }
 
@@ -42,7 +42,7 @@ const DialogAlert = ({
         variant="contained"
         onClick={() => {
           setIsOpen(false);
-          (activateResponse && param) && activateResponse(param);
+          if (activateResponse && param) activateResponse(param);
         }}
         autoFocus
       >

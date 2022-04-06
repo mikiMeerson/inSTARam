@@ -106,15 +106,15 @@ const FilterTabs = ({
     <>
       <TableRow>
         <TableCell sx={{ width: '20px', textAlign: 'center' }}>
-          <Button sx={{ textAlign: 'center' }}>
-            <MoreVert
-              fontSize="small"
-              onClick={() => {
-                setDisplayMore(!displayMore);
-                setDisplayOptions(false);
-                setSearch(false);
-              }}
-            />
+          <Button
+            sx={{ textAlign: 'center' }}
+            onClick={() => {
+              setDisplayMore(!displayMore);
+              setDisplayOptions(false);
+              setSearch(false);
+            }}
+          >
+            <MoreVert fontSize="small" />
           </Button>
         </TableCell>
         {filterFields.filter((f) => f.isPrimary).map((field: FilterField) => (
