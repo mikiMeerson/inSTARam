@@ -196,6 +196,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
             <Grid item xs={12} sm={4}>
               <SelectField
                 field="severity"
+                defaultValue="ממתין לסיווג"
                 fieldValues={SEVERITIES}
                 register={register}
                 errors={errors}

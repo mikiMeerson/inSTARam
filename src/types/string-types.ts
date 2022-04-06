@@ -30,6 +30,7 @@ export const SEVERITIES = [
   'בינוני (3)',
   'קל (4)',
   'במעקב (99)',
+  'ממתין לסיווג',
 ];
 export type SeverityType = typeof SEVERITIES[number];
 
