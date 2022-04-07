@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import {
   TableContainer,
   Table,
@@ -9,6 +10,7 @@ import EnhancedTableHead from './tableHead';
 import Row from './tableRow';
 import { OrderType, UserRole } from '../../../types/string-types';
 import { IStar } from '../../../types/interfaces';
+import { getStars } from '../../../services/star-service';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -33,14 +35,23 @@ function getComparator(
 }
 
 interface Props {
-  stars: IStar[];
   userRole: UserRole;
   updateStar: (starId: string, newStar: IStar) => void;
 }
 
-const StarsHistory = ({ stars, userRole, updateStar }: Props) => {
+const StarsHistory = ({ userRole, updateStar }: Props) => {
   const [order, setOrder] = useState<OrderType>('asc');
   const [orderBy, setOrderBy] = useState<keyof IStar>('name');
+  const [stars, setStars] = useState<IStar[]>([]);
+
+  useEffect(() => {
+    const fetchStars = async () => {
+      const { status, data } = await getStars();
+      if (status !== StatusCodes.OK) console.log('Could not fetch stars');
+      else setStars(data.stars);
+    };
+    fetchStars();
+  }, []);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,

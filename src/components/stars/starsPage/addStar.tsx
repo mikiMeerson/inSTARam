@@ -40,9 +40,10 @@ interface Props {
   isOpen: boolean;
   toggleModal: (param: boolean) => void;
   addStar: (star: unknown) => void;
+  currPlatform: PlatformType;
 }
 
-const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
+const AddStar = ({ isOpen, toggleModal, addStar, currPlatform }: Props) => {
   const [computers, setComputers] = useState<
     RaamComputerType[] | BazComputerType[]
   >(RAAM_COMPUTERS);
@@ -170,7 +171,7 @@ const AddStar = ({ isOpen, toggleModal, addStar }: Props) => {
           <Select
             variant="standard"
             input={<Input />}
-            defaultValue="רעם"
+            defaultValue={currPlatform}
             {...register('platform')}
             onChange={handlePlatformChange}
             error={errors.platform?.message}

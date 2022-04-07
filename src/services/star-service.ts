@@ -2,12 +2,22 @@ import axios, { AxiosResponse } from 'axios';
 import { baseUrl } from '../globals';
 import { ApiStarsType } from '../types/api-types';
 import { INote, IStar } from '../types/interfaces';
+import { PlatformType } from '../types/string-types';
 
-export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
+export const getStars = async (
+  platform?: PlatformType,
+): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const stars: AxiosResponse<ApiStarsType> = await axios.get(
-      `${baseUrl}/stars`,
-    );
+    let stars: AxiosResponse<ApiStarsType>;
+    if (platform) {
+      stars = await axios.get(
+        `${baseUrl}/stars/${platform}`,
+      );
+    } else {
+      stars = await axios.get(
+        `${baseUrl}/stars`,
+      );
+    }
     return stars;
   } catch (error) {
     throw new Error(error as string);
@@ -123,7 +133,7 @@ export const getStarById = async (
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const star: AxiosResponse<ApiStarsType> = await axios.get(
-      `${baseUrl}/stars/${_id}`,
+      `${baseUrl}/star/${_id}`,
     );
     return star;
   } catch (error) {

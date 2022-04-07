@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import { Link } from 'react-router-dom';
 import {
   Button,
   FormControl,
   Select,
-  Chip,
-  SelectChangeEvent,
-  Input,
   MenuItem,
+  InputLabel,
+  OutlinedInput,
 } from '@mui/material';
 import StarsTable from './starsTable';
 import '../styles/stars.css';
@@ -16,64 +16,98 @@ import NoPriority from './noPriority';
 import { IEvent, IStar } from '../../../types/interfaces';
 import { PLATFORMS, PlatformType, UserRole } from '../../../types/string-types';
 import { getEvents } from '../../../services/event-service';
+import {
+  addStar,
+  deleteStar,
+  getStars,
+  updatePriorities,
+} from '../../../services/star-service';
 
 interface Props {
   userRole: UserRole;
-  stars: IStar[];
-  addStar: (formData: any) => void;
-  removeStar: (starId: string) => void;
-  changePriority: (star: IStar, newPri: number) => void;
+  setLoading: (param: boolean) => void;
+  handleAlert: (isSuccess: boolean, content: string) => void;
 }
 const StarsMain = ({
   userRole,
-  stars,
-  addStar,
-  removeStar,
-  changePriority,
+  setLoading,
+  handleAlert,
 }: Props) => {
+  const [stars, setStars] = useState<IStar[]>([]);
   const [openAddStar, toggleOpenAddStar] = useState(false);
   const [dragged, setDragged] = useState<IStar | undefined>(undefined);
   const [events, setEvents] = useState<IEvent[]>([]);
-  const [platformsToShow, setPlatformsToShow] = useState<PlatformType[]>(
-    PLATFORMS,
+  const [platformToShow, setPlatformToShow] = useState<PlatformType>(
+    'רעם',
   );
 
   useEffect(() => {
+    const fetchStars = async (): Promise<void> => {
+      setLoading(true);
+      const { data } = await getStars(platformToShow);
+      setStars(data.stars);
+      setLoading(false);
+    };
+
     const fetchEvents = async () => {
       const { data } = await getEvents();
       setEvents(data.events);
     };
 
+    fetchStars();
     fetchEvents();
-  }, []);
+  }, [platformToShow]);
+
+  const handleAddStar = async (formData: any): Promise<void> => {
+    formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
+    const { status, data } = await addStar(formData);
+    handleAlert(
+      status === StatusCodes.CREATED,
+      status === StatusCodes.CREATED
+        ? 'הסטאר נוצר בהצלחה!' : 'שגיאה! לא הצלחנו ליצור את הסטאר',
+    );
+    setStars(data.stars);
+  };
+
+  const handleDeleteStar = async (_id: string): Promise<void> => {
+    try {
+      const { status, data } = await deleteStar(_id);
+      handleAlert(
+        status === StatusCodes.OK,
+        status === StatusCodes.OK
+          ? 'הסטאר נמחק בהצלחה!' : 'שגיאה! לא הצלחנו למחוק את הסטאר',
+      );
+      setStars(data.stars);
+    } catch (error) {
+      handleAlert(false, error as string);
+    }
+  };
+
+  const changePriority = async (
+    draggedStar: IStar,
+    newPri: number,
+  ): Promise<void> => {
+    const { status, data } = await updatePriorities(draggedStar, newPri, stars);
+    handleAlert(
+      status === StatusCodes.OK,
+      status === StatusCodes.OK
+        ? 'הסטאר עודכן בהצלחה!' : 'שגיאה! לא הצלחנו לעדכן את הסטאר',
+    );
+    setStars(data.stars);
+  };
 
   return (
     <div className="Page">
       <div className="starsHeader">
         <div>
           <h1>ניהול סטארים</h1>
-          <FormControl sx={{ width: '20%', marginTop: '25px' }}>
+          <FormControl sx={{ width: '150px', marginTop: '15px' }}>
+            <InputLabel>פלטפורמה</InputLabel>
             <Select
-              labelId="platforms"
-              multiple
-              value={platformsToShow}
-              onChange={(
-                e: SelectChangeEvent<string[]>,
-              ) => {
-                let selectedPlatforms: string[] = [];
-                if (typeof e.target.value.length === 'string') {
-                  selectedPlatforms.push(e.target.value as string);
-                } else selectedPlatforms = e.target.value as string[];
-                setPlatformsToShow(selectedPlatforms);
-              }}
-              input={<Input />}
-              renderValue={(selected: string[]) => (
-                <div>
-                  {selected.map((value: string) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </div>
-              )}
+              defaultValue={platformToShow}
+              variant="outlined"
+              input={<OutlinedInput />}
+              onChange={(e) => setPlatformToShow(e.target.value)}
             >
               {PLATFORMS.map((platform) => (
                 <MenuItem key={platform} value={platform}>
@@ -92,8 +126,8 @@ const StarsMain = ({
           userRole={userRole}
           unprioritized={false}
           stars={stars.filter((star) => star.priority > 0
-            && platformsToShow.includes(star.platform))}
-          removeStar={removeStar}
+            && platformToShow === star.platform)}
+          removeStar={handleDeleteStar}
           changePriority={changePriority}
           dragged={dragged}
           setDragged={setDragged}
@@ -102,9 +136,9 @@ const StarsMain = ({
         <NoPriority
           userRole={userRole}
           stars={stars.filter((star) => star.priority === 0
-            && platformsToShow.includes(star.platform))}
+            && platformToShow === star.platform)}
           toggleAddStar={toggleOpenAddStar}
-          removeStar={removeStar}
+          removeStar={handleDeleteStar}
           changePriority={changePriority}
           dragged={dragged}
           setDragged={setDragged}
@@ -114,7 +148,8 @@ const StarsMain = ({
       <AddStar
         isOpen={openAddStar}
         toggleModal={toggleOpenAddStar}
-        addStar={addStar}
+        addStar={handleAddStar}
+        currPlatform={platformToShow}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { StatusCodes } from 'http-status-codes';
 import { Alert, CircularProgress, Box } from '@mui/material';
 import StarFeed from '../components/stars/feed/starFeed';
@@ -8,8 +8,6 @@ import {
   addStar,
   deleteStar,
   updateStar,
-  getStars,
-  updatePriorities,
 } from '../services/star-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
 import { UserRole } from '../types/string-types';
@@ -21,7 +19,6 @@ interface Props {
 
 const Stars = ({ userRole }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [stars, setStars] = useState<IStar[]>([]);
   const [alert, setAlert] = useState<IAlert>({
     isAlert: false,
     content: '',
@@ -42,66 +39,16 @@ const Stars = ({ userRole }: Props) => {
     }, 3000);
   };
 
-  useEffect(() => {
-    const fetchStars = async (): Promise<void> => {
-      setLoading(true);
-      const { data } = await getStars();
-      setStars(data.stars);
-      setLoading(false);
-    };
-
-    fetchStars();
-  }, []);
-
-  const handleAddStar = async (formData: any): Promise<void> => {
-    formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
-    const { status, data } = await addStar(formData);
-    handleAlert(
-      status === StatusCodes.CREATED,
-      status === StatusCodes.CREATED
-        ? 'הסטאר נוצר בהצלחה!' : 'שגיאה! לא הצלחנו ליצור את הסטאר',
-    );
-    setStars(data.stars);
-  };
-
-  const handleDeleteStar = async (_id: string): Promise<void> => {
-    try {
-      const { status, data } = await deleteStar(_id);
-      handleAlert(
-        status === StatusCodes.OK,
-        status === StatusCodes.OK
-          ? 'הסטאר נמחק בהצלחה!' : 'שגיאה! לא הצלחנו למחוק את הסטאר',
-      );
-      setStars(data.stars);
-    } catch (error) {
-      handleAlert(false, error as string);
-    }
-  };
-
-  const changePriority = async (
-    draggedStar: IStar,
-    newPri: number,
-  ): Promise<void> => {
-    const { status, data } = await updatePriorities(draggedStar, newPri, stars);
-    handleAlert(
-      status === StatusCodes.OK,
-      status === StatusCodes.OK
-        ? 'הסטאר עודכן בהצלחה!' : 'שגיאה! לא הצלחנו לעדכן את הסטאר',
-    );
-    setStars(data.stars);
-  };
-
   const handleUpdateStar = async (
     starId: string,
     formData: IStar,
   ): Promise<void> => {
-    const { status, data } = await updateStar(starId, formData);
+    const { status } = await updateStar(starId, formData);
     handleAlert(
       status === StatusCodes.OK,
       status === StatusCodes.OK
         ? 'הסטאר עודכן בהצלחה!' : 'שגיאה! לא הצלחנו לעדכן את הסטאר',
     );
-    setStars(data.stars);
   };
 
   return (
@@ -126,13 +73,11 @@ const Stars = ({ userRole }: Props) => {
         <Route path="stars/*">
           <Route
             index
-            element={stars && (
+            element={(
               <StarsMain
                 userRole={userRole}
-                stars={stars.filter((s) => s.status !== 'סגור')}
-                addStar={handleAddStar}
-                removeStar={handleDeleteStar}
-                changePriority={changePriority}
+                setLoading={setLoading}
+                handleAlert={handleAlert}
               />
             )}
           />
@@ -153,7 +98,6 @@ const Stars = ({ userRole }: Props) => {
             element={(
               <>
                 <StarsHistory
-                  stars={stars}
                   userRole={userRole}
                   updateStar={handleUpdateStar}
                 />
