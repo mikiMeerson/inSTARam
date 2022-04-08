@@ -9,16 +9,23 @@ import { FilterDataType } from '../../../types/configurations';
 import { IEvent } from '../../../types/interfaces';
 import { getStars } from '../../../services/star-service';
 import { deleteEvent } from '../../../services/event-service';
-import { UserRole } from '../../../types/string-types';
+import { UserRole, PlatformType } from '../../../types/string-types';
 
 interface Props {
     events: IEvent[];
     setEvents: (events: IEvent[]) => void;
     userRole: UserRole;
     handleAlert: (isSuccess: boolean, content: string) => void;
+    platformToShow: PlatformType;
 }
 
-const EventsList = ({ events, setEvents, userRole, handleAlert }: Props) => {
+const EventsList = ({
+  events,
+  setEvents,
+  userRole,
+  handleAlert,
+  platformToShow,
+}: Props) => {
   const getExistingFilters = (filterName: string) => {
     const existingFilter = localStorage.getItem(`events ${filterName} `);
     return existingFilter ? JSON.parse(existingFilter) : [];
@@ -28,7 +35,7 @@ const EventsList = ({ events, setEvents, userRole, handleAlert }: Props) => {
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [nameSearch, setNameSearch] = useState<string>('');
   const [platformFilter, setPlatformFilter] = useState<string[]>(
-    getExistingFilters('platform'),
+    [platformToShow],
   );
   const [blockFilter, setBlockFilter] = useState<string[]>(
     getExistingFilters('block'),

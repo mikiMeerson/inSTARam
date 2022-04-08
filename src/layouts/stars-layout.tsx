@@ -6,14 +6,16 @@ import StarFeed from '../components/stars/feed/starFeed';
 import StarsMain from '../components/stars/starsPage/starsMain';
 import { updateStar } from '../services/star-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
-import { UserRole } from '../types/string-types';
+import { PlatformType, UserRole } from '../types/string-types';
 import { IAlert, IStar } from '../types/interfaces';
 
 interface Props {
   userRole: UserRole;
+  platformToShow: PlatformType;
+  setPlatformToShow: (platform: PlatformType) => void;
 }
 
-const Stars = ({ userRole }: Props) => {
+const Stars = ({ userRole, platformToShow, setPlatformToShow }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<IAlert>({
     isAlert: false,
@@ -74,6 +76,8 @@ const Stars = ({ userRole }: Props) => {
                 userRole={userRole}
                 setLoading={setLoading}
                 handleAlert={handleAlert}
+                platformToShow={platformToShow}
+                setPlatformToShow={setPlatformToShow}
               />
             )}
           />

@@ -10,10 +10,13 @@ import Users from './components/users/users';
 import Home from './layouts/home-layout';
 import Events from './layouts/events-layout';
 import Profile from './components/users/profile';
-import { MainComponents, UserRole } from './types/string-types';
+import { PlatformType, UserRole } from './types/string-types';
 
 const App = () => {
   const [userRole, setUserRole] = useState<UserRole | 'guest'>('guest');
+  const [platformToShow, setPlatformToShow] = useState<PlatformType>(
+    'רעם',
+  );
 
   const getUserRole = useCallback(async (): Promise<void> => {
     const res = await authorizeUser();
@@ -34,8 +37,15 @@ const App = () => {
           <Navbar
             userRole={userRole}
           />
-          <Stars userRole={userRole} />
-          <Events userRole={userRole} />
+          <Stars
+            userRole={userRole}
+            platformToShow={platformToShow}
+            setPlatformToShow={setPlatformToShow}
+          />
+          <Events
+            userRole={userRole}
+            platformToShow={platformToShow}
+          />
           <Routes>
             <Route
               path="/"

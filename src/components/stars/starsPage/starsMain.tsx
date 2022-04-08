@@ -27,19 +27,20 @@ interface Props {
   userRole: UserRole;
   setLoading: (param: boolean) => void;
   handleAlert: (isSuccess: boolean, content: string) => void;
+  platformToShow: PlatformType;
+  setPlatformToShow: (platform: PlatformType) => void;
 }
 const StarsMain = ({
   userRole,
   setLoading,
   handleAlert,
+  platformToShow,
+  setPlatformToShow,
 }: Props) => {
   const [stars, setStars] = useState<IStar[]>([]);
   const [openAddStar, toggleOpenAddStar] = useState(false);
   const [dragged, setDragged] = useState<IStar | undefined>(undefined);
   const [events, setEvents] = useState<IEvent[]>([]);
-  const [platformToShow, setPlatformToShow] = useState<PlatformType>(
-    'רעם',
-  );
 
   useEffect(() => {
     const fetchStars = async (): Promise<void> => {

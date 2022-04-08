@@ -11,15 +11,16 @@ import { FlightTakeoffOutlined } from '@mui/icons-material';
 import { getEvents } from '../../../services/event-service';
 import '../styles/event.css';
 import { IEvent } from '../../../types/interfaces';
-import { UserRole } from '../../../types/string-types';
+import { UserRole, PlatformType } from '../../../types/string-types';
 import EventsList from './eventsList';
 
 interface Props {
   userRole: UserRole;
   handleAlert: (isSuccess: boolean, content: string) => void;
+  platformToShow: PlatformType;
 }
 
-const EventsMain = ({ userRole, handleAlert }: Props) => {
+const EventsMain = ({ userRole, handleAlert, platformToShow }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [events, setEvents] = useState<IEvent[]>([]);
 
@@ -61,6 +62,7 @@ const EventsMain = ({ userRole, handleAlert }: Props) => {
         setEvents={setEvents}
         userRole={userRole}
         handleAlert={handleAlert}
+        platformToShow={platformToShow}
       />
     </div>
   );

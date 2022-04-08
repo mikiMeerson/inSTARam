@@ -4,14 +4,15 @@ import { Alert } from '@mui/material';
 import EventsMain from '../components/events/eventsPage/eventsMain';
 import CreateEvent from '../components/events/createEvent/createEvent';
 import Event from '../components/events/eventFeed/eventFeed';
-import { UserRole } from '../types/string-types';
+import { PlatformType, UserRole } from '../types/string-types';
 import { IAlert } from '../types/interfaces';
 
 interface Props {
   userRole: UserRole;
+  platformToShow: PlatformType;
 }
 
-const Events = ({ userRole }: Props) => {
+const Events = ({ userRole, platformToShow }: Props) => {
   const [alert, setAlert] = useState<IAlert>({
     isAlert: false,
     content: '',
@@ -46,7 +47,11 @@ const Events = ({ userRole }: Props) => {
           <Route
             index
             element={(
-              <EventsMain userRole={userRole} handleAlert={handleAlert} />
+              <EventsMain
+                userRole={userRole}
+                handleAlert={handleAlert}
+                platformToShow={platformToShow}
+              />
             )}
           />
           <Route
