@@ -107,7 +107,7 @@ const EventsList = ({
         assigneeFilter={assigneeFilter}
         setAssigneeFilter={setAssigneeFilter}
       />
-      <SearchBar events={events} setSearch={setNameSearch} />
+      <SearchBar list={events} setSearch={setNameSearch} />
       {filteredEvents.length === 0 && (
       <div style={{ textAlign: 'center' }}>
         <Typography variant="caption">

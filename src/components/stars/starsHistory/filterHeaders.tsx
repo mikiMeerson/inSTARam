@@ -7,6 +7,7 @@ import {
   FlashOn,
   Computer,
   DateRange,
+  ConnectingAirports,
 } from '@mui/icons-material';
 import { FilterDataType, FilterField } from '../../../types/configurations';
 import {
@@ -16,6 +17,7 @@ import {
   RESOURCES,
   RAAM_COMPUTERS,
   BAZ_COMPUTERS,
+  PLATFORMS,
 } from '../../../types/string-types';
 import FilterTab from '../../general/filterTab';
 import FilterManager from '../../general/filterManager';
@@ -59,18 +61,18 @@ const FilterHeaders = ({ filtersData }: Props) => {
   };
   const filterFields: FilterField[] = [
     {
-      name: 'status',
-      activation: 'options',
-      options: STATUSES,
-      displayName: 'סטטוס',
-      icon: <CheckCircleOutline />,
-    },
-    {
       name: 'assignee',
       activation: 'options',
       options: ASSIGNEES,
       displayName: 'אחראי',
       icon: <PersonOutline />,
+    },
+    {
+      name: 'status',
+      activation: 'options',
+      options: STATUSES,
+      displayName: 'סטטוס',
+      icon: <CheckCircleOutline />,
     },
     {
       name: 'date',
@@ -79,18 +81,18 @@ const FilterHeaders = ({ filtersData }: Props) => {
       icon: <DateRange />,
     },
     {
+      name: 'platform',
+      activation: 'options',
+      options: PLATFORMS,
+      displayName: 'פלטפורמה',
+      icon: <Flight />,
+    },
+    {
       name: 'block',
       activation: 'options',
       options: BLOCKS,
       displayName: 'בלוק',
-      icon: <Flight />,
-    },
-    {
-      name: 'resource',
-      activation: 'options',
-      options: RESOURCES,
-      displayName: 'משאבים',
-      icon: <FlashOn />,
+      icon: <ConnectingAirports />,
     },
     {
       name: 'computer',
@@ -102,7 +104,7 @@ const FilterHeaders = ({ filtersData }: Props) => {
   ];
 
   return (
-    <Table sx={{ marginBottom: getFilterMargin() }}>
+    <Table sx={{ marginBottom: getFilterMargin(), width: '80%' }}>
       <TableRow>
         {filterFields.map((field: FilterField) => (
           <FilterTab

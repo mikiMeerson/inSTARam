@@ -9,6 +9,10 @@ const headCells: StarKeyDisplayType[] = [
     display: 'שם הסטאר',
   },
   {
+    key: 'severity',
+    display: 'חומרה',
+  },
+  {
     key: 'assignee',
     display: 'אחראי',
   },

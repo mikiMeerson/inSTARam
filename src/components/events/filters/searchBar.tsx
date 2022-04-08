@@ -1,15 +1,15 @@
 import { Autocomplete, TextField } from '@mui/material';
-import { IEvent } from '../../../types/interfaces';
+import { IStar, IEvent } from '../../../types/interfaces';
 
 interface Props {
-  events: IEvent[];
+  list: IStar[] | IEvent[];
   setSearch: (param: string) => void;
 }
 
-const SearchBar = ({ events, setSearch }: Props) => (
+const SearchBar = ({ list, setSearch }: Props) => (
   <Autocomplete
     sx={{ width: '80%' }}
-    options={events.map((e) => e.name)}
+    options={list.map((e) => e.name)}
     onChange={(event, value) => (value ? setSearch(value) : setSearch(''))}
     renderInput={(params) => (
       <TextField

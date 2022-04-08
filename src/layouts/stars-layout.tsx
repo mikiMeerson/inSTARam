@@ -100,6 +100,7 @@ const Stars = ({ userRole, platformToShow, setPlatformToShow }: Props) => {
                 <StarsHistory
                   userRole={userRole}
                   updateStar={handleUpdateStar}
+                  platformToShow={platformToShow}
                 />
                 <Outlet />
               </>
