@@ -107,7 +107,11 @@ const EventsList = ({
         assigneeFilter={assigneeFilter}
         setAssigneeFilter={setAssigneeFilter}
       />
-      <SearchBar list={events} setSearch={setNameSearch} />
+      <SearchBar
+        list={events}
+        setSearch={setNameSearch}
+        placeholder="חפש לפי שם האירוע"
+      />
       {filteredEvents.length === 0 && (
       <div style={{ textAlign: 'center' }}>
         <Typography variant="caption">

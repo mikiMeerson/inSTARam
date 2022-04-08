@@ -4,9 +4,10 @@ import { IStar, IEvent } from '../../../types/interfaces';
 interface Props {
   list: IStar[] | IEvent[];
   setSearch: (param: string) => void;
+  placeholder: string;
 }
 
-const SearchBar = ({ list, setSearch }: Props) => (
+const SearchBar = ({ list, setSearch, placeholder }: Props) => (
   <Autocomplete
     sx={{ width: '80%' }}
     options={list.map((e) => e.name)}
@@ -14,7 +15,7 @@ const SearchBar = ({ list, setSearch }: Props) => (
     renderInput={(params) => (
       <TextField
         {...params}
-        label="חפש לפי שם האירוע"
+        label={placeholder}
         onChange={(e) => setSearch(e.target.value)}
       />
     )}

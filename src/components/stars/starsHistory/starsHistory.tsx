@@ -158,7 +158,11 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
 
   return (
     <div className="starsHistory">
-      <SearchBar list={stars} setSearch={setFreeTextFilter} />
+      <SearchBar
+        list={stars}
+        setSearch={setFreeTextFilter}
+        placeholder="חפש לפי טקסט חופשי"
+      />
       <FilterHeaders filtersData={filtersData} />
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
