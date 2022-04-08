@@ -9,15 +9,8 @@ export const getStars = async (
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     let stars: AxiosResponse<ApiStarsType>;
-    if (platform) {
-      stars = await axios.get(
-        `${baseUrl}/stars/${platform}`,
-      );
-    } else {
-      stars = await axios.get(
-        `${baseUrl}/stars`,
-      );
-    }
+    if (platform) stars = await axios.get(`${baseUrl}/stars/${platform}`);
+    else stars = await axios.get(`${baseUrl}/stars`);
     return stars;
   } catch (error) {
     throw new Error(error as string);

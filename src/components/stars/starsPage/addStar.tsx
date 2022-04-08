@@ -41,35 +41,39 @@ interface Props {
   toggleModal: (param: boolean) => void;
   addStar: (star: unknown) => void;
   currPlatform: PlatformType;
+  setCurrPlatform: (platform: PlatformType) => void;
 }
 
-const AddStar = ({ isOpen, toggleModal, addStar, currPlatform }: Props) => {
+const AddStar = ({
+  isOpen,
+  toggleModal,
+  addStar,
+  currPlatform,
+  setCurrPlatform,
+}: Props) => {
   const [computers, setComputers] = useState<
     RaamComputerType[] | BazComputerType[]
   >(RAAM_COMPUTERS);
-  const [chosenPlatform, setChosenPlatform] = useState<PlatformType>(
-    'רעם',
-  );
   const [chosenBlock, setChosenBlock] = useState<BlockType>();
   const [events, setEvents] = useState<IEvent[]>([]);
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
   const [chosenEvent, setChosenEvent] = useState<string>();
 
-  const getEventsOptions = (platform: PlatformType, block?: BlockType) => {
-    block ? setEventsOptions(events.filter((e) => e.platform === platform
-      && e.block === block))
-      : setEventsOptions(events.filter((e) => e.platform === platform));
-  };
-
   useEffect(() => {
     const fetchEvents = async (): Promise<void> => {
-      const { data } = await getEvents();
+      const { data } = await getEvents(currPlatform);
       setEvents(data.events);
+    };
+    const getEventsOptions = () => {
+      chosenBlock
+        ? setEventsOptions(events.filter((e) => e.platform === currPlatform
+        && e.block === chosenBlock))
+        : setEventsOptions(events.filter((e) => e.platform === currPlatform));
     };
 
     fetchEvents();
-    getEventsOptions(chosenPlatform, chosenBlock);
-  }, [events]);
+    getEventsOptions();
+  }, [currPlatform, chosenBlock, events]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -138,12 +142,10 @@ const AddStar = ({ isOpen, toggleModal, addStar, currPlatform }: Props) => {
 
   const handleBlockChange = (e: any) => {
     setChosenBlock(e.target.value);
-    getEventsOptions(chosenPlatform, e.target.value);
   };
 
   const handlePlatformChange = (e: any) => {
-    setChosenPlatform(e.target.value);
-    getEventsOptions(e.target.value, chosenBlock);
+    setCurrPlatform(e.target.value as PlatformType);
 
     if (e.target.value === 'רעם') {
       setComputers(RAAM_COMPUTERS);

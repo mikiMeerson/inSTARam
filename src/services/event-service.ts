@@ -2,12 +2,15 @@ import axios, { AxiosResponse } from 'axios';
 import { baseUrl } from '../globals';
 import { ApiEventsType } from '../types/api-types';
 import { IEvent } from '../types/interfaces';
+import { PlatformType } from '../types/string-types';
 
-export const getEvents = async (): Promise<AxiosResponse<ApiEventsType>> => {
+export const getEvents = async (
+  platform?: PlatformType,
+): Promise<AxiosResponse<ApiEventsType>> => {
   try {
-    const events: AxiosResponse<ApiEventsType> = await axios.get(
-      `${baseUrl}/events`,
-    );
+    let events: AxiosResponse<ApiEventsType>;
+    if (platform) events = await axios.get(`${baseUrl}/events/${platform}`);
+    else events = await axios.get(`${baseUrl}/events`);
     return events;
   } catch (error) {
     throw new Error(error as string);
@@ -102,7 +105,7 @@ export const getEventById = async (
 ): Promise<AxiosResponse<ApiEventsType>> => {
   try {
     const event: AxiosResponse<ApiEventsType> = await axios.get(
-      `${baseUrl}/events/${_id}`,
+      `${baseUrl}/event/${_id}`,
     );
     return event;
   } catch (error) {

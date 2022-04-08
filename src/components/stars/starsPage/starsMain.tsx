@@ -56,7 +56,7 @@ const StarsMain = ({
 
     fetchStars();
     fetchEvents();
-  }, [platformToShow]);
+  }, [platformToShow, setLoading]);
 
   const handleAddStar = async (formData: any): Promise<void> => {
     formData.publisher = localStorage.getItem('userDisplay') || 'אנונימי';
@@ -104,7 +104,7 @@ const StarsMain = ({
           <FormControl sx={{ width: '150px', marginTop: '15px' }}>
             <InputLabel>פלטפורמה</InputLabel>
             <Select
-              defaultValue={platformToShow}
+              value={platformToShow}
               variant="outlined"
               input={<OutlinedInput />}
               onChange={(e) => setPlatformToShow(e.target.value)}
@@ -150,6 +150,7 @@ const StarsMain = ({
         toggleModal={toggleOpenAddStar}
         addStar={handleAddStar}
         currPlatform={platformToShow}
+        setCurrPlatform={setPlatformToShow}
       />
     </div>
   );

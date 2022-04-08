@@ -4,11 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Alert, CircularProgress, Box } from '@mui/material';
 import StarFeed from '../components/stars/feed/starFeed';
 import StarsMain from '../components/stars/starsPage/starsMain';
-import {
-  addStar,
-  deleteStar,
-  updateStar,
-} from '../services/star-service';
+import { updateStar } from '../services/star-service';
 import StarsHistory from '../components/stars/starsHistory/starsHistory';
 import { UserRole } from '../types/string-types';
 import { IAlert, IStar } from '../types/interfaces';
