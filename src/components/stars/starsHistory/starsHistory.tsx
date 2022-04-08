@@ -11,6 +11,8 @@ import Row from './tableRow';
 import { OrderType, UserRole } from '../../../types/string-types';
 import { IStar } from '../../../types/interfaces';
 import { getStars } from '../../../services/star-service';
+import FilterHeaders from './filterHeaders';
+import { FilterDataType } from '../../../types/configurations';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -43,6 +45,12 @@ const StarsHistory = ({ userRole, updateStar }: Props) => {
   const [order, setOrder] = useState<OrderType>('asc');
   const [orderBy, setOrderBy] = useState<keyof IStar>('name');
   const [stars, setStars] = useState<IStar[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string[]>([]);
+  const [assigneeFilter, setAssigneeFilter] = useState<string[]>([]);
+  const [blockFilter, setBlockFilter] = useState<string[]>([]);
+  const [resourceFilter, setResourceFilter] = useState<string[]>([]);
+  const [computerFilter, setComputerFilter] = useState<string[]>([]);
+  const [dateFilter, setDateFilter] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchStars = async () => {
@@ -62,8 +70,48 @@ const StarsHistory = ({ userRole, updateStar }: Props) => {
     setOrderBy(property);
   };
 
+  const filtersData: FilterDataType[] = [
+    {
+      tabName: 'status',
+      filter: statusFilter,
+      func: setStatusFilter,
+      chipColor: 'primary',
+    },
+    {
+      tabName: 'assignee',
+      filter: assigneeFilter,
+      func: setAssigneeFilter,
+      chipColor: 'secondary',
+    },
+    {
+      tabName: 'block',
+      filter: blockFilter,
+      func: setBlockFilter,
+      chipColor: 'warning',
+    },
+    {
+      tabName: 'resource',
+      filter: resourceFilter,
+      func: setResourceFilter,
+      chipColor: 'default',
+    },
+    {
+      tabName: 'computer',
+      filter: computerFilter,
+      func: setComputerFilter,
+      chipColor: 'info',
+    },
+    {
+      tabName: 'date',
+      filter: dateFilter,
+      func: setDateFilter,
+      chipColor: 'error',
+    },
+  ];
+
   return (
     <div style={{ height: '95%' }}>
+      <FilterHeaders filtersData={filtersData} />
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <EnhancedTableHead

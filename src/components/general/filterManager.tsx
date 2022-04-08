@@ -1,3 +1,4 @@
+import { Table } from '@mui/material';
 import { FilterDataType } from '../../types/configurations';
 import FilterOptions from './filterOptions';
 import FilterSelections from './filterSelections';
@@ -13,7 +14,7 @@ interface Props {
     setSearchValue: (param: string) => void;
     isDatePick: boolean;
     setIsDatePick: (param: boolean) => void;
-    component: 'stars' | 'events';
+    component?: 'stars' | 'events';
     unprioritized?: boolean;
 }
 
@@ -48,12 +49,14 @@ const FilterManager = ({
     // update the current filter by adding the new selected value
     currFilter?.func(newFilterValues);
 
-    const itemToSet = unprioritized ? 'unprioritized' : '';
-    // save the new selected list
-    localStorage.setItem(
-      `${component} ${filter} ${itemToSet}`,
-      JSON.stringify(newFilterValues),
-    );
+    if (component) {
+      const itemToSet = unprioritized ? 'unprioritized' : '';
+      // save the new selected list
+      localStorage.setItem(
+        `${component} ${filter} ${itemToSet}`,
+        JSON.stringify(newFilterValues),
+      );
+    }
   };
 
   return (
@@ -92,4 +95,5 @@ export default FilterManager;
 
 FilterManager.defaultProps = {
   unprioritized: false,
+  component: undefined,
 };

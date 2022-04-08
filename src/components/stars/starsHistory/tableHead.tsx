@@ -58,6 +58,7 @@ const EnhancedTableHead = (props: Props) => {
   return (
     <TableHead>
       <TableRow sx={{ background: 'whitesmoke' }}>
+        <TableCell />
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.key}

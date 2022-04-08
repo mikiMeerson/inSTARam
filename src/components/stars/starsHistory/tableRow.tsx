@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
 import { StatusCodes } from 'http-status-codes';
-import { TableRow, TableCell, Button } from '@mui/material';
+import {
+  TableRow,
+  TableCell,
+  Button,
+  IconButton,
+  Collapse,
+  Box,
+  Typography,
+} from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import { IStar } from '../../../types/interfaces';
 import { UserRole } from '../../../types/string-types';
@@ -16,7 +25,17 @@ interface rowType {
 const Row = ({ row, updateStar, userRole }: rowType) => {
   const [isReopenAlert, setIsReopenAlert] = useState<boolean>(false);
   const [eventName, setEventName] = useState<string>('ללא אירוע');
-  const { name, event, createdAt, assignee, status, block, platform } = row;
+  const [isOpen, setIsOpen] = useState(false);
+  const {
+    name,
+    event,
+    createdAt,
+    assignee,
+    status,
+    block,
+    platform,
+    desc,
+  } = row;
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -46,6 +65,15 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
   return (
     <>
       <TableRow>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </TableCell>
         <TableCell align="center" component="th" scope="row">{name}</TableCell>
         <TableCell align="center">{assignee}</TableCell>
         <TableCell align="center">
@@ -75,6 +103,17 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
         </TableCell>
         <TableCell align="center">{block}</TableCell>
         <TableCell align="center">{platform}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ padding: 0, textAlign: 'right' }} colSpan={6}>
+          <Collapse in={isOpen} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: '20px 150px 20px 20px' }}>
+              <Typography variant="body1">
+                {desc}
+              </Typography>
+            </Box>
+          </Collapse>
+        </TableCell>
       </TableRow>
       <DialogAlert
         header="לפתוח מחדש את הסטאר?"

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   ComputerOutlined,
-  DateRange,
   Flight,
   PersonOutline,
 } from '@mui/icons-material';
