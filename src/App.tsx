@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Stars from './layouts/stars-layout';
 import Navbar from './components/navbar/navbar';
@@ -18,12 +18,12 @@ const App = () => {
     'רעם',
   );
 
-  const getUserRole = useCallback(async (): Promise<void> => {
-    const res = await authorizeUser();
-    setUserRole(res);
-  }, []);
-
   useEffect(() => {
+    const getUserRole = async (): Promise<void> => {
+      const res = await authorizeUser();
+      setUserRole(res);
+    };
+
     const user = localStorage.getItem('user');
     if (user) {
       getUserRole();

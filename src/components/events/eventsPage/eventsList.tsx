@@ -7,7 +7,7 @@ import SearchBar from '../filters/searchBar';
 import EventCard from './eventCard';
 import { FilterDataType } from '../../../types/configurations';
 import { IEvent } from '../../../types/interfaces';
-import { getStars } from '../../../services/star-service';
+import { getStarsByEvent } from '../../../services/star-service';
 import { deleteEvent } from '../../../services/event-service';
 import { UserRole, PlatformType } from '../../../types/string-types';
 
@@ -72,10 +72,9 @@ const EventsList = ({
   ];
 
   const checkAttachedStars = async (event: IEvent) => {
-    const { status, data } = await getStars();
+    const { status, data } = await getStarsByEvent(event._id);
     if (status !== StatusCodes.OK) return true; // !should be another error
-    const attachedStars = data.stars.filter((s) => s.event === event._id);
-    return attachedStars.length;
+    return data.stars.length;
   };
 
   const handleDeleteEvent = async (event: IEvent) => {

@@ -46,7 +46,7 @@ const StarsHistory = ({ userRole, updateStar }: Props) => {
 
   useEffect(() => {
     const fetchStars = async () => {
-      const { status, data } = await getStars();
+      const { status, data } = await getStars(); //! pagination
       if (status !== StatusCodes.OK) console.log('Could not fetch stars');
       else setStars(data.stars);
     };

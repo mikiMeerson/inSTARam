@@ -19,7 +19,7 @@ import { getEvents } from '../../../services/event-service';
 import {
   addStar,
   deleteStar,
-  getStars,
+  getStarsByPlatform,
   updatePriorities,
 } from '../../../services/star-service';
 
@@ -45,7 +45,7 @@ const StarsMain = ({
   useEffect(() => {
     const fetchStars = async (): Promise<void> => {
       setLoading(true);
-      const { data } = await getStars(platformToShow);
+      const { data } = await getStarsByPlatform(platformToShow);
       setStars(data.stars);
       setLoading(false);
     };

@@ -4,13 +4,37 @@ import { ApiStarsType } from '../types/api-types';
 import { INote, IStar } from '../types/interfaces';
 import { PlatformType } from '../types/string-types';
 
-export const getStars = async (
-  platform?: PlatformType,
+export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
+  try {
+    const stars: AxiosResponse<ApiStarsType> = await axios.get(
+      `${baseUrl}/stars/`,
+    );
+    return stars;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getStarsByPlatform = async (
+  platform: PlatformType,
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    let stars: AxiosResponse<ApiStarsType>;
-    if (platform) stars = await axios.get(`${baseUrl}/stars/${platform}`);
-    else stars = await axios.get(`${baseUrl}/stars`);
+    const stars: AxiosResponse<ApiStarsType> = await axios.get(
+      `${baseUrl}/starsByPlatform/${platform}`,
+    );
+    return stars;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getStarsByEvent = async (
+  eventId: string,
+): Promise<AxiosResponse<ApiStarsType>> => {
+  try {
+    const stars: AxiosResponse<ApiStarsType> = await axios.get(
+      `${baseUrl}/starsByEvent/${eventId}`,
+    );
     return stars;
   } catch (error) {
     throw new Error(error as string);
@@ -126,7 +150,7 @@ export const getStarById = async (
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const star: AxiosResponse<ApiStarsType> = await axios.get(
-      `${baseUrl}/star/${_id}`,
+      `${baseUrl}/stars/${_id}`,
     );
     return star;
   } catch (error) {
