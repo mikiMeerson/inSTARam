@@ -17,6 +17,8 @@ import {
   MenuItem,
   Typography,
   Input,
+  Checkbox,
+  FormControlLabel,
 } from '@mui/material';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
@@ -34,6 +36,7 @@ import {
   PLATFORMS,
   SEVERITIES,
   BLOCKS,
+  PHASES,
 } from '../../../types/string-types';
 
 interface Props {
@@ -58,6 +61,7 @@ const AddStar = ({
   const [events, setEvents] = useState<IEvent[]>([]);
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
   const [chosenEvent, setChosenEvent] = useState<string>();
+  const [createAnother, setCreateAnother] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchEvents = async (): Promise<void> => {
@@ -82,6 +86,7 @@ const AddStar = ({
     severity: Yup.string().required('נא למלא חומרה'),
     assignee: Yup.string().required('נא למלא אחראי'),
     contact: Yup.string().required('נא למלא איש קשר'),
+    phase: Yup.string().required('נא למלא שלב בבלוק'),
     block: Yup.string().required('נא למלא בלוק'),
     platform: Yup.string().required('נא למלא פלטפורמה'),
     desc: Yup.string()
@@ -102,42 +107,59 @@ const AddStar = ({
     {
       field: 'name',
       type: 'input',
+      isSaved: false,
     },
     {
       field: 'severity',
       type: 'select',
+      isSaved: false,
     },
     {
       field: 'event',
       type: 'input',
+      isSaved: true,
     },
     {
       field: 'block',
       type: 'select',
+      isSaved: true,
+    },
+    {
+      field: 'phase',
+      type: 'select',
+      isSaved: true,
     },
     {
       field: 'desc',
       type: 'input',
+      isSaved: false,
     },
     {
       field: 'assignee',
       type: 'select',
+      isSaved: true,
     },
     {
       field: 'contact',
       type: 'input',
+      isSaved: true,
     },
     {
       field: 'computer',
       type: 'select',
+      isSaved: true,
     },
   ];
 
   const handleAddStar = (data: any) => {
-    toggleModal(false);
     data.event = chosenEvent;
     addStar(data);
-    fields.map((f) => resetField(f.field));
+    if (!createAnother) {
+      toggleModal(false);
+      fields.map((f) => resetField(f.field));
+    } else {
+      fields.filter((f) => !f.isSaved).map((f) => resetField(f.field));
+    }
   };
 
   const handleBlockChange = (e: any) => {
@@ -193,7 +215,7 @@ const AddStar = ({
       <DialogContent>
         <DialogContentText>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={12}>
               <InputField
                 fullWidth
                 field="name"
@@ -201,34 +223,25 @@ const AddStar = ({
                 errors={errors}
               />
             </Grid>
+          </Grid>
+          <Grid container spacing={2} sx={{ marginTop: '5px' }}>
             <Grid item xs={12} sm={4}>
               <SelectField
                 field="severity"
-                defaultValue="ממתין לסיווג"
                 fieldValues={SEVERITIES}
                 register={register}
                 errors={errors}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} sx={{ marginTop: '5px' }}>
-            <Grid item xs={12} sm={6}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel>שם האירוע</InputLabel>
-                <Select
-                  variant="outlined"
-                  input={<Input />}
-                  onChange={(e) => setChosenEvent(e.target.value as string)}
-                >
-                  {eventsOptions.map((event) => (
-                    <MenuItem key={event._id} value={event._id}>
-                      {event.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+            <Grid item xs={12} sm={4}>
+              <SelectField
+                field="phase"
+                fieldValues={PHASES}
+                register={register}
+                errors={errors}
+              />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel>בלוק</InputLabel>
                 <Select
@@ -246,8 +259,26 @@ const AddStar = ({
                 </Select>
               </FormControl>
               <Typography variant="inherit" color="textSecondary">
-                {errors.platform?.message}
+                {errors.block?.message}
               </Typography>
+            </Grid>
+          </Grid>
+          <Grid container sx={{ marginTop: '5px' }}>
+            <Grid item xs={12} sm={12}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>שם האירוע</InputLabel>
+                <Select
+                  variant="outlined"
+                  input={<Input />}
+                  onChange={(e) => setChosenEvent(e.target.value as string)}
+                >
+                  {eventsOptions.map((event) => (
+                    <MenuItem key={event._id} value={event._id}>
+                      {event.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
           <Grid container sx={{ marginTop: '15px' }}>
@@ -286,21 +317,33 @@ const AddStar = ({
           </Grid>
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => toggleModal(false)}
-        >
-          בטל
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleSubmit(handleAddStar)}
-        >
-          הוסף
-        </Button>
+      <DialogActions className="addStarActions">
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={createAnother}
+              onChange={(e) => setCreateAnother(e.target.checked)}
+            />
+        )}
+          label="צור סטאר נוסף"
+        />
+        <div>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => toggleModal(false)}
+          >
+            בטל
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleSubmit(handleAddStar)}
+            sx={{ marginLeft: '10px' }}
+          >
+            הוסף
+          </Button>
+        </div>
       </DialogActions>
     </Dialog>
   );

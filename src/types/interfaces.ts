@@ -11,6 +11,7 @@ import {
   PlatformType,
   BlockType,
   EventTypeType,
+  PhaseType,
 } from './string-types';
 
 export interface WeaponConfig {
@@ -50,6 +51,7 @@ export interface IStar {
   assignee: AssigneeType;
   platform: PlatformType;
   block: BlockType;
+  phase: PhaseType;
   publisher: string;
   contact: string;
   resources: string[];

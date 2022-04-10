@@ -17,6 +17,7 @@ import {
   WarningAmber,
   ArrowDownward,
   PriorityHigh,
+  KeyboardDoubleArrowDown,
 } from '@mui/icons-material';
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
@@ -30,6 +31,7 @@ import {
   RESOURCES,
   SEVERITIES,
   STATUSES,
+  PHASES,
   UserRole,
 } from '../../../types/string-types';
 import { getEventById } from '../../../services/event-service';
@@ -74,7 +76,7 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
     },
     {
       severity: 'קל (4)',
-      icon: <WarningAmber fontSize="large" color="info" />,
+      icon: <KeyboardDoubleArrowDown fontSize="large" color="info" />,
     },
     {
       severity: 'במעקב (99)',
@@ -179,7 +181,7 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '3%' }}>
-            <Grid item xs={8}>
+            <Grid item xs={6}>
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel id="resources">משאבים נדרשים</InputLabel>
                 <Select
@@ -214,7 +216,7 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <SelectField
                 field="computer"
                 defaultValue={star.computer}
@@ -223,6 +225,16 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 fieldValues={star.platform === 'רעם'
                   ? RAAM_COMPUTERS
                   : BAZ_COMPUTERS}
+                errors={errors}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <SelectField
+                field="phase"
+                defaultValue={star.phase}
+                disabled={!isEdit}
+                register={register}
+                fieldValues={PHASES}
                 errors={errors}
               />
             </Grid>

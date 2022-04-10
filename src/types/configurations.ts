@@ -53,6 +53,10 @@ export const STAR_KEY_DISPLAY: StarKeyDisplayType[] = [
     display: 'בלוק',
   },
   {
+    key: 'phase',
+    display: 'שלב בבלוק',
+  },
+  {
     key: 'desc',
     display: 'תיאור',
   },

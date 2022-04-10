@@ -122,6 +122,12 @@
     text-align: right !important;
 }
 
+.addStarActions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+}
+
 .filterSection {
     position: fixed;
     height: 50px;

@@ -53,6 +53,7 @@ export const addStar = async (
       assignee: formData.assignee,
       platform: formData.platform,
       block: formData.block,
+      phase: formData.phase,
       publisher: formData.publisher,
       contact: formData.contact,
       event: formData.event,
