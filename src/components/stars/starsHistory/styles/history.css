@@ -2,10 +2,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .starsHistory * {
     margin-top: 5px;
+}
+
+.historyFilterContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .historyFilter > * {

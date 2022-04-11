@@ -5,7 +5,9 @@ import {
   Table,
   TableBody,
   Paper,
+  Button,
 } from '@mui/material';
+import { ExpandMore, ChevronLeft } from '@mui/icons-material';
 import EnhancedTableHead from './tableHead';
 import Row from './tableRow';
 import { OrderType, PlatformType, UserRole } from '../../../types/string-types';
@@ -58,6 +60,7 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
   const [computerFilter, setComputerFilter] = useState<string[]>([]);
   const [dateFilter, setDateFilter] = useState<string[]>([]);
   const [freeTextFilter, setFreeTextFilter] = useState<string>('');
+  const [openFilter, setOpenFilter] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchStars = async () => {
@@ -158,13 +161,36 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
 
   return (
     <div className="starsHistory">
-      <SearchBar
-        list={stars}
-        setSearch={setFreeTextFilter}
-        placeholder="חפש לפי טקסט חופשי"
-      />
-      <FilterHeaders filtersData={filtersData} />
-      <TableContainer component={Paper}>
+      <Button
+        color="info"
+        sx={{
+          position: 'absolute',
+          top: '100px',
+          right: '10px',
+        }}
+        onClick={() => setOpenFilter(!openFilter)}
+      >
+        {openFilter ? <ExpandMore /> : (
+          <>
+            <ChevronLeft />
+            <span>הצג אפשרויות סינון וחיפוש</span>
+          </>
+        )}
+      </Button>
+      {openFilter && (
+        <div className="historyFilterContainer">
+          <SearchBar
+            list={stars}
+            setSearch={setFreeTextFilter}
+            placeholder="חפש לפי טקסט חופשי"
+          />
+          <FilterHeaders filtersData={filtersData} />
+        </div>
+      )}
+      <TableContainer
+        component={Paper}
+        sx={{ marginTop: openFilter ? 0 : '70px' }}
+      >
         <Table aria-label="collapsible table">
           <EnhancedTableHead
             order={order}
