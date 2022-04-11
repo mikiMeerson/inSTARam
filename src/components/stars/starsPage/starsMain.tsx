@@ -108,7 +108,10 @@ const StarsMain = ({
               value={platformToShow}
               variant="outlined"
               input={<OutlinedInput />}
-              onChange={(e) => setPlatformToShow(e.target.value)}
+              onChange={(e) => {
+                setPlatformToShow(e.target.value);
+                localStorage.setItem('platformToShow', e.target.value);
+              }}
             >
               {PLATFORMS.map((platform) => (
                 <MenuItem key={platform} value={platform}>

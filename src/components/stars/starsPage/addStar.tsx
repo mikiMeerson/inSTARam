@@ -168,7 +168,7 @@ const AddStar = ({
 
   const handlePlatformChange = (e: any) => {
     setCurrPlatform(e.target.value as PlatformType);
-
+    localStorage.setItem('platformToShow', e.target.value);
     if (e.target.value === 'רעם') {
       setComputers(RAAM_COMPUTERS);
     } else {
@@ -195,7 +195,7 @@ const AddStar = ({
           <Select
             variant="standard"
             input={<Input />}
-            defaultValue={currPlatform}
+            value={currPlatform}
             {...register('platform')}
             onChange={handlePlatformChange}
             error={errors.platform?.message}

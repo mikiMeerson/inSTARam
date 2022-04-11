@@ -13,9 +13,15 @@ import Profile from './components/users/profile';
 import { PlatformType, UserRole } from './types/string-types';
 
 const App = () => {
+  const getCurrPlatform = () => {
+    const tempPlatform = localStorage.getItem('platformToShow');
+    if (tempPlatform) return tempPlatform;
+    return 'רעם';
+  };
+
   const [userRole, setUserRole] = useState<UserRole | 'guest'>('guest');
   const [platformToShow, setPlatformToShow] = useState<PlatformType>(
-    'רעם',
+    getCurrPlatform(),
   );
 
   useEffect(() => {
@@ -25,9 +31,7 @@ const App = () => {
     };
 
     const user = localStorage.getItem('user');
-    if (user) {
-      getUserRole();
-    }
+    if (user) getUserRole();
   }, [userRole]);
 
   if (userRole !== 'guest') {
