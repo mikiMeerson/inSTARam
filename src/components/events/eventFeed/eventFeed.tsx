@@ -18,7 +18,7 @@ import {
 
 interface Props {
   userRole: UserRole;
-    handleAlert: (isSuccess: boolean, content: string) => void;
+  handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
 const Event = ({ userRole, handleAlert }: Props) => {
@@ -40,7 +40,7 @@ const Event = ({ userRole, handleAlert }: Props) => {
     };
 
     fetchEvent();
-  }, []);
+  }, [id]);
 
   if (!event) {
     return (
@@ -101,7 +101,12 @@ const Event = ({ userRole, handleAlert }: Props) => {
             : BAZ_COMPUTERS}
           setAttr={setAttr}
         />
-        <EventLists event={event} editable={isEdit} setAttr={setAttr} />
+        <EventLists
+          event={event}
+          editable={isEdit}
+          setAttr={setAttr}
+          handleAlert={handleAlert}
+        />
       </div>
     </>
   );

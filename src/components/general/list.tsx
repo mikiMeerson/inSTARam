@@ -4,15 +4,16 @@ import {
   ListItemText,
   IconButton,
 } from '@mui/material';
-import { DeleteOutlined } from '@mui/icons-material';
+import { DeleteOutlined, StarOutline } from '@mui/icons-material';
 
 interface Props {
     list: string[];
-    deletable: boolean;
+    deletable?: boolean;
     handleDeleteItem?: (param: string) => void;
+    generateStar?: (param: string) => void;
 }
 
-const List = ({ list, deletable, handleDeleteItem }: Props) => (
+const List = ({ list, deletable, handleDeleteItem, generateStar }: Props) => (
   <MuiList>
     {list.map((f: string, index: number) => (
       <ListItem key={f} sx={{ textAlign: 'start' }}>
@@ -22,6 +23,11 @@ const List = ({ list, deletable, handleDeleteItem }: Props) => (
         </IconButton>
         )}
         <ListItemText primary={`${index + 1}. ${f}`} />
+        {generateStar && (
+          <IconButton onClick={() => generateStar(f)}>
+            <StarOutline color="warning" />
+          </IconButton>
+        )}
       </ListItem>
     ))}
   </MuiList>
@@ -30,5 +36,7 @@ const List = ({ list, deletable, handleDeleteItem }: Props) => (
 export default List;
 
 List.defaultProps = {
+  deletable: false,
   handleDeleteItem: undefined,
+  generateStar: undefined,
 };

@@ -44,7 +44,10 @@ interface Props {
   toggleModal: (param: boolean) => void;
   addStar: (star: unknown) => void;
   currPlatform: PlatformType;
-  setCurrPlatform: (platform: PlatformType) => void;
+  setCurrPlatform?: (platform: PlatformType) => void;
+  defaultName?: string;
+  defaultBlock?: string;
+  defaultEventId?: string;
 }
 
 const AddStar = ({
@@ -53,6 +56,9 @@ const AddStar = ({
   addStar,
   currPlatform,
   setCurrPlatform,
+  defaultName,
+  defaultBlock,
+  defaultEventId,
 }: Props) => {
   const [computers, setComputers] = useState<
     RaamComputerType[] | BazComputerType[]
@@ -62,8 +68,14 @@ const AddStar = ({
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
   const [chosenEvent, setChosenEvent] = useState<string>();
   const [createAnother, setCreateAnother] = useState<boolean>(false);
+  const [defaultValues, setDefaultValues] = useState({
+    name: '',
+    block: '',
+    eventId: '',
+  });
 
   useEffect(() => {
+    console.log(defaultName);
     const fetchEvents = async (): Promise<void> => {
       const { data } = await getEvents(currPlatform);
       setEvents(data.events);
@@ -77,7 +89,14 @@ const AddStar = ({
 
     fetchEvents();
     getEventsOptions();
-  }, [currPlatform, chosenBlock, events]);
+
+    setChosenEvent(defaultEventId);
+    setDefaultValues({
+      name: defaultName || '',
+      block: defaultBlock || '',
+      eventId: defaultEventId || '',
+    });
+  }, [currPlatform, chosenBlock, defaultEventId, defaultName, defaultBlock]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -88,7 +107,6 @@ const AddStar = ({
     contact: Yup.string().required('נא למלא איש קשר'),
     phase: Yup.string().required('נא למלא שלב בבלוק'),
     block: Yup.string().required('נא למלא בלוק'),
-    platform: Yup.string().required('נא למלא פלטפורמה'),
     desc: Yup.string()
       .required('נא למלא תיאור')
       .max(100, 'תיאור הסטאר לא יכול לעלות על 100 תווים'),
@@ -153,6 +171,7 @@ const AddStar = ({
 
   const handleAddStar = (data: any) => {
     data.event = chosenEvent;
+    data.platform = currPlatform;
     addStar(data);
     if (!createAnother) {
       toggleModal(false);
@@ -167,12 +186,14 @@ const AddStar = ({
   };
 
   const handlePlatformChange = (e: any) => {
-    setCurrPlatform(e.target.value as PlatformType);
-    localStorage.setItem('platformToShow', e.target.value);
-    if (e.target.value === 'רעם') {
-      setComputers(RAAM_COMPUTERS);
-    } else {
-      setComputers(BAZ_COMPUTERS);
+    if (setCurrPlatform) {
+      setCurrPlatform(e.target.value as PlatformType);
+      localStorage.setItem('platformToShow', e.target.value);
+      if (e.target.value === 'רעם') {
+        setComputers(RAAM_COMPUTERS);
+      } else {
+        setComputers(BAZ_COMPUTERS);
+      }
     }
   };
 
@@ -196,9 +217,8 @@ const AddStar = ({
             variant="standard"
             input={<Input />}
             value={currPlatform}
-            {...register('platform')}
+            disabled={!setCurrPlatform}
             onChange={handlePlatformChange}
-            error={errors.platform?.message}
           >
             {PLATFORMS.map((value) => (
               <MenuItem key={value} value={value}>
@@ -207,9 +227,6 @@ const AddStar = ({
             ))}
           </Select>
         </FormControl>
-        <Typography variant="inherit" color="textSecondary">
-          {errors.platform?.message}
-        </Typography>
       </div>
       <Divider />
       <DialogContent>
@@ -219,6 +236,7 @@ const AddStar = ({
               <InputField
                 fullWidth
                 field="name"
+                defaultValue={defaultValues.name}
                 register={register}
                 errors={errors}
               />
@@ -246,6 +264,7 @@ const AddStar = ({
                 <InputLabel>בלוק</InputLabel>
                 <Select
                   variant="standard"
+                  defaultValue={defaultValues.block}
                   input={<Input />}
                   {...register('block')}
                   onChange={handleBlockChange}
@@ -269,6 +288,7 @@ const AddStar = ({
                 <InputLabel>שם האירוע</InputLabel>
                 <Select
                   variant="outlined"
+                  value={chosenEvent}
                   input={<Input />}
                   onChange={(e) => setChosenEvent(e.target.value as string)}
                 >
@@ -350,3 +370,10 @@ const AddStar = ({
 };
 
 export default AddStar;
+
+AddStar.defaultProps = {
+  setCurrPlatform: undefined,
+  defaultName: '',
+  defaultBlock: '',
+  defaultEventId: '',
+};
