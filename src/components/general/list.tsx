@@ -16,7 +16,7 @@ interface Props {
 const List = ({ list, deletable, handleDeleteItem, generateStar }: Props) => (
   <MuiList>
     {list.map((f: string, index: number) => (
-      <ListItem key={f} sx={{ textAlign: 'start' }}>
+      <ListItem key={f} sx={{ textAlign: 'start', width: 'max-content' }}>
         {deletable && handleDeleteItem && (
         <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
           <DeleteOutlined color="error" />

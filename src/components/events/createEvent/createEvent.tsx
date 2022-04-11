@@ -32,23 +32,27 @@ import {
   RAAM_COMPUTERS,
   BAZ_COMPUTERS,
   PLATFORMS,
+  PlatformType,
 } from '../../../types/string-types';
 import EventLists from '../commonEventFields/eventLists';
 import BasicDetails from './basicDetails';
 
 interface Props {
   handleAlert: (isSuccess: boolean, content: string) => void;
+  currPlatform: PlatformType;
 }
 
-const CreateEvent = ({ handleAlert }: Props) => {
-  const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
+const CreateEvent = ({ handleAlert, currPlatform }: Props) => {
+  const [newEvent, setNewEvent] = useState<IEvent>(
+    currPlatform === 'רעם' ? defaultRAAMEvent : defaultBAZEvent,
+  );
   const [currDates, setCurrDates] = useState<string[]>([]);
   const [stations, setStations] = useState<
     RaamStationType[] | BazStationType[]
-  >(RAAM_STATIONS);
+  >(currPlatform === 'רעם' ? RAAM_STATIONS : BAZ_STATIONS);
   const [computers, setComputers] = useState<
     RaamComputerType[] | BazComputerType[]
-  >(RAAM_COMPUTERS);
+  >(currPlatform === 'רעם' ? RAAM_COMPUTERS : BAZ_COMPUTERS);
 
   const navigate = useNavigate();
 
@@ -121,7 +125,7 @@ const CreateEvent = ({ handleAlert }: Props) => {
               <Select
                 variant="outlined"
                 input={<OutlinedInput />}
-                defaultValue={newEvent.platform}
+                defaultValue={currPlatform}
                 {...register('platform')}
                 onChange={handlePlatformChange}
                 error={errors.platform?.message}

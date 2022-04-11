@@ -67,7 +67,10 @@ const Events = ({ userRole, platformToShow }: Props) => {
             path="create"
             element={(
               <>
-                <CreateEvent handleAlert={handleAlert} />
+                <CreateEvent
+                  handleAlert={handleAlert}
+                  currPlatform={platformToShow}
+                />
                 <Outlet />
               </>
           )}
