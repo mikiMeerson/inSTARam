@@ -101,8 +101,7 @@ const Users = () => {
   return (
     <>
       <DataGrid
-        rows={rows}
-        columns={columns}
+        {... { rows, columns }}
         pageSize={10}
         columnBuffer={8}
         autoHeight
@@ -111,9 +110,7 @@ const Users = () => {
       <UserDialog
         isOpen={openDialog}
         setIsOpen={setOpenDialog}
-        userAction={userAction}
-        selectedUser={selectedUser}
-        fetchUsers={fetchUsers}
+        {... { userAction, selectedUser, fetchUsers }}
       />
     </>
   );
