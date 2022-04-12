@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
-import FilterHeaders from './filters/filterHeaders';
+import FilterHeaders from './Filters/filterHeaders';
 import { IEvent, IStar } from '../../../types/interfaces';
 import { UserRole } from '../../../types/string-types';
 import { FilterDataType } from '../../../types/configurations';
