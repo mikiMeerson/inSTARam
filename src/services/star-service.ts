@@ -88,46 +88,16 @@ export const updateStar = async (
   }
 };
 
-export const updateStarField = async (
-  field: keyof IStar,
-  star: IStar,
-  newValue: number | string,
-): Promise<AxiosResponse<ApiStarsType>> => {
-  try {
-    const starUpdate = Object.assign(star, { [field]: newValue });
-
-    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
-      `${baseUrl}/stars/${star._id}`,
-      starUpdate,
-    );
-    return updatedStar;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-};
-
 export const updatePriorities = async (
   draggedStar: IStar,
   newPri: number,
-  stars: IStar[],
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    let axiosRes: Promise<
-        AxiosResponse<ApiStarsType>
-      > = updateStarField('priority', draggedStar, newPri);
-
-    let index: number;
-    index = newPri === 1 ? 2 : 1;
-    stars
-      .filter((star) => star.priority > 0 && star !== draggedStar)
-      .sort((star1, star2) => star1.priority - star2.priority)
-      .forEach((star) => {
-        axiosRes = updateStarField('priority', star, index);
-        index += 1;
-        if (index === newPri) index += 1;
-      });
-
-    return axiosRes;
+    const updatedStars: AxiosResponse<ApiStarsType> = await axios.put(
+      `${baseUrl}/prioritize-star/${draggedStar._id}`,
+      { newPri },
+    );
+    return updatedStars;
   } catch (error) {
     throw new Error(error as string);
   }

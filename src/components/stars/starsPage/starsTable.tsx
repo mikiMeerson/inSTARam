@@ -173,10 +173,10 @@ const StarsTable = ({
           </div>
         )}
         {filteredStars.length > 0 && filteredStars
-          .sort((a: IStar, b: IStar) => a.priority - b.priority)
-          .map((star: IStar, index: number) => (
+          .sort((star1, star2) => star1.priority - star2.priority)
+          .map((star: IStar) => (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-              {!unprioritized && (<div id="priority">{index + 1}</div>)}
+              {!unprioritized && (<div id="priority">{star.priority}</div>)}
               <StarRow
                 key={star._id}
                 {... {

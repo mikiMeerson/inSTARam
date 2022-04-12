@@ -87,16 +87,7 @@ const StarRow = ({
   const handleDrop = (e: BaseSyntheticEvent) => {
     e.currentTarget.style.borderTop = 'none';
     if (dragged) {
-      if (star.priority === 0) {
-        // if moved into the unprioritized table
-        changePriority(dragged, 0);
-      } else if (star.priority === 1) {
-        // if moved to top of prioritized table
-        changePriority(dragged, 1);
-      } else {
-        // if moved inside the prioritized table
-        changePriority(dragged, star.priority);
-      }
+      changePriority(dragged, star.priority);
     }
     setDragged(undefined);
   };
