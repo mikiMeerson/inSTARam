@@ -54,8 +54,7 @@ const BasicDetails = ({
             field="block"
             variant="outlined"
             fieldValues={BLOCKS}
-            register={register}
-            errors={errors}
+            {... { register, errors }}
           />
         </Grid>
         <Grid item xs={4}>
@@ -64,8 +63,7 @@ const BasicDetails = ({
             field="type"
             variant="outlined"
             fieldValues={EVENT_TYPES}
-            register={register}
-            errors={errors}
+            {... { register, errors }}
           />
         </Grid>
         <Grid item xs={4}>

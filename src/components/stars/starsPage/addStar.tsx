@@ -237,8 +237,7 @@ const AddStar = ({
                 fullWidth
                 field="name"
                 defaultValue={defaultValues.name}
-                register={register}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
           </Grid>
@@ -247,16 +246,14 @@ const AddStar = ({
               <SelectField
                 field="severity"
                 fieldValues={SEVERITIES}
-                register={register}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <SelectField
                 field="phase"
                 fieldValues={PHASES}
-                register={register}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -305,8 +302,7 @@ const AddStar = ({
             <InputField
               fullWidth
               field="desc"
-              register={register}
-              errors={errors}
+              {... { register, errors }}
             />
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '5px' }}>
@@ -314,24 +310,21 @@ const AddStar = ({
               <InputField
                 field="contact"
                 defaultValue={localStorage.getItem('userDisplay') || ''}
-                register={register}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <SelectField
                 field="assignee"
                 fieldValues={ASSIGNEES}
-                register={register}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <SelectField
                 field="computer"
                 fieldValues={computers}
-                register={register}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
           </Grid>
