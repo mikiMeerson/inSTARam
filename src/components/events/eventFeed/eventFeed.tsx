@@ -59,11 +59,9 @@ const Event = ({ userRole, handleAlert }: Props) => {
 
   const handleUpdateEvent = async (): Promise<void> => {
     const { status } = await updateEvent(event._id, event);
-    if (status !== StatusCodes.OK) {
-      handleAlert(false, 'לא הצלחנו לעדכן את האירוע');
-    } else {
-      handleAlert(true, 'האירוע עודכן בהצלחה');
-    }
+    status !== StatusCodes.OK
+      ? handleAlert(false, 'לא הצלחנו לעדכן את האירוע')
+      : handleAlert(true, 'האירוע עודכן בהצלחה');
   };
 
   return (

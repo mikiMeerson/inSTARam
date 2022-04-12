@@ -16,34 +16,27 @@ const SaveEditButton = ({
   onSave,
 }: Props) => (
   <div>
-    {(userRole !== 'viewer')
-      && (
-        isEdit ? (
-          <Fab
-            size="small"
-            color="secondary"
-            sx={{
-              background: 'blue',
-              color: 'white',
-            }}
-            onClick={onSave}
-          >
-            <SaveOutlined />
-          </Fab>
-        ) : (
-          <Fab
-            size="small"
-            color="secondary"
-            sx={{
-              background: 'goldenrod',
-              color: 'white',
-            }}
-            onClick={() => setIsEdit(true)}
-          >
-            <EditOutlined />
-          </Fab>
-        )
-      )}
+    {(userRole !== 'viewer') && (
+      isEdit ? (
+        <Fab
+          size="small"
+          color="secondary"
+          sx={{ background: 'blue', color: 'white' }}
+          onClick={onSave}
+        >
+          <SaveOutlined />
+        </Fab>
+      ) : (
+        <Fab
+          size="small"
+          color="secondary"
+          sx={{ background: 'goldenrod', color: 'white' }}
+          onClick={() => setIsEdit(true)}
+        >
+          <EditOutlined />
+        </Fab>
+      )
+    )}
   </div>
 );
 
