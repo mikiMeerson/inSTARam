@@ -1,12 +1,13 @@
+import { ReactElement } from 'react';
 import { IEvent, IStar } from './interfaces';
-import { userRole } from './string-types';
+import { UserRole } from './string-types';
 
-export interface starKeyDisplayType {
-    key: keyof IStar;
-    display: string;
-  }
+export interface StarKeyDisplayType {
+  key: keyof IStar;
+  display: string;
+}
 
-export const starKeyDisplay: starKeyDisplayType[] = [
+export const STAR_KEY_DISPLAY: StarKeyDisplayType[] = [
   {
     key: 'priority',
     display: 'עדיפות',
@@ -32,6 +33,10 @@ export const starKeyDisplay: starKeyDisplayType[] = [
     display: 'הועלה על ידי',
   },
   {
+    key: 'contact',
+    display: 'איש קשר',
+  },
+  {
     key: 'event',
     display: 'אירוע',
   },
@@ -48,6 +53,10 @@ export const starKeyDisplay: starKeyDisplayType[] = [
     display: 'בלוק',
   },
   {
+    key: 'phase',
+    display: 'שלב בבלוק',
+  },
+  {
     key: 'desc',
     display: 'תיאור',
   },
@@ -61,12 +70,12 @@ export const starKeyDisplay: starKeyDisplayType[] = [
   },
 ];
 
-export interface eventKeyDisplayType {
-    key: keyof IEvent;
-    display: string;
-  }
+export interface EventKeyDisplayType {
+  key: keyof IEvent;
+  display: string;
+}
 
-export const eventKeyDisplay: eventKeyDisplayType[] = [
+export const EVENT_KEY_DISPLAY: EventKeyDisplayType[] = [
   {
     key: 'name',
     display: 'שם האירוע',
@@ -149,65 +158,33 @@ export const eventKeyDisplay: eventKeyDisplayType[] = [
   },
 ];
 
-export const activityInfoArray = [
-  {
-    name: 'star',
-    action: 'יצר/ה את הסטאר',
-    isValue: false,
-  },
-  {
-    name: 'status',
-    action: 'שינת/ה את הסטטוס',
-    isValue: true,
-  },
-  {
-    name: 'note',
-    action: 'הוסיפ/ה הערה חדשה',
-    isValue: false,
-  },
-  {
-    name: 'assignee',
-    action: 'שינת/ה את האחראי',
-    isValue: true,
-  },
-  {
-    name: 'resources',
-    action: 'עדכנ/ה משאבים נדרשים',
-    isValue: false,
-  },
-  {
-    name: 'computer',
-    action: 'שינת/ה את המערכת',
-    isValue: true,
-  },
-];
+export type LinkDisplayType = {
+  display: string;
+  link: string;
+  role: UserRole;
+};
 
-export type linkDisplayType = {
-    display: string;
-    link: string;
-    role: userRole;
-  }
-
-export const pages: linkDisplayType[] = [
+export const pages: LinkDisplayType[] = [
   { display: 'סטארים', link: '/stars', role: 'viewer' },
   { display: 'אירועים', link: '/events', role: 'viewer' },
   { display: 'משתמשים', link: '/users', role: 'admin' },
 ];
 
-export interface filterDataType {
-    tabName: string;
-    filter: string[];
-    func: (param: string[]) => void;
-    chipColor: 'default'
+export interface FilterDataType {
+  tabName: string;
+  filter: string[];
+  func: (param: string[]) => void;
+  chipColor:
+    | 'default'
     | 'secondary'
     | 'primary'
     | 'error'
     | 'info'
     | 'success'
-    | 'warning',
-  }
+    | 'warning';
+}
 
-export const eventLists = [
+export const EVENT_LISTS: (keyof IEvent)[] = [
   'generalSummary',
   'goals',
   'dataSources',
@@ -217,14 +194,19 @@ export const eventLists = [
   'conclusions',
 ];
 
-export const eventFlightDetails = [
-  'assignee',
-  'team',
-  'reason',
+export const EVENT_FLIGHT_DETAILS: (keyof IEvent)[] = [
+  'assignee', 'team', 'reason',
 ];
 
-export const additionalEventDetails = [
-  'callSign',
-  'areas',
-  'duration',
+export const ADDITIONAL_EVENT_DETAILS: (keyof IEvent)[] = [
+  'callSign', 'areas', 'duration',
 ];
+
+export interface FilterField {
+  name: string;
+  activation: string;
+  displayName: string;
+  icon: ReactElement<unknown>;
+  isPrimary?: boolean;
+  options?: string[];
+}

@@ -24,17 +24,18 @@ import {
   getUserById,
   logout,
 } from '../../services/user-service';
+import { UserRole } from '../../types/string-types';
 
 interface userRowType {
   id: string;
   name: string;
   unit: string;
   username: string;
-  role: userRole;
+  role: UserRole;
   createdAt: string | null;
 }
 
-interface DialogProps {
+interface Props {
   isOpen: boolean;
   setIsOpen: (param: boolean) => void;
   userAction: 'delete' | 'edit' | undefined;
@@ -50,7 +51,7 @@ const UserDialog = ({
   userAction,
   selectedUser,
   fetchUsers,
-}: DialogProps) => {
+}: Props) => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({

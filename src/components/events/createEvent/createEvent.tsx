@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StatusCodes } from 'http-status-codes';
-import _ from 'lodash';
 import {
   Typography,
   Button,
@@ -24,24 +23,36 @@ import {
   IEvent,
 } from '../../../types/interfaces';
 import {
-  BAZ_COMPUTERS,
+  BazStationType,
+  RaamStationType,
   BAZ_STATIONS,
-  PLATFORMS,
-  RAAM_COMPUTERS,
   RAAM_STATIONS,
-} from '../../../types/enums';
+  RaamComputerType,
+  BazComputerType,
+  RAAM_COMPUTERS,
+  BAZ_COMPUTERS,
+  PLATFORMS,
+  PlatformType,
+} from '../../../types/string-types';
 import EventLists from '../commonEventFields/eventLists';
 import BasicDetails from './basicDetails';
 
-const CreateEvent = () => {
-  const [newEvent, setNewEvent] = useState<IEvent>(defaultRAAMEvent);
-  const [currDates, setCurrDates] = useState<Date[]>([]);
-  const [stations, setStations] = useState<RAAM_STATIONS[] | BAZ_STATIONS[]>(
-    Object.values(RAAM_STATIONS),
+interface Props {
+  handleAlert: (isSuccess: boolean, content: string) => void;
+  platformToShow: PlatformType;
+}
+
+const CreateEvent = ({ handleAlert, platformToShow }: Props) => {
+  const [newEvent, setNewEvent] = useState<IEvent>(
+    platformToShow === 'רעם' ? defaultRAAMEvent : defaultBAZEvent,
   );
+  const [currDates, setCurrDates] = useState<string[]>([]);
+  const [stations, setStations] = useState<
+    RaamStationType[] | BazStationType[]
+  >(platformToShow === 'רעם' ? RAAM_STATIONS : BAZ_STATIONS);
   const [computers, setComputers] = useState<
-    RAAM_COMPUTERS[] | BAZ_COMPUTERS[]
-  >(Object.values(RAAM_COMPUTERS));
+    RaamComputerType[] | BazComputerType[]
+  >(platformToShow === 'רעם' ? RAAM_COMPUTERS : BAZ_COMPUTERS);
 
   const navigate = useNavigate();
 
@@ -61,7 +72,7 @@ const CreateEvent = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const setAttr = (attr: keyof IEvent, value: any) => {
+  const setAttr = (attr: keyof IEvent, value: IEvent[keyof IEvent]) => {
     setNewEvent(Object.assign(newEvent, { [attr]: value }));
   };
 
@@ -70,24 +81,26 @@ const CreateEvent = () => {
     setAttr('type', data.type);
     setAttr('platform', data.platform);
     setAttr('block', data.block);
-    setAttr('dates', currDates);
+    setAttr('dates', [new Date(currDates[0]), new Date(currDates[1])]);
     setAttr('publisher', localStorage.getItem('userDisplay') || 'אנונימי');
     const { status } = await addEvent(newEvent);
     if (status !== StatusCodes.CREATED) {
-      console.log('Error! Could not create event');
+      handleAlert(false, 'לא הצלחנו ליצור את האירוע');
+    } else {
+      handleAlert(true, 'האירוע נוצר בהצלחה');
     }
     navigate('/events');
   };
 
   const handlePlatformChange = (e: any) => {
-    if (e.target.value === PLATFORMS.RAAM) {
-      setStations(Object.values(RAAM_STATIONS));
-      setComputers(Object.values(RAAM_COMPUTERS));
+    if (e.target.value === 'רעם') {
+      setStations(RAAM_STATIONS);
+      setComputers(RAAM_COMPUTERS);
       setNewEvent(defaultRAAMEvent);
     } else {
-      setStations(Object.values(BAZ_STATIONS));
+      setStations(BAZ_STATIONS);
       setNewEvent(defaultBAZEvent);
-      setComputers(Object.values(BAZ_COMPUTERS));
+      setComputers(BAZ_COMPUTERS);
     }
   };
 
@@ -112,14 +125,14 @@ const CreateEvent = () => {
               <Select
                 variant="outlined"
                 input={<OutlinedInput />}
-                defaultValue={newEvent.platform}
+                defaultValue={platformToShow}
                 {...register('platform')}
                 onChange={handlePlatformChange}
                 error={errors.platform?.message}
               >
-                {_.map(PLATFORMS, (value) => (
-                  <MenuItem key={value} value={value}>
-                    {value}
+                {PLATFORMS.map((platform) => (
+                  <MenuItem key={platform} value={platform}>
+                    {platform}
                   </MenuItem>
                 ))}
               </Select>
@@ -129,23 +142,18 @@ const CreateEvent = () => {
             </Typography>
           </div>
           <BasicDetails
-            register={register}
-            errors={errors}
-            currDates={currDates}
-            setCurrDates={setCurrDates}
+            {... { register, errors, currDates, setCurrDates }}
           />
           <EventDetails
             isValue={false}
             disabled={false}
-            setAttr={setAttr}
             event={newEvent}
+            {... { setAttr }}
           />
           <EventVersions
             isEditable
-            stations={stations}
-            computers={computers}
             event={newEvent}
-            setAttr={setAttr}
+            {... { stations, computers, setAttr }}
           />
           <EventLists event={newEvent} setAttr={setAttr} editable />
           <div style={{ display: 'flex', justifyContent: 'center' }}>

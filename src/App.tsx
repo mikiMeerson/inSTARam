@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Stars from './layouts/stars-layout';
 import Navbar from './components/navbar/navbar';
@@ -10,42 +10,39 @@ import Users from './components/users/users';
 import Home from './layouts/home-layout';
 import Events from './layouts/events-layout';
 import Profile from './components/users/profile';
-import { mainComponents, userRole } from './types/string-types';
+import { PlatformType, UserRole } from './types/string-types';
 
 const App = () => {
-  const [userRole, setUserRole] = useState<userRole | 'guest'>('guest');
-  const [currNavbar, setCurrNavbar] = useState<mainComponents>('home');
+  const getCurrPlatform = () => {
+    const tempPlatform = localStorage.getItem('platformToShow');
+    if (tempPlatform) return tempPlatform;
+    return 'רעם';
+  };
 
-  const getUserRole = useCallback(async (): Promise<void> => {
-    const res = await authorizeUser();
-    setUserRole(res);
-  }, []);
+  const [userRole, setUserRole] = useState<UserRole | 'guest'>('guest');
+  const [platformToShow, setPlatformToShow] = useState<PlatformType>(
+    getCurrPlatform(),
+  );
 
   useEffect(() => {
+    const getUserRole = async (): Promise<void> => {
+      const res = await authorizeUser();
+      setUserRole(res);
+    };
+
     const user = localStorage.getItem('user');
-    if (user) {
-      getUserRole();
-    }
+    if (user) getUserRole();
   }, [userRole]);
 
   if (userRole !== 'guest') {
     return (
       <div className="App" dir="rtl">
         <HashRouter>
-          <Navbar
-            userRole={userRole}
-            currNavbar={currNavbar}
-            setCurrNavbar={setCurrNavbar}
-          />
-          <Stars userRole={userRole} />
-          <Events userRole={userRole} />
+          <Navbar {...{ userRole }} />
+          <Stars {... { userRole, platformToShow, setPlatformToShow }} />
+          <Events {... { userRole, platformToShow }} />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <Home userRole={userRole} setCurrNavbar={setCurrNavbar} />
-            }
-            />
+            <Route path="/" element={<Home {... { userRole }} />} />
             <Route path="users" element={<Users />} />
             <Route path="profile" element={<Profile />} />
           </Routes>

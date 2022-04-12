@@ -12,14 +12,14 @@ import { DeleteOutlined } from '@mui/icons-material';
 import './styles/general.css';
 import { IEvent } from '../../types/interfaces';
 
-interface ListProps {
+interface Props {
     header: string;
     event: IEvent;
-    setCurrList: (attr: keyof IEvent, value: any) => void;
+    setCurrList: (attr: keyof IEvent, value: IEvent[keyof IEvent]) => void;
     attr: keyof IEvent;
 }
 
-const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
+const ListGenerator = ({ header, event, setCurrList, attr }: Props) => {
   const [newItem, setNewItem] = useState<string>('');
   const [list, setList] = useState<string[]>([]);
 
@@ -39,7 +39,7 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
 
   const handleDeleteItem = (deletedItem: string) => {
     setCurrList(attr, (event[attr] as string[])
-      .filter((f: string) => f !== deletedItem));
+      .filter((listItem: string) => listItem !== deletedItem));
     setList(event[attr] as string[]);
   };
 
@@ -47,12 +47,12 @@ const ListGenerator = ({ header, event, setCurrList, attr }: ListProps) => {
     <div className="list">
       <Typography variant="h6">{header}</Typography>
       <List>
-        {list.map((f: string, index: number) => (
-          <ListItem key={index} sx={{ textAlign: 'start' }}>
-            <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
+        {list.map((listItem: string, index: number) => (
+          <ListItem key={listItem} sx={{ textAlign: 'start' }}>
+            <IconButton edge="end" onClick={() => handleDeleteItem(listItem)}>
               <DeleteOutlined color="error" />
             </IconButton>
-            <ListItemText primary={`${index + 1}. ${f}`} />
+            <ListItemText primary={`${index + 1}. ${listItem}`} />
           </ListItem>
         ))}
       </List>

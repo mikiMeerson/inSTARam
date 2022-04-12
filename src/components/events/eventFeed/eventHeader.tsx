@@ -1,10 +1,10 @@
-import { EditOutlined, SaveOutlined } from '@mui/icons-material';
-import { Fab, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { IEvent } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import { UserRole } from '../../../types/string-types';
+import SaveEditButton from '../../general/saveEditButton';
 
-interface EventProps {
-    userRole: userRole;
+interface Props {
+  userRole: UserRole;
     event: IEvent;
     isEdit: boolean;
     setIsEdit: (param: boolean) => void;
@@ -17,7 +17,7 @@ const EventHeader = ({
   isEdit,
   setIsEdit,
   handleUpdateEvent,
-}: EventProps) => {
+}: Props) => {
   const getDisplayDate = (date: Date) => {
     date = new Date(date);
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
@@ -56,38 +56,10 @@ const EventHeader = ({
           )}
         </Typography>
       </div>
-      {(userRole !== 'viewer')
-            && (
-              isEdit ? (
-                <Fab
-                  size="small"
-                  color="primary"
-                  sx={{
-                    background: 'blue',
-                    color: 'white',
-                    width: '50px',
-                    height: '50px',
-                  }}
-                  onClick={() => handleSave()}
-                >
-                  <SaveOutlined />
-                </Fab>
-              ) : (
-                <Fab
-                  size="small"
-                  color="primary"
-                  sx={{
-                    background: 'goldenrod',
-                    color: 'white',
-                    width: '50px',
-                    height: '50px',
-                  }}
-                  onClick={() => setIsEdit(true)}
-                >
-                  <EditOutlined />
-                </Fab>
-              )
-            )}
+      <SaveEditButton
+        {... { userRole, isEdit, setIsEdit }}
+        onSave={handleSave}
+      />
     </div>
   );
 };

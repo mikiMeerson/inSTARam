@@ -8,24 +8,21 @@ import {
   Typography,
 } from '@mui/material';
 import { Computer, DeleteOutlined, FlightTakeoff } from '@mui/icons-material';
-import DialogAlert from '../general/dialogAlert';
-import { IEvent } from '../../types/interfaces';
-import { userRole } from '../../types/string-types';
-import { EVENT_TYPES } from '../../types/enums';
+import DialogAlert from '../../general/dialogAlert';
+import { IEvent } from '../../../types/interfaces';
+import { UserRole } from '../../../types/string-types';
 
-interface CardProps {
+interface Props {
     event: IEvent;
     handleDeleteEvent: (event: IEvent) => void;
-    setEventToDisplay: (param: string) => void;
-    userRole: userRole;
+  userRole: UserRole;
 }
 
 const EventCard = ({
   event,
   handleDeleteEvent,
-  setEventToDisplay,
   userRole,
-}: CardProps) => {
+}: Props) => {
   const [isEventDelete, setIsEventDelete] = useState<boolean>(false);
 
   const getDisplayDate = (date: Date) => {
@@ -35,19 +32,19 @@ const EventCard = ({
 
   const typeToIcon = [
     {
-      type: EVENT_TYPES.REG_FLIGHT,
+      type: 'גיחת טייסת',
       icon: <FlightTakeoff htmlColor="black" fontSize="large" />,
     },
     {
-      type: EVENT_TYPES.MANAT_FLIGHT,
+      type: 'גיחת מנט',
       icon: <FlightTakeoff htmlColor="black" fontSize="large" />,
     },
     {
-      type: EVENT_TYPES.DEV_TEST,
+      type: 'בדיקת פיתוח',
       icon: <Computer htmlColor="black" fontSize="large" />,
     },
     {
-      type: EVENT_TYPES.INT_TEST,
+      type: 'בדיקת אינטגרציה',
       icon: <Computer htmlColor="black" fontSize="large" />,
     },
   ];
@@ -55,7 +52,7 @@ const EventCard = ({
   return (
     <Card className="eventCard">
       <CardActionArea>
-        <NavLink to="event" onClick={() => setEventToDisplay(event._id)}>
+        <NavLink to={`/events/${event._id}`}>
           <div className="cardHeader">
             <IconButton disabled>
               {typeToIcon.find((element) => element.type === event.type)?.icon}

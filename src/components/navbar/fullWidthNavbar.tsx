@@ -1,24 +1,22 @@
 import { StarOutline } from '@mui/icons-material';
 import { Typography, Box, Button } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import { linkDisplayType } from '../../types/configurations';
-import { userRole, mainComponents } from '../../types/string-types';
+import { LinkDisplayType } from '../../types/configurations';
+import { UserRole } from '../../types/string-types';
 
-interface NavbarProps {
-  pages: linkDisplayType[];
+interface Props {
+  pages: LinkDisplayType[];
   setAnchorElNav: (param: any) => void;
-  userRole: userRole;
-  setCurrNavbar: (param: mainComponents) => void;
+  userRole: UserRole;
 }
 
 const FullWidthNavbar = ({
   pages,
   setAnchorElNav,
   userRole,
-  setCurrNavbar,
-}: NavbarProps) => (
+}: Props) => (
   <>
-    <Link to="/" onClick={() => setCurrNavbar('home')}>
+    <Link to="/">
       <Typography
         variant="h6"
         noWrap
@@ -30,16 +28,10 @@ const FullWidthNavbar = ({
     </Link>
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       {pages
-        .filter((p) => p.role === 'viewer'
-        || userRole === p.role || userRole === 'admin')
-        .map((page: linkDisplayType) => (
-          <NavLink
-            to={page.link}
-            key={page.link}
-            onClick={() => setCurrNavbar(
-              page.link.substring(1) as mainComponents,
-            )}
-          >
+        .filter((page) => page.role === 'viewer'
+        || userRole === page.role || userRole === 'admin')
+        .map((page: LinkDisplayType) => (
+          <NavLink to={page.link} key={page.link}>
             <Button
               key={page.display}
               onClick={() => setAnchorElNav(undefined)}

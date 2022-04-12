@@ -1,48 +1,76 @@
-import { Route, Routes, Outlet } from 'react-router';
 import { useState } from 'react';
-import EventsMain from '../components/events/eventsMain';
+import { Route, Routes, Outlet } from 'react-router';
+import { Alert } from '@mui/material';
+import EventsMain from '../components/events/eventsPage/eventsMain';
 import CreateEvent from '../components/events/createEvent/createEvent';
 import Event from '../components/events/eventFeed/eventFeed';
-import { userRole } from '../types/string-types';
+import { PlatformType, UserRole } from '../types/string-types';
+import { IAlert } from '../types/interfaces';
 
-interface eventProps {
-  userRole: userRole;
+interface Props {
+  userRole: UserRole;
+  platformToShow: PlatformType;
 }
 
-const Events = ({ userRole }: eventProps) => {
-  const [eventToDisplay, setEventToDisplay] = useState<string>();
+const Events = ({ userRole, platformToShow }: Props) => {
+  const [alert, setAlert] = useState<IAlert>({
+    isAlert: false,
+    content: '',
+    severity: 'info',
+  });
+
+  const handleAlert = (
+    isSuccess: boolean,
+    content: string,
+  ) => {
+    setAlert({
+      isAlert: true,
+      content,
+      severity: isSuccess ? 'success' : 'error',
+    });
+    setTimeout(() => {
+      setAlert(Object.assign(alert, { isAlert: false }));
+    }, 3000);
+  };
   return (
-    <Routes>
-      <Route path="events/*">
-        <Route
-          index
-          element={(
-            <EventsMain
-              userRole={userRole}
-              setEventToDisplay={setEventToDisplay}
-            />
-          )}
-        />
-        <Route
-          path="event"
-          element={(
-            <>
-              <Event eventId={eventToDisplay} userRole={userRole} />
-              <Outlet />
-            </>
-        )}
-        />
-        <Route
-          path="create"
-          element={(
-            <>
-              <CreateEvent />
-              <Outlet />
-            </>
+    <>
+      {alert.isAlert && (
+        <Alert
+          color={alert.severity}
+          sx={{ position: 'absolute', bottom: '5%', zIndex: 1 }}
+        >
+          {alert.content}
+        </Alert>
       )}
-        />
-      </Route>
-    </Routes>
+      <Routes>
+        <Route path="events/*">
+          <Route
+            index
+            element={(
+              <EventsMain {... { userRole, handleAlert, platformToShow }} />
+            )}
+          />
+          <Route
+            path=":id"
+            element={(
+              <>
+                <Event {... { userRole, handleAlert }} />
+                <Outlet />
+              </>
+            )}
+          />
+          <Route
+            path="create"
+            element={(
+              <>
+                <CreateEvent {... { handleAlert, platformToShow }} />
+                <Outlet />
+              </>
+          )}
+          />
+        </Route>
+      </Routes>
+    </>
   );
 };
 

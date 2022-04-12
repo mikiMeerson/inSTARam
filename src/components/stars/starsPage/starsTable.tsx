@@ -1,36 +1,36 @@
-import { BaseSyntheticEvent, useState } from 'react';
+import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
-import FiltersHeader from './Filters/filtersHeader';
-import { IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
-import { filterDataType } from '../../../types/configurations';
+import FilterHeaders from './filters/filterHeaders';
+import { IEvent, IStar } from '../../../types/interfaces';
+import { UserRole } from '../../../types/string-types';
+import { FilterDataType } from '../../../types/configurations';
 
-interface starProps {
-  userRole: userRole;
+interface Props {
+  userRole: UserRole;
   unprioritized: boolean;
   stars: IStar[];
-  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;
   setDragged: (star: IStar | undefined) => void;
+  events: IEvent[];
 }
 
 const StarsTable = ({
   userRole,
   unprioritized,
   stars,
-  setFeed,
   removeStar,
   changePriority,
   dragged,
   setDragged,
-}: starProps) => {
+  events,
+}: Props) => {
   const getExistingFilters = (filterName: string) => {
     const existingFilter = unprioritized
-      ? localStorage.getItem(`${filterName} filter unprioritized`)
-      : localStorage.getItem(`${filterName} filter prioritized`);
+      ? localStorage.getItem(`stars ${filterName} unprioritized`)
+      : localStorage.getItem(`stars ${filterName} `);
     return existingFilter ? JSON.parse(existingFilter) : [];
   };
 
@@ -52,9 +52,10 @@ const StarsTable = ({
   const [dateFilter, setDateFilter] = useState<string[]>(
     getExistingFilters('date'),
   );
-  const [nameFilter, setNameFilter] = useState<string>('');
+  const [freeTextFilter, setFreeTextFilter] = useState<string>('');
+  const [filteredStars, setFilteredStars] = useState<IStar[]>([]);
 
-  const filtersData: filterDataType[] = [
+  const filtersData: FilterDataType[] = [
     {
       tabName: 'status',
       filter: statusFilter,
@@ -93,34 +94,41 @@ const StarsTable = ({
     },
   ];
 
-  const getFilteredStars = () => {
-    if (filtersData.every((f) => f.filter.length === 0) && nameFilter === '') {
-      return stars;
-    }
-
-    const filteredStars: IStar[] = [];
-    stars.forEach((s) => {
-      if ((nameFilter === '' || s.name.includes(nameFilter))
-        && (statusFilter.length === 0 || statusFilter.includes(s.status))
-        && (blockFilter.length === 0 || blockFilter.includes(s.block))
-        && (assigneeFilter.length === 0 || assigneeFilter.includes(s.assignee))
-        && (resourceFilter.length === 0
-          || resourceFilter.some((element) => s.resources.includes(element))
-        )
+  useEffect(() => {
+    const tempFilteredStars: IStar[] = [];
+    stars.forEach((star) => {
+      if ((freeTextFilter === ''
+        || star.name.includes(freeTextFilter)
+        || star.desc.includes(freeTextFilter))
+        && (statusFilter.length === 0 || statusFilter.includes(star.status))
+        && (blockFilter.length === 0 || blockFilter.includes(star.block))
+        && (assigneeFilter.length === 0
+          || assigneeFilter.includes(star.assignee))
         && (computerFilter.length === 0
-          || (s.computer && computerFilter.includes(s.computer)))
-        && (dateFilter.length === 0 || (s.createdAt
-          && new Date(s.createdAt) >= new Date(dateFilter[0])
-          && new Date(s.createdAt) <= new Date(
+          || computerFilter.includes(star.computer))
+        && (resourceFilter.length === 0 || resourceFilter
+          .some((element) => star.resources.includes(element)))
+        && (dateFilter.length === 0 || (star.createdAt
+          && new Date(star.createdAt) >= new Date(dateFilter[0])
+          && new Date(star.createdAt) <= new Date(
             new Date(dateFilter[1]).getFullYear(),
             new Date(dateFilter[1]).getMonth(),
             new Date(dateFilter[1]).getDate() + 1,
           )))) {
-        filteredStars.push(s);
+        tempFilteredStars.push(star);
       }
     });
-    return filteredStars;
-  };
+    setFilteredStars(tempFilteredStars);
+  }, [
+    stars,
+    assigneeFilter,
+    blockFilter,
+    computerFilter,
+    dateFilter,
+    freeTextFilter,
+    resourceFilter,
+    statusFilter,
+  ]);
 
   const handleDragOver = (e: BaseSyntheticEvent) => {
     if (!(unprioritized && dragged?.priority === 0)) {
@@ -145,41 +153,43 @@ const StarsTable = ({
   return (
     <div
       style={{
-        flexGrow: 1,
         height: '100%',
+        width: '100%',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
       }}
     >
-      <FiltersHeader
-        unprioritized={unprioritized}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
-        filtersData={filtersData}
+      <FilterHeaders
+        {... { unprioritized, freeTextFilter, setFreeTextFilter, filtersData }}
       />
       <div className="starsTable">
-        {getFilteredStars().length === 0 && (
+        {filteredStars.length === 0 && (
           <div style={{ textAlign: 'center' }}>
             <Typography variant="caption">
               לא נמצאו סטארים
             </Typography>
           </div>
         )}
-        {getFilteredStars().length > 0 && getFilteredStars()
+        {filteredStars.length > 0 && filteredStars
           .sort((a: IStar, b: IStar) => a.priority - b.priority)
-          .map((star: IStar) => (
-            <StarRow
-              userRole={userRole}
-              key={star._id}
-              star={star}
-              setFeed={setFeed}
-              removeStar={removeStar}
-              changePriority={changePriority}
-              dragged={dragged}
-              setDragged={setDragged}
-            />
+          .map((star: IStar, index: number) => (
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              {!unprioritized && (<div id="priority">{index + 1}</div>)}
+              <StarRow
+                key={star._id}
+                {... {
+                  userRole,
+                  star,
+                  removeStar,
+                  changePriority,
+                  dragged,
+                  setDragged,
+                }}
+                event={events.find((event) => event._id === star.event)}
+              />
+            </div>
           ))}
         <div
           style={{ width: '100%', height: '50px' }}

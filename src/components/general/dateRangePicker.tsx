@@ -1,18 +1,20 @@
 import { Dialog, DialogActions, Button } from '@mui/material';
 import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
-interface dateProps {
+interface Props {
     isDatePick: boolean;
     setIsDatePick: (param: boolean) => void;
-    currDates: Date[];
-    setCurrDates: (param: Date[]) => void;
+    dates: string[];
+    setDates: (param: string[]) => void;
 }
 const DateRangePicker = ({
   isDatePick,
   setIsDatePick,
-  currDates,
-  setCurrDates,
-} : dateProps) => (
+  dates,
+  setDates,
+}: Props) => (
   <Dialog
     dir="ltr"
     open={isDatePick}
@@ -23,14 +25,17 @@ const DateRangePicker = ({
       onChange={
           (item) => {
             if (item.selection.startDate && item.selection.endDate) {
-              setCurrDates([item.selection.startDate, item.selection.endDate]);
+              setDates([
+                item.selection.startDate.toString(),
+                item.selection.endDate.toString(),
+              ]);
             }
           }
       }
       moveRangeOnFirstSelection={false}
       ranges={[{
-        startDate: currDates.length > 0 ? currDates[0] : new Date(),
-        endDate: currDates.length > 0 ? currDates[1] : new Date(),
+        startDate: dates.length > 0 ? new Date(dates[0]) : new Date(),
+        endDate: dates.length > 0 ? new Date(dates[1]) : new Date(),
         key: 'selection',
       }]}
     />

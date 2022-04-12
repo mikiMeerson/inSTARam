@@ -13,47 +13,51 @@ import {
   ErrorOutline,
   PriorityHigh,
   WarningAmber,
+  KeyboardDoubleArrowDown,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
-import { userRole } from '../../../types/string-types';
-import { IStar } from '../../../types/interfaces';
-import { SEVERITIES } from '../../../types/enums';
+import { UserRole } from '../../../types/string-types';
+import { IEvent, IStar } from '../../../types/interfaces';
 
-interface starProps {
-  userRole: userRole;
+interface Props {
+  userRole: UserRole;
   star: IStar;
-  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;
   setDragged: (star: IStar | undefined) => void;
+  event: IEvent | undefined;
 }
 const StarRow = ({
   userRole,
   star,
-  setFeed,
   removeStar,
   changePriority,
   dragged,
   setDragged,
-}: starProps) => {
+  event,
+}: Props) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   const severityIcons = [
     {
-      severity: SEVERITIES.VERY_SERIOUS,
+      severity: 'חמור מאוד (1)',
       icon: <PriorityHigh fontSize="large" color="error" />,
     },
     {
-      severity: SEVERITIES.SERIOUS,
+      severity: 'חמור (2)',
       icon: <ErrorOutline fontSize="large" color="warning" />,
     },
     {
-      severity: SEVERITIES.MEDIUM,
+      severity: 'בינוני (3)',
       icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
     },
     {
-      severity: SEVERITIES.SLIGHT,
+      severity: 'קל (4)',
+      icon: <KeyboardDoubleArrowDown fontSize="large" color="info" />,
+    },
+    {
+      severity: 'במעקב (99)',
       icon: <ArrowDownward fontSize="large" color="disabled" />,
     },
   ];
@@ -113,7 +117,10 @@ const StarRow = ({
           >
             <TableCell align="center" width="40px">
               <span className="severityIcon">
-                {severityIcons.find((i) => i.severity === star.severity)?.icon}
+                {severityIcons
+                  .find(
+                    (severity) => severity.severity === star.severity,
+                  )?.icon}
               </span>
             </TableCell>
             <TableCell width="105px" align="center">{star.name}</TableCell>
@@ -123,20 +130,13 @@ const StarRow = ({
               {getCreationTime()}
             </TableCell>
             <TableCell width="60px" align="center">
-              {star.platform}
-              {' '}
-              {star.block}
+              {`${star.platform} ${star.block}`}
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: 'hidden' }}>
-        <StarExpand
-          userRole={userRole}
-          star={star}
-          setFeed={setFeed}
-          removeStar={deleteStar}
-        />
+        <StarExpand {... { userRole, star, event, deleteStar }} />
       </Collapse>
     </TableContainer>
   );

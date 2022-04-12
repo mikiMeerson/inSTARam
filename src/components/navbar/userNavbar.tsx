@@ -13,11 +13,11 @@ import {
 import { AccountCircle } from '@mui/icons-material';
 import { logout } from '../../services/user-service';
 
-interface NavbarProps {
+interface Props {
   setAnchorElNav: (param: any) => void;
 }
 
-const UserNavbar = ({ setAnchorElNav }: NavbarProps) => {
+const UserNavbar = ({ setAnchorElNav }: Props) => {
   const [anchorElUser, setAnchorElUser] = useState();
   const navigate = useNavigate();
 

@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { StatusCodes } from 'http-status-codes';
 import { Box, CircularProgress } from '@mui/material';
 import { getEventById, updateEvent } from '../../../services/event-service';
@@ -9,43 +9,38 @@ import EventHeader from './eventHeader';
 import EventLists from '../commonEventFields/eventLists';
 import { IEvent } from '../../../types/interfaces';
 import {
-  BAZ_COMPUTERS,
-  BAZ_STATIONS,
-  PLATFORMS,
-  RAAM_COMPUTERS,
+  UserRole,
   RAAM_STATIONS,
-} from '../../../types/enums';
-import { userRole } from '../../../types/string-types';
+  BAZ_STATIONS,
+  RAAM_COMPUTERS,
+  BAZ_COMPUTERS,
+} from '../../../types/string-types';
 
-interface eventProps {
-    eventId: string | undefined;
-    userRole: userRole;
+interface Props {
+  userRole: UserRole;
+  handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
-const Event = ({ eventId, userRole }: eventProps) => {
+const Event = ({ userRole, handleAlert }: Props) => {
   const [event, setEvent] = useState<IEvent>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
-  if (!eventId) {
-    const navigate = useNavigate();
-    navigate('/events');
-    return null;
-  }
-
-  const fetchEvent = useCallback(async (): Promise<void> => {
-    const { status, data } = await getEventById(eventId);
-    if (status !== StatusCodes.OK) {
-      throw new Error('Error! Event not found');
-    }
-    setEvent(data.event);
-  }, [eventId]);
+  const { id } = useParams();
 
   useEffect(() => {
-    setLoading(true);
+    const fetchEvent = async (): Promise<void> => {
+      if (id) {
+        const { status, data } = await getEventById(id);
+        if (status !== StatusCodes.OK) {
+          throw new Error('Error! Event not found');
+        }
+        setEvent(data.event);
+        setLoading(false);
+      }
+    };
+
     fetchEvent();
-    setLoading(false);
-  }, []);
+  }, [id]);
 
   if (!event) {
     return (
@@ -58,13 +53,15 @@ const Event = ({ eventId, userRole }: eventProps) => {
     );
   }
 
-  const setAttr = (attr: keyof IEvent, value: any) => {
+  const setAttr = (attr: keyof IEvent, value: IEvent[keyof IEvent]) => {
     setEvent(Object.assign(event, { [attr]: value }));
   };
 
   const handleUpdateEvent = async (): Promise<void> => {
     const { status } = await updateEvent(event._id, event);
-    if (status !== StatusCodes.OK) console.log('Could not update event');
+    status !== StatusCodes.OK
+      ? handleAlert(false, 'לא הצלחנו לעדכן את האירוע')
+      : handleAlert(true, 'האירוע עודכן בהצלחה');
   };
 
   return (
@@ -79,30 +76,27 @@ const Event = ({ eventId, userRole }: eventProps) => {
       )}
       <div className="eventFeed">
         <EventHeader
-          userRole={userRole}
-          event={event}
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          handleUpdateEvent={handleUpdateEvent}
+          {... { userRole, event, isEdit, setIsEdit, handleUpdateEvent }}
         />
         <EventDetails
-          event={event}
-          setAttr={setAttr}
+          {... { event, setAttr }}
           disabled={!isEdit}
           isValue
         />
         <EventVersions
+          {... { event, setAttr }}
           isEditable={isEdit}
-          event={event}
-          stations={event.platform === PLATFORMS.RAAM
-            ? Object.values(RAAM_STATIONS)
-            : Object.values(BAZ_STATIONS)}
-          computers={event.platform === PLATFORMS.RAAM
-            ? Object.values(RAAM_COMPUTERS)
-            : Object.values(BAZ_COMPUTERS)}
-          setAttr={setAttr}
+          stations={event.platform === 'רעם'
+            ? RAAM_STATIONS
+            : BAZ_STATIONS}
+          computers={event.platform === 'רעם'
+            ? RAAM_COMPUTERS
+            : BAZ_COMPUTERS}
         />
-        <EventLists event={event} editable={isEdit} setAttr={setAttr} />
+        <EventLists
+          {... { event, setAttr, handleAlert }}
+          editable={isEdit}
+        />
       </div>
     </>
   );

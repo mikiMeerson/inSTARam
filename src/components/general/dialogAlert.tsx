@@ -7,12 +7,12 @@ import {
   Button,
 } from '@mui/material';
 
-interface AlertProps {
+interface Props {
     header: string;
     content: string;
     isOpen: boolean;
     setIsOpen: (param: boolean) => void;
-    activateResponse?: (param:any) => any;
+    activateResponse?: (param: any) => any;
     param?: any;
 }
 
@@ -23,7 +23,7 @@ const DialogAlert = ({
   setIsOpen,
   activateResponse,
   param,
-}: AlertProps) => (
+}: Props) => (
   <Dialog
     open={isOpen}
     onClose={() => setIsOpen(false)}
@@ -42,7 +42,7 @@ const DialogAlert = ({
         variant="contained"
         onClick={() => {
           setIsOpen(false);
-          (activateResponse && param) && activateResponse(param);
+          if (activateResponse && param) activateResponse(param);
         }}
         autoFocus
       >

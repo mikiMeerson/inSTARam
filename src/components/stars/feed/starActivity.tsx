@@ -1,11 +1,12 @@
 import { Typography } from '@mui/material';
+import { IActivity } from '../../../types/interfaces';
 import ActivityItem from './activityItem';
 
-interface activityProps {
+interface Props {
   activity: IActivity[];
 }
 
-const StarActivity = ({ activity }: activityProps) => {
+const StarActivity = ({ activity }: Props) => {
   if (activity.length === 0) {
     return (
       <div className="feedSection" id="activity">
@@ -49,7 +50,7 @@ const StarActivity = ({ activity }: activityProps) => {
                 getDisplayDate(new Date(log.createdAt)),
               ).getTime() === currDate.getTime())
                 .map((log: IActivity) => (
-                  <ActivityItem key={log._id} log={log} />
+                  <ActivityItem key={log._id} {... { log }} />
                 ))
             }
           </div>

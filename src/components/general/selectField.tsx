@@ -7,14 +7,16 @@ import {
   Typography,
   OutlinedInput,
 } from '@mui/material';
-import _ from 'lodash';
 import { UseFormRegister } from 'react-hook-form';
-import { eventKeyDisplay, starKeyDisplay } from '../../types/configurations';
+import {
+  EVENT_KEY_DISPLAY,
+  STAR_KEY_DISPLAY,
+} from '../../types/configurations';
 import { IEvent, IStar } from '../../types/interfaces';
 
-interface fieldProps {
+interface Props {
   field: keyof IStar | keyof IEvent;
-  fieldValues: any;
+  fieldValues: string[];
   register: UseFormRegister<any>;
   errors: {[x: string]: any};
   defaultValue?: any;
@@ -32,13 +34,15 @@ const SelectField = ({
   disabled,
   element,
   variant,
-}: fieldProps) => (
+}: Props) => (
   <>
     <FormControl sx={{ width: '100%' }}>
       <InputLabel>
         {element === 'star'
-          ? starKeyDisplay.find((k) => k.key === field)?.display
-          : eventKeyDisplay.find((k) => k.key === field)?.display}
+          ? STAR_KEY_DISPLAY
+            .find((starKey) => starKey.key === field)?.display
+          : EVENT_KEY_DISPLAY
+            .find((eventKey) => eventKey.key === field)?.display}
       </InputLabel>
       <Select
         disabled={disabled}
@@ -48,7 +52,7 @@ const SelectField = ({
         {...register(field)}
         error={errors[field]}
       >
-        {_.map(fieldValues, (value: string) => (
+        {fieldValues.map((value) => (
           <MenuItem key={value} value={value}>
             {value}
           </MenuItem>

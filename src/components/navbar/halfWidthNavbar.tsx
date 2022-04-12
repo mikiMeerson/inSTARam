@@ -3,15 +3,14 @@ import { StarOutline } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Typography, Box, MenuItem, Menu } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import { linkDisplayType } from '../../types/configurations';
-import { mainComponents, userRole } from '../../types/string-types';
+import { LinkDisplayType } from '../../types/configurations';
+import { UserRole } from '../../types/string-types';
 
-interface NavbarProps {
-  pages: linkDisplayType[];
+interface Props {
+  pages: LinkDisplayType[];
   setAnchorElNav: (param: any) => void;
   anchorElNav: any;
-  userRole: userRole;
-  setCurrNavbar: (param: mainComponents) => void;
+  userRole: UserRole;
 }
 
 const HalfWidthNavBar = ({
@@ -19,10 +18,9 @@ const HalfWidthNavBar = ({
   anchorElNav,
   setAnchorElNav,
   userRole,
-  setCurrNavbar,
-}: NavbarProps) => (
+}: Props) => (
   <>
-    <Link to="/" onClick={() => setCurrNavbar('home')}>
+    <Link to="/">
       <Typography
         variant="h6"
         noWrap
@@ -64,18 +62,11 @@ const HalfWidthNavBar = ({
         }}
       >
         {pages
-          .filter((p) => p.role === 'viewer'
-            || userRole === p.role || userRole === 'admin')
-          .map((page: linkDisplayType, index) => (
-            <NavLink
-              to={page.link}
-              key={index}
-              onClick={() => setCurrNavbar(
-                page.link.substring(1) as mainComponents,
-              )}
-            >
+          .filter((page) => page.role === 'viewer'
+            || userRole === page.role || userRole === 'admin')
+          .map((page: LinkDisplayType) => (
+            <NavLink to={page.link} key={page.display}>
               <MenuItem
-                key={page.display}
                 onClick={() => setAnchorElNav(undefined)}
               >
                 <Typography textAlign="center">{page.display}</Typography>

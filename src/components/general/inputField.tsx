@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
-import { eventKeyDisplay, starKeyDisplay } from '../../types/configurations';
+import {
+  EVENT_KEY_DISPLAY,
+  STAR_KEY_DISPLAY,
+} from '../../types/configurations';
 import { IStar } from '../../types/interfaces';
 
-interface fieldProps {
+interface Props {
   field: keyof IStar;
   register: UseFormRegister<any>;
   errors: {[x: string]: any};
@@ -26,26 +30,33 @@ const InputField = ({
   variant,
   sx,
   element,
-}: fieldProps) => (
-  <>
-    <TextField
-      fullWidth={fullWidth}
-      disabled={disabled}
-      multiline={multiline}
-      variant={variant}
-      sx={sx}
-      defaultValue={defaultValue}
-      label={element === 'star'
-        ? starKeyDisplay.find((k) => k.key === field)?.display
-        : eventKeyDisplay.find((k) => k.key === field)?.display}
-      {...register(field)}
-      error={errors[field]}
-    />
-    <Typography variant="inherit" color="textSecondary">
-      {errors[field]?.message}
-    </Typography>
-  </>
-);
+}: Props) => {
+  const [value, setValue] = useState<string>(defaultValue || '');
+
+  return (
+    <>
+      <TextField
+        fullWidth={fullWidth}
+        disabled={disabled}
+        multiline={multiline}
+        variant={variant}
+        sx={sx}
+        value={value}
+        label={element === 'star'
+          ? STAR_KEY_DISPLAY
+            .find((starKey) => starKey.key === field)?.display
+          : EVENT_KEY_DISPLAY
+            .find((eventKey) => eventKey.key === field)?.display}
+        {...register(field)}
+        onChange={(e) => setValue(e.target.value)}
+        error={errors[field]}
+      />
+      <Typography variant="inherit" color="textSecondary">
+        {errors[field]?.message}
+      </Typography>
+    </>
+  );
+};
 
 export default InputField;
 

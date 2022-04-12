@@ -2,30 +2,30 @@ import { BaseSyntheticEvent, useState } from 'react';
 import { Collapse, SpeedDial, SpeedDialIcon, Button } from '@mui/material';
 import { StarBorder, ChevronRight, MenuOpenSharp } from '@material-ui/icons';
 import StarsTable from './starsTable';
-import { IStar } from '../../../types/interfaces';
-import { userRole } from '../../../types/string-types';
+import { IEvent, IStar } from '../../../types/interfaces';
+import { UserRole } from '../../../types/string-types';
 
-interface tableProps {
-  userRole: userRole;
+interface Props {
+  userRole: UserRole;
   stars: IStar[];
   toggleAddStar: (param: boolean) => void;
-  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;
   setDragged: (param: IStar | undefined) => void;
+  events: IEvent[];
 }
 
 const NoPriority = ({
   userRole,
   stars,
   toggleAddStar,
-  setFeed,
   removeStar,
   changePriority,
   dragged,
   setDragged,
-}: tableProps) => {
+  events,
+}: Props) => {
   const [hideNoPriority, toggleHideNoPriority] = useState<boolean>(false);
 
   const handleDrop = () => {
@@ -35,11 +35,11 @@ const NoPriority = ({
   };
 
   return (
-    <>
+    <div>
       <Collapse
         orientation="horizontal"
         in={!hideNoPriority}
-        sx={{ overflow: 'hidden', width: 'fit-content', height: '100%' }}
+        sx={{ overflow: 'hidden', width: '100%', height: '100%' }}
         classes={{
           root: hideNoPriority ? 'collapseClosed' : 'collapseOpen',
           wrapperInner: hideNoPriority
@@ -70,14 +70,16 @@ const NoPriority = ({
             <h3>ממתינים לתיעדוף</h3>
           </div>
           <StarsTable
-            userRole={userRole}
+            {... {
+              userRole,
+              stars,
+              removeStar,
+              changePriority,
+              dragged,
+              setDragged,
+              events,
+            }}
             unprioritized
-            setFeed={setFeed}
-            stars={stars}
-            removeStar={removeStar}
-            changePriority={changePriority}
-            dragged={dragged}
-            setDragged={setDragged}
           />
         </div>
       </Collapse>
@@ -100,7 +102,7 @@ const NoPriority = ({
           ? <ChevronRight fontSize="small" htmlColor="white" />
           : <MenuOpenSharp fontSize="small" htmlColor="white" />}
       </Button>
-    </>
+    </div>
   );
 };
 

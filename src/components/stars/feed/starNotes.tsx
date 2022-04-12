@@ -2,20 +2,21 @@ import { Typography } from '@mui/material';
 import { useState } from 'react';
 import Note from './note';
 import AddComment from './addComment';
+import { INote } from '../../../types/interfaces';
 
-interface notesProps {
+interface Props {
   notes: INote[];
   addNote: (note: INote) => void;
   deleteNote: (noteId: string) => void;
 }
-const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
+const StarNotes = ({ notes, addNote, deleteNote }: Props) => {
   const [replyTo, setReplyTo] = useState<INote | undefined>(undefined);
 
   const getNotes = () => notes.filter(
-    (n: INote) => n.repliesTo === undefined,
+    (note: INote) => note.repliesTo === undefined,
   );
   const getReplies = (note: INote) => notes.filter(
-    (n: INote) => n.repliesTo === note._id,
+    (reply: INote) => reply.repliesTo === note._id,
   );
 
   if (notes.length === 0) {
@@ -39,17 +40,13 @@ const StarNotes = ({ notes, addNote, deleteNote }: notesProps) => {
         {getNotes().map((note: INote) => (
           <Note
             key={note._id}
-            notes={notes}
-            note={note}
+            {... { notes, note, replyTo, setReplyTo, deleteNote }}
             replies={getReplies(note)}
             replyBranch={0}
-            replyTo={replyTo}
-            setReplyTo={setReplyTo}
-            deleteNote={deleteNote}
           />
         ))}
       </div>
-      <AddComment replyTo={replyTo} addNote={addNote} setReplyTo={setReplyTo} />
+      <AddComment {... { replyTo, addNote, setReplyTo }} />
     </div>
   );
 };
