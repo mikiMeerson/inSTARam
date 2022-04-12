@@ -1,0 +1,6 @@
+.list {
+    border: 1px solid silver;
+    border-radius: 2px;
+    padding: 15px !important;
+    margin: 10px;
+}

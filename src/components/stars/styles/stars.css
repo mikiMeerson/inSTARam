@@ -2,17 +2,23 @@
     height: 85%;
 }
 
-.pageHeader {
+.starsHeader {
     display: flex;
     justify-content: space-between;
     width: 95%;
     margin-top: 5px;
 }
 
-.pageHeader > h1 {
-    margin: 0% 4% 0 0;
+.starsHeader > div {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.starsHeader > div > h1 {
+    margin: 0% 4% 0 4%;
     font-weight: 500;
-    font-size: 350%;
+    font-size: 55px;
     color: rgb(105, 7, 105);
 }
 
@@ -69,17 +75,12 @@
     text-align: center;
 }
 
-.dropDownIcon  {
-    font-size: 17px !important;
-    margin-right: 5px !important;    
-}
-
-
 .noPriority > h3 {
     width: 100%;
     text-align: center;
     margin: 3%;
 }
+
 
 .starRow {
     margin-bottom: 30px;
@@ -98,10 +99,11 @@
 }
 
 #priority {
-    margin: 1%;
+    display: flex;
+    align-items: center;
+    margin: 0 0 40px 20px;
     font-size: 120%;
-    font-weight: 900;
-    color: rgb(224, 58, 16);
+    font-weight: 600;
 }
 
 .addStar {
@@ -120,12 +122,17 @@
     text-align: right !important;
 }
 
-.searchSection, .optionSection, .filterSection {
+.addStarActions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+}
+
+.filterSection {
     position: fixed;
     height: 50px;
-}
-.optionSection, .filterSection {
     padding: 15px;
+    display: flex;
 }
 
 .severityIcon * {
@@ -138,10 +145,6 @@
     flex-grow: 1;
     border: 1px solid silver;
 }
-
- .collapseInnerWrapperOpen {
-     flex-grow: 1;
- }
 
  @media only screen and (max-width: 1300px) {
     .noPriority, .collapseOpen, .collapseButton {

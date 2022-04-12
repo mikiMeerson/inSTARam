@@ -7,9 +7,10 @@ import {
   Divider,
 } from '@mui/material';
 import { useState } from 'react';
+import { INote } from '../../../types/interfaces';
 import DialogAlert from '../../general/dialogAlert';
 
-interface noteProps {
+interface Props {
   notes: INote[];
   note: INote;
   replies: INote[];
@@ -26,13 +27,13 @@ const Note = ({
   replyTo,
   setReplyTo,
   deleteNote,
-}: noteProps) => {
+}: Props) => {
   const [isReply, setIsReply] = useState<boolean>(false);
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
   const indent = `${(replyBranch + 40).toString()}px`;
 
   const getReplies = (currentNote: INote) => notes.filter(
-    (n: INote) => n.repliesTo === currentNote._id,
+    (reply: INote) => reply.repliesTo === currentNote._id,
   );
 
   const getNoteTime = () => {
@@ -89,13 +90,10 @@ const Note = ({
         {replies?.map((reply) => (
           <Note
             key={reply._id}
-            notes={notes}
+            {... { notes, replyTo, setReplyTo, deleteNote }}
             note={reply}
             replies={getReplies(reply)}
             replyBranch={replyBranch + 1}
-            replyTo={replyTo}
-            setReplyTo={setReplyTo}
-            deleteNote={deleteNote}
           />
         ))}
       </Grid>

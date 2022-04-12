@@ -1,11 +1,39 @@
 import axios, { AxiosResponse } from 'axios';
-import { activityInfoArray, STATUSES } from '../assets';
 import { baseUrl } from '../globals';
+import { ApiStarsType } from '../types/api-types';
+import { INote, IStar } from '../types/interfaces';
+import { PlatformType } from '../types/string-types';
 
 export const getStars = async (): Promise<AxiosResponse<ApiStarsType>> => {
   try {
     const stars: AxiosResponse<ApiStarsType> = await axios.get(
-      `${baseUrl}/stars`,
+      `${baseUrl}/stars/`,
+    );
+    return stars;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getStarsByPlatform = async (
+  platform: PlatformType,
+): Promise<AxiosResponse<ApiStarsType>> => {
+  try {
+    const stars: AxiosResponse<ApiStarsType> = await axios.get(
+      `${baseUrl}/starsByPlatform/${platform}`,
+    );
+    return stars;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getStarsByEvent = async (
+  eventId: string,
+): Promise<AxiosResponse<ApiStarsType>> => {
+  try {
+    const stars: AxiosResponse<ApiStarsType> = await axios.get(
+      `${baseUrl}/starsByEvent/${eventId}`,
     );
     return stars;
   } catch (error) {
@@ -17,27 +45,23 @@ export const addStar = async (
   formData: IStar,
 ): Promise<AxiosResponse<ApiStarsType>> => {
   try {
-    const newActivity: IActivity = {
-      _id: '0',
-      publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-      action: activityInfoArray.find((i) => i.name === 'star')!.action,
-    };
-
     const star: Omit<IStar, '_id'> = {
       priority: 0,
       severity: formData.severity,
       name: formData.name,
-      status: STATUSES.OPEN,
+      status: 'פתוח',
       assignee: formData.assignee,
       platform: formData.platform,
       block: formData.block,
+      phase: formData.phase,
       publisher: formData.publisher,
+      contact: formData.contact,
       event: formData.event,
       resources: [],
       desc: formData.desc,
       computer: formData.computer,
       notes: [],
-      activity: [newActivity],
+      activity: [],
     };
     const saveStar: AxiosResponse<ApiStarsType> = await axios.post(
       `${baseUrl}/stars`,
@@ -49,8 +73,7 @@ export const addStar = async (
   }
 };
 
-// !consider adding the activity from inside the server like notes
-export const editStar = async (
+export const updateStar = async (
   starId: string,
   newStar: IStar,
 ): Promise<AxiosResponse<ApiStarsType>> => {
@@ -96,10 +119,10 @@ export const updatePriorities = async (
     let index: number;
     index = newPri === 1 ? 2 : 1;
     stars
-      .filter((s) => s.priority > 0 && s !== draggedStar)
-      .sort((a, b) => a.priority - b.priority)
-      .forEach((s) => {
-        axiosRes = updateStarField('priority', s, index);
+      .filter((star) => star.priority > 0 && star !== draggedStar)
+      .sort((star1, star2) => star1.priority - star2.priority)
+      .forEach((star) => {
+        axiosRes = updateStarField('priority', star, index);
         index += 1;
         if (index === newPri) index += 1;
       });
@@ -136,21 +159,6 @@ export const getStarById = async (
   }
 };
 
-export const addActivity = async (
-  starId: string,
-  newActivity: IActivity,
-): Promise<AxiosResponse<ApiStarsType>> => {
-  try {
-    const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
-      `${baseUrl}/add-activity/${starId}`,
-      newActivity,
-    );
-    return updatedStar;
-  } catch (error) {
-    throw new Error(error as string);
-  }
-};
-
 export const addNote = async (
   starId: string,
   newNote: INote,
@@ -173,7 +181,7 @@ export const removeNote = async (
   try {
     const updatedStar: AxiosResponse<ApiStarsType> = await axios.put(
       `${baseUrl}/remove-note/${starId}`,
-      noteId,
+      { noteId },
     );
     return updatedStar;
   } catch (error) {

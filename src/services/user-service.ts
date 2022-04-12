@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { baseUrl } from '../globals';
+import { ApiUsersType } from '../types/api-types';
+import { IUser } from '../types/interfaces';
+import { UserRole } from '../types/string-types';
 
 export const getUsers = async (): Promise<AxiosResponse<ApiUsersType>> => {
   try {
@@ -103,7 +106,7 @@ export const deleteUser = async (
   }
 };
 
-export const authorizeUser = async (): Promise<userRole> => {
+export const authorizeUser = async (): Promise<UserRole> => {
   const loggedUser = localStorage.getItem('user');
   if (loggedUser) {
     const userId = JSON.parse(loggedUser)._id;

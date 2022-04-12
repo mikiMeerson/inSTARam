@@ -3,12 +3,14 @@ import { StarOutline } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Typography, Box, MenuItem, Menu } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
+import { LinkDisplayType } from '../../types/configurations';
+import { UserRole } from '../../types/string-types';
 
-interface NavbarProps {
-  pages: linkDisplayType[];
+interface Props {
+  pages: LinkDisplayType[];
   setAnchorElNav: (param: any) => void;
   anchorElNav: any;
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const HalfWidthNavBar = ({
@@ -16,7 +18,7 @@ const HalfWidthNavBar = ({
   anchorElNav,
   setAnchorElNav,
   userRole,
-}: NavbarProps) => (
+}: Props) => (
   <>
     <Link to="/">
       <Typography
@@ -60,12 +62,11 @@ const HalfWidthNavBar = ({
         }}
       >
         {pages
-          .filter((p) => p.role === 'viewer'
-            || userRole === p.role || userRole === 'admin')
-          .map((page: linkDisplayType, index) => (
-            <NavLink to={page.link} key={index}>
+          .filter((page) => page.role === 'viewer'
+            || userRole === page.role || userRole === 'admin')
+          .map((page: LinkDisplayType) => (
+            <NavLink to={page.link} key={page.display}>
               <MenuItem
-                key={page.display}
                 onClick={() => setAnchorElNav(undefined)}
               >
                 <Typography textAlign="center">{page.display}</Typography>

@@ -7,8 +7,9 @@ import {
   ComputerOutlined,
   StarOutline,
 } from '@mui/icons-material';
+import { IActivity } from '../../../types/interfaces';
 
-interface activityProps {
+interface Props {
   log: IActivity;
 }
 
@@ -39,9 +40,11 @@ const actionToIcon = [
   },
 ];
 
-const ActivityItem = ({ log }: activityProps) => (
+const ActivityItem = ({ log }: Props) => (
   <div className="activityItem">
-    {actionToIcon.filter((a) => a.action === log.action).map((e) => e.icon)}
+    {actionToIcon
+      .filter((action) => action.action === log.action)
+      .map((action) => action.icon)}
     <Typography
       sx={{ fontSize: 14 }}
       color="text.secondary"

@@ -21,6 +21,7 @@ import './styles/profile.css';
 import NewActivity from './newActivity';
 import UserWatch from './userWatch';
 import { getStars } from '../../services/star-service';
+import { IStar } from '../../types/interfaces';
 
 const Profile = () => {
   const [viewWatchList, setViewWatchList] = useState<boolean>(false);
@@ -30,7 +31,7 @@ const Profile = () => {
     const currUserStr = localStorage.getItem('user');
     if (currUserStr) {
       const idWatchList = JSON.parse(currUserStr).watchList;
-      const { status, data } = await getStars();
+      const { status, data } = await getStars(); // !implement smart fetching
       if (status === StatusCodes.OK) {
         setUserWatchList(
           data.stars.filter((star) => idWatchList.includes(star._id)),

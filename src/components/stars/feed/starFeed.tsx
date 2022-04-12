@@ -1,46 +1,47 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { Box, CircularProgress } from '@mui/material';
 import { StatusCodes } from 'http-status-codes';
 import StarActivity from './starActivity';
 import StarDesc from './starDesc';
 import StarNotes from './starNotes';
 import '../styles/feed.css';
-import { addNote, editStar, getStarById } from '../../../services/star-service';
+import {
+  addNote,
+  getStarById,
+  removeNote,
+} from '../../../services/star-service';
+import { UserRole } from '../../../types/string-types';
+import { IStar, INote } from '../../../types/interfaces';
 
-interface starProps {
-  userRole: userRole;
-  starId: string | undefined;
+interface Props {
+  userRole: UserRole;
   updateStar: (starId: string, formData: IStar) => void;
 }
 
 const StarFeed = ({
   userRole,
-  starId,
   updateStar,
-}: starProps) => {
+}: Props) => {
   const [star, setStar] = useState<IStar>();
   const [loading, setLoading] = useState<boolean>(false);
-
-  if (!starId) {
-    const navigate = useNavigate();
-    navigate('/stars');
-    return null;
-  }
-
-  const fetchStar = useCallback(async (): Promise<void> => {
-    const { status, data } = await getStarById(starId);
-    if (status !== StatusCodes.OK) {
-      throw new Error('Error! Star not found');
-    }
-    setStar(data.star);
-  }, [starId]);
+  const { id } = useParams();
 
   useEffect(() => {
+    const fetchStar = async (): Promise<void> => {
+      if (id) {
+        const { status, data } = await getStarById(id);
+        if (status !== StatusCodes.OK) {
+          throw new Error('Error! Star not found');
+        }
+        setStar(data.star);
+      }
+    };
+
     setLoading(true);
     fetchStar();
     setLoading(false);
-  }, [fetchStar, star]);
+  }, [id]);
 
   if (!star) {
     return (
@@ -55,17 +56,17 @@ const StarFeed = ({
 
   const handleAddNote = async (noteData: INote): Promise<void> => {
     setLoading(true);
-    const { status } = await addNote(star._id, noteData);
+    const { status, data } = await addNote(star._id, noteData);
     if (status !== StatusCodes.CREATED) console.log('Failed to add note');
+    else if (data.star) setStar(data.star);
     setLoading(false);
   };
 
   const handleDeleteNote = async (noteId: string): Promise<void> => {
     setLoading(true);
-    const newStar = JSON.parse(JSON.stringify(star));
-    newStar.notes = newStar.notes.filter((note: INote) => note._id !== noteId);
-    const { status } = await editStar(star._id, newStar);
+    const { status, data } = await removeNote(star._id, noteId);
     if (status !== StatusCodes.OK) console.log('Failed to remove note');
+    else if (data.star) setStar(data.star);
     setLoading(false);
   };
 
@@ -80,11 +81,7 @@ const StarFeed = ({
         </Box>
       )}
       <div className="starFeed">
-        <StarDesc
-          userRole={userRole}
-          inputStar={star}
-          updateStar={updateStar}
-        />
+        <StarDesc {... { userRole, star, updateStar }} />
         <div className="starDetails">
           <StarNotes
             notes={star.notes}

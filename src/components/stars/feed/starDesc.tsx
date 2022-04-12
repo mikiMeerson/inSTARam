@@ -1,11 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import _ from 'lodash';
-import { StatusCodes } from 'http-status-codes';
 import {
-  Typography,
   FormControl,
   InputLabel,
   Select,
@@ -14,54 +11,77 @@ import {
   Input,
   SelectChangeEvent,
   Grid,
-  Fab,
 } from '@mui/material';
 import {
-  SaveOutlined,
-  EditOutlined,
   ErrorOutline,
   WarningAmber,
   ArrowDownward,
   PriorityHigh,
+  KeyboardDoubleArrowDown,
 } from '@mui/icons-material';
-import {
-  activityInfoArray,
-  STATUSES,
-  ASSIGNEES,
-  PLATFORMS,
-  BLOCKS,
-  COMPUTERS,
-  RESOURCES,
-} from '../../../assets';
 import DialogAlert from '../../general/dialogAlert';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
-import { addActivity } from '../../../services/star-service';
+import { IEvent, IStar } from '../../../types/interfaces';
+import {
+  ASSIGNEES,
+  BAZ_COMPUTERS,
+  BLOCKS,
+  RAAM_COMPUTERS,
+  RESOURCES,
+  SEVERITIES,
+  STATUSES,
+  PHASES,
+  UserRole,
+} from '../../../types/string-types';
+import { getEventById } from '../../../services/event-service';
+import StarDescLine from '../starDescLine';
+import SaveEditButton from '../../general/saveEditButton';
 
-interface starProps {
-  userRole: userRole;
-  inputStar: IStar;
+interface Props {
+  userRole: UserRole;
+  star: IStar;
   updateStar: (starId: string, formData: IStar) => void;
 }
 
-const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
-  const [star, setStar] = useState<IStar>(inputStar);
+const StarDesc = ({ userRole, star, updateStar }: Props) => {
   const [closeAlert, setCloseAlert] = useState<boolean>(false);
   const [resourceList, setResourceList] = useState<string[]>(star.resources);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [event, setEvent] = useState<IEvent>();
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      if (star.event) {
+        const { data } = await getEventById(star.event);
+        setEvent(data.event);
+      }
+    };
+
+    fetchEvent();
+  }, [star]);
 
   const severityIcons = [
-    <PriorityHigh fontSize="large" color="error" />,
-    <ErrorOutline fontSize="large" color="warning" />,
-    <WarningAmber fontSize="large" htmlColor="yellow" />,
-    <ArrowDownward fontSize="large" color="disabled" />,
-  ];
-
-  const activityAttrs = [
-    'status',
-    'assignee',
-    'resources',
-    'computer',
+    {
+      severity: 'חמור מאוד (1)',
+      icon: <PriorityHigh fontSize="large" color="error" />,
+    },
+    {
+      severity: 'חמור (2)',
+      icon: <ErrorOutline fontSize="large" color="warning" />,
+    },
+    {
+      severity: 'בינוני (3)',
+      icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
+    },
+    {
+      severity: 'קל (4)',
+      icon: <KeyboardDoubleArrowDown fontSize="large" color="info" />,
+    },
+    {
+      severity: 'במעקב (99)',
+      icon: <ArrowDownward fontSize="large" color="disabled" />,
+    },
   ];
 
   const validationSchema = Yup.object().shape({
@@ -84,124 +104,78 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
 
   const handleSave = async (formData: IStar) => {
     // if the star is closing, remove its priority and alert the user
-    if (formData.status === STATUSES.CLOSED
+    if (formData.status === 'סגור'
       && star.status !== formData.status) {
       formData.priority = 0;
       setCloseAlert(true);
     }
-    // for each attribute that has been edited and should generate an activity
-    await activityAttrs.filter(
-      (attr) => !(attr === 'resources'
-        && formData[attr].every((item) => star[attr].includes(item))
-        && star[attr].every((item) => formData[attr].includes(item))
-      ) && formData[attr as keyof IStar] !== star[attr as keyof IStar],
-    ).forEach(async (attr) => {
-      // get the attribute's activity info and use it to generate a new one
-      const info = activityInfoArray
-        .find((i) => i.name === attr);
-      if (info) {
-        const { status, data } = await addActivity(star._id, {
-          _id: '0',
-          publisher: localStorage.getItem('userDisplay') || 'אנונימי',
-          action: info.action,
-          value: info.isValue
-            ? formData[attr as keyof IStar] as string
-            : undefined,
-        });
-        if (status !== StatusCodes.CREATED) {
-          console.log('Could not add activity');
-        }
-        setStar(data.stars.find((s) => s._id === star._id)!);
-      }
-    });
     setIsEdit(false);
     updateStar(star._id, formData);
   };
 
-  const getDisplayDate = () => {
-    const date = star.createdAt ? new Date(star.createdAt) : undefined;
-    const displayDate = date
-      && `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-    return displayDate || '';
-  };
-
   return (
     <div className="starDesc">
-      <div className="header">
+      <div className="starHeader">
         <h1>
-          {severityIcons[star.severity]}
+          {severityIcons
+            .find((severity) => severity.severity === star.severity)?.icon}
           <InputField
             field="name"
             disabled={!isEdit}
             defaultValue={star.name}
-            register={register}
-            errors={errors}
+            {... { register, errors }}
           />
         </h1>
-        <div className="starFabs">
-          {(userRole !== 'viewer')
-            && (
-              <Fab
-                size="small"
-                color="secondary"
-                sx={{
-                  background: isEdit ? 'blue' : 'goldenrod',
-                  color: 'white',
-                }}
-              >
-                {isEdit
-                  ? (<SaveOutlined onClick={handleSubmit(handleSave)} />)
-                  : <EditOutlined onClick={() => setIsEdit(true)} />}
-              </Fab>
-            )}
-        </div>
+        <SaveEditButton
+          {... { userRole, isEdit, setIsEdit }}
+          onSave={handleSubmit(handleSave)}
+        />
       </div>
       <div className="starData">
         <Grid item xs={12} sx={{ marginLeft: '3%' }}>
           <Grid container>
-            <Typography
-              variant="caption"
-              sx={{ padding: '7px', marginBottom: '10px' }}
-            >
-              {`הועלה על ידי ${star.publisher} מתוך ${star.event}
-               בתאריך ${getDisplayDate()},
-                ${star.platform} בלוק ${star.block}`}
-            </Typography>
+            <StarDescLine {... { star, event }} />
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <SelectField
                 field="assignee"
                 defaultValue={star.assignee}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={ASSIGNEES}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <SelectField
                 field="status"
                 defaultValue={star.status}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={STATUSES}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item sm={3}>
+              <SelectField
+                field="severity"
+                defaultValue={star.severity}
+                disabled={!isEdit}
+                fieldValues={SEVERITIES}
+                {... { register, errors }}
+              />
+            </Grid>
+            <Grid item xs={3}>
               <SelectField
                 field="block"
                 defaultValue={star.block}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={BLOCKS}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ marginTop: '3%' }}>
-            <Grid item xs={8}>
+            <Grid item xs={6}>
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel id="resources">משאבים נדרשים</InputLabel>
                 <Select
@@ -228,7 +202,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
                     </div>
                   )}
                 >
-                  {_.map(RESOURCES, (resource: string) => (
+                  {RESOURCES.map((resource) => (
                     <MenuItem key={resource} value={resource}>
                       {resource}
                     </MenuItem>
@@ -236,14 +210,24 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <SelectField
                 field="computer"
                 defaultValue={star.computer}
                 disabled={!isEdit}
-                register={register}
-                fieldValues={COMPUTERS}
-                errors={errors}
+                fieldValues={star.platform === 'רעם'
+                  ? RAAM_COMPUTERS
+                  : BAZ_COMPUTERS}
+                {... { register, errors }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <SelectField
+                field="phase"
+                defaultValue={star.phase}
+                disabled={!isEdit}
+                fieldValues={PHASES}
+                {... { register, errors }}
               />
             </Grid>
           </Grid>
@@ -253,8 +237,7 @@ const StarDesc = ({ userRole, inputStar, updateStar }: starProps) => {
             disabled={!isEdit}
             field="desc"
             defaultValue={star.desc}
-            register={register}
-            errors={errors}
+            {... { register, errors }}
             multiline
             variant="outlined"
             sx={{

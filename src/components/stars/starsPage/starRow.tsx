@@ -13,34 +13,53 @@ import {
   ErrorOutline,
   PriorityHigh,
   WarningAmber,
+  KeyboardDoubleArrowDown,
 } from '@mui/icons-material';
 import StarExpand from './starExpand';
+import { UserRole } from '../../../types/string-types';
+import { IEvent, IStar } from '../../../types/interfaces';
 
-interface starProps {
-  userRole: userRole;
+interface Props {
+  userRole: UserRole;
   star: IStar;
-  setFeed: (id: string) => void;
   removeStar: (starId: string) => void;
   changePriority: (star: IStar, priority: number) => void;
   dragged: IStar | undefined;
   setDragged: (star: IStar | undefined) => void;
+  event: IEvent | undefined;
 }
 const StarRow = ({
   userRole,
   star,
-  setFeed,
   removeStar,
   changePriority,
   dragged,
   setDragged,
-}: starProps) => {
+  event,
+}: Props) => {
   const [openDesc, setOpenDesc] = useState(false);
 
   const severityIcons = [
-    <PriorityHigh color="error" />,
-    <ErrorOutline color="warning" />,
-    <WarningAmber htmlColor="yellow" />,
-    <ArrowDownward color="disabled" />,
+    {
+      severity: 'חמור מאוד (1)',
+      icon: <PriorityHigh fontSize="large" color="error" />,
+    },
+    {
+      severity: 'חמור (2)',
+      icon: <ErrorOutline fontSize="large" color="warning" />,
+    },
+    {
+      severity: 'בינוני (3)',
+      icon: <WarningAmber fontSize="large" htmlColor="yellow" />,
+    },
+    {
+      severity: 'קל (4)',
+      icon: <KeyboardDoubleArrowDown fontSize="large" color="info" />,
+    },
+    {
+      severity: 'במעקב (99)',
+      icon: <ArrowDownward fontSize="large" color="disabled" />,
+    },
   ];
 
   const getCreationTime = () => {
@@ -57,9 +76,12 @@ const StarRow = ({
   const handleStartDrag = () => {
     setDragged(star);
   };
+
   const handleDragOver = (e: BaseSyntheticEvent) => {
-    e.preventDefault();
-    e.currentTarget.style.borderTop = '2px solid blue';
+    if (!(star.priority === 0 && dragged?.priority === 0)) {
+      e.preventDefault();
+      e.currentTarget.style.borderTop = '2px solid blue';
+    }
   };
 
   const handleDrop = (e: BaseSyntheticEvent) => {
@@ -95,7 +117,10 @@ const StarRow = ({
           >
             <TableCell align="center" width="40px">
               <span className="severityIcon">
-                {severityIcons[star.severity]}
+                {severityIcons
+                  .find(
+                    (severity) => severity.severity === star.severity,
+                  )?.icon}
               </span>
             </TableCell>
             <TableCell width="105px" align="center">{star.name}</TableCell>
@@ -105,20 +130,13 @@ const StarRow = ({
               {getCreationTime()}
             </TableCell>
             <TableCell width="60px" align="center">
-              {star.platform}
-              {' '}
-              {star.block}
+              {`${star.platform} ${star.block}`}
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: 'hidden' }}>
-        <StarExpand
-          userRole={userRole}
-          star={star}
-          setFeed={setFeed}
-          removeStar={deleteStar}
-        />
+        <StarExpand {... { userRole, star, event, deleteStar }} />
       </Collapse>
     </TableContainer>
   );

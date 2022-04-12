@@ -1,18 +1,20 @@
 import { StarOutline } from '@mui/icons-material';
 import { Typography, Box, Button } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
+import { LinkDisplayType } from '../../types/configurations';
+import { UserRole } from '../../types/string-types';
 
-interface NavbarProps {
-  pages: linkDisplayType[];
+interface Props {
+  pages: LinkDisplayType[];
   setAnchorElNav: (param: any) => void;
-  userRole: userRole;
+  userRole: UserRole;
 }
 
 const FullWidthNavbar = ({
   pages,
   setAnchorElNav,
   userRole,
-}: NavbarProps) => (
+}: Props) => (
   <>
     <Link to="/">
       <Typography
@@ -26,9 +28,9 @@ const FullWidthNavbar = ({
     </Link>
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       {pages
-        .filter((p) => p.role === 'viewer'
-        || userRole === p.role || userRole === 'admin')
-        .map((page: linkDisplayType) => (
+        .filter((page) => page.role === 'viewer'
+        || userRole === page.role || userRole === 'admin')
+        .map((page: LinkDisplayType) => (
           <NavLink to={page.link} key={page.link}>
             <Button
               key={page.display}

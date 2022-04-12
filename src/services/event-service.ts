@@ -1,11 +1,16 @@
 import axios, { AxiosResponse } from 'axios';
 import { baseUrl } from '../globals';
+import { ApiEventsType } from '../types/api-types';
+import { IEvent } from '../types/interfaces';
+import { PlatformType } from '../types/string-types';
 
-export const getEvents = async (): Promise<AxiosResponse<ApiEventsType>> => {
+export const getEvents = async (
+  platform?: PlatformType,
+): Promise<AxiosResponse<ApiEventsType>> => {
   try {
-    const events: AxiosResponse<ApiEventsType> = await axios.get(
-      `${baseUrl}/events`,
-    );
+    let events: AxiosResponse<ApiEventsType>;
+    if (platform) events = await axios.get(`${baseUrl}/events/${platform}`);
+    else events = await axios.get(`${baseUrl}/events`);
     return events;
   } catch (error) {
     throw new Error(error as string);
@@ -18,13 +23,25 @@ export const addEvent = async (
   try {
     const event: Omit<IEvent, '_id'> = {
       name: formData.name,
-      type: formData.type,
-      block: formData.block,
-      date: formData.block,
       publisher: formData.publisher,
-      description: formData.description,
+      type: formData.type,
+      assignee: formData.assignee,
+      block: formData.block,
+      platform: formData.platform,
+      reason: formData.reason,
+      team: formData.team,
+      dates: formData.dates,
+      callSign: formData.callSign,
+      areas: formData.areas,
+      duration: formData.duration,
+      generalSummary: formData.generalSummary,
+      goals: formData.goals,
+      dataSources: formData.dataSources,
       configuration: formData.configuration,
+      description: formData.description,
       findings: formData.findings,
+      notes: formData.notes,
+      conclusions: formData.conclusions,
     };
 
     const saveEvent: AxiosResponse<ApiEventsType> = await axios.post(
@@ -78,6 +95,19 @@ export const deleteEvent = async (
       `${baseUrl}/events/${_id}`,
     );
     return deletedEvent;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+export const getEventById = async (
+  _id: string,
+): Promise<AxiosResponse<ApiEventsType>> => {
+  try {
+    const event: AxiosResponse<ApiEventsType> = await axios.get(
+      `${baseUrl}/event/${_id}`,
+    );
+    return event;
   } catch (error) {
     throw new Error(error as string);
   }

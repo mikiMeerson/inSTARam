@@ -1,9 +1,9 @@
 import { TableRow, Chip } from '@mui/material';
-import { filterDataType } from '../../../../assets';
+import { FilterDataType } from '../../types/configurations';
 
-interface FilterProps {
+interface Props {
     isMargin: boolean;
-    filtersData: filterDataType[];
+    filtersData: FilterDataType[];
     setFilter: (
         filter: string,
         value: string,
@@ -14,7 +14,7 @@ const FilterSelections = ({
   isMargin,
   filtersData,
   setFilter,
-}: FilterProps) => {
+}: Props) => {
   const getDisplayDate = (date: Date) => {
     const displayDate = `
     ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}

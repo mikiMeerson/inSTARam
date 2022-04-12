@@ -1,19 +1,5 @@
-/* .home {
-    height:89%;
-    overflow: hidden;
-    background:
-      linear-gradient(to bottom right,transparent 49.5%,whitesmoke 50%) bottom right,
-      linear-gradient(to bottom left ,transparent 49.5%,whitesmoke  50%) bottom left ,
-      url('../../assets/sky.jpg');
-    background-size:100% 70%;
-    background-repeat:no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-} */
 .home {
-  height:89%;
+  height: 100%;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -24,7 +10,7 @@
 .header {
   height: 60%;
   width: 100%;
-  background: url('../../assets/sky.jpg');
+  background: url('../../assets/stars.jpg');
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,14 +28,6 @@
     color: transparent;
     -webkit-text-stroke: 1px white; 
     width: min-content;
-}
-
-.header > h4 {
-  font-size: 30px;
-  font-weight: 100;
-  letter-spacing: 1px;
-  position: absolute;
-  top: 45%;
 }
 
 .menu {

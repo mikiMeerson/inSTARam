@@ -1,34 +1,53 @@
-import { useState } from 'react';
+/* eslint-disable no-nested-ternary */
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AppBar, Toolbar, Container } from '@mui/material';
 import './styles/navbar.css';
-import FullWidthNavbar from './halfWidthNavbar';
-import HalfWidthNavbar from './fullWidthNavbar';
+import HalfWidthNavbar from './halfWidthNavbar';
+import FullWidthNavbar from './fullWidthNavbar';
 import UserNavbar from './userNavbar';
-import { pages } from '../../assets';
+import { MainComponents, UserRole } from '../../types/string-types';
+import { pages } from '../../types/configurations';
 
-interface NavbarProps {
-  userRole: userRole;
+interface Props {
+  userRole: UserRole;
 }
 
-const Navbar = ({ userRole }: NavbarProps) => {
+const Navbar = ({ userRole }: Props) => {
   const [anchorElNav, setAnchorElNav] = useState();
+  const url = useLocation();
+  const [currComponent, setCurrComponent] = useState<MainComponents>('home');
+
+  useEffect(() => {
+    if (url.pathname.includes('stars')) setCurrComponent('stars');
+    else if (url.pathname.includes('events')) setCurrComponent('events');
+    else if (url.pathname.includes('users')) setCurrComponent('users');
+    else setCurrComponent('home');
+  }, [url]);
 
   return (
-    <AppBar position="static" sx={{ background: 'goldenrod' }}>
+    <AppBar
+      sx={currComponent === 'home' ? {
+        background: 'transparent',
+        position: 'fixed',
+      } : currComponent === 'stars' ? {
+        background: 'goldenrod',
+        position: 'static',
+      } : currComponent === 'events' ? {
+        background: 'purple',
+        position: 'static',
+      } : {
+        background: 'blue',
+        position: 'static',
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <FullWidthNavbar
-            pages={pages}
-            anchorElNav={anchorElNav}
-            setAnchorElNav={setAnchorElNav}
-            userRole={userRole}
-          />
           <HalfWidthNavbar
-            pages={pages}
-            setAnchorElNav={setAnchorElNav}
-            userRole={userRole}
+            {... { pages, anchorElNav, setAnchorElNav, userRole }}
           />
-          <UserNavbar setAnchorElNav={setAnchorElNav} />
+          <FullWidthNavbar {... { pages, setAnchorElNav, userRole }} />
+          <UserNavbar {... { setAnchorElNav }} />
         </Toolbar>
       </Container>
     </AppBar>

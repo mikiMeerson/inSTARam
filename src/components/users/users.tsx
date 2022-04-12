@@ -4,13 +4,15 @@ import { Button } from '@mui/material';
 import { DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { getUsers } from '../../services/user-service';
 import UserDialog from './userDialog';
+import { IUser } from '../../types/interfaces';
+import { UserRole } from '../../types/string-types';
 
 interface userRowType {
   id: string;
   name: string;
   unit: string;
   username: string;
-  role: userRole;
+  role: UserRole;
   createdAt: string | null;
 }
 const Users = () => {
@@ -99,8 +101,7 @@ const Users = () => {
   return (
     <>
       <DataGrid
-        rows={rows}
-        columns={columns}
+        {... { rows, columns }}
         pageSize={10}
         columnBuffer={8}
         autoHeight
@@ -109,9 +110,7 @@ const Users = () => {
       <UserDialog
         isOpen={openDialog}
         setIsOpen={setOpenDialog}
-        userAction={userAction}
-        selectedUser={selectedUser}
-        fetchUsers={fetchUsers}
+        {... { userAction, selectedUser, fetchUsers }}
       />
     </>
   );

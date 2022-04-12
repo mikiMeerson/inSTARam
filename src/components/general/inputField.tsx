@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
-import { starKeyDisplay } from '../../assets';
+import {
+  EVENT_KEY_DISPLAY,
+  STAR_KEY_DISPLAY,
+} from '../../types/configurations';
+import { IStar } from '../../types/interfaces';
 
-interface fieldProps {
+interface Props {
   field: keyof IStar;
   register: UseFormRegister<any>;
   errors: {[x: string]: any};
@@ -12,6 +17,7 @@ interface fieldProps {
   multiline?: boolean;
   variant?: 'standard' | 'outlined';
   sx?: any;
+  element?: 'star' | 'event';
 }
 
 const InputField = ({
@@ -23,24 +29,34 @@ const InputField = ({
   multiline,
   variant,
   sx,
-}: fieldProps) => (
-  <>
-    <TextField
-      fullWidth={fullWidth}
-      disabled={disabled}
-      multiline={multiline}
-      variant={variant}
-      sx={sx}
-      defaultValue={defaultValue}
-      label={starKeyDisplay.find((k) => k.key === field)?.display}
-      {...register(field)}
-      error={errors[field]}
-    />
-    <Typography variant="inherit" color="textSecondary">
-      {errors[field]?.message}
-    </Typography>
-  </>
-);
+  element,
+}: Props) => {
+  const [value, setValue] = useState<string>(defaultValue || '');
+
+  return (
+    <>
+      <TextField
+        fullWidth={fullWidth}
+        disabled={disabled}
+        multiline={multiline}
+        variant={variant}
+        sx={sx}
+        value={value}
+        label={element === 'star'
+          ? STAR_KEY_DISPLAY
+            .find((starKey) => starKey.key === field)?.display
+          : EVENT_KEY_DISPLAY
+            .find((eventKey) => eventKey.key === field)?.display}
+        {...register(field)}
+        onChange={(e) => setValue(e.target.value)}
+        error={errors[field]}
+      />
+      <Typography variant="inherit" color="textSecondary">
+        {errors[field]?.message}
+      </Typography>
+    </>
+  );
+};
 
 export default InputField;
 
@@ -51,4 +67,5 @@ InputField.defaultProps = {
   multiline: false,
   variant: 'standard',
   sx: undefined,
+  element: 'star',
 };

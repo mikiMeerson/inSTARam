@@ -54,7 +54,7 @@ const Login = () => {
       if (status !== StatusCodes.OK) {
         console.log('Error! wrong credentials');
       } else {
-        navigate('/stars');
+        navigate('/');
         window.location.reload();
       }
     } catch (error) {
