@@ -70,23 +70,23 @@ const FilterHeaders = ({
         {filterFields.map((field: FilterField) => (
           <FilterTab
             key={field.name}
-            field={field}
-            lastTab={lastTab}
-            handleFilterChoice={handleFilterChoice}
+            {... { field, lastTab, handleFilterChoice }}
           />
         ))}
       </TableRow>
       <div className="eventsFilter">
         <FilterManager
-          lastTab={lastTab}
-          displayOptions={displayOptions}
-          displaySearch={displaySearch}
-          filtersData={filtersData}
-          options={options}
+          {... {
+            lastTab,
+            displaySearch,
+            displayOptions,
+            filtersData,
+            options,
+            isDatePick,
+            setIsDatePick,
+          }}
           searchValue={assigneeFilter}
           setSearchValue={setAssigneeFilter}
-          isDatePick={isDatePick}
-          setIsDatePick={setIsDatePick}
           component="events"
         />
       </div>

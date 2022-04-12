@@ -39,20 +39,20 @@ import BasicDetails from './basicDetails';
 
 interface Props {
   handleAlert: (isSuccess: boolean, content: string) => void;
-  currPlatform: PlatformType;
+  platformToShow: PlatformType;
 }
 
-const CreateEvent = ({ handleAlert, currPlatform }: Props) => {
+const CreateEvent = ({ handleAlert, platformToShow }: Props) => {
   const [newEvent, setNewEvent] = useState<IEvent>(
-    currPlatform === 'רעם' ? defaultRAAMEvent : defaultBAZEvent,
+    platformToShow === 'רעם' ? defaultRAAMEvent : defaultBAZEvent,
   );
   const [currDates, setCurrDates] = useState<string[]>([]);
   const [stations, setStations] = useState<
     RaamStationType[] | BazStationType[]
-  >(currPlatform === 'רעם' ? RAAM_STATIONS : BAZ_STATIONS);
+  >(platformToShow === 'רעם' ? RAAM_STATIONS : BAZ_STATIONS);
   const [computers, setComputers] = useState<
     RaamComputerType[] | BazComputerType[]
-  >(currPlatform === 'רעם' ? RAAM_COMPUTERS : BAZ_COMPUTERS);
+  >(platformToShow === 'רעם' ? RAAM_COMPUTERS : BAZ_COMPUTERS);
 
   const navigate = useNavigate();
 
@@ -125,7 +125,7 @@ const CreateEvent = ({ handleAlert, currPlatform }: Props) => {
               <Select
                 variant="outlined"
                 input={<OutlinedInput />}
-                defaultValue={currPlatform}
+                defaultValue={platformToShow}
                 {...register('platform')}
                 onChange={handlePlatformChange}
                 error={errors.platform?.message}
@@ -142,23 +142,18 @@ const CreateEvent = ({ handleAlert, currPlatform }: Props) => {
             </Typography>
           </div>
           <BasicDetails
-            register={register}
-            errors={errors}
-            currDates={currDates}
-            setCurrDates={setCurrDates}
+            {... { register, errors, currDates, setCurrDates }}
           />
           <EventDetails
             isValue={false}
             disabled={false}
-            setAttr={setAttr}
             event={newEvent}
+            {... { setAttr }}
           />
           <EventVersions
             isEditable
-            stations={stations}
-            computers={computers}
             event={newEvent}
-            setAttr={setAttr}
+            {... { stations, computers, setAttr }}
           />
           <EventLists event={newEvent} setAttr={setAttr} editable />
           <div style={{ display: 'flex', justifyContent: 'center' }}>

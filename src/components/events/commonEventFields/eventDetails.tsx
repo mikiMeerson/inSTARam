@@ -20,21 +20,15 @@ const EventDetails = ({ disabled, isValue, event, setAttr }: Props) => {
   return (
     <div className="eventDetails">
       <AdditionalDetails
+        {... { event, disabled, isValue, setAttr }}
         details={EVENT_FLIGHT_DETAILS}
-        event={event}
-        disabled={disabled}
-        isValue={isValue}
-        setAttr={setAttr}
         toggle={displayFlight}
         setToggle={setDisplayFlight}
         toggleLabel="נתוני טיסה"
       />
       <AdditionalDetails
+        {... { event, disabled, isValue, setAttr }}
         details={ADDITIONAL_EVENT_DETAILS}
-        event={event}
-        disabled={disabled}
-        isValue={isValue}
-        setAttr={setAttr}
         toggle={displayMore}
         setToggle={setDisplayMore}
         toggleLabel="פרטים נוספים"

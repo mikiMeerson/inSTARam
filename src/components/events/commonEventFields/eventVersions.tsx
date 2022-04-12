@@ -39,19 +39,13 @@ const EventVersions = ({
         <div className="weapons">
           <Typography variant="h6">חימושים</Typography>
           <WeaponsTable
-            isEditable={isEditable}
-            stations={stations}
-            event={event}
-            handleConfigSelection={handleConfigSelection}
+            {... { isEditable, stations, event, handleConfigSelection }}
           />
         </div>
         <div className="versions">
           <Typography variant="h6">גרסאות</Typography>
           <VersionsTable
-            isEditable={isEditable}
-            computers={computers}
-            event={event}
-            handleConfigSelection={handleConfigSelection}
+            {... { isEditable, computers, event, handleConfigSelection }}
           />
         </div>
       </div>

@@ -58,11 +58,7 @@ const EventsMain = ({ userRole, handleAlert, platformToShow }: Props) => {
         )}
       </div>
       <EventsList
-        events={events}
-        setEvents={setEvents}
-        userRole={userRole}
-        handleAlert={handleAlert}
-        platformToShow={platformToShow}
+        {... { events, setEvents, userRole, handleAlert, platformToShow }}
       />
     </div>
   );

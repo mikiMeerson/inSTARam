@@ -78,34 +78,26 @@ const Event = ({ userRole, handleAlert }: Props) => {
       )}
       <div className="eventFeed">
         <EventHeader
-          userRole={userRole}
-          event={event}
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
-          handleUpdateEvent={handleUpdateEvent}
+          {... { userRole, event, isEdit, setIsEdit, handleUpdateEvent }}
         />
         <EventDetails
-          event={event}
-          setAttr={setAttr}
+          {... { event, setAttr }}
           disabled={!isEdit}
           isValue
         />
         <EventVersions
+          {... { event, setAttr }}
           isEditable={isEdit}
-          event={event}
           stations={event.platform === 'רעם'
             ? RAAM_STATIONS
             : BAZ_STATIONS}
           computers={event.platform === 'רעם'
             ? RAAM_COMPUTERS
             : BAZ_COMPUTERS}
-          setAttr={setAttr}
         />
         <EventLists
-          event={event}
+          {... { event, setAttr, handleAlert }}
           editable={isEdit}
-          setAttr={setAttr}
-          handleAlert={handleAlert}
         />
       </div>
     </>

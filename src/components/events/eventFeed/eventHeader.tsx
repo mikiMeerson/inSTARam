@@ -57,9 +57,7 @@ const EventHeader = ({
         </Typography>
       </div>
       <SaveEditButton
-        userRole={userRole}
-        isEdit={isEdit}
-        setIsEdit={setIsEdit}
+        {... { userRole, isEdit, setIsEdit }}
         onSave={handleSave}
       />
     </div>

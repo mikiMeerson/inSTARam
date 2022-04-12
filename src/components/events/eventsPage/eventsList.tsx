@@ -102,11 +102,7 @@ const EventsList = ({
 
   return (
     <>
-      <FilterHeaders
-        filtersData={filtersData}
-        assigneeFilter={assigneeFilter}
-        setAssigneeFilter={setAssigneeFilter}
-      />
+      <FilterHeaders {... { filtersData, assigneeFilter, setAssigneeFilter }} />
       <SearchBar
         list={events}
         setSearch={setNameSearch}
@@ -120,13 +116,9 @@ const EventsList = ({
       </div>
       )}
       <Grid container className="eventsList">
-        {sortByDate(filteredEvents).map((e) => (
-          <Grid key={e._id} className="cardContainer" item xs={3}>
-            <EventCard
-              event={e}
-              handleDeleteEvent={handleDeleteEvent}
-              userRole={userRole}
-            />
+        {sortByDate(filteredEvents).map((event) => (
+          <Grid key={event._id} className="cardContainer" item xs={3}>
+            <EventCard {... { event, handleDeleteEvent, userRole }} />
           </Grid>
         ))}
       </Grid>

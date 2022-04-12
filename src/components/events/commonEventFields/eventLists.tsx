@@ -45,8 +45,8 @@ const EventLists = ({ event, setAttr, editable, handleAlert }: Props) => {
               EVENT_KEY_DISPLAY.find((k) => k.key === list)?.display || 'שגיאה'
             }
               attr={list}
-              event={event}
               setCurrList={setAttr}
+              {... { event }}
             />
           )
           : (
@@ -59,7 +59,7 @@ const EventLists = ({ event, setAttr, editable, handleAlert }: Props) => {
                 ? (
                   <List
                     list={event[list] as string[]}
-                    generateStar={generateStar}
+                    {... { generateStar }}
                   />
                 )
                 : <List list={event[list] as string[]} />}

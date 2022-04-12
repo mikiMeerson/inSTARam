@@ -47,18 +47,14 @@ const Events = ({ userRole, platformToShow }: Props) => {
           <Route
             index
             element={(
-              <EventsMain
-                userRole={userRole}
-                handleAlert={handleAlert}
-                platformToShow={platformToShow}
-              />
+              <EventsMain {... { userRole, handleAlert, platformToShow }} />
             )}
           />
           <Route
             path=":id"
             element={(
               <>
-                <Event userRole={userRole} handleAlert={handleAlert} />
+                <Event {... { userRole, handleAlert }} />
                 <Outlet />
               </>
             )}
@@ -67,10 +63,7 @@ const Events = ({ userRole, platformToShow }: Props) => {
             path="create"
             element={(
               <>
-                <CreateEvent
-                  handleAlert={handleAlert}
-                  currPlatform={platformToShow}
-                />
+                <CreateEvent {... { handleAlert, platformToShow }} />
                 <Outlet />
               </>
           )}
