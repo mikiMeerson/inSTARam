@@ -33,8 +33,8 @@ const Home = ({ userRole }: Props) => (
       {pages
         .filter((p) => p.role === 'viewer'
             || userRole === p.role || userRole === 'admin')
-        .map((page: LinkDisplayType, index) => (
-          <div key={index} className="linkDisplay">
+        .map((page: LinkDisplayType) => (
+          <div key={page.display} className="linkDisplay">
             <NavLink to={page.link}>
               {pageToIcon.find((p) => page.link === p.link)?.icon}
             </NavLink>

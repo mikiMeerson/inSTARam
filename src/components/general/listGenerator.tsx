@@ -48,7 +48,7 @@ const ListGenerator = ({ header, event, setCurrList, attr }: Props) => {
       <Typography variant="h6">{header}</Typography>
       <List>
         {list.map((f: string, index: number) => (
-          <ListItem key={index} sx={{ textAlign: 'start' }}>
+          <ListItem key={f} sx={{ textAlign: 'start' }}>
             <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
               <DeleteOutlined color="error" />
             </IconButton>

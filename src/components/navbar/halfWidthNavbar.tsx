@@ -64,10 +64,9 @@ const HalfWidthNavBar = ({
         {pages
           .filter((p) => p.role === 'viewer'
             || userRole === p.role || userRole === 'admin')
-          .map((page: LinkDisplayType, index) => (
-            <NavLink to={page.link} key={index}>
+          .map((page: LinkDisplayType) => (
+            <NavLink to={page.link} key={page.display}>
               <MenuItem
-                key={page.display}
                 onClick={() => setAnchorElNav(undefined)}
               >
                 <Typography textAlign="center">{page.display}</Typography>
