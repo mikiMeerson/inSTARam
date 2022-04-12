@@ -28,8 +28,8 @@ const FullWidthNavbar = ({
     </Link>
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       {pages
-        .filter((p) => p.role === 'viewer'
-        || userRole === p.role || userRole === 'admin')
+        .filter((page) => page.role === 'viewer'
+        || userRole === page.role || userRole === 'admin')
         .map((page: LinkDisplayType) => (
           <NavLink to={page.link} key={page.link}>
             <Button

@@ -44,13 +44,14 @@ const EventsList = ({
 
   useEffect(() => {
     const tempFilteredEvents: IEvent[] = [];
-    events.forEach((e) => {
-      if ((nameSearch === '' || e.name.includes(nameSearch))
-        && (platformFilter.length === 0 || platformFilter.includes(e.platform))
-        && (blockFilter.length === 0 || blockFilter.includes(e.block))
+    events.forEach((event) => {
+      if ((nameSearch === '' || event.name.includes(nameSearch))
+        && (platformFilter.length === 0
+          || platformFilter.includes(event.platform))
+        && (blockFilter.length === 0 || blockFilter.includes(event.block))
         && (assigneeFilter === ''
-          || (e.assignee && e.assignee.includes(assigneeFilter)))) {
-        tempFilteredEvents.push(e);
+          || (event.assignee && event.assignee.includes(assigneeFilter)))) {
+        tempFilteredEvents.push(event);
       }
     });
     setFilteredEvents(tempFilteredEvents);

@@ -31,8 +31,8 @@ const WeaponsTable = ({
   <Table>
     <TableRow sx={{ background: 'whitesmoke' }}>
       <TableCell align="center">תחנה</TableCell>
-      {stations.map((sta) => (
-        <TableCell key={sta} align="center">{sta}</TableCell>
+      {stations.map((station) => (
+        <TableCell key={station} align="center">{station}</TableCell>
       ))}
     </TableRow>
     <TableRow>
@@ -40,8 +40,8 @@ const WeaponsTable = ({
         חימוש
       </TableCell>
       {isEditable ? (
-        stations.map((sta) => (
-          <TableCell key={sta}>
+        stations.map((station) => (
+          <TableCell key={station}>
             <FormControl sx={{ width: '100%' }}>
               <Select
                 variant="outlined"
@@ -50,14 +50,14 @@ const WeaponsTable = ({
                 onChange={
                   (e) => handleConfigSelection(
                     'weapon',
-                    sta,
+                    station,
                     e.target.value as WeaponType,
                   )
                 }
               >
-                {WEAPONS.map((wpn) => (
-                  <MenuItem key={wpn} value={wpn}>
-                    {wpn}
+                {WEAPONS.map((weapon) => (
+                  <MenuItem key={weapon} value={weapon}>
+                    {weapon}
                   </MenuItem>
                 ))}
               </Select>
@@ -65,12 +65,14 @@ const WeaponsTable = ({
           </TableCell>
         )))
         : (event && (
-          stations.map((sta) => (
-            <TableCell key={sta}>
+          stations.map((station) => (
+            <TableCell key={station}>
               <TextField
                 disabled
                 value={event.configuration.weapons
-                  .find((w) => w.sta === sta)?.weapon}
+                  .find(
+                    (weaponConfig) => weaponConfig.station === station,
+                  )?.weapon}
               />
             </TableCell>
           ))

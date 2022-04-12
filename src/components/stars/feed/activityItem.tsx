@@ -42,7 +42,9 @@ const actionToIcon = [
 
 const ActivityItem = ({ log }: Props) => (
   <div className="activityItem">
-    {actionToIcon.filter((a) => a.action === log.action).map((e) => e.icon)}
+    {actionToIcon
+      .filter((action) => action.action === log.action)
+      .map((action) => action.icon)}
     <Typography
       sx={{ fontSize: 14 }}
       color="text.secondary"

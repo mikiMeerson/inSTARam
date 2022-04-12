@@ -39,8 +39,10 @@ const SelectField = ({
     <FormControl sx={{ width: '100%' }}>
       <InputLabel>
         {element === 'star'
-          ? STAR_KEY_DISPLAY.find((k) => k.key === field)?.display
-          : EVENT_KEY_DISPLAY.find((k) => k.key === field)?.display}
+          ? STAR_KEY_DISPLAY
+            .find((starKey) => starKey.key === field)?.display
+          : EVENT_KEY_DISPLAY
+            .find((eventKey) => eventKey.key === field)?.display}
       </InputLabel>
       <Select
         disabled={disabled}

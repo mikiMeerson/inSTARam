@@ -15,16 +15,19 @@ interface Props {
 
 const List = ({ list, deletable, handleDeleteItem, generateStar }: Props) => (
   <MuiList>
-    {list.map((f: string, index: number) => (
-      <ListItem key={f} sx={{ textAlign: 'start', width: 'max-content' }}>
+    {list.map((listItem: string, index: number) => (
+      <ListItem
+        key={listItem}
+        sx={{ textAlign: 'start', width: 'max-content' }}
+      >
         {deletable && handleDeleteItem && (
-        <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
+        <IconButton edge="end" onClick={() => handleDeleteItem(listItem)}>
           <DeleteOutlined color="error" />
         </IconButton>
         )}
-        <ListItemText primary={`${index + 1}. ${f}`} />
+        <ListItemText primary={`${index + 1}. ${listItem}`} />
         {generateStar && (
-          <IconButton onClick={() => generateStar(f)}>
+          <IconButton onClick={() => generateStar(listItem)}>
             <StarOutline color="warning" />
           </IconButton>
         )}

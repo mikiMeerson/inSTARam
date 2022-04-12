@@ -119,10 +119,10 @@ export const updatePriorities = async (
     let index: number;
     index = newPri === 1 ? 2 : 1;
     stars
-      .filter((s) => s.priority > 0 && s !== draggedStar)
-      .sort((a, b) => a.priority - b.priority)
-      .forEach((s) => {
-        axiosRes = updateStarField('priority', s, index);
+      .filter((star) => star.priority > 0 && star !== draggedStar)
+      .sort((star1, star2) => star1.priority - star2.priority)
+      .forEach((star) => {
+        axiosRes = updateStarField('priority', star, index);
         index += 1;
         if (index === newPri) index += 1;
       });

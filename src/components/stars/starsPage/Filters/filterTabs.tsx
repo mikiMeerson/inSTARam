@@ -112,17 +112,19 @@ const FilterTabs = ({
             <MoreVert fontSize="small" />
           </Button>
         </TableCell>
-        {filterFields.filter((f) => f.isPrimary).map((field: FilterField) => (
-          <FilterTab
-            key={field.name}
-            {... { field, handleFilterChoice }}
-            lastTab={(displayOptions || displaySearch) ? lastTab : ''}
-          />
-        ))}
+        {filterFields
+          .filter((field) => field.isPrimary)
+          .map((field: FilterField) => (
+            <FilterTab
+              key={field.name}
+              {... { field, handleFilterChoice }}
+              lastTab={(displayOptions || displaySearch) ? lastTab : ''}
+            />
+          ))}
       </TableRow>
       {displayMore && (
         <TableRow>
-          {filterFields.filter((f) => !f.isPrimary)
+          {filterFields.filter((field) => !field.isPrimary)
             .map((field: FilterField) => (
               <FilterTab
                 key={field.name}

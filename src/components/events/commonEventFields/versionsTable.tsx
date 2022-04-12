@@ -35,15 +35,15 @@ const VersionsTable = ({
         גרסה
       </TableCell>
       {isEditable ? (
-        computers.map((com) => (
-          <TableCell key={com} align="center">
+        computers.map((computer) => (
+          <TableCell key={computer} align="center">
             <TextField
               variant="standard"
               sx={{ width: '50%' }}
               defaultValue="ללא"
               onChange={(e) => handleConfigSelection(
                 'version',
-                com,
+                computer,
                 e.target.value,
               )}
             />
@@ -56,7 +56,9 @@ const VersionsTable = ({
                 disabled
                 variant="standard"
                 value={event.configuration.versions
-                  .find((v) => v.comp === computer)?.version}
+                  .find(
+                    (versionConfig) => versionConfig.computer === computer,
+                  )?.version}
                 sx={{ width: '50%' }}
               />
             </TableCell>

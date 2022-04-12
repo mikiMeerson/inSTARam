@@ -117,7 +117,8 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
     <div className="starDesc">
       <div className="starHeader">
         <h1>
-          {severityIcons.find((i) => i.severity === star.severity)?.icon}
+          {severityIcons
+            .find((severity) => severity.severity === star.severity)?.icon}
           <InputField
             field="name"
             disabled={!isEdit}

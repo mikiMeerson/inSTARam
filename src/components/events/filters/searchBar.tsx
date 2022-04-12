@@ -10,7 +10,7 @@ interface Props {
 const SearchBar = ({ list, setSearch, placeholder }: Props) => (
   <Autocomplete
     sx={{ width: '80%' }}
-    options={list.map((e) => e.name)}
+    options={list.map((listItem) => listItem.name)}
     onChange={(event, value) => (value ? setSearch(value) : setSearch(''))}
     renderInput={(params) => (
       <TextField

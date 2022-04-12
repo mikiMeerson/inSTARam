@@ -39,7 +39,7 @@ const ListGenerator = ({ header, event, setCurrList, attr }: Props) => {
 
   const handleDeleteItem = (deletedItem: string) => {
     setCurrList(attr, (event[attr] as string[])
-      .filter((f: string) => f !== deletedItem));
+      .filter((listItem: string) => listItem !== deletedItem));
     setList(event[attr] as string[]);
   };
 
@@ -47,12 +47,12 @@ const ListGenerator = ({ header, event, setCurrList, attr }: Props) => {
     <div className="list">
       <Typography variant="h6">{header}</Typography>
       <List>
-        {list.map((f: string, index: number) => (
-          <ListItem key={f} sx={{ textAlign: 'start' }}>
-            <IconButton edge="end" onClick={() => handleDeleteItem(f)}>
+        {list.map((listItem: string, index: number) => (
+          <ListItem key={listItem} sx={{ textAlign: 'start' }}>
+            <IconButton edge="end" onClick={() => handleDeleteItem(listItem)}>
               <DeleteOutlined color="error" />
             </IconButton>
-            <ListItemText primary={`${index + 1}. ${f}`} />
+            <ListItemText primary={`${index + 1}. ${listItem}`} />
           </ListItem>
         ))}
       </List>

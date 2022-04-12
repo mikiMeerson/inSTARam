@@ -42,7 +42,8 @@ const EventLists = ({ event, setAttr, editable, handleAlert }: Props) => {
           ? (
             <ListGenerator
               header={
-              EVENT_KEY_DISPLAY.find((k) => k.key === list)?.display || 'שגיאה'
+              EVENT_KEY_DISPLAY
+                .find((eventKey) => eventKey.key === list)?.display || 'שגיאה'
             }
               attr={list}
               setCurrList={setAttr}
@@ -52,7 +53,8 @@ const EventLists = ({ event, setAttr, editable, handleAlert }: Props) => {
           : (
             <div key={list} className="eventDetails">
               <Typography variant="h6">
-                {EVENT_KEY_DISPLAY.find((k) => k.key === list)?.display
+                {EVENT_KEY_DISPLAY
+                  .find((eventKey) => eventKey.key === list)?.display
                || 'שגיאה'}
               </Typography>
               {list === 'findings'

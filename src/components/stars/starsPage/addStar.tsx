@@ -82,9 +82,13 @@ const AddStar = ({
     };
     const getEventsOptions = () => {
       chosenBlock
-        ? setEventsOptions(events.filter((e) => e.platform === platformToShow
-        && e.block === chosenBlock))
-        : setEventsOptions(events.filter((e) => e.platform === platformToShow));
+        ? setEventsOptions(
+          events.filter((event) => event.platform === platformToShow
+        && event.block === chosenBlock),
+        )
+        : setEventsOptions(
+          events.filter((event) => event.platform === platformToShow),
+        );
     };
 
     fetchEvents();
@@ -175,9 +179,11 @@ const AddStar = ({
     addStar(data);
     if (!createAnother) {
       toggleModal(false);
-      fields.map((f) => resetField(f.field));
+      fields.map((field) => resetField(field.field));
     } else {
-      fields.filter((f) => !f.isSaved).map((f) => resetField(f.field));
+      fields
+        .filter((field) => !field.isSaved)
+        .map((field) => resetField(field.field));
     }
   };
 
@@ -220,9 +226,9 @@ const AddStar = ({
             disabled={!setPlatformToShow}
             onChange={handlePlatformChange}
           >
-            {PLATFORMS.map((value) => (
-              <MenuItem key={value} value={value}>
-                {value}
+            {PLATFORMS.map((platform) => (
+              <MenuItem key={platform} value={platform}>
+                {platform}
               </MenuItem>
             ))}
           </Select>
@@ -267,9 +273,9 @@ const AddStar = ({
                   onChange={handleBlockChange}
                   error={errors.block?.message}
                 >
-                  {BLOCKS.map((value) => (
-                    <MenuItem key={value} value={value}>
-                      {value}
+                  {BLOCKS.map((block) => (
+                    <MenuItem key={block} value={block}>
+                      {block}
                     </MenuItem>
                   ))}
                 </Select>

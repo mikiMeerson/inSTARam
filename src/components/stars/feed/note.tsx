@@ -33,7 +33,7 @@ const Note = ({
   const indent = `${(replyBranch + 40).toString()}px`;
 
   const getReplies = (currentNote: INote) => notes.filter(
-    (n: INote) => n.repliesTo === currentNote._id,
+    (reply: INote) => reply.repliesTo === currentNote._id,
   );
 
   const getNoteTime = () => {

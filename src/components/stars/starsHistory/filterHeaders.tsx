@@ -35,7 +35,8 @@ const FilterHeaders = ({ filtersData }: Props) => {
   const [lastTab, setLastTab] = useState<string>('');
   const [isDatePick, setIsDatePick] = useState<boolean>(false);
 
-  const filterEmpty = filtersData.every((sf) => sf.filter.length === 0);
+  const filterEmpty = filtersData
+    .every((filterData) => filterData.filter.length === 0);
 
   const getFilterMargin = () => {
     if ((displayOptions && !filterEmpty)

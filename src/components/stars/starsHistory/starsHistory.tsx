@@ -71,25 +71,28 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
 
     if (stars.length === 0) fetchStars();
     const tempFilteredStars: IStar[] = [];
-    stars.forEach((s) => {
+    stars.forEach((star) => {
       if ((freeTextFilter === ''
-        || s.name.includes(freeTextFilter)
-        || s.desc.includes(freeTextFilter))
-        && (statusFilter.length === 0 || statusFilter.includes(s.status))
-        && (platformFilter.length === 0 || platformFilter.includes(s.platform))
-        && (blockFilter.length === 0 || blockFilter.includes(s.block))
-        && (assigneeFilter.length === 0 || assigneeFilter.includes(s.assignee))
-        && (computerFilter.length === 0 || computerFilter.includes(s.computer))
+        || star.name.includes(freeTextFilter)
+        || star.desc.includes(freeTextFilter))
+        && (statusFilter.length === 0 || statusFilter.includes(star.status))
+        && (platformFilter.length === 0
+          || platformFilter.includes(star.platform))
+        && (blockFilter.length === 0 || blockFilter.includes(star.block))
+        && (assigneeFilter.length === 0
+          || assigneeFilter.includes(star.assignee))
+        && (computerFilter.length === 0
+          || computerFilter.includes(star.computer))
         && (resourceFilter.length === 0 || resourceFilter
-          .some((element) => s.resources.includes(element)))
-        && (dateFilter.length === 0 || (s.createdAt
-          && new Date(s.createdAt) >= new Date(dateFilter[0])
-          && new Date(s.createdAt) <= new Date(
+          .some((element) => star.resources.includes(element)))
+        && (dateFilter.length === 0 || (star.createdAt
+          && new Date(star.createdAt) >= new Date(dateFilter[0])
+          && new Date(star.createdAt) <= new Date(
             new Date(dateFilter[1]).getFullYear(),
             new Date(dateFilter[1]).getMonth(),
             new Date(dateFilter[1]).getDate() + 1,
           )))) {
-        tempFilteredStars.push(s);
+        tempFilteredStars.push(star);
       }
     });
     setFilteredStars(tempFilteredStars);

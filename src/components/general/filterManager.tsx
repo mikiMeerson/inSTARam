@@ -30,7 +30,8 @@ const FilterManager = ({
   component,
   unprioritized,
 }: Props) => {
-  const filterEmpty = filtersData.every((f) => f.filter.length === 0)
+  const filterEmpty = filtersData
+    .every((filterData) => filterData.filter.length === 0)
   && searchValue === '';
 
   const setFilter = (
@@ -38,12 +39,16 @@ const FilterManager = ({
     value: string,
     action: 'add' | 'remove',
   ) => {
-    const currFilter = filtersData.find((f) => f.tabName === filter);
+    const currFilter = filtersData
+      .find((filterData) => filterData.tabName === filter);
     let newFilterValues = JSON.parse(JSON.stringify(currFilter?.filter));
 
     // add or remove the selected value according to the wanted action
     if (action === 'add') newFilterValues.push(value);
-    else newFilterValues = newFilterValues.filter((f: string) => f !== value);
+    else {
+      newFilterValues = newFilterValues
+        .filter((filterValue: string) => filterValue !== value);
+    }
 
     // update the current filter by adding the new selected value
     currFilter?.func(newFilterValues);
@@ -79,11 +84,13 @@ const FilterManager = ({
           {... { filtersData, setFilter }}
         />
       )}
-      {filtersData.find((f) => f.tabName === 'date') && (
+      {filtersData.find((filterData) => filterData.tabName === 'date') && (
         <DateRangePicker
           {... { isDatePick, setIsDatePick }}
-          dates={filtersData.find((f) => f.tabName === 'date')!.filter || []}
-          setDates={filtersData.find((f) => f.tabName === 'date')!.func}
+          dates={filtersData
+            .find((filterData) => filterData.tabName === 'date')!.filter || []}
+          setDates={filtersData
+            .find((filterData) => filterData.tabName === 'date')!.func}
         />
       )}
     </>

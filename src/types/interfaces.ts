@@ -15,12 +15,12 @@ import {
 } from './string-types';
 
 export interface WeaponConfig {
-  sta: RaamStationType | BazStationType;
+  station: RaamStationType | BazStationType;
   weapon: WeaponType;
 }
 
 export interface VersionConfig {
-  comp: RaamComputerType | BazComputerType;
+  computer: RaamComputerType | BazComputerType;
   version: string;
 }
 
@@ -124,57 +124,57 @@ export const defaultRAAMEvent: IEvent = {
   configuration: {
     weapons: [
       {
-        sta: '2L',
+        station: '2L',
         weapon: 'ללא',
       },
       {
-        sta: '2',
+        station: '2',
         weapon: 'ללא',
       },
       {
-        sta: '2R',
+        station: '2R',
         weapon: 'ללא',
       },
       {
-        sta: 'LCFT',
+        station: 'LCFT',
         weapon: 'ללא',
       },
       {
-        sta: '5',
+        station: '5',
         weapon: 'ללא',
       },
       {
-        sta: 'RCFT',
+        station: 'RCFT',
         weapon: 'ללא',
       },
       {
-        sta: '8L',
+        station: '8L',
         weapon: 'ללא',
       },
       {
-        sta: '8',
+        station: '8',
         weapon: 'ללא',
       },
       {
-        sta: '8R',
+        station: '8R',
         weapon: 'ללא',
       },
     ],
     versions: [
       {
-        comp: 'AAA',
+        computer: 'AAA',
         version: 'ללא',
       },
       {
-        comp: 'BBB',
+        computer: 'BBB',
         version: 'ללא',
       },
       {
-        comp: 'CCC',
+        computer: 'CCC',
         version: 'ללא',
       },
       {
-        comp: 'DDD',
+        computer: 'DDD',
         version: 'ללא',
       },
     ],
@@ -205,41 +205,41 @@ export const defaultBAZEvent: IEvent = {
   configuration: {
     weapons: [
       {
-        sta: '1',
+        station: '1',
         weapon: 'ללא',
       },
       {
-        sta: '2',
+        station: '2',
         weapon: 'ללא',
       },
       {
-        sta: '3',
+        station: '3',
         weapon: 'ללא',
       },
       {
-        sta: '4',
+        station: '4',
         weapon: 'ללא',
       },
       {
-        sta: '5',
+        station: '5',
         weapon: 'ללא',
       },
       {
-        sta: '6',
+        station: '6',
         weapon: 'ללא',
       },
     ],
     versions: [
       {
-        comp: 'EEE',
+        computer: 'EEE',
         version: 'ללא',
       },
       {
-        comp: 'FFF',
+        computer: 'FFF',
         version: 'ללא',
       },
       {
-        comp: 'GGG',
+        computer: 'GGG',
         version: 'ללא',
       },
     ],

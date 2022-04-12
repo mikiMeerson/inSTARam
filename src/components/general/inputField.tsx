@@ -43,8 +43,10 @@ const InputField = ({
         sx={sx}
         value={value}
         label={element === 'star'
-          ? STAR_KEY_DISPLAY.find((k) => k.key === field)?.display
-          : EVENT_KEY_DISPLAY.find((k) => k.key === field)?.display}
+          ? STAR_KEY_DISPLAY
+            .find((starKey) => starKey.key === field)?.display
+          : EVENT_KEY_DISPLAY
+            .find((eventKey) => eventKey.key === field)?.display}
         {...register(field)}
         onChange={(e) => setValue(e.target.value)}
         error={errors[field]}

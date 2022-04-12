@@ -23,13 +23,17 @@ const EventVersions = ({
     selectedItem: string,
     selectedValue: string,
   ) => {
-    const tempConfig = event.configuration;
+    const { configuration } = event;
     if (element === 'weapon') {
-      tempConfig.weapons.find((w) => w.sta === selectedItem)!.weapon = selectedValue;
+      configuration.weapons
+        .find((weaponConfig) => weaponConfig.station === selectedItem)!
+        .weapon = selectedValue;
     } else {
-      tempConfig.versions.find((v) => v.comp === selectedItem)!.version = selectedValue;
+      configuration.versions
+        .find((versionConfig) => versionConfig.computer === selectedItem)!
+        .version = selectedValue;
     }
-    setAttr('configuration', tempConfig);
+    setAttr('configuration', configuration);
   };
 
   return (

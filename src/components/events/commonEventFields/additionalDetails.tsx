@@ -40,7 +40,8 @@ const AdditionalDetails = ({
           <TextField
             fullWidth
             disabled={disabled}
-            label={EVENT_KEY_DISPLAY.find((k) => k.key === attr)!.display}
+            label={EVENT_KEY_DISPLAY.find((eventKey) => eventKey.key === attr)!
+              .display}
             defaultValue={isValue ? event[attr] : ''}
             onChange={(e) => setAttr(attr, e.target.value)}
           />

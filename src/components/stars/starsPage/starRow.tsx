@@ -117,7 +117,10 @@ const StarRow = ({
           >
             <TableCell align="center" width="40px">
               <span className="severityIcon">
-                {severityIcons.find((i) => i.severity === star.severity)?.icon}
+                {severityIcons
+                  .find(
+                    (severity) => severity.severity === star.severity,
+                  )?.icon}
               </span>
             </TableCell>
             <TableCell width="105px" align="center">{star.name}</TableCell>

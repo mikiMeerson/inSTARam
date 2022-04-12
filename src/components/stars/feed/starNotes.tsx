@@ -13,10 +13,10 @@ const StarNotes = ({ notes, addNote, deleteNote }: Props) => {
   const [replyTo, setReplyTo] = useState<INote | undefined>(undefined);
 
   const getNotes = () => notes.filter(
-    (n: INote) => n.repliesTo === undefined,
+    (note: INote) => note.repliesTo === undefined,
   );
   const getReplies = (note: INote) => notes.filter(
-    (n: INote) => n.repliesTo === note._id,
+    (reply: INote) => reply.repliesTo === note._id,
   );
 
   if (notes.length === 0) {

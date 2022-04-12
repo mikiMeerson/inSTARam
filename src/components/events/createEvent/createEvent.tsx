@@ -130,9 +130,9 @@ const CreateEvent = ({ handleAlert, platformToShow }: Props) => {
                 onChange={handlePlatformChange}
                 error={errors.platform?.message}
               >
-                {PLATFORMS.map((value) => (
-                  <MenuItem key={value} value={value}>
-                    {value}
+                {PLATFORMS.map((platform) => (
+                  <MenuItem key={platform} value={platform}>
+                    {platform}
                   </MenuItem>
                 ))}
               </Select>

@@ -25,9 +25,10 @@ const FilterOptions = ({
   setFilter,
 }: Props) => {
   const getOptions = () => {
-    const newOptions = options.filter((o) => {
-      const currentFilter = filtersData.find((f) => f.tabName === lastTab);
-      if (currentFilter) return !currentFilter.filter.includes(o);
+    const newOptions = options.filter((option) => {
+      const currentFilter = filtersData
+        .find((filter) => filter.tabName === lastTab);
+      if (currentFilter) return !currentFilter.filter.includes(option);
       return true;
     });
     return newOptions;
@@ -44,13 +45,13 @@ const FilterOptions = ({
           label="חפש לפי טקסט חופשי"
           onChange={(e) => setSearchValue(e.target.value)}
         />
-      ) : getOptions().map((o: string) => (
+      ) : getOptions().map((option: string) => (
         <Chip
           size="medium"
           sx={{ marginRight: '15px' }}
-          label={o}
-          key={o}
-          onClick={() => { setFilter(lastTab, o, 'add'); }}
+          label={option}
+          key={option}
+          onClick={() => { setFilter(lastTab, option, 'add'); }}
         />
       ))}
     </TableRow>
