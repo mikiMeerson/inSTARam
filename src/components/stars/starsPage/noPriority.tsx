@@ -70,14 +70,16 @@ const NoPriority = ({
             <h3>ממתינים לתיעדוף</h3>
           </div>
           <StarsTable
-            userRole={userRole}
+            {... {
+              userRole,
+              stars,
+              removeStar,
+              changePriority,
+              dragged,
+              setDragged,
+              events,
+            }}
             unprioritized
-            stars={stars}
-            removeStar={removeStar}
-            changePriority={changePriority}
-            dragged={dragged}
-            setDragged={setDragged}
-            events={events}
           />
         </div>
       </Collapse>

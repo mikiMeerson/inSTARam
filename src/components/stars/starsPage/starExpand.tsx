@@ -16,18 +16,18 @@ import StarDescLine from '../starDescLine';
 interface Props {
   userRole: UserRole;
   star: IStar;
-  removeStar: (star: IStar) => void;
+  deleteStar: (star: IStar) => void;
   event: IEvent | undefined;
 }
 
-const starExpand = ({ userRole, star, removeStar, event }: Props) => {
+const starExpand = ({ userRole, star, deleteStar, event }: Props) => {
   const [deleteAlert, setDeleteAlert] = useState<boolean>(false);
 
   return (
     <>
       <div className="starExpand">
         <Grid container>
-          <StarDescLine star={star} event={event} />
+          <StarDescLine {... { star, event }} />
         </Grid>
         <Grid
           container
@@ -75,7 +75,7 @@ const starExpand = ({ userRole, star, removeStar, event }: Props) => {
         content="כל פרטי הסטאר והפעילות שנעשתה בו יימחקו לצמיתות"
         isOpen={deleteAlert}
         setIsOpen={setDeleteAlert}
-        activateResponse={removeStar}
+        activateResponse={deleteStar}
         param={star}
       />
     </>

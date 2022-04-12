@@ -44,17 +44,10 @@ const Navbar = ({ userRole }: Props) => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <HalfWidthNavbar
-            pages={pages}
-            anchorElNav={anchorElNav}
-            setAnchorElNav={setAnchorElNav}
-            userRole={userRole}
+            {... { pages, anchorElNav, setAnchorElNav, userRole }}
           />
-          <FullWidthNavbar
-            pages={pages}
-            setAnchorElNav={setAnchorElNav}
-            userRole={userRole}
-          />
-          <UserNavbar setAnchorElNav={setAnchorElNav} />
+          <FullWidthNavbar {... { pages, setAnchorElNav, userRole }} />
+          <UserNavbar {... { setAnchorElNav }} />
         </Toolbar>
       </Container>
     </AppBar>

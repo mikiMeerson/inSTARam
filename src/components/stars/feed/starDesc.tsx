@@ -122,21 +122,18 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
             field="name"
             disabled={!isEdit}
             defaultValue={star.name}
-            register={register}
-            errors={errors}
+            {... { register, errors }}
           />
         </h1>
         <SaveEditButton
-          userRole={userRole}
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
+          {... { userRole, isEdit, setIsEdit }}
           onSave={handleSubmit(handleSave)}
         />
       </div>
       <div className="starData">
         <Grid item xs={12} sx={{ marginLeft: '3%' }}>
           <Grid container>
-            <StarDescLine star={star} event={event} />
+            <StarDescLine {... { star, event }} />
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={3}>
@@ -144,9 +141,8 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 field="assignee"
                 defaultValue={star.assignee}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={ASSIGNEES}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item xs={3}>
@@ -154,9 +150,8 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 field="status"
                 defaultValue={star.status}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={STATUSES}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item sm={3}>
@@ -165,8 +160,7 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 defaultValue={star.severity}
                 disabled={!isEdit}
                 fieldValues={SEVERITIES}
-                register={register}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item xs={3}>
@@ -174,9 +168,8 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 field="block"
                 defaultValue={star.block}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={BLOCKS}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
           </Grid>
@@ -221,11 +214,10 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 field="computer"
                 defaultValue={star.computer}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={star.platform === 'רעם'
                   ? RAAM_COMPUTERS
                   : BAZ_COMPUTERS}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
             <Grid item xs={3}>
@@ -233,9 +225,8 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
                 field="phase"
                 defaultValue={star.phase}
                 disabled={!isEdit}
-                register={register}
                 fieldValues={PHASES}
-                errors={errors}
+                {... { register, errors }}
               />
             </Grid>
           </Grid>
@@ -245,8 +236,7 @@ const StarDesc = ({ userRole, star, updateStar }: Props) => {
             disabled={!isEdit}
             field="desc"
             defaultValue={star.desc}
-            register={register}
-            errors={errors}
+            {... { register, errors }}
             multiline
             variant="outlined"
             sx={{

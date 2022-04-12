@@ -38,25 +38,11 @@ const App = () => {
     return (
       <div className="App" dir="rtl">
         <HashRouter>
-          <Navbar
-            userRole={userRole}
-          />
-          <Stars
-            userRole={userRole}
-            platformToShow={platformToShow}
-            setPlatformToShow={setPlatformToShow}
-          />
-          <Events
-            userRole={userRole}
-            platformToShow={platformToShow}
-          />
+          <Navbar {...{ userRole }} />
+          <Stars {... { userRole, platformToShow, setPlatformToShow }} />
+          <Events {... { userRole, platformToShow }} />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <Home userRole={userRole} />
-            }
-            />
+            <Route path="/" element={<Home {... { userRole }} />} />
             <Route path="users" element={<Users />} />
             <Route path="profile" element={<Profile />} />
           </Routes>

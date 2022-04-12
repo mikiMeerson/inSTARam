@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton, Typography, Box, MenuItem, Menu } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { LinkDisplayType } from '../../types/configurations';
-import { MainComponents, UserRole } from '../../types/string-types';
+import { UserRole } from '../../types/string-types';
 
 interface Props {
   pages: LinkDisplayType[];

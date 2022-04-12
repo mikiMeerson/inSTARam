@@ -43,8 +43,8 @@ interface Props {
   isOpen: boolean;
   toggleModal: (param: boolean) => void;
   addStar: (star: unknown) => void;
-  currPlatform: PlatformType;
-  setCurrPlatform?: (platform: PlatformType) => void;
+  platformToShow: PlatformType;
+  setPlatformToShow?: (platform: PlatformType) => void;
   defaultName?: string;
   defaultBlock?: string;
   defaultEventId?: string;
@@ -54,8 +54,8 @@ const AddStar = ({
   isOpen,
   toggleModal,
   addStar,
-  currPlatform,
-  setCurrPlatform,
+  platformToShow,
+  setPlatformToShow,
   defaultName,
   defaultBlock,
   defaultEventId,
@@ -77,14 +77,14 @@ const AddStar = ({
   useEffect(() => {
     console.log(defaultName);
     const fetchEvents = async (): Promise<void> => {
-      const { data } = await getEvents(currPlatform);
+      const { data } = await getEvents(platformToShow);
       setEvents(data.events);
     };
     const getEventsOptions = () => {
       chosenBlock
-        ? setEventsOptions(events.filter((e) => e.platform === currPlatform
+        ? setEventsOptions(events.filter((e) => e.platform === platformToShow
         && e.block === chosenBlock))
-        : setEventsOptions(events.filter((e) => e.platform === currPlatform));
+        : setEventsOptions(events.filter((e) => e.platform === platformToShow));
     };
 
     fetchEvents();
@@ -96,7 +96,7 @@ const AddStar = ({
       block: defaultBlock || '',
       eventId: defaultEventId || '',
     });
-  }, [currPlatform, chosenBlock, defaultEventId, defaultName, defaultBlock]);
+  }, [platformToShow, chosenBlock, defaultEventId, defaultName, defaultBlock]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -171,7 +171,7 @@ const AddStar = ({
 
   const handleAddStar = (data: any) => {
     data.event = chosenEvent;
-    data.platform = currPlatform;
+    data.platform = platformToShow;
     addStar(data);
     if (!createAnother) {
       toggleModal(false);
@@ -186,8 +186,8 @@ const AddStar = ({
   };
 
   const handlePlatformChange = (e: any) => {
-    if (setCurrPlatform) {
-      setCurrPlatform(e.target.value as PlatformType);
+    if (setPlatformToShow) {
+      setPlatformToShow(e.target.value as PlatformType);
       localStorage.setItem('platformToShow', e.target.value);
       if (e.target.value === 'רעם') {
         setComputers(RAAM_COMPUTERS);
@@ -216,8 +216,8 @@ const AddStar = ({
           <Select
             variant="standard"
             input={<Input />}
-            value={currPlatform}
-            disabled={!setCurrPlatform}
+            value={platformToShow}
+            disabled={!setPlatformToShow}
             onChange={handlePlatformChange}
           >
             {PLATFORMS.map((value) => (
@@ -372,7 +372,7 @@ const AddStar = ({
 export default AddStar;
 
 AddStar.defaultProps = {
-  setCurrPlatform: undefined,
+  setPlatformToShow: undefined,
   defaultName: '',
   defaultBlock: '',
   defaultEventId: '',

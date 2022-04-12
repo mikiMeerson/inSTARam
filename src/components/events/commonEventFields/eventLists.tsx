@@ -70,7 +70,7 @@ const EventLists = ({ event, setAttr, editable, handleAlert }: Props) => {
         isOpen={openAddStar}
         toggleModal={setOpenAddStar}
         addStar={handleAddStar}
-        currPlatform={event.platform}
+        platformToShow={event.platform}
         defaultName={findingToGenerate}
         defaultBlock={event.block}
         defaultEventId={event._id}

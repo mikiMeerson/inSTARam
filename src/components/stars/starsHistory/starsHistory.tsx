@@ -184,7 +184,7 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
             setSearch={setFreeTextFilter}
             placeholder="חפש לפי טקסט חופשי"
           />
-          <FilterHeaders filtersData={filtersData} />
+          <FilterHeaders {... { filtersData }} />
         </div>
       )}
       <TableContainer
@@ -193,8 +193,7 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
       >
         <Table aria-label="collapsible table">
           <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
+            {... { order, orderBy }}
             onRequestSort={handleRequestSort}
           />
           <TableBody>
@@ -202,9 +201,7 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
               .map((row) => (
                 <Row
                   key={row.name}
-                  row={row}
-                  updateStar={updateStar}
-                  userRole={userRole}
+                  {... { row, updateStar, userRole }}
                 />
               ))}
           </TableBody>

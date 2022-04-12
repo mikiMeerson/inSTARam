@@ -160,10 +160,7 @@ const StarsTable = ({
       }}
     >
       <FilterHeaders
-        unprioritized={unprioritized}
-        freeTextFilter={freeTextFilter}
-        setFreeTextFilter={setFreeTextFilter}
-        filtersData={filtersData}
+        {... { unprioritized, freeTextFilter, setFreeTextFilter, filtersData }}
       />
       <div className="starsTable">
         {filteredStars.length === 0 && (
@@ -179,13 +176,15 @@ const StarsTable = ({
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {!unprioritized && (<div id="priority">{index + 1}</div>)}
               <StarRow
-                userRole={userRole}
                 key={star._id}
-                star={star}
-                removeStar={removeStar}
-                changePriority={changePriority}
-                dragged={dragged}
-                setDragged={setDragged}
+                {... {
+                  userRole,
+                  star,
+                  removeStar,
+                  changePriority,
+                  dragged,
+                  setDragged,
+                }}
                 event={events.find((e) => e._id === star.event)}
               />
             </div>

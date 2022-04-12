@@ -133,12 +133,7 @@ const StarRow = ({
         </TableBody>
       </Table>
       <Collapse in={openDesc} sx={{ overflow: 'hidden' }}>
-        <StarExpand
-          userRole={userRole}
-          star={star}
-          removeStar={deleteStar}
-          event={event}
-        />
+        <StarExpand {... { userRole, star, event, deleteStar }} />
       </Collapse>
     </TableContainer>
   );

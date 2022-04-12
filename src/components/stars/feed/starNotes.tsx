@@ -40,17 +40,13 @@ const StarNotes = ({ notes, addNote, deleteNote }: Props) => {
         {getNotes().map((note: INote) => (
           <Note
             key={note._id}
-            notes={notes}
-            note={note}
+            {... { notes, note, replyTo, setReplyTo, deleteNote }}
             replies={getReplies(note)}
             replyBranch={0}
-            replyTo={replyTo}
-            setReplyTo={setReplyTo}
-            deleteNote={deleteNote}
           />
         ))}
       </div>
-      <AddComment replyTo={replyTo} addNote={addNote} setReplyTo={setReplyTo} />
+      <AddComment {... { replyTo, addNote, setReplyTo }} />
     </div>
   );
 };

@@ -81,11 +81,7 @@ const StarFeed = ({
         </Box>
       )}
       <div className="starFeed">
-        <StarDesc
-          userRole={userRole}
-          star={star}
-          updateStar={updateStar}
-        />
+        <StarDesc {... { userRole, star, updateStar }} />
         <div className="starDetails">
           <StarNotes
             notes={star.notes}

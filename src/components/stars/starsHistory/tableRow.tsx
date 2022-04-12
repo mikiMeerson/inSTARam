@@ -76,7 +76,9 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
           </IconButton>
         </TableCell>
         <TableCell align="center" component="th" scope="row">{name}</TableCell>
-        <TableCell align="center" component="th" scope="row">{severity}</TableCell>
+        <TableCell align="center" component="th" scope="row">
+          {severity}
+        </TableCell>
         <TableCell align="center">{assignee}</TableCell>
         <TableCell align="center">
           {status === 'סגור' && userRole !== 'viewer'

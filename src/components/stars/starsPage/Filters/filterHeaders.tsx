@@ -53,25 +53,29 @@ const FilterHeaders = ({
     <Table className="tableHeader" sx={{ marginBottom: getFilterMargin() }}>
       <TableBody>
         <FilterTabs
-          lastTab={lastTab}
-          displayOptions={displayOptions}
-          search={displaySearch}
-          handleFilterChoice={handleFilterChoice}
-          setDisplayOptions={setDisplayOptions}
-          setSearch={setDisplaySearch}
+          {... {
+            lastTab,
+            displayOptions,
+            handleFilterChoice,
+            setDisplayOptions,
+            displaySearch,
+            setDisplaySearch,
+          }}
         />
         <FilterManager
-          lastTab={lastTab}
-          displayOptions={displayOptions}
-          displaySearch={displaySearch}
-          filtersData={filtersData}
-          options={options}
+          {... {
+            lastTab,
+            displayOptions,
+            displaySearch,
+            filtersData,
+            options,
+            isDatePick,
+            setIsDatePick,
+            unprioritized,
+          }}
           searchValue={freeTextFilter}
           setSearchValue={setFreeTextFilter}
-          isDatePick={isDatePick}
-          setIsDatePick={setIsDatePick}
           component="stars"
-          unprioritized={unprioritized}
         />
       </TableBody>
     </Table>

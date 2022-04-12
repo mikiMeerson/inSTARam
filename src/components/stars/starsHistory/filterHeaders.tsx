@@ -109,23 +109,24 @@ const FilterHeaders = ({ filtersData }: Props) => {
         {filterFields.map((field: FilterField) => (
           <FilterTab
             key={field.name}
-            field={field}
+            {... { field, handleFilterChoice }}
             lastTab={(displayOptions || search) ? lastTab : ''}
-            handleFilterChoice={handleFilterChoice}
           />
         ))}
       </TableRow>
       <div className="historyFilter">
         <FilterManager
-          lastTab={lastTab}
-          displayOptions={displayOptions}
-          displaySearch={displaySearch}
-          filtersData={filtersData}
-          options={options}
+          {... {
+            lastTab,
+            displayOptions,
+            displaySearch,
+            filtersData,
+            options,
+            isDatePick,
+            setIsDatePick,
+          }}
           searchValue={search}
           setSearchValue={setSearch}
-          isDatePick={isDatePick}
-          setIsDatePick={setIsDatePick}
         />
       </div>
     </Table>

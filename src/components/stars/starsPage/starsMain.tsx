@@ -127,34 +127,25 @@ const StarsMain = ({
       </div>
       <div className="stars">
         <StarsTable
-          userRole={userRole}
+          {... { userRole, changePriority, dragged, setDragged, events }}
           unprioritized={false}
           stars={stars.filter((star) => star.priority > 0
             && platformToShow === star.platform)}
           removeStar={handleDeleteStar}
-          changePriority={changePriority}
-          dragged={dragged}
-          setDragged={setDragged}
-          events={events}
         />
         <NoPriority
-          userRole={userRole}
+          {... { userRole, changePriority, dragged, setDragged, events }}
           stars={stars.filter((star) => star.priority === 0
             && platformToShow === star.platform)}
           toggleAddStar={toggleOpenAddStar}
           removeStar={handleDeleteStar}
-          changePriority={changePriority}
-          dragged={dragged}
-          setDragged={setDragged}
-          events={events}
         />
       </div>
       <AddStar
+        {... { platformToShow, setPlatformToShow }}
         isOpen={openAddStar}
         toggleModal={toggleOpenAddStar}
         addStar={handleAddStar}
-        currPlatform={platformToShow}
-        setCurrPlatform={setPlatformToShow}
       />
     </div>
   );

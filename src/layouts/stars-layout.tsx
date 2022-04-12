@@ -73,11 +73,13 @@ const Stars = ({ userRole, platformToShow, setPlatformToShow }: Props) => {
             index
             element={(
               <StarsMain
-                userRole={userRole}
-                setLoading={setLoading}
-                handleAlert={handleAlert}
-                platformToShow={platformToShow}
-                setPlatformToShow={setPlatformToShow}
+                {... {
+                  userRole,
+                  setLoading,
+                  handleAlert,
+                  platformToShow,
+                  setPlatformToShow,
+                }}
               />
             )}
           />
@@ -85,10 +87,7 @@ const Stars = ({ userRole, platformToShow, setPlatformToShow }: Props) => {
             path=":id"
             element={(
               <>
-                <StarFeed
-                  userRole={userRole}
-                  updateStar={handleUpdateStar}
-                />
+                <StarFeed {... { userRole }} updateStar={handleUpdateStar} />
                 <Outlet />
               </>
             )}
@@ -98,9 +97,8 @@ const Stars = ({ userRole, platformToShow, setPlatformToShow }: Props) => {
             element={(
               <>
                 <StarsHistory
-                  userRole={userRole}
+                  {... { userRole, platformToShow }}
                   updateStar={handleUpdateStar}
-                  platformToShow={platformToShow}
                 />
                 <Outlet />
               </>

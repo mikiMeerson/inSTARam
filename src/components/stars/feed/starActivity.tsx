@@ -50,7 +50,7 @@ const StarActivity = ({ activity }: Props) => {
                 getDisplayDate(new Date(log.createdAt)),
               ).getTime() === currDate.getTime())
                 .map((log: IActivity) => (
-                  <ActivityItem key={log._id} log={log} />
+                  <ActivityItem key={log._id} {... { log }} />
                 ))
             }
           </div>

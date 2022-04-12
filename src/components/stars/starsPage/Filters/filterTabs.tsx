@@ -24,19 +24,19 @@ import FilterTab from '../../../general/filterTab';
 interface Props {
     lastTab: string;
     displayOptions: boolean;
-    search: boolean;
+    displaySearch: boolean;
     handleFilterChoice: (field: FilterField) => void;
     setDisplayOptions: (param: boolean) => void;
-    setSearch: (param: boolean) => void;
+    setDisplaySearch: (param: boolean) => void;
 }
 
 const FilterTabs = ({
   lastTab,
   displayOptions,
-  search,
+  displaySearch,
   handleFilterChoice,
   setDisplayOptions,
-  setSearch,
+  setDisplaySearch,
 }: Props) => {
   const [displayMore, setDisplayMore] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const FilterTabs = ({
     {
       isPrimary: true,
       name: 'name',
-      activation: 'search',
+      activation: 'displaySearch',
       displayName: 'שם',
       icon: <Search />,
     },
@@ -106,7 +106,7 @@ const FilterTabs = ({
             onClick={() => {
               setDisplayMore(!displayMore);
               setDisplayOptions(false);
-              setSearch(false);
+              setDisplaySearch(false);
             }}
           >
             <MoreVert fontSize="small" />
@@ -115,9 +115,8 @@ const FilterTabs = ({
         {filterFields.filter((f) => f.isPrimary).map((field: FilterField) => (
           <FilterTab
             key={field.name}
-            field={field}
-            lastTab={(displayOptions || search) ? lastTab : ''}
-            handleFilterChoice={handleFilterChoice}
+            {... { field, handleFilterChoice }}
+            lastTab={(displayOptions || displaySearch) ? lastTab : ''}
           />
         ))}
       </TableRow>
@@ -127,9 +126,8 @@ const FilterTabs = ({
             .map((field: FilterField) => (
               <FilterTab
                 key={field.name}
-                field={field}
-                lastTab={(displayOptions || search) ? lastTab : ''}
-                handleFilterChoice={handleFilterChoice}
+                {... { field, handleFilterChoice }}
+                lastTab={(displayOptions || displaySearch) ? lastTab : ''}
               />
             ))}
         </TableRow>

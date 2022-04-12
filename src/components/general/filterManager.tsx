@@ -1,4 +1,3 @@
-import { Table } from '@mui/material';
 import { FilterDataType } from '../../types/configurations';
 import FilterOptions from './filterOptions';
 import FilterSelections from './filterSelections';
@@ -63,26 +62,26 @@ const FilterManager = ({
     <>
       {(displayOptions || displaySearch) && (
         <FilterOptions
-          lastTab={lastTab}
-          search={displaySearch}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          options={options}
-          filtersData={filtersData}
-          setFilter={setFilter}
+          {... {
+            lastTab,
+            searchValue,
+            setSearchValue,
+            options,
+            filtersData,
+            setFilter,
+            displaySearch,
+          }}
         />
       )}
       {!filterEmpty && (
         <FilterSelections
           isMargin={displayOptions || displaySearch}
-          filtersData={filtersData}
-          setFilter={setFilter}
+          {... { filtersData, setFilter }}
         />
       )}
       {filtersData.find((f) => f.tabName === 'date') && (
         <DateRangePicker
-          isDatePick={isDatePick}
-          setIsDatePick={setIsDatePick}
+          {... { isDatePick, setIsDatePick }}
           dates={filtersData.find((f) => f.tabName === 'date')!.filter || []}
           setDates={filtersData.find((f) => f.tabName === 'date')!.func}
         />

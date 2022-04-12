@@ -4,7 +4,7 @@ import { FilterDataType } from '../../types/configurations';
 interface Props {
     lastTab: string;
     options: string[];
-    search: boolean;
+    displaySearch: boolean;
     searchValue: string;
     setSearchValue: (param: string) => void;
     filtersData: FilterDataType[];
@@ -17,7 +17,7 @@ interface Props {
 
 const FilterOptions = ({
   lastTab,
-  search,
+  displaySearch,
   searchValue,
   setSearchValue,
   options,
@@ -35,7 +35,7 @@ const FilterOptions = ({
 
   return (
     <TableRow className="filterSection">
-      {search ? (
+      {displaySearch ? (
         <TextField
           fullWidth
           autoFocus

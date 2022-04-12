@@ -90,13 +90,10 @@ const Note = ({
         {replies?.map((reply) => (
           <Note
             key={reply._id}
-            notes={notes}
+            {... { notes, replyTo, setReplyTo, deleteNote }}
             note={reply}
             replies={getReplies(reply)}
             replyBranch={replyBranch + 1}
-            replyTo={replyTo}
-            setReplyTo={setReplyTo}
-            deleteNote={deleteNote}
           />
         ))}
       </Grid>
