@@ -43,7 +43,7 @@ export type BlockType = typeof BLOCKS[number];
 export const RESOURCES = ['STF', 'AIF', 'מודל UWI', 'מודל ASB', 'חימוש אמיתי'];
 export type ResourceType = typeof RESOURCES[number];
 
-export const PHASES = ['פיתוח', 'אינטגרציה', 'מנט', 'אבלואציה'];
+export const PHASES = ['פיתוח', 'אינטגרציה', 'מנט', 'אבלואציה', 'מבצעי'];
 export type PhaseType = typeof PHASES[number];
 
 export const EVENT_TYPES = [
