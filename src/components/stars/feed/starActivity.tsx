@@ -32,7 +32,7 @@ const StarActivity = ({ activity }: Props) => {
       array.indexOf(date) === i && allDates.push(new Date(date));
       return allDates;
     }, [] as Date[])
-    .sort((a, b) => b.getTime() - a.getTime());
+    .sort((date1, date2) => date2.getTime() - date1.getTime());
 
   return (
     <div className="feedSection" id="activity">

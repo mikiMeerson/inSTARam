@@ -88,7 +88,7 @@ const StarsMain = ({
     draggedStar: IStar,
     newPri: number,
   ): Promise<void> => {
-    const { status, data } = await updatePriorities(draggedStar, newPri, stars);
+    const { status, data } = await updatePriorities(draggedStar, newPri);
     handleAlert(
       status === StatusCodes.OK,
       status === StatusCodes.OK

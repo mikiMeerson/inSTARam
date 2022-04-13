@@ -93,11 +93,11 @@ const EventsList = ({
   };
 
   const sortByDate = (events: IEvent[]) => events
-    .sort((a: IEvent, b: IEvent) => {
-      if (a.dates[1] < b.dates[1]) return 1;
-      if (a.dates[1] > b.dates[1]) return -1;
-      if (a.dates[0] < b.dates[0]) return 1;
-      if (a.dates[0] > b.dates[0]) return -1;
+    .sort((event1, event2) => {
+      if (event1.dates[1] < event2.dates[1]) return 1;
+      if (event1.dates[1] > event2.dates[1]) return -1;
+      if (event1.dates[0] < event2.dates[0]) return 1;
+      if (event1.dates[0] > event2.dates[0]) return -1;
       return 0;
     });
 
