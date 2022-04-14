@@ -56,9 +56,9 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
     [platformToShow],
   );
   const [blockFilter, setBlockFilter] = useState<string[]>([]);
-  const [resourceFilter, setResourceFilter] = useState<string[]>([]);
   const [computerFilter, setComputerFilter] = useState<string[]>([]);
   const [dateFilter, setDateFilter] = useState<string[]>([]);
+  const [phaseFilter, setPhaseFilter] = useState<string[]>([]);
   const [freeTextFilter, setFreeTextFilter] = useState<string>('');
   const [openFilter, setOpenFilter] = useState<boolean>(true);
 
@@ -83,8 +83,7 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
           || assigneeFilter.includes(star.assignee))
         && (computerFilter.length === 0
           || computerFilter.includes(star.computer))
-        && (resourceFilter.length === 0 || resourceFilter
-          .some((element) => star.resources.includes(element)))
+        && (phaseFilter.length === 0 || phaseFilter.includes(star.phase))
         && (dateFilter.length === 0 || (star.createdAt
           && new Date(star.createdAt) >= new Date(dateFilter[0])
           && new Date(star.createdAt) <= new Date(
@@ -104,7 +103,7 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
     computerFilter,
     dateFilter,
     freeTextFilter,
-    resourceFilter,
+    phaseFilter,
     statusFilter,
   ]);
 
@@ -143,9 +142,9 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
       chipColor: 'warning',
     },
     {
-      tabName: 'resource',
-      filter: resourceFilter,
-      func: setResourceFilter,
+      tabName: 'phase',
+      filter: phaseFilter,
+      func: setPhaseFilter,
       chipColor: 'default',
     },
     {

@@ -4,7 +4,7 @@ import {
   CheckCircleOutline,
   PersonOutline,
   Flight,
-  FlashOn,
+  DeveloperBoard,
   Computer,
   DateRange,
   ConnectingAirports,
@@ -14,10 +14,10 @@ import {
   STATUSES,
   ASSIGNEES,
   BLOCKS,
-  RESOURCES,
   RAAM_COMPUTERS,
   BAZ_COMPUTERS,
   PLATFORMS,
+  PHASES,
 } from '../../../types/string-types';
 import FilterTab from '../../general/filterTab';
 import FilterManager from '../../general/filterManager';
@@ -101,6 +101,13 @@ const FilterHeaders = ({ filtersData }: Props) => {
       options: RAAM_COMPUTERS.concat(BAZ_COMPUTERS),
       displayName: 'מחשב',
       icon: <Computer />,
+    },
+    {
+      name: 'phase',
+      activation: 'options',
+      options: PHASES,
+      displayName: 'שלב בבלוק',
+      icon: <DeveloperBoard />,
     },
   ];
 
