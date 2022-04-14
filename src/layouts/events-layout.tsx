@@ -3,7 +3,7 @@ import { Route, Routes, Outlet } from 'react-router';
 import { Alert } from '@mui/material';
 import EventsMain from '../components/events/eventsPage/eventsMain';
 import CreateEvent from '../components/events/createEvent/createEvent';
-import Event from '../components/events/eventFeed/eventFeed';
+import EventFeed from '../components/events/eventFeed/eventFeed';
 import { PlatformType, UserRole } from '../types/string-types';
 import { IAlert } from '../types/interfaces';
 
@@ -54,7 +54,7 @@ const Events = ({ userRole, platformToShow }: Props) => {
             path=":id"
             element={(
               <>
-                <Event {... { userRole, handleAlert }} />
+                <EventFeed {... { userRole, handleAlert }} />
                 <Outlet />
               </>
             )}

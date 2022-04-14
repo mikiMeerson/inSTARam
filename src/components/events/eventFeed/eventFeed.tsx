@@ -21,7 +21,7 @@ interface Props {
   handleAlert: (isSuccess: boolean, content: string) => void;
 }
 
-const Event = ({ userRole, handleAlert }: Props) => {
+const EventFeed = ({ userRole, handleAlert }: Props) => {
   const [event, setEvent] = useState<IEvent>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -102,4 +102,4 @@ const Event = ({ userRole, handleAlert }: Props) => {
   );
 };
 
-export default Event;
+export default EventFeed;
