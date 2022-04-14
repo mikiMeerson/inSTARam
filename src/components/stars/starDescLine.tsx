@@ -20,6 +20,10 @@ const StarDescLine = ({ star, event }: Props) => (
         </Link>
       </>
     )}
+    {', '}
+    איש קשר -
+    {' '}
+    <span style={{ color: 'crimson' }}>{star.publisher}</span>
   </Typography>
 );
 
