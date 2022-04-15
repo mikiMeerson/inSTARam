@@ -10,6 +10,7 @@ interface Props {
 const SearchBar = ({ list, setSearch, placeholder }: Props) => (
   <Autocomplete
     sx={{ width: '80%' }}
+    freeSolo
     options={list.map((listItem) => listItem.name)}
     onChange={(event, value) => (value ? setSearch(value) : setSearch(''))}
     renderInput={(params) => (
