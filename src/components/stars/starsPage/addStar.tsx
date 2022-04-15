@@ -20,6 +20,7 @@ import {
   Input,
   Checkbox,
   FormControlLabel,
+  SelectChangeEvent,
 } from '@mui/material';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
@@ -191,7 +192,7 @@ const AddStar = ({
     }
   };
 
-  const handlePlatformChange = (e: any) => {
+  const handlePlatformChange = (e: SelectChangeEvent) => {
     if (setPlatformToShow) {
       setPlatformToShow(e.target.value as PlatformType);
       localStorage.setItem('platformToShow', e.target.value);
@@ -203,7 +204,7 @@ const AddStar = ({
     }
   };
 
-  const handleEventChange = async (e: any) => {
+  const handleEventChange = async (e: SelectChangeEvent) => {
     setChosenEvent(e.target.value);
     const { status, data } = await getEventById(e.target.value);
     if (status === StatusCodes.OK && data.event) {

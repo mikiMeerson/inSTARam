@@ -7,6 +7,7 @@ import {
   Button,
   TextField,
   Typography,
+  SelectChangeEvent,
 } from '@mui/material';
 import { DeleteOutlined } from '@mui/icons-material';
 import './styles/general.css';
@@ -33,7 +34,7 @@ const ListGenerator = ({ header, event, setCurrList, attr }: Props) => {
     setNewItem('');
   };
 
-  const handleKeyDown = (e: any) => {
+  const handleKeyDown = (e: SelectChangeEvent) => {
     if (e.key === 'Enter' && newItem.trim().length > 0) handleAddItem();
   };
 
