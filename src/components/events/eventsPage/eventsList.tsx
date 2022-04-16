@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 import { StatusCodes } from 'http-status-codes';
 import DialogAlert from '../../general/dialogAlert';
@@ -42,22 +42,7 @@ const EventsList = ({
   );
   const [assigneeFilter, setAssigneeFilter] = useState<string>('');
 
-  useEffect(() => {
-    const tempFilteredEvents: IEvent[] = [];
-    events.forEach((event) => {
-      if ((nameSearch === '' || event.name.includes(nameSearch))
-        && (platformFilter.length === 0
-          || platformFilter.includes(event.platform))
-        && (blockFilter.length === 0 || blockFilter.includes(event.block))
-        && (assigneeFilter === ''
-          || (event.assignee && event.assignee.includes(assigneeFilter)))) {
-        tempFilteredEvents.push(event);
-      }
-    });
-    setFilteredEvents(tempFilteredEvents);
-  }, [events, assigneeFilter, blockFilter, nameSearch, platformFilter]);
-
-  const filtersData: FilterDataType[] = [
+  const getFiltersData = useCallback((): FilterDataType[] => ([
     {
       tabName: 'platform',
       filter: platformFilter,
@@ -72,7 +57,39 @@ const EventsList = ({
       filterType: 'single',
       chipColor: 'secondary',
     },
-  ];
+  ]), [blockFilter, platformFilter]);
+
+  useEffect(() => {
+    const checkFilter = (
+      filterData: FilterDataType,
+      event: IEvent,
+    ): boolean => (
+      // filterType is single
+      filterData.filter.length === 0 || filterData.filter
+        .includes(event[filterData.tabName as keyof IEvent] as string)
+    );
+
+    const checkFreeTextFilter = (
+      filter: string,
+      event: IEvent,
+      attr: keyof IEvent,
+    ): boolean => (
+      filter === ''
+        || (event[attr] !== undefined
+            && (event[attr] as string).includes(filter))
+    );
+
+    const tempFilteredEvents: IEvent[] = [];
+    events.forEach((event) => {
+      if (checkFreeTextFilter(nameSearch, event, 'name')
+        && checkFreeTextFilter(assigneeFilter, event, 'assignee')
+        && getFiltersData()
+          .every((filterData) => checkFilter(filterData, event))) {
+        tempFilteredEvents.push(event);
+      }
+    });
+    setFilteredEvents(tempFilteredEvents);
+  }, [assigneeFilter, events, getFiltersData, nameSearch]);
 
   const checkAttachedStars = async (event: IEvent) => {
     const { status, data } = await getStarsByEvent(event._id);
@@ -105,7 +122,10 @@ const EventsList = ({
 
   return (
     <>
-      <FilterHeaders {... { filtersData, assigneeFilter, setAssigneeFilter }} />
+      <FilterHeaders
+        {... { assigneeFilter, setAssigneeFilter }}
+        filtersData={getFiltersData()}
+      />
       <SearchBar
         list={events}
         setSearch={setNameSearch}
