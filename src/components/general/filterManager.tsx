@@ -30,6 +30,9 @@ const FilterManager = ({
   component,
   unprioritized,
 }: Props) => {
+  const dateFilter = filtersData
+    .find((filterData) => filterData.tabName === 'createdAt');
+
   const filterEmpty = filtersData
     .every((filterData) => filterData.filter.length === 0)
   && searchValue === '';
@@ -84,13 +87,11 @@ const FilterManager = ({
           {... { filtersData, setFilter }}
         />
       )}
-      {filtersData.find((filterData) => filterData.tabName === 'date') && (
+      {dateFilter && (
         <DateRangePicker
           {... { isDatePick, setIsDatePick }}
-          dates={filtersData
-            .find((filterData) => filterData.tabName === 'date')!.filter || []}
-          setDates={filtersData
-            .find((filterData) => filterData.tabName === 'date')!.func}
+          dates={dateFilter.filter || []}
+          setDates={dateFilter.func}
         />
       )}
     </>

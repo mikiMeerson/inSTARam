@@ -43,14 +43,14 @@ const StarsTable = ({
   const [blockFilter, setBlockFilter] = useState<string[]>(
     getExistingFilters('block'),
   );
-  const [resourceFilter, setResourceFilter] = useState<string[]>(
-    getExistingFilters('resource'),
+  const [resourcesFilter, setResourcesFilter] = useState<string[]>(
+    getExistingFilters('resources'),
   );
   const [computerFilter, setComputerFilter] = useState<string[]>(
     getExistingFilters('computer'),
   );
   const [dateFilter, setDateFilter] = useState<string[]>(
-    getExistingFilters('date'),
+    getExistingFilters('createdAt'),
   );
   const [freeTextFilter, setFreeTextFilter] = useState<string>('');
   const [filteredStars, setFilteredStars] = useState<IStar[]>([]);
@@ -60,36 +60,42 @@ const StarsTable = ({
       tabName: 'status',
       filter: statusFilter,
       func: setStatusFilter,
+      filterType: 'single',
       chipColor: 'primary',
     },
     {
       tabName: 'assignee',
       filter: assigneeFilter,
       func: setAssigneeFilter,
+      filterType: 'single',
       chipColor: 'secondary',
     },
     {
       tabName: 'block',
       filter: blockFilter,
       func: setBlockFilter,
+      filterType: 'single',
       chipColor: 'warning',
     },
     {
-      tabName: 'resource',
-      filter: resourceFilter,
-      func: setResourceFilter,
+      tabName: 'resources',
+      filter: resourcesFilter,
+      func: setResourcesFilter,
+      filterType: 'multiple',
       chipColor: 'default',
     },
     {
       tabName: 'computer',
       filter: computerFilter,
       func: setComputerFilter,
+      filterType: 'single',
       chipColor: 'info',
     },
     {
-      tabName: 'date',
+      tabName: 'createdAt',
       filter: dateFilter,
       func: setDateFilter,
+      filterType: 'date',
       chipColor: 'error',
     },
   ];
@@ -106,7 +112,7 @@ const StarsTable = ({
           || assigneeFilter.includes(star.assignee))
         && (computerFilter.length === 0
           || computerFilter.includes(star.computer))
-        && (resourceFilter.length === 0 || resourceFilter
+        && (resourcesFilter.length === 0 || resourcesFilter
           .some((element) => star.resources.includes(element)))
         && (dateFilter.length === 0 || (star.createdAt
           && new Date(star.createdAt) >= new Date(dateFilter[0])
@@ -126,7 +132,7 @@ const StarsTable = ({
     computerFilter,
     dateFilter,
     freeTextFilter,
-    resourceFilter,
+    resourcesFilter,
     statusFilter,
   ]);
 

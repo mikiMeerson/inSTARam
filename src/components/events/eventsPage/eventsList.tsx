@@ -62,12 +62,14 @@ const EventsList = ({
       tabName: 'platform',
       filter: platformFilter,
       func: setPlatformFilter,
+      filterType: 'single',
       chipColor: 'primary',
     },
     {
       tabName: 'block',
       filter: blockFilter,
       func: setBlockFilter,
+      filterType: 'single',
       chipColor: 'secondary',
     },
   ];

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { StatusCodes } from 'http-status-codes';
 import {
   TableContainer,
@@ -62,7 +62,89 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
   const [freeTextFilter, setFreeTextFilter] = useState<string>('');
   const [openFilter, setOpenFilter] = useState<boolean>(true);
 
+  const getFiltersData = useCallback((): FilterDataType[] => ([
+    {
+      tabName: 'status',
+      filter: statusFilter,
+      func: setStatusFilter,
+      filterType: 'single',
+      chipColor: 'primary',
+    },
+    {
+      tabName: 'assignee',
+      filter: assigneeFilter,
+      func: setAssigneeFilter,
+      filterType: 'single',
+      chipColor: 'secondary',
+    },
+    {
+      tabName: 'platform',
+      filter: platformFilter,
+      func: setPlatformFilter,
+      filterType: 'single',
+      chipColor: 'error',
+    },
+    {
+      tabName: 'block',
+      filter: blockFilter,
+      func: setBlockFilter,
+      filterType: 'single',
+      chipColor: 'warning',
+    },
+    {
+      tabName: 'phase',
+      filter: phaseFilter,
+      func: setPhaseFilter,
+      filterType: 'single',
+      chipColor: 'default',
+    },
+    {
+      tabName: 'computer',
+      filter: computerFilter,
+      func: setComputerFilter,
+      filterType: 'single',
+      chipColor: 'info',
+    },
+    {
+      tabName: 'createdAt',
+      filter: dateFilter,
+      func: setDateFilter,
+      filterType: 'date',
+      chipColor: 'error',
+    },
+  ]), [
+    assigneeFilter,
+    blockFilter,
+    computerFilter,
+    dateFilter,
+    phaseFilter,
+    platformFilter,
+    statusFilter,
+  ]);
+
   useEffect(() => {
+    const checkFilter = (filterData: FilterDataType, star: IStar): boolean => {
+      if (filterData.filterType === 'single') {
+        return filterData.filter.length === 0
+          || filterData.filter
+            .includes(star[filterData.tabName as keyof IStar] as string);
+      }
+      // filterType is date
+      const creationDate = star[filterData.tabName as keyof IStar] as string;
+      return filterData.filter.length === 0
+        || (new Date(creationDate) >= new Date(filterData.filter[0])
+          && new Date(creationDate) <= new Date(
+            new Date(filterData.filter[1]).getFullYear(),
+            new Date(filterData.filter[1]).getMonth(),
+            new Date(filterData.filter[1]).getDate() + 1,
+          )
+        );
+    };
+
+    const checkFreeTextFilter = (filter: string, star: IStar): boolean => (
+      filter === '' || star.name.includes(filter) || star.desc.includes(filter)
+    );
+
     const fetchStars = async () => {
       const { status, data } = await getStars();
       if (status !== StatusCodes.OK) console.log('Could not fetch stars');
@@ -72,40 +154,13 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
     if (stars.length === 0) fetchStars();
     const tempFilteredStars: IStar[] = [];
     stars.forEach((star) => {
-      if ((freeTextFilter === ''
-        || star.name.includes(freeTextFilter)
-        || star.desc.includes(freeTextFilter))
-        && (statusFilter.length === 0 || statusFilter.includes(star.status))
-        && (platformFilter.length === 0
-          || platformFilter.includes(star.platform))
-        && (blockFilter.length === 0 || blockFilter.includes(star.block))
-        && (assigneeFilter.length === 0
-          || assigneeFilter.includes(star.assignee))
-        && (computerFilter.length === 0
-          || computerFilter.includes(star.computer))
-        && (phaseFilter.length === 0 || phaseFilter.includes(star.phase))
-        && (dateFilter.length === 0 || (star.createdAt
-          && new Date(star.createdAt) >= new Date(dateFilter[0])
-          && new Date(star.createdAt) <= new Date(
-            new Date(dateFilter[1]).getFullYear(),
-            new Date(dateFilter[1]).getMonth(),
-            new Date(dateFilter[1]).getDate() + 1,
-          )))) {
+      if (checkFreeTextFilter(freeTextFilter, star) && getFiltersData()
+        .every((filterData) => checkFilter(filterData, star))) {
         tempFilteredStars.push(star);
       }
     });
     setFilteredStars(tempFilteredStars);
-  }, [
-    stars,
-    assigneeFilter,
-    platformFilter,
-    blockFilter,
-    computerFilter,
-    dateFilter,
-    freeTextFilter,
-    phaseFilter,
-    statusFilter,
-  ]);
+  }, [getFiltersData, freeTextFilter, stars]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -115,51 +170,6 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
-  const filtersData: FilterDataType[] = [
-    {
-      tabName: 'status',
-      filter: statusFilter,
-      func: setStatusFilter,
-      chipColor: 'primary',
-    },
-    {
-      tabName: 'assignee',
-      filter: assigneeFilter,
-      func: setAssigneeFilter,
-      chipColor: 'secondary',
-    },
-    {
-      tabName: 'platform',
-      filter: platformFilter,
-      func: setPlatformFilter,
-      chipColor: 'error',
-    },
-    {
-      tabName: 'block',
-      filter: blockFilter,
-      func: setBlockFilter,
-      chipColor: 'warning',
-    },
-    {
-      tabName: 'phase',
-      filter: phaseFilter,
-      func: setPhaseFilter,
-      chipColor: 'default',
-    },
-    {
-      tabName: 'computer',
-      filter: computerFilter,
-      func: setComputerFilter,
-      chipColor: 'info',
-    },
-    {
-      tabName: 'date',
-      filter: dateFilter,
-      func: setDateFilter,
-      chipColor: 'error',
-    },
-  ];
 
   return (
     <div className="starsHistory">
@@ -186,7 +196,7 @@ const StarsHistory = ({ userRole, updateStar, platformToShow }: Props) => {
             setSearch={setFreeTextFilter}
             placeholder="חפש לפי טקסט חופשי"
           />
-          <FilterHeaders {... { filtersData }} />
+          <FilterHeaders filtersData={getFiltersData()} />
         </div>
       )}
       <TableContainer

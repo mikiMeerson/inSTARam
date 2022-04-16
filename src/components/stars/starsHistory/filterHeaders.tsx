@@ -76,7 +76,7 @@ const FilterHeaders = ({ filtersData }: Props) => {
       icon: <CheckCircleOutline />,
     },
     {
-      name: 'date',
+      name: 'createdAt',
       activation: 'calender',
       displayName: 'תאריך',
       icon: <DateRange />,

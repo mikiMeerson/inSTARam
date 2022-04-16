@@ -31,7 +31,7 @@ const FilterSelections = ({
       }}
     >
       {filtersData.map((category) => {
-        if (category.tabName === 'date') {
+        if (category.tabName === 'createdAt') {
           if (category.filter.length === 2) {
             return (
               <Chip
