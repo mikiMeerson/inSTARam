@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
+import { BaseSyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import StarRow from './starRow';
 import FilterHeaders from './Filters/filterHeaders';
@@ -43,92 +43,110 @@ const StarsTable = ({
   const [blockFilter, setBlockFilter] = useState<string[]>(
     getExistingFilters('block'),
   );
-  const [resourceFilter, setResourceFilter] = useState<string[]>(
-    getExistingFilters('resource'),
+  const [resourcesFilter, setResourcesFilter] = useState<string[]>(
+    getExistingFilters('resources'),
   );
   const [computerFilter, setComputerFilter] = useState<string[]>(
     getExistingFilters('computer'),
   );
   const [dateFilter, setDateFilter] = useState<string[]>(
-    getExistingFilters('date'),
+    getExistingFilters('createdAt'),
   );
   const [freeTextFilter, setFreeTextFilter] = useState<string>('');
   const [filteredStars, setFilteredStars] = useState<IStar[]>([]);
 
-  const filtersData: FilterDataType[] = [
+  const getFiltersData = useCallback((): FilterDataType[] => [
     {
       tabName: 'status',
       filter: statusFilter,
       func: setStatusFilter,
+      filterType: 'single',
       chipColor: 'primary',
     },
     {
       tabName: 'assignee',
       filter: assigneeFilter,
       func: setAssigneeFilter,
+      filterType: 'single',
       chipColor: 'secondary',
     },
     {
       tabName: 'block',
       filter: blockFilter,
       func: setBlockFilter,
+      filterType: 'single',
       chipColor: 'warning',
     },
     {
-      tabName: 'resource',
-      filter: resourceFilter,
-      func: setResourceFilter,
+      tabName: 'resources',
+      filter: resourcesFilter,
+      func: setResourcesFilter,
+      filterType: 'multiple',
       chipColor: 'default',
     },
     {
       tabName: 'computer',
       filter: computerFilter,
       func: setComputerFilter,
+      filterType: 'single',
       chipColor: 'info',
     },
     {
-      tabName: 'date',
+      tabName: 'createdAt',
       filter: dateFilter,
       func: setDateFilter,
+      filterType: 'date',
       chipColor: 'error',
     },
-  ];
-
-  useEffect(() => {
-    const tempFilteredStars: IStar[] = [];
-    stars.forEach((star) => {
-      if ((freeTextFilter === ''
-        || star.name.includes(freeTextFilter)
-        || star.desc.includes(freeTextFilter))
-        && (statusFilter.length === 0 || statusFilter.includes(star.status))
-        && (blockFilter.length === 0 || blockFilter.includes(star.block))
-        && (assigneeFilter.length === 0
-          || assigneeFilter.includes(star.assignee))
-        && (computerFilter.length === 0
-          || computerFilter.includes(star.computer))
-        && (resourceFilter.length === 0 || resourceFilter
-          .some((element) => star.resources.includes(element)))
-        && (dateFilter.length === 0 || (star.createdAt
-          && new Date(star.createdAt) >= new Date(dateFilter[0])
-          && new Date(star.createdAt) <= new Date(
-            new Date(dateFilter[1]).getFullYear(),
-            new Date(dateFilter[1]).getMonth(),
-            new Date(dateFilter[1]).getDate() + 1,
-          )))) {
-        tempFilteredStars.push(star);
-      }
-    });
-    setFilteredStars(tempFilteredStars);
-  }, [
-    stars,
+  ], [
     assigneeFilter,
     blockFilter,
     computerFilter,
     dateFilter,
-    freeTextFilter,
-    resourceFilter,
+    resourcesFilter,
     statusFilter,
   ]);
+
+  useEffect(() => {
+    const checkFilter = (filterData: FilterDataType, star: IStar): boolean => {
+      if (filterData.filterType === 'single') {
+        return filterData.filter.length === 0
+          || filterData.filter
+            .includes(star[filterData.tabName as keyof IStar] as string);
+      }
+      // filterType is date
+      if (filterData.filterType === 'multiple') {
+        return filterData.filter.length === 0
+          || filterData.filter
+            .some((element) => (star[
+              filterData.tabName as keyof IStar
+            ] as string[])
+              .includes(element));
+      }
+      const creationDate = star[filterData.tabName as keyof IStar] as string;
+      return filterData.filter.length === 0
+        || (new Date(creationDate) >= new Date(filterData.filter[0])
+          && new Date(creationDate) <= new Date(
+            new Date(filterData.filter[1]).getFullYear(),
+            new Date(filterData.filter[1]).getMonth(),
+            new Date(filterData.filter[1]).getDate() + 1,
+          )
+        );
+    };
+
+    const checkFreeTextFilter = (filter: string, star: IStar): boolean => (
+      filter === '' || star.name.includes(filter) || star.desc.includes(filter)
+    );
+
+    const tempFilteredStars: IStar[] = [];
+    stars.forEach((star) => {
+      if (checkFreeTextFilter(freeTextFilter, star) && getFiltersData()
+        .every((filterData) => checkFilter(filterData, star))) {
+        tempFilteredStars.push(star);
+      }
+    });
+    setFilteredStars(tempFilteredStars);
+  }, [getFiltersData, freeTextFilter, stars]);
 
   const handleDragOver = (e: BaseSyntheticEvent) => {
     if (!(unprioritized && dragged?.priority === 0)) {
@@ -162,7 +180,8 @@ const StarsTable = ({
       }}
     >
       <FilterHeaders
-        {... { unprioritized, freeTextFilter, setFreeTextFilter, filtersData }}
+        {... { unprioritized, freeTextFilter, setFreeTextFilter }}
+        filtersData={getFiltersData()}
       />
       <div className="starsTable">
         {filteredStars.length === 0 && (

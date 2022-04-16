@@ -66,7 +66,7 @@ const FilterTabs = ({
     },
     {
       isPrimary: true,
-      name: 'date',
+      name: 'createdAt',
       activation: 'calender',
       displayName: 'תאריך',
       icon: <DateRange />,
@@ -81,7 +81,7 @@ const FilterTabs = ({
     },
     {
       isPrimary: false,
-      name: 'resource',
+      name: 'resources',
       activation: 'options',
       options: RESOURCES,
       displayName: 'משאבים',

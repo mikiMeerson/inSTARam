@@ -9,7 +9,7 @@ import {
   Box,
   Typography,
 } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { KeyboardArrowLeft, KeyboardArrowDown } from '@mui/icons-material';
 import { NavLink } from 'react-router-dom';
 import { IStar } from '../../../types/interfaces';
 import { UserRole } from '../../../types/string-types';
@@ -72,7 +72,7 @@ const Row = ({ row, updateStar, userRole }: rowType) => {
             size="small"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            {isOpen ? <KeyboardArrowDown /> : <KeyboardArrowLeft />}
           </IconButton>
         </TableCell>
         <TableCell align="center" component="th" scope="row">{name}</TableCell>

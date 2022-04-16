@@ -171,9 +171,10 @@ export const pages: LinkDisplayType[] = [
 ];
 
 export interface FilterDataType {
-  tabName: string;
+  tabName: keyof IStar | keyof IEvent;
   filter: string[];
   func: (param: string[]) => void;
+  filterType: 'single' | 'multiple' | 'date';
   chipColor:
     | 'default'
     | 'secondary'

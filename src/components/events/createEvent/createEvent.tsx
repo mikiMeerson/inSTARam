@@ -12,6 +12,7 @@ import {
   Select,
   MenuItem,
   OutlinedInput,
+  SelectChangeEvent,
 } from '@mui/material';
 import EventDetails from '../commonEventFields/eventDetails';
 import EventVersions from '../commonEventFields/eventVersions';
@@ -92,7 +93,7 @@ const CreateEvent = ({ handleAlert, platformToShow }: Props) => {
     navigate('/events');
   };
 
-  const handlePlatformChange = (e: any) => {
+  const handlePlatformChange = (e: SelectChangeEvent) => {
     if (e.target.value === 'רעם') {
       setStations(RAAM_STATIONS);
       setComputers(RAAM_COMPUTERS);

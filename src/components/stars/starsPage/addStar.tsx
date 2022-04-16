@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { StatusCodes } from 'http-status-codes';
 import {
   Grid,
   Dialog,
@@ -19,12 +20,13 @@ import {
   Input,
   Checkbox,
   FormControlLabel,
+  SelectChangeEvent,
 } from '@mui/material';
 import '../styles/stars.css';
 import InputField from '../../general/inputField';
 import SelectField from '../../general/selectField';
 import { IEvent } from '../../../types/interfaces';
-import { getEvents } from '../../../services/event-service';
+import { getEvents, getEventById } from '../../../services/event-service';
 import {
   BazComputerType,
   RaamComputerType,
@@ -63,7 +65,7 @@ const AddStar = ({
   const [computers, setComputers] = useState<
     RaamComputerType[] | BazComputerType[]
   >(RAAM_COMPUTERS);
-  const [chosenBlock, setChosenBlock] = useState<BlockType>();
+  const [chosenBlock, setChosenBlock] = useState<BlockType>(defaultBlock || '');
   const [events, setEvents] = useState<IEvent[]>([]);
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
   const [chosenEvent, setChosenEvent] = useState<string>();
@@ -75,32 +77,35 @@ const AddStar = ({
   });
 
   useEffect(() => {
-    console.log(defaultName);
     const fetchEvents = async (): Promise<void> => {
       const { data } = await getEvents(platformToShow);
       setEvents(data.events);
     };
     const getEventsOptions = () => {
       chosenBlock
-        ? setEventsOptions(
-          events.filter((event) => event.platform === platformToShow
-        && event.block === chosenBlock),
-        )
-        : setEventsOptions(
-          events.filter((event) => event.platform === platformToShow),
-        );
+        ? setEventsOptions(events
+          .filter((event) => event.block === chosenBlock))
+        : setEventsOptions(events);
     };
 
     fetchEvents();
     getEventsOptions();
 
-    setChosenEvent(defaultEventId);
     setDefaultValues({
       name: defaultName || '',
       block: defaultBlock || '',
       eventId: defaultEventId || '',
     });
-  }, [platformToShow, chosenBlock, defaultEventId, defaultName, defaultBlock]);
+    if (!chosenEvent) setChosenEvent(defaultEventId);
+  }, [
+    platformToShow,
+    chosenBlock,
+    defaultEventId,
+    defaultName,
+    defaultBlock,
+    events,
+    chosenEvent,
+  ]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -187,11 +192,7 @@ const AddStar = ({
     }
   };
 
-  const handleBlockChange = (e: any) => {
-    setChosenBlock(e.target.value);
-  };
-
-  const handlePlatformChange = (e: any) => {
+  const handlePlatformChange = (e: SelectChangeEvent) => {
     if (setPlatformToShow) {
       setPlatformToShow(e.target.value as PlatformType);
       localStorage.setItem('platformToShow', e.target.value);
@@ -200,6 +201,14 @@ const AddStar = ({
       } else {
         setComputers(BAZ_COMPUTERS);
       }
+    }
+  };
+
+  const handleEventChange = async (e: SelectChangeEvent) => {
+    setChosenEvent(e.target.value);
+    const { status, data } = await getEventById(e.target.value);
+    if (status === StatusCodes.OK && data.event) {
+      setChosenBlock(data.event.block);
     }
   };
 
@@ -267,10 +276,10 @@ const AddStar = ({
                 <InputLabel>בלוק</InputLabel>
                 <Select
                   variant="standard"
-                  defaultValue={defaultValues.block}
+                  value={chosenBlock}
                   input={<Input />}
                   {...register('block')}
-                  onChange={handleBlockChange}
+                  onChange={(e) => setChosenBlock(e.target.value)}
                   error={errors.block?.message}
                 >
                   {BLOCKS.map((block) => (
@@ -293,7 +302,7 @@ const AddStar = ({
                   variant="outlined"
                   value={chosenEvent}
                   input={<Input />}
-                  onChange={(e) => setChosenEvent(e.target.value as string)}
+                  onChange={handleEventChange}
                 >
                   {eventsOptions.map((event) => (
                     <MenuItem key={event._id} value={event._id}>
