@@ -124,59 +124,19 @@ const AddStar = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setValue,
     resetField,
+    reset,
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      name: '',
+      desc: '',
+      severity: '',
+      block: '',
+    },
   });
-
-  const fields = [
-    {
-      field: 'name',
-      type: 'input',
-      isSaved: false,
-    },
-    {
-      field: 'severity',
-      type: 'select',
-      isSaved: false,
-    },
-    {
-      field: 'event',
-      type: 'input',
-      isSaved: true,
-    },
-    {
-      field: 'block',
-      type: 'select',
-      isSaved: true,
-    },
-    {
-      field: 'phase',
-      type: 'select',
-      isSaved: true,
-    },
-    {
-      field: 'desc',
-      type: 'input',
-      isSaved: false,
-    },
-    {
-      field: 'assignee',
-      type: 'select',
-      isSaved: true,
-    },
-    {
-      field: 'contact',
-      type: 'input',
-      isSaved: true,
-    },
-    {
-      field: 'computer',
-      type: 'select',
-      isSaved: true,
-    },
-  ];
 
   const handleAddStar = (data: any) => {
     data.event = chosenEvent;
@@ -184,11 +144,11 @@ const AddStar = ({
     addStar(data);
     if (!createAnother) {
       toggleModal(false);
-      fields.map((field) => resetField(field.field));
+      reset({});
     } else {
-      fields
-        .filter((field) => !field.isSaved)
-        .map((field) => resetField(field.field));
+      resetField('name');
+      resetField('desc');
+      resetField('severity');
     }
   };
 
@@ -209,6 +169,7 @@ const AddStar = ({
     const { status, data } = await getEventById(e.target.value);
     if (status === StatusCodes.OK && data.event) {
       setChosenBlock(data.event.block);
+      setValue('block', data.event.block);
     }
   };
 
@@ -280,7 +241,7 @@ const AddStar = ({
                   input={<Input />}
                   {...register('block')}
                   onChange={(e) => setChosenBlock(e.target.value)}
-                  error={errors.block?.message}
+                  error={!!errors.block}
                 >
                   {BLOCKS.map((block) => (
                     <MenuItem key={block} value={block}>
@@ -316,6 +277,7 @@ const AddStar = ({
           <Grid container sx={{ marginTop: '15px' }}>
             <InputField
               fullWidth
+              defaultValue=""
               field="desc"
               {... { register, errors }}
             />
