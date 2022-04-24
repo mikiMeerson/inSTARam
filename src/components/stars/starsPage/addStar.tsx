@@ -98,6 +98,7 @@ const AddStar = ({
       eventId: defaultEventId || '',
     });
     if (!chosenEvent) setChosenEvent(defaultEventId);
+    //! dependency problem
   }, [chosenBlock, defaultEventId, defaultName, defaultBlock, chosenEvent, fetchEvents]);
 
   const validationSchema = Yup.object().shape({
