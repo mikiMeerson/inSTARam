@@ -40,6 +40,7 @@ import {
   BLOCKS,
   PHASES,
 } from '../../../types/string-types';
+import { usePromiseEffect } from '../../../hooks';
 
 interface Props {
   isOpen: boolean;
@@ -66,7 +67,6 @@ const AddStar = ({
     RaamComputerType[] | BazComputerType[]
   >(RAAM_COMPUTERS);
   const [chosenBlock, setChosenBlock] = useState<BlockType>(defaultBlock || '');
-  const [events, setEvents] = useState<IEvent[]>([]);
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
   const [chosenEvent, setChosenEvent] = useState<string>();
   const [createAnother, setCreateAnother] = useState<boolean>(false);
@@ -76,20 +76,22 @@ const AddStar = ({
     eventId: '',
   });
 
-  useEffect(() => {
-    const fetchEvents = async (): Promise<void> => {
-      const { data } = await getEvents(platformToShow);
-      setEvents(data.events);
-    };
-    const getEventsOptions = () => {
-      chosenBlock
-        ? setEventsOptions(events
-          .filter((event) => event.block === chosenBlock))
-        : setEventsOptions(events);
-    };
+  const eventsResult = usePromiseEffect(async () => {
+    const { data } = await getEvents(platformToShow);
+    return data;
+  }, [platformToShow]);
 
-    fetchEvents();
-    getEventsOptions();
+  useEffect(() => {
+    if (eventsResult.value) {
+      const { events } = eventsResult.value;
+      const getEventsOptions = () => {
+        chosenBlock
+          ? setEventsOptions(events
+            .filter((event) => event.block === chosenBlock))
+          : setEventsOptions(events);
+      };
+      getEventsOptions();
+    }
 
     setDefaultValues({
       name: defaultName || '',
@@ -97,15 +99,7 @@ const AddStar = ({
       eventId: defaultEventId || '',
     });
     if (!chosenEvent) setChosenEvent(defaultEventId);
-  }, [
-    platformToShow,
-    chosenBlock,
-    defaultEventId,
-    defaultName,
-    defaultBlock,
-    events,
-    chosenEvent,
-  ]);
+  }, [platformToShow, chosenBlock, defaultEventId, defaultName, defaultBlock, chosenEvent, eventsResult.value]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
