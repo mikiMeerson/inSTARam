@@ -151,4 +151,6 @@ const StarsMain = ({
   );
 };
 
+StarsMain.whyDidYouRender = true;
+
 export default StarsMain;

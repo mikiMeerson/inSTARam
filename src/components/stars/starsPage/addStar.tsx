@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -76,11 +76,12 @@ const AddStar = ({
     eventId: '',
   });
 
+  const fetchEvents = useCallback(async (): Promise<void> => {
+    const { data } = await getEvents(platformToShow);
+    setEvents(data.events);
+  }, [platformToShow]);
+
   useEffect(() => {
-    const fetchEvents = async (): Promise<void> => {
-      const { data } = await getEvents(platformToShow);
-      setEvents(data.events);
-    };
     const getEventsOptions = () => {
       chosenBlock
         ? setEventsOptions(events
@@ -97,15 +98,7 @@ const AddStar = ({
       eventId: defaultEventId || '',
     });
     if (!chosenEvent) setChosenEvent(defaultEventId);
-  }, [
-    platformToShow,
-    chosenBlock,
-    defaultEventId,
-    defaultName,
-    defaultBlock,
-    events,
-    chosenEvent,
-  ]);
+  }, [chosenBlock, defaultEventId, defaultName, defaultBlock, chosenEvent, fetchEvents]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -144,8 +137,10 @@ const AddStar = ({
     addStar(data);
     if (!createAnother) {
       toggleModal(false);
+      //! not working
       reset({});
     } else {
+      //! not working
       resetField('name');
       resetField('desc');
       resetField('severity');
@@ -338,6 +333,8 @@ const AddStar = ({
     </Dialog>
   );
 };
+
+AddStar.whyDidYouRender = true;
 
 export default AddStar;
 

@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@welldone-software/why-did-you-render';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
