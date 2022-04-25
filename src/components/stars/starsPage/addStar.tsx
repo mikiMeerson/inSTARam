@@ -40,6 +40,7 @@ import {
   BLOCKS,
   PHASES,
 } from '../../../types/string-types';
+import { usePromiseEffect } from '../../../hooks';
 
 interface Props {
   isOpen: boolean;
@@ -66,7 +67,6 @@ const AddStar = ({
     RaamComputerType[] | BazComputerType[]
   >(RAAM_COMPUTERS);
   const [chosenBlock, setChosenBlock] = useState<BlockType>(defaultBlock || '');
-  const [events, setEvents] = useState<IEvent[]>([]);
   const [eventsOptions, setEventsOptions] = useState<IEvent[]>([]);
   const [chosenEvent, setChosenEvent] = useState<string>();
   const [createAnother, setCreateAnother] = useState<boolean>(false);
@@ -76,21 +76,22 @@ const AddStar = ({
     eventId: '',
   });
 
-  const fetchEvents = useCallback(async (): Promise<void> => {
+  const eventsResult = usePromiseEffect(async () => {
     const { data } = await getEvents(platformToShow);
-    setEvents(data.events);
+    return data;
   }, [platformToShow]);
 
   useEffect(() => {
-    const getEventsOptions = () => {
-      chosenBlock
-        ? setEventsOptions(events
-          .filter((event) => event.block === chosenBlock))
-        : setEventsOptions(events);
-    };
-
-    fetchEvents();
-    getEventsOptions();
+    if (eventsResult.value) {
+      const { events } = eventsResult.value;
+      const getEventsOptions = () => {
+        chosenBlock
+          ? setEventsOptions(events
+            .filter((event) => event.block === chosenBlock))
+          : setEventsOptions(events);
+      };
+      getEventsOptions();
+    }
 
     setDefaultValues({
       name: defaultName || '',
@@ -98,8 +99,15 @@ const AddStar = ({
       eventId: defaultEventId || '',
     });
     if (!chosenEvent) setChosenEvent(defaultEventId);
-    //! dependency problem
-  }, [chosenBlock, defaultEventId, defaultName, defaultBlock, chosenEvent, fetchEvents]);
+  }, [
+    platformToShow,
+    chosenBlock,
+    defaultEventId,
+    defaultName,
+    defaultBlock,
+    chosenEvent,
+    eventsResult.value,
+  ]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
