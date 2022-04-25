@@ -21,7 +21,7 @@ export const usePromiseEffect = <T>(
       .catch((error) => setState({ status: 'rejected', value: null, error }));
   }, deps);
 
-  // chose the shape you prefer for the return type,
+  // choose the shape you prefer for the return type,
   // here are some examples:
   // return [state.value, state.status === 'pending', state.error]
   // return [state.value, state.status, state.error]

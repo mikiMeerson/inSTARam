@@ -99,7 +99,15 @@ const AddStar = ({
       eventId: defaultEventId || '',
     });
     if (!chosenEvent) setChosenEvent(defaultEventId);
-  }, [platformToShow, chosenBlock, defaultEventId, defaultName, defaultBlock, chosenEvent, eventsResult.value]);
+  }, [
+    platformToShow,
+    chosenBlock,
+    defaultEventId,
+    defaultName,
+    defaultBlock,
+    chosenEvent,
+    eventsResult.value,
+  ]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
