@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -146,8 +146,10 @@ const AddStar = ({
     addStar(data);
     if (!createAnother) {
       toggleModal(false);
+      //! not working
       reset({});
     } else {
+      //! not working
       resetField('name');
       resetField('desc');
       resetField('severity');
@@ -340,6 +342,8 @@ const AddStar = ({
     </Dialog>
   );
 };
+
+AddStar.whyDidYouRender = true;
 
 export default AddStar;
 
